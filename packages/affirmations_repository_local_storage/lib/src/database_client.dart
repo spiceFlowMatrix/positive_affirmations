@@ -44,4 +44,47 @@ class DatabaseClient {
     )
     ''');
   }
+
+  Future<String> insertAffirmation(AffirmationEntity affirmation) async {
+    Database db = await database;
+    await db.insert(tableAffirmations, affirmation.toMap());
+    return affirmation.id;
+  }
+
+  Future<AffirmationEntity> updateAffirmation(
+      AffirmationEntity affirmationEntity) async {
+    Database db = await database;
+    await db.update(tableAffirmations, affirmationEntity.toMap());
+    return affirmationEntity;
+  }
+
+  Future<List<AffirmationEntity>> fetchAffirmations() async {
+    Database db = await database;
+    var affirmationsMaps = await db.query(tableAffirmations);
+    var affirmations = <AffirmationEntity>[];
+    affirmationsMaps.forEach((affirmationMap) {
+      affirmations.add(AffirmationEntity.fromMap(affirmationMap));
+    });
+    return affirmations;
+  }
+
+  Future<AffirmationEntity> fetchAffirmationWithId(String id) async {
+    Database db = await database;
+    var affirmationMap = await db
+        .query(tableAffirmations, where: '$columnId = $id', whereArgs: [id]);
+    if (affirmationMap.isNotEmpty) {
+      return AffirmationEntity.fromMap(affirmationMap.first);
+    } else {
+      throw Exception('Affirmation not found');
+    }
+  }
+
+  Future deleteAffirmationWithId(String id) async {
+    Database db = await database;
+    await db.delete(
+      tableAffirmations,
+      where: '$columnId = $id',
+      whereArgs: [id],
+    );
+  }
 }
