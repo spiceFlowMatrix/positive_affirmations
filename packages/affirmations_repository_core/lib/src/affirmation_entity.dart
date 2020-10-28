@@ -1,7 +1,14 @@
-class AffirmationEntity {
+import 'package:equatable/equatable.dart';
+
+final String tableAffirmations = 'affirmations';
+final String columnId = '_id';
+final String columnMessage = 'message';
+final String columnRemindOn = 'remindOn';
+
+class AffirmationEntity extends Equatable {
   String id;
   String message;
-  DateTime remindOn;
+  String remindOn;
 
   AffirmationEntity({this.id, this.message, this.remindOn});
 
@@ -18,5 +25,13 @@ class AffirmationEntity {
       remindOn: remindOn,
     };
     return map;
+  }
+
+  @override
+  List<Object> get props => [id, message, remindOn];
+
+  @override
+  String toString() {
+    return 'AffirmationEntity{id: $id, message: $message, remindOn: $remindOn}';
   }
 }
