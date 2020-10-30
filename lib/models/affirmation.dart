@@ -1,3 +1,4 @@
+import 'package:affirmations_repository_core/affirmations_repository_core.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -5,7 +6,7 @@ import 'package:uuid/uuid.dart';
 class Affirmation extends Equatable {
   final String id;
   final String message;
-  final TimeOfDay remindOn;
+  final DateTime remindOn;
 
   Affirmation(
     this.message,
@@ -26,9 +27,26 @@ class Affirmation extends Equatable {
   }
 
   @override
-  List<Object> get props => [
-        id,
-        message,
-        remindOn,
-      ];
+  List<Object> get props => [id, message, remindOn];
+
+  @override
+  String toString() {
+    return 'Affirmation { id: $id, message: $message, $remindOn: remindOn }';
+  }
+
+  AffirmationEntity toEntity() {
+    return AffirmationEntity(
+      id: id,
+      message: message,
+      remindOn: remindOn.toString(),
+    );
+  }
+
+  static Affirmation fromEntity(AffirmationEntity entity) {
+    return Affirmation(
+      entity.message,
+      DateTime.parse(entity.remindOn),
+      id: entity.id,
+    );
+  }
 }

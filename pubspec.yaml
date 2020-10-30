@@ -22,7 +22,14 @@ environment:
 
 dependencies:
   equatable: ^1.2.5
+  bloc: ^6.1.0
+  flutter_bloc: ^6.0.6
+  meta: ^1.2.3
   uuid: ^2.2.2
+  affirmations_repository_core:
+    path: packages/affirmations_repository_core
+  affirmations_repository_local_storage:
+    path: packages/affirmations_repository_local_storage
   flutter:
     sdk: flutter
 
