@@ -11,8 +11,8 @@ class DatabaseClient {
   // Increment this version when you need to change the schema.
   static final _databaseVersion = 1;
 
-  DatabaseClient._privateConstructor();
-  static final DatabaseClient instance = DatabaseClient._privateConstructor();
+  const DatabaseClient._privateConstructor();
+  static const DatabaseClient instance = DatabaseClient._privateConstructor();
 
   // Only allow a single open connection to the database
   static Database _database;
@@ -23,7 +23,7 @@ class DatabaseClient {
   }
 
   // Open the database
-  _initDatabase() async {
+  Future<Database> _initDatabase() async {
     var documentsDirectory = await getApplicationDocumentsDirectory();
     var path = join(documentsDirectory.path, _databaseName);
     // Open the database. Can also add an onUpdate callback parameter.
@@ -40,7 +40,7 @@ class DatabaseClient {
     CREATE TABLE $tableAffirmations (
       $columnId TEXT PRIMARY KEY,
       $columnMessage TEXT NOT NULL,
-      $columnRemindOn TEXT NOT NULL,
+      $columnRemindOn TEXT NOT NULL
     )
     ''');
   }

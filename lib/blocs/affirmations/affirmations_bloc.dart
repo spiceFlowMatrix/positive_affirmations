@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:affirmations_repository_local_storage/affirmations_repository_local_storage.dart';
 import 'package:bloc/bloc.dart';
@@ -12,7 +13,7 @@ part 'affirmations_state.dart';
 class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
   final LocalStorageRepository affirmationsRepository;
 
-  AffirmationsBloc(@required this.affirmationsRepository)
+  AffirmationsBloc({@required this.affirmationsRepository})
       : super(AffirmationsLoadInProgress());
 
   @override
@@ -21,17 +22,31 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
   ) async* {
     if (event is AffirmationsLoaded) {
       yield* _mapAffirmationsLoadedToState();
+    } else if (event is AffirmationAdded) {
+      yield* _mapAffirmationAddedToState(event);
     }
   }
 
   Stream<AffirmationsState> _mapAffirmationsLoadedToState() async* {
     try {
+      log('Affirmations Loaded');
       final affirmations = await this.affirmationsRepository.loadAffirmations();
       yield AffirmationsLoadSuccess(
         affirmations.map(Affirmation.fromEntity).toList(),
       );
     } catch (e) {
       yield AffirmationsLoadFailure();
+    }
+  }
+
+  Stream<AffirmationsState> _mapAffirmationAddedToState(
+      AffirmationAdded event) async* {
+    if (state is AffirmationsLoadSuccess) {
+      final List<Affirmation> updatedAffirmations =
+          List.from((state as AffirmationsLoadSuccess).affirmations)
+            ..add(event.affirmation);
+      yield AffirmationsLoadSuccess(updatedAffirmations);
+      affirmationsRepository.createAffirmation(event.affirmation.toEntity());
     }
   }
 }

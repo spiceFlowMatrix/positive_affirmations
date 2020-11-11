@@ -13,16 +13,16 @@ class AffirmationEntity extends Equatable {
   AffirmationEntity({this.id, this.message, this.remindOn});
 
   AffirmationEntity.fromMap(Map<String, dynamic> map) {
-    id = map['id'];
-    message = map['message'];
-    remindOn = map['remindOn'];
+    id = map[columnId];
+    message = map[columnMessage];
+    remindOn = map[columnRemindOn];
   }
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      id: id,
-      message: message,
-      remindOn: remindOn,
+      columnId: id,
+      columnMessage: message,
+      columnRemindOn: remindOn,
     };
     return map;
   }

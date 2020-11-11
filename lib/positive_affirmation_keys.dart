@@ -9,4 +9,9 @@ class PositiveAffirmationsKeys {
 
   // Edit Screen
   static final editAffirmationScreen = Key('__editAffirmationScreen__');
+  static final saveAffirmationFab = Key('__saveAffirmationFab__');
+
+  // Home Screen
+  static final addAffirmationFab = Key('__addAffirmationFab__');
+  static final affirmationsList = Key('__affirmationsList__');
 }

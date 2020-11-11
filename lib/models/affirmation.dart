@@ -1,6 +1,5 @@
 import 'package:affirmations_repository_core/affirmations_repository_core.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class Affirmation extends Equatable {
@@ -17,7 +16,7 @@ class Affirmation extends Equatable {
   Affirmation copyWith({
     String id,
     String message,
-    TimeOfDay remindOn,
+    DateTime remindOn,
   }) {
     return Affirmation(
       message ?? this.message,

@@ -3,10 +3,10 @@ import 'package:affirmations_repository_local_storage/src/database_client.dart';
 import 'package:meta/meta.dart';
 
 /// Checks if you are awesome. Spoiler: you are.
-class LocalStorageRepository extends AffirmationsRepository {
+class LocalStorageRepository implements AffirmationsRepository {
   final DatabaseClient localStorage;
 
-  LocalStorageRepository(@required this.localStorage);
+  const LocalStorageRepository({@required this.localStorage});
 
   @override
   Future createAffirmation(AffirmationEntity affirmation) async {

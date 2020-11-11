@@ -8,3 +8,15 @@ abstract class AffirmationsEvent extends Equatable {
 }
 
 class AffirmationsLoaded extends AffirmationsEvent {}
+
+class AffirmationAdded extends AffirmationsEvent {
+  final Affirmation affirmation;
+
+  const AffirmationAdded(this.affirmation);
+
+  @override
+  List<Object> get props => [affirmation];
+
+  @override
+  String toString() => 'AffirmationAdded { affirmation: $affirmation }';
+}
