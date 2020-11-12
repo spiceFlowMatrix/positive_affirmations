@@ -37,10 +37,11 @@ class PositiveAffirmationsApp extends StatelessWidget {
         PositiveAffirmationsRoutes.addAffirmation: (context) {
           return AddEditScreen(
             key: PositiveAffirmationsKeys.addAffirmationScreen,
-            onSave: (message, remindOn) {
+            onSave: (title, message, remindOn) {
               BlocProvider.of<AffirmationsBloc>(context).add(
                 AffirmationAdded(
                   Affirmation(
+                    title,
                     message,
                     // TODO: Implement realistic way of catching remind on time
                     DateTime.now(),

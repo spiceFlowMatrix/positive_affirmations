@@ -4,10 +4,12 @@ import 'package:uuid/uuid.dart';
 
 class Affirmation extends Equatable {
   final String id;
+  final String title;
   final String message;
   final DateTime remindOn;
 
   Affirmation(
+    this.title,
     this.message,
     this.remindOn, {
     String id,
@@ -15,10 +17,12 @@ class Affirmation extends Equatable {
 
   Affirmation copyWith({
     String id,
+    String title,
     String message,
     DateTime remindOn,
   }) {
     return Affirmation(
+      title ?? this.title,
       message ?? this.message,
       remindOn ?? this.remindOn,
       id: id ?? this.id,
@@ -26,16 +30,17 @@ class Affirmation extends Equatable {
   }
 
   @override
-  List<Object> get props => [id, message, remindOn];
+  List<Object> get props => [id, title, message, remindOn];
 
   @override
   String toString() {
-    return 'Affirmation { id: $id, message: $message, $remindOn: remindOn }';
+    return 'Affirmation { id: $id, title: $title, message: $message, $remindOn: remindOn }';
   }
 
   AffirmationEntity toEntity() {
     return AffirmationEntity(
       id: id,
+      title: title,
       message: message,
       remindOn: remindOn.toString(),
     );
@@ -43,6 +48,7 @@ class Affirmation extends Equatable {
 
   static Affirmation fromEntity(AffirmationEntity entity) {
     return Affirmation(
+      entity.title,
       entity.message,
       DateTime.parse(entity.remindOn),
       id: entity.id,

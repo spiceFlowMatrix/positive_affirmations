@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -9,7 +7,7 @@ class DatabaseClient {
   // This is the actual database filename that is saved in the docs directory.
   static final _databaseName = 'AffirmationsApp.db';
   // Increment this version when you need to change the schema.
-  static final _databaseVersion = 1;
+  static final _databaseVersion = 2;
 
   const DatabaseClient._privateConstructor();
   static const DatabaseClient instance = DatabaseClient._privateConstructor();
@@ -39,7 +37,8 @@ class DatabaseClient {
     await db.execute('''
     CREATE TABLE $tableAffirmations (
       $columnId TEXT PRIMARY KEY,
-      $columnMessage TEXT NOT NULL,
+      $columnTitle TEXT NOT NULL,
+      $columnMessage TEXT,
       $columnRemindOn TEXT NOT NULL
     )
     ''');

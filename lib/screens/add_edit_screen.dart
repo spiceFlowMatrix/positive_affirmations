@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:positive_affirmations/models/affirmation.dart';
 import 'package:positive_affirmations/positive_affirmation_keys.dart';
 
-typedef OnSaveCallback = Function(String message, String remindOn);
+typedef OnSaveCallback = Function(
+    String title, String message, String remindOn);
 
 class AddEditScreen extends StatefulWidget {
   final bool isEditing;
@@ -25,8 +26,10 @@ class _AddEditScreenState extends State<AddEditScreen> {
 
   bool get isEditing => widget.isEditing;
 
+  String _title;
   String _message;
   String _remindOn;
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -34,6 +37,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(isEditing ? 'Edit Affirmation' : 'New Affirmation'),
+        elevation: 0,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -43,9 +47,18 @@ class _AddEditScreenState extends State<AddEditScreen> {
             children: [
               TextFormField(
                 initialValue: isEditing ? widget.affirmation.message : '',
+                key: PositiveAffirmationsKeys.titleField,
+                autofocus: !isEditing,
+                style: textTheme.headline5,
+                decoration: InputDecoration(hintText: 'Affirmation'),
+                onSaved: (value) => _title = value,
+              ),
+              TextFormField(
+                initialValue: isEditing ? widget.affirmation.message : '',
                 key: PositiveAffirmationsKeys.messageField,
                 autofocus: !isEditing,
                 style: textTheme.headline5,
+                decoration: InputDecoration(hintText: 'Message'),
                 onSaved: (value) => _message = value,
               ),
               TextFormField(
@@ -66,7 +79,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
         onPressed: () {
           if (_formKey.currentState.validate()) {
             _formKey.currentState.save();
-            widget.onSave(_message, _remindOn);
+            widget.onSave(_title, _message, _remindOn);
             Navigator.pop(context);
           }
         },

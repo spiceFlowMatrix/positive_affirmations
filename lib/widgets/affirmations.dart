@@ -20,7 +20,7 @@ class Affirmations extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               final affirmation = affirmations[index];
               return ListTile(
-                title: Text('$affirmation.id'),
+                title: Text(affirmation.title != null ? affirmation.title : ''),
               );
             },
           );
