@@ -6,12 +6,10 @@ class Affirmation extends Equatable {
   final String id;
   final String title;
   final String message;
-  final DateTime remindOn;
 
   Affirmation(
     this.title,
-    this.message,
-    this.remindOn, {
+    this.message, {
     String id,
   }) : this.id = id ?? Uuid().v4();
 
@@ -24,17 +22,16 @@ class Affirmation extends Equatable {
     return Affirmation(
       title ?? this.title,
       message ?? this.message,
-      remindOn ?? this.remindOn,
       id: id ?? this.id,
     );
   }
 
   @override
-  List<Object> get props => [id, title, message, remindOn];
+  List<Object> get props => [id, title, message];
 
   @override
   String toString() {
-    return 'Affirmation { id: $id, title: $title, message: $message, $remindOn: remindOn }';
+    return 'Affirmation { id: $id, title: $title, message: $message}';
   }
 
   AffirmationEntity toEntity() {
@@ -42,7 +39,6 @@ class Affirmation extends Equatable {
       id: id,
       title: title,
       message: message,
-      remindOn: remindOn.toString(),
     );
   }
 
@@ -50,7 +46,6 @@ class Affirmation extends Equatable {
     return Affirmation(
       entity.title,
       entity.message,
-      DateTime.parse(entity.remindOn),
       id: entity.id,
     );
   }

@@ -43,8 +43,6 @@ class PositiveAffirmationsApp extends StatelessWidget {
                   Affirmation(
                     title,
                     message,
-                    // TODO: Implement realistic way of catching remind on time
-                    DateTime.now(),
                   ),
                 ),
               );

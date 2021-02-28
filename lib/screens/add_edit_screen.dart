@@ -61,11 +61,6 @@ class _AddEditScreenState extends State<AddEditScreen> {
                 decoration: InputDecoration(hintText: 'Message'),
                 onSaved: (value) => _message = value,
               ),
-              TextFormField(
-                initialValue: isEditing ? widget.affirmation.remindOn : '',
-                key: PositiveAffirmationsKeys.remindOnField,
-                style: textTheme.headline5,
-              ),
             ],
           ),
         ),

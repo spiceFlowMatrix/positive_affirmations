@@ -35,11 +35,10 @@ class LocalStorageRepository implements AffirmationsRepository {
   }
 
   @override
-  Future updateAffirmation(String id, {String message, String remindOn}) async {
+  Future updateAffirmation(String id, {String message}) async {
     await localStorage.updateAffirmation(AffirmationEntity(
       id: id,
       message: message,
-      remindOn: remindOn,
     ));
   }
 }

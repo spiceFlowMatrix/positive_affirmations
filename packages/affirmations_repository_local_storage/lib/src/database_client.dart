@@ -38,8 +38,7 @@ class DatabaseClient {
     CREATE TABLE $tableAffirmations (
       $columnId TEXT PRIMARY KEY,
       $columnTitle TEXT NOT NULL,
-      $columnMessage TEXT,
-      $columnRemindOn TEXT NOT NULL
+      $columnMessage TEXT
     )
     ''');
   }
