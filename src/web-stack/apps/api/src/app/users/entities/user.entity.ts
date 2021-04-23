@@ -1,5 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany } from 'typeorm';
+import { AffirmationEntity } from './affirmation.entity';
+import { LetterEntity } from './letter.entity';
+import { LikeEntity } from './like.entity';
+import { PhotoEntity } from './photo.entity';
+import { ReaffirmationEntity } from './reaffirmation.entity';
 
+/**
+ * TODO
+ * - Constructor: What should go in there?
+ */
 @Entity({ name: 'user' })
 export class UserEntity {
     @PrimaryGeneratedColumn('uuid')
@@ -10,24 +19,25 @@ export class UserEntity {
     @Column('text')
     public name: string;
 
-    @Column('text')
-    public nickname: string;
+    @Column('text', { nullable: true })
+    public nickname?: string;
 
     @Column('text')
     public description: string;
 
-    @Column('int')
-    public affirmations: number;
+    @OneToMany((type) => AffirmationEntity, (affirmation) => affirmation.user)
+    public affirmations: AffirmationEntity[];
 
-    @Column('int')
-    public letters: number;
+    @OneToMany((type) => LikeEntity, (like) => like.user)
+    public likes: LikeEntity[];
 
-    @Column('int')
-    public reaffirmations: number;
+    @OneToMany((type) => LetterEntity, (letter) => letter.user)
+    public letters: AffirmationEntity[];
 
-    /**
-     * TODO Not entirely sure about this. Verify!
-     */
-    @Column({name: 'picture_filename', type: 'text', nullable: true})
-    public profilePicturePath: string;
+    @OneToMany((type) => ReaffirmationEntity, (reaffirmation) => reaffirmation.user)
+    public reaffirmations: ReaffirmationEntity[];
+
+    @OneToOne((type) => PhotoEntity, (photo) => photo.user)
+    public photo: PhotoEntity;
+
 }

@@ -1,35 +1,38 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { UserEntity } from './user.entity'
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
+import { UserEntity } from './user.entity';
+import { LikeEntity } from './like.entity';
+import { ReaffirmationEntity } from './reaffirmation.entity';
 
+/**
+ * TODO
+ * - Time created (how to generate and store this?)
+ */
 @Entity({ name: 'affirmation' })
 export class AffirmationEntity {
     @PrimaryGeneratedColumn('uuid')
     public id: string;
 
-    // Reference for column types to database compatibility:
-    // https://github.com/typeorm/typeorm/blob/master/src/driver/types/ColumnTypes.ts
     @Column('text')
     public title: string;
 
     @Column('text', {nullable: true})
-    public note: string;
+    public note?: string;
 
-    @Column('int')
-    public likes: number;
+    @Column('date')
+    public date: Date;
 
-    // TODO how to do this?
-    // @Column({name: 'created_by', type: 'user'})
-    // public createdBy: string;
+    @OneToMany((type) => LikeEntity, (like) => like.affirmation)
+    public likes: LikeEntity[];
     
-    /**
-     * TODO These are computed values and not just numbers. Link to reaffirations
-     */
-    @Column('int')
-    public reaffirmations: number;
+     @OneToMany((type) => ReaffirmationEntity, (reaffirmation) => reaffirmation.affirmation)
+     public reaffirmations: ReaffirmationEntity[];
 
-    /**
-     * TODO Not entirely sure about this. Verify!
-     */
-    @Column({name: 'picture_filename', type: 'text', nullable: true})
-    public profilePicturePath: string;
+     @ManyToOne((type) => UserEntity, (user) => user.affirmations)
+     public user: UserEntity;
+
+     constructor(title: string, note?: string) {
+         this.title = title;
+         this.note = note;
+     }
+
 }
