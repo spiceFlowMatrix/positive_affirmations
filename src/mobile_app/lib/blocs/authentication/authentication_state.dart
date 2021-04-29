@@ -19,6 +19,8 @@ class AuthenticationState extends Equatable {
   final AuthenticationStatus status;
   final User user;
 
+  static const String fieldStatus = 'fieldStatus';
+
   @override
   List<Object?> get props => [status, user];
 }

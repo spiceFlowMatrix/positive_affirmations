@@ -15,4 +15,7 @@ class User extends Equatable {
   List<Object?> get props => [id, name, nickName];
 
   static const empty = User(id: '-', name: '-');
+  static const String fieldId = 'id';
+  static const String fieldName = 'name';
+  static const String fieldNickName = 'nickName';
 }
