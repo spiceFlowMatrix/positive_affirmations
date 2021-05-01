@@ -13,6 +13,20 @@ class SignUpState extends Equatable {
   final FormzStatus nameStatus;
   final FormzStatus nickNameStatus;
 
+  SignUpState copyWith({
+    NameField? name,
+    NickNameField? nickName,
+    FormzStatus? nameStatus,
+    FormzStatus? nickNameStatus,
+  }) {
+    return SignUpState(
+      name: name ?? this.name,
+      nickName: nickName ?? this.nickName,
+      nameStatus: nameStatus ?? this.nameStatus,
+      nickNameStatus: nickNameStatus ?? this.nickNameStatus,
+    );
+  }
+
   @override
   List<Object?> get props => [name, nickName, nameStatus, nickNameStatus];
 }
