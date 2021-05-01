@@ -24,17 +24,17 @@ class PositiveAffirmationsKeys {
   // Affirmations
   static const affirmationsList = Key('__affirmationsList__');
   static const affirmationsLoading = Key('__affirmationsLoading__');
-  static final affirmationItem = (String id) => Key('AffirmationItem__${id}');
+  static final affirmationItem = (String id) => Key('AffirmationItem__$id');
   static final affirmationItemLikeButton =
-      (String id) => Key('AffirmationItemLikeButton__${id}');
+      (String id) => Key('AffirmationItemLikeButton__$id');
   static final affirmationItemTitle =
-      (String id) => Key('AffirmationItemTitle__${id}');
+      (String id) => Key('AffirmationItemTitle__$id');
   static final affirmationItemSubtitle =
-      (String id) => Key('AffirmationItemSubtitle__${id}');
+      (String id) => Key('AffirmationItemSubtitle__$id');
   static final affirmationItemLikes =
-      (String id) => Key('AffirmationItemLikes__${id}');
+      (String id) => Key('AffirmationItemLikes__$id');
   static final affirmationItemReaffirmationsCount =
-      (String id) => Key('AffirmationItemReaffirmationsCount__${id}');
+      (String id) => Key('AffirmationItemReaffirmationsCount__$id');
   static const addNewAffirmationAction = Key('__addNewAffirmationAction__');
 
   // Tabs
