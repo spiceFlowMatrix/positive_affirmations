@@ -7,15 +7,44 @@ class NameFormScreen extends StatelessWidget {
     return MaterialPageRoute<void>(builder: (_) => NameFormScreen());
   }
 
+  // TODO: Write tests to check that keys are supplied
+  // TODO: Add keys to components
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          children: [
-            const Text('Form Works!'),
-          ],
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 35),
+        child: Form(
+          key: _formKey,
+          child: Align(
+            alignment: Alignment.center,
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                const Text(
+                  'Hi. My name\'s Buddy',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                    fontSize: 23,
+                  ),
+                ),
+                const Text(
+                  'What\'s your name?',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 23,
+                  ),
+                ),
+                const Padding(padding: EdgeInsets.only(top: 10)),
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Name',
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
