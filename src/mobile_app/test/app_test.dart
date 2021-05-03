@@ -32,14 +32,14 @@ void main() {
       expect(NameFormScreen.route(), isA<MaterialPageRoute>());
     });
 
-    testWidgets('Name form screen is rendered when unauthenticated',
+    testWidgets('1. Name form screen is rendered when unauthenticated',
         (tester) async {
       when(() => authenticationBloc.state)
-          .thenReturn(const AuthenticationState.unauthenticated());
+          .thenReturn(const AuthenticationState.unknown());
 
       await tester.pumpWidget(
-        BlocProvider.value(
-          value: authenticationBloc,
+        BlocProvider<AuthenticationBloc>(
+          create: (_) => authenticationBloc,
           child: AppView(),
         ),
       );

@@ -13,7 +13,9 @@ class NameFormScreen extends StatelessWidget {
       body: Form(
         key: _formKey,
         child: ListView(
-          children: [],
+          children: [
+            const Text('Form Works!'),
+          ],
         ),
       ),
     );
