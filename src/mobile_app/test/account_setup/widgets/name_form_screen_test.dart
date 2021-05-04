@@ -67,6 +67,8 @@ void main() {
     testWidgets('Error text is rendered when validation errors exist',
         (tester) async {
       final nameField = MockNameField();
+      when(() => nameField.pure).thenReturn(false);
+      when(() => nameField.invalid).thenReturn(true);
       when(() => nameField.error).thenReturn(NameFieldValidationError.invalid);
       when(() => signUpBloc.state).thenReturn(
         SignUpState(
@@ -96,6 +98,7 @@ void main() {
         (tester) async {
       final nameField = MockNameField();
       when(() => nameField.pure).thenReturn(true);
+      when(() => nameField.invalid).thenReturn(false);
       when(() => nameField.error).thenReturn(NameFieldValidationError.empty);
       when(() => signUpBloc.state).thenReturn(SignUpState(name: nameField));
       await tester.pumpWidget(
