@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
@@ -9,7 +10,6 @@ import 'package:mobile_app/account_setup/models/models.dart';
 import 'package:mobile_app/account_setup/widgets/name_form_screen.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:formz/formz.dart';
 
 class FakeSignUpEvent extends Fake implements SignUpEvent {}
 
@@ -95,6 +95,41 @@ void main() {
             .errorText,
         isNull,
       );
+    });
+
+    testWidgets('Form is wired to bloc', (tester) async {
+      final String nameValue = 'my name';
+      await tester.pumpWidget(
+        BlocProvider.value(
+          value: signUpBloc,
+          child: MaterialApp(
+            home: Scaffold(body: NameForm()),
+          ),
+        ),
+      );
+
+      expect(
+        tester
+            .widget<ElevatedButton>(
+            find.byKey(PositiveAffirmationsKeys.nameSubmitButton))
+            .enabled,
+        isFalse,
+      );
+
+      await tester.enterText(
+        find.byKey(PositiveAffirmationsKeys.nameField),
+        nameValue,
+      );
+
+      expect(
+        tester
+            .widget<ElevatedButton>(
+            find.byKey(PositiveAffirmationsKeys.nameSubmitButton))
+            .enabled,
+        isTrue,
+      );
+      verify(() => signUpBloc.add(NameUpdated(nameValue))).called(1);
+      expect(signUpBloc.state.name == NameField.dirty(nameValue), isTrue);
     });
   });
 }

@@ -3,11 +3,21 @@ import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
 
 class NameFormScreen extends StatelessWidget {
-  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => NameFormScreen());
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: PositiveAffirmationsKeys.nameFormScreen,
+      body: NameForm(),
+    );
+  }
+}
+
+class NameForm extends StatelessWidget {
+  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildLabel() => RichText(
         key: PositiveAffirmationsKeys.nameFieldLabel,
@@ -40,24 +50,21 @@ class NameFormScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: PositiveAffirmationsKeys.nameFormScreen,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 35),
-        child: Form(
-          key: _formKey,
-          child: Align(
-            alignment: Alignment.center,
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                _buildLabel(),
-                const Padding(padding: EdgeInsets.only(top: 10)),
-                _buildNameField(),
-                const Padding(padding: EdgeInsets.only(top: 10)),
-                _buildSubmitButton(),
-              ],
-            ),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 35),
+      child: Form(
+        key: _formKey,
+        child: Align(
+          alignment: Alignment.center,
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              _buildLabel(),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              _buildNameField(),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              _buildSubmitButton(),
+            ],
           ),
         ),
       ),
