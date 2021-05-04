@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 
 class PositiveAffirmationsTheme {
   static ThemeData get theme {
-    return ThemeData.light().copyWith(
+    final themeData = ThemeData.light();
+
+    final newTextTheme = themeData.textTheme.apply(
+      bodyColor: Colors.black,
+      displayColor: Colors.black,
+      decorationColor: Colors.black,
+    );
+
+    return themeData.copyWith(
       highlightColor: Color.fromRGBO(25, 118, 210, 1),
       accentColor: Colors.red,
       colorScheme: ColorScheme.fromSwatch(
@@ -12,6 +20,7 @@ class PositiveAffirmationsTheme {
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(),
       ),
+      textTheme: newTextTheme,
     );
   }
 }
