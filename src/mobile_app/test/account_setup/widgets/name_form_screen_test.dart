@@ -96,6 +96,7 @@ void main() {
         (tester) async {
       final nameField = MockNameField();
       when(() => nameField.pure).thenReturn(true);
+      when(() => nameField.error).thenReturn(NameFieldValidationError.empty);
       when(() => signUpBloc.state).thenReturn(SignUpState(name: nameField));
       await tester.pumpWidget(
         BlocProvider(
