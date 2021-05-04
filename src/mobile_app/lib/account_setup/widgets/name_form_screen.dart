@@ -96,7 +96,7 @@ class _NameField extends StatelessWidget {
               context.read<SignUpBloc>().add(NameUpdated(name)),
           decoration: InputDecoration(
             labelText: 'Name',
-            errorText: state.name.error != null
+            errorText: state.name.invalid
                 ? _generateErrorText(state.name.error!)
                 : null,
           ),
