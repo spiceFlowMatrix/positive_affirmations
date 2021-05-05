@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
@@ -11,6 +12,7 @@ import 'package:mobile_app/account_setup/models/models.dart';
 import 'package:mobile_app/account_setup/widgets/name_form_screen.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:formz/formz.dart';
 
 class FakeSignUpEvent extends Fake implements SignUpEvent {}
 
@@ -129,6 +131,31 @@ void main() {
       );
 
       verify(() => signUpBloc.add(NameUpdated(nameValue))).called(1);
+    });
+
+    group('Form is wired to bloc', () {
+      testWidgets('Bloc event is triggered when updating name', (tester) async {
+        final String nameValue = 'my name';
+        when(() => signUpBloc.state).thenReturn(const SignUpState());
+        await tester.pumpWidget(NameFormFixture(signUpBloc));
+
+        await tester.enterText(
+          find.byKey(PositiveAffirmationsKeys.nameField),
+          nameValue,
+        );
+
+        verify(() => signUpBloc.add(NameUpdated(nameValue))).called(1);
+      });
+      testWidgets('Bloc event is triggered when pressing submit',
+          (tester) async {
+        when(() => signUpBloc.state)
+            .thenReturn(const SignUpState(nameStatus: FormzStatus.valid));
+        await tester.pumpWidget(NameFormFixture(signUpBloc));
+
+        await tester.tap(find.byKey(PositiveAffirmationsKeys.nameSubmitButton));
+
+        verify(() => signUpBloc.add(NameSubmitted())).called(1);
+      });
     });
   });
 }
