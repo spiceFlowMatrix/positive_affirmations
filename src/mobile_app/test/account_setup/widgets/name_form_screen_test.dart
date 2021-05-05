@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,6 +20,24 @@ class MockSignUpBloc extends MockBloc<SignUpEvent, SignUpState>
     implements SignUpBloc {}
 
 class MockNameField extends Mock implements NameField {}
+
+class NameFormFixture extends StatelessWidget {
+  NameFormFixture(this.bloc);
+
+  final SignUpBloc bloc;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<SignUpBloc>(
+      create: (_) => bloc,
+      child: MaterialApp(
+        home: Scaffold(
+          body: NameForm(),
+        ),
+      ),
+    );
+  }
+}
 
 void main() {
   group('NameFormScreen', () {
@@ -46,14 +65,7 @@ void main() {
     testWidgets('Empty form cannot be submitted', (tester) async {
       when(() => signUpBloc.state)
           .thenReturn(const SignUpState(nameStatus: FormzStatus.pure));
-      await tester.pumpWidget(
-        BlocProvider(
-          create: (_) => signUpBloc,
-          child: MaterialApp(
-            home: Scaffold(body: NameForm()),
-          ),
-        ),
-      );
+      await tester.pumpWidget(NameFormFixture(signUpBloc));
 
       expect(
         tester
@@ -76,21 +88,14 @@ void main() {
           nameStatus: FormzStatus.invalid,
         ),
       );
-      await tester.pumpWidget(
-        BlocProvider(
-          create: (_) => signUpBloc,
-          child: MaterialApp(
-            home: Scaffold(body: NameForm()),
-          ),
-        ),
-      );
+      await tester.pumpWidget(NameFormFixture(signUpBloc));
 
       expect(
         tester
             .widget<TextField>(find.byKey(PositiveAffirmationsKeys.nameField))
             .decoration!
             .errorText,
-        isNotNull,
+        isA<String>(),
       );
     });
 
@@ -101,14 +106,8 @@ void main() {
       when(() => nameField.invalid).thenReturn(false);
       when(() => nameField.error).thenReturn(NameFieldValidationError.empty);
       when(() => signUpBloc.state).thenReturn(SignUpState(name: nameField));
-      await tester.pumpWidget(
-        BlocProvider(
-          create: (_) => signUpBloc,
-          child: MaterialApp(
-            home: Scaffold(body: NameForm()),
-          ),
-        ),
-      );
+
+      await tester.pumpWidget(NameFormFixture(signUpBloc));
 
       expect(
         tester
@@ -122,14 +121,7 @@ void main() {
     testWidgets('Form is wired to bloc', (tester) async {
       final String nameValue = 'my name';
       when(() => signUpBloc.state).thenReturn(const SignUpState());
-      await tester.pumpWidget(
-        BlocProvider(
-          create: (_) => signUpBloc,
-          child: MaterialApp(
-            home: Scaffold(body: NameForm()),
-          ),
-        ),
-      );
+      await tester.pumpWidget(NameFormFixture(signUpBloc));
 
       await tester.enterText(
         find.byKey(PositiveAffirmationsKeys.nameField),
