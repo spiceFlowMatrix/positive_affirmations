@@ -46,7 +46,9 @@ class NameForm extends StatelessWidget {
         builder: (context, state) {
           return ElevatedButton(
             key: PositiveAffirmationsKeys.nameSubmitButton,
-            onPressed: state.nameStatus.isValidated ? () {} : null,
+            onPressed: state.nameStatus.isValidated
+                ? () => context.read<SignUpBloc>().add(NameSubmitted())
+                : null,
             child: Text('NEXT'),
           );
         },

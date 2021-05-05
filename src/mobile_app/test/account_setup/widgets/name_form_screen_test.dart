@@ -42,7 +42,7 @@ class NameFormFixture extends StatelessWidget {
 }
 
 void main() {
-  group('NameFormScreen', () {
+  group('[NameFormScreen]', () {
     late SignUpBloc signUpBloc;
 
     setUpAll(() {
@@ -133,7 +133,7 @@ void main() {
       verify(() => signUpBloc.add(NameUpdated(nameValue))).called(1);
     });
 
-    group('Form is wired to bloc', () {
+    group('[FormWiredToBloc]', () {
       testWidgets('Bloc event is triggered when updating name', (tester) async {
         final String nameValue = 'my name';
         when(() => signUpBloc.state).thenReturn(const SignUpState());
