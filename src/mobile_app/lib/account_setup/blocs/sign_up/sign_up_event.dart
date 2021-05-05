@@ -4,7 +4,7 @@ abstract class SignUpEvent extends Equatable {
   const SignUpEvent();
 
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 class NameUpdated extends SignUpEvent {
@@ -13,7 +13,7 @@ class NameUpdated extends SignUpEvent {
   final String name;
 
   @override
-  List<Object?> get props => [name];
+  List<Object> get props => [name];
 }
 
 class NameSubmitted extends SignUpEvent {}
@@ -24,7 +24,7 @@ class NickNameUpdated extends SignUpEvent {
   final String nickName;
 
   @override
-  List<Object?> get props => [nickName];
+  List<Object> get props => [nickName];
 }
 
 class NickNameSubmitted extends SignUpEvent {}

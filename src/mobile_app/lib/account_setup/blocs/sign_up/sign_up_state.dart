@@ -27,6 +27,7 @@ class SignUpState extends Equatable {
     );
   }
 
+  /// props MUST be defined as a non-nullable object list to avoid breaking tests
   @override
-  List<Object?> get props => [name, nickName, nameStatus, nickNameStatus];
+  List<Object> get props => [name, nickName, nameStatus, nickNameStatus];
 }

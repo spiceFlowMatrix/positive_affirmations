@@ -28,8 +28,8 @@ class NameFormFixture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SignUpBloc>(
-      create: (_) => bloc,
+    return BlocProvider.value(
+      value: bloc,
       child: MaterialApp(
         home: Scaffold(
           body: NameForm(),
