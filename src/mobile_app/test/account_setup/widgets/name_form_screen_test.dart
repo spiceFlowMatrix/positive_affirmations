@@ -146,6 +146,7 @@ void main() {
 
         verify(() => signUpBloc.add(NameUpdated(nameValue))).called(1);
       });
+
       testWidgets('Bloc event is triggered when pressing submit',
           (tester) async {
         when(() => signUpBloc.state)
