@@ -114,6 +114,8 @@ void main() {
             nameStatus: FormzStatus.submissionSuccess,
           ),
           const SignUpState(
+            name: const NameField.dirty(validName),
+            nameStatus: FormzStatus.submissionSuccess,
             nickName: const NickNameField.dirty(validNickName),
             nickNameStatus: FormzStatus.valid,
           ),
@@ -138,6 +140,8 @@ void main() {
             nameStatus: FormzStatus.submissionSuccess,
           ),
           const SignUpState(
+            name: const NameField.dirty(validName),
+            nameStatus: FormzStatus.submissionSuccess,
             nickName: const NickNameField.dirty(invalidNickName),
             nickNameStatus: FormzStatus.invalid,
           ),
