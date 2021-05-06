@@ -148,5 +148,80 @@ void main() {
         ],
       );
     });
+
+    group('[NickNameSubmitted]', () {
+      blocTest<SignUpBloc, SignUpState>(
+        'emits same state when nickName is submitted before name is submitted',
+        build: () => signUpBloc,
+        act: (bloc) {
+          bloc..add(const NickNameSubmitted());
+        },
+        expect: () => const <SignUpState>[
+          const SignUpState(),
+        ],
+      );
+
+      blocTest<SignUpBloc, SignUpState>(
+        'emits [submissionSuccess] when valid nickName is submitted',
+        build: () => signUpBloc,
+        act: (bloc) {
+          bloc
+            ..add(const NameUpdated(validName))
+            ..add(NameSubmitted())
+            ..add(NickNameUpdated(validNickName))
+            ..add(NickNameSubmitted());
+        },
+        expect: () => const <SignUpState>[
+          const SignUpState(
+            name: const NameField.dirty(validName),
+            nameStatus: FormzStatus.valid,
+          ),
+          const SignUpState(
+            name: const NameField.dirty(validName),
+            nameStatus: FormzStatus.submissionSuccess,
+          ),
+          const SignUpState(
+            name: const NameField.dirty(validName),
+            nameStatus: FormzStatus.submissionSuccess,
+            nickName: const NickNameField.dirty(validNickName),
+            nickNameStatus: FormzStatus.valid,
+          ),
+          const SignUpState(
+            name: const NameField.dirty(validName),
+            nameStatus: FormzStatus.submissionSuccess,
+            nickName: const NickNameField.dirty(validNickName),
+            nickNameStatus: FormzStatus.submissionSuccess,
+          ),
+        ],
+      );
+
+      blocTest<SignUpBloc, SignUpState>(
+        'emits same state when invalid nickName is submitted',
+        build: () => signUpBloc,
+        act: (bloc) {
+          bloc
+            ..add(const NameUpdated(validName))
+            ..add(NameSubmitted())
+            ..add(NickNameUpdated(invalidNickName))
+            ..add(NickNameSubmitted());
+        },
+        expect: () => const <SignUpState>[
+          const SignUpState(
+            name: const NameField.dirty(validName),
+            nameStatus: FormzStatus.valid,
+          ),
+          const SignUpState(
+            name: const NameField.dirty(validName),
+            nameStatus: FormzStatus.submissionSuccess,
+          ),
+          const SignUpState(
+            name: const NameField.dirty(validName),
+            nameStatus: FormzStatus.submissionSuccess,
+            nickName: const NickNameField.dirty(invalidNickName),
+            nickNameStatus: FormzStatus.invalid,
+          ),
+        ],
+      );
+    });
   });
 }
