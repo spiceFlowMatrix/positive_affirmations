@@ -44,6 +44,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   SignUpState _mapNickNameUpdatedToState(
       NickNameUpdated event, SignUpState state) {
+    if (state.name.pure ||
+        state.name.invalid ||
+        !state.nameStatus.isSubmissionSuccess) return state;
+
     final nickName = NickNameField.dirty(event.nickName);
 
     return state.copyWith(
