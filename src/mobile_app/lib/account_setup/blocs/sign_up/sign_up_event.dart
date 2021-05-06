@@ -16,7 +16,9 @@ class NameUpdated extends SignUpEvent {
   List<Object> get props => [name];
 }
 
-class NameSubmitted extends SignUpEvent {}
+class NameSubmitted extends SignUpEvent {
+  const NameSubmitted();
+}
 
 class NickNameUpdated extends SignUpEvent {
   const NickNameUpdated(this.nickName);
@@ -27,4 +29,6 @@ class NickNameUpdated extends SignUpEvent {
   List<Object> get props => [nickName];
 }
 
-class NickNameSubmitted extends SignUpEvent {}
+class NickNameSubmitted extends SignUpEvent {
+  const NickNameSubmitted();
+}
