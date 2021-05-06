@@ -91,7 +91,9 @@ void main() {
         act: (bloc) {
           bloc..add(const NickNameUpdated(validNickName));
         },
-        expect: () => const <SignUpState>[],
+        expect: () => const <SignUpState>[
+          const SignUpState(),
+        ],
       );
       blocTest<SignUpBloc, SignUpState>(
         'emits [valid] when valid nickName is updated',
