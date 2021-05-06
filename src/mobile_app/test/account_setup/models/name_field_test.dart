@@ -7,6 +7,7 @@ import 'package:mobile_app/account_setup/models/models.dart';
 void main() {
   const invalidNameString = 'mock-name';
   const validNameString = 'mockName';
+
   group('[NameField]', () {
     group('[Constructors]', () {
       test('pure creates correct instance', () {
