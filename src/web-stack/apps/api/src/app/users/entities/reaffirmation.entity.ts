@@ -4,8 +4,7 @@ import { UserEntity } from './user.entity';
 
 /**
  * TODO
- * - Notes, fonts, stamps
- * - Constructor
+ * - Separate Notes, fonts, stamps to separate entities
  * - Time created 
  * - Move interfaces to it's own directory
  */
@@ -37,4 +36,9 @@ export class ReaffirmationEntity {
     @ManyToOne((type) => UserEntity, (user) => user.affirmations)
      public user: UserEntity;
 
+     constructor(
+         id: string
+     ) {
+         this.id = id;
+     }
 }

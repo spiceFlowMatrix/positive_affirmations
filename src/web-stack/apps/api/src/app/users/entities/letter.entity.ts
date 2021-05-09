@@ -1,10 +1,5 @@
 import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserEntity } from './user.entity';
-
-/**
- * TODO
- * - Constructor 
- */
 @Entity({ name: 'letter' })
 export class LetterEntity {
     @PrimaryGeneratedColumn('uuid')
@@ -12,4 +7,10 @@ export class LetterEntity {
 
     @ManyToOne((type) => UserEntity, (user) => user.letters)
     public user: UserEntity;
+
+    constructor(
+        id: string
+    ) {
+        this.id = id;
+    }
 }

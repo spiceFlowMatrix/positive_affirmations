@@ -2,11 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { AffirmationEntity } from './affirmation.entity';
 import { UserEntity } from './user.entity';
 
-/**
- * TODO
- * - Constructor: What should go in there?
- */
-enum LikeType {
+enum ReactionType {
     Like,
     Favorite,
     Celebrate,
@@ -14,21 +10,25 @@ enum LikeType {
     Insightful,
 }
 
-@Entity({ name: 'like' })
-export class LikeEntity {
+@Entity({ name: 'reaction' })
+export class ReactionEntity {
     @PrimaryGeneratedColumn('uuid')
     public id: string;
 
-    @ManyToOne((type) => AffirmationEntity, affirmation => affirmation.likes)
+    @ManyToOne((type) => AffirmationEntity, affirmation => affirmation.reactions)
     public affirmation: AffirmationEntity;
     
     @Column('enum', { nullable: true })
-    public likeType?: LikeType;
+    public reactionType?: ReactionType;
 
-    @ManyToOne((type) => UserEntity, (user) => user.likes)
+    @ManyToOne((type) => UserEntity, (user) => user.reactions)
      public user: UserEntity;
 
-    constructor(likeType?: LikeType) {
-        this.likeType = likeType;
+    constructor(
+        id: string,
+        reactionType?: ReactionType
+        ) {
+            this.id = id;   
+            this.reactionType = reactionType;
     }
 }

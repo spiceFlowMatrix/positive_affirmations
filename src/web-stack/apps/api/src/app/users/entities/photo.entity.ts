@@ -3,7 +3,6 @@ import { UserEntity } from './user.entity';
 
 /**
  * TODO
- * - Constructor: What should go in there?
  * - Will the schema require anything else for bucket configuration?
  */
 @Entity({ name: 'photo' })
@@ -24,7 +23,12 @@ export class PhotoEntity {
     @OneToOne((type) => UserEntity, (user) => user.photo)
     public user: UserEntity;
     
-    constructor(filename?: string, alt?: string) {
+    constructor(
+        id: string,
+        filename?: string,
+        alt?: string
+        ) {
+        this.id = id;
         this.filename = filename;
         this.alt = alt;
     }

@@ -1,11 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
 import { UserEntity } from './user.entity';
-import { LikeEntity } from './like.entity';
 import { ReaffirmationEntity } from './reaffirmation.entity';
+import { ReactionEntity } from './reaction.entity';
 
 /**
  * TODO
  * - Time created (how to generate and store this?)
+ * - Which fields should be nullable?
  */
 @Entity({ name: 'affirmation' })
 export class AffirmationEntity {
@@ -21,8 +22,8 @@ export class AffirmationEntity {
     @Column('date')
     public date: Date;
 
-    @OneToMany((type) => LikeEntity, (like) => like.affirmation)
-    public likes: LikeEntity[];
+    @OneToMany((type) => ReactionEntity, (reaction) => reaction.affirmation)
+    public reactions: ReactionEntity[];
     
      @OneToMany((type) => ReaffirmationEntity, (reaffirmation) => reaffirmation.affirmation)
      public reaffirmations: ReaffirmationEntity[];
@@ -30,9 +31,14 @@ export class AffirmationEntity {
      @ManyToOne((type) => UserEntity, (user) => user.affirmations)
      public user: UserEntity;
 
-     constructor(title: string, note?: string) {
-         this.title = title;
-         this.note = note;
+     constructor(
+         id: string,
+         title: string,
+         note?: string
+         ) {
+            this.id = id;
+            this.title = title;
+            this.note = note;
      }
 
 }
