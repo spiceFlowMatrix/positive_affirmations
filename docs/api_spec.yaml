@@ -13,7 +13,10 @@ servers:
 paths:
   /members:
     post:
+      tags:
+        - members
       summary: Creates a new member with given parameters
+      operationId: createMemberCommand
       requestBody:
         required: true
         content:
@@ -30,7 +33,9 @@ paths:
 
   /members/{memberId}:
     get:
-      summary: Returns a member by ID.
+      tags:
+        - members
+      summary: Returns a member's profile details
       parameters:
         - in: path
           name: memberId
@@ -44,6 +49,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Member'
+
+  /files:
+    post:
+      tags:
+        - files
+      summary: Creates a signed url for uploading a given file
+      operationId: createFileUploadUrlCommand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFileUploadUrlCommand'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateFileUploadUrlCommandResponseData'
 
 components:
   securitySchemes:
@@ -63,6 +88,12 @@ components:
             update_affirmations: Update any affirmation
 
   schemas:
+    ApiResponse:
+      properties:
+        code:
+          type: string
+        message:
+          type: string
     Member:
       properties:
         id:
@@ -113,6 +144,8 @@ components:
         path:
           description: The full path (starting at the root) of the file in the bucket
           type: string
+        sizeInBytes:
+          type: integer
         signedUrlType:
           type: string
           description: Does this URL allow downloading or uploading?
@@ -137,7 +170,11 @@ components:
       required:
         - name
     CreateMemberCommandResponseData:
-      $ref: '#/components/schemas/Member'
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Member'
     UpdateMemberCommand:
       properties:
         name:
@@ -160,3 +197,15 @@ components:
             - text/plain
             - image/jpeg
             - image/png
+        sizeInBytes:
+          type: integer
+      required:
+        - fileName
+        - contentType
+        - sizeInBytes
+    CreateFileUploadUrlCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/FileDto'
