@@ -61,7 +61,73 @@ components:
             write_affirmations: Create new affirmations
             update_affirmation: Update affirmations created by yourself
             update_affirmations: Update any affirmation
+
   schemas:
+    Member:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        nickName:
+          type: string
+        profilePicture:
+          $ref: '#/components/schemas/FileDto'
+        selfSummary:
+          type: string
+        totalAffirmations:
+          type: integer
+          default: 0
+        totalLetters:
+          type: integer
+          default: 0
+        totalReaffirmations:
+          type: integer
+          default: 0
+        createdOn:
+          type: string
+          format: date-time
+        modifiedOn:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - createdOn
+        - modifiedOn
+
+    FileDto:
+      properties:
+        id:
+          type: string
+        contentType:
+          description: See [object metadata](https://cloud.google.com/storage/docs/metadata) and more specifically, [content type metadata](https://cloud.google.com/storage/docs/metadata#content-type) to learn more.
+          type: string
+          enum:
+            - application/json
+            - application/mp4
+            - video/mp4
+            - text/plain
+            - image/jpeg
+            - image/png
+        path:
+          description: The full path (starting at the root) of the file in the bucket
+          type: string
+        signedUrlType:
+          type: string
+          description: Does this URL allow downloading or uploading?
+          enum:
+            - upload
+            - download
+        signedUrl:
+          type: string
+      required:
+        - id
+        - contentType
+        - path
+        - signedUrlType
+        - signedUrl
+
     CreateMemberCommand:
       properties:
         name:
@@ -72,15 +138,25 @@ components:
         - name
     CreateMemberCommandResponseData:
       $ref: '#/components/schemas/Member'
-
-    Member:
+    UpdateMemberCommand:
       properties:
-        id:
-          type: integer
         name:
           type: string
         nickName:
           type: string
-      required:
-        - id
-        - name
+        selfSummary:
+          type: string
+
+    CreateFileUploadUrlCommand:
+      properties:
+        fileName:
+          type: string
+        contentType:
+          type: string
+          enum:
+            - application/json
+            - application/mp4
+            - video/mp4
+            - text/plain
+            - image/jpeg
+            - image/png
