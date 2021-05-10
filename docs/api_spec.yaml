@@ -51,8 +51,9 @@ components:
       type: oauth2
       description: This API uses OAuth 2 with the authorizationCode grant flow. This grant flow is required for mobile apps as [specified here](https://developers.google.com/identity/protocols/oauth2/native-app#exchange-authorization-code).
       flows:
-        implicit:
+        authorizationCode:
           authorizationUrl: https://api.example.com/oauth2/authorize
+          tokenUrl: https://api.example.com/oauth2/authorize
           scopes:
             read_member: Members reading their own details and other members' details.
             read_members: Read details of all members.
