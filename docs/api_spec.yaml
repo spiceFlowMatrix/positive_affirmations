@@ -48,6 +48,18 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/GetMemberProfileQuery'
+        - in: query
+          description: Used for pagination to skip specified amount of entries
+          name: listSkip
+          required: false
+          schema:
+            type: integer
+        - in: query
+          description: Used for pagination to take specified amount of entries
+          name: listTake
+          required: false
+          schema:
+            type: integer
       responses:
         '200':
           description: OK
@@ -75,6 +87,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateFileUploadUrlCommandResponseData'
+
+  /files/{fileId}:
+    patch:
+      tags:
+        - files
+      summary: Signal that upload process for the given file was completed
+      operationId: completeFileUploadCommand
+      parameters:
+        - in: path
+          name: fileId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompleteFileUploadCommandResponseData'
 
 components:
   securitySchemes:
@@ -153,6 +185,8 @@ components:
           type: string
         sizeInBytes:
           type: integer
+        uploaded:
+          type: boolean
         signedUrlType:
           type: string
           description: Does this URL allow downloading or uploading?
@@ -167,6 +201,8 @@ components:
         - path
         - signedUrlType
         - signedUrl
+        - sizeInBytes
+        - uploaded
 
     Affirmation:
       properties:
@@ -262,6 +298,11 @@ components:
         createdOn:
           type: string
           format: date-time
+        seen:
+          type: boolean
+        seenOn:
+          type: string
+          format: date-time
 
     Letter:
       description: Simple version of a letter to be used in lists
@@ -272,6 +313,11 @@ components:
           type: string
           format: date-time
         createdOn:
+          type: string
+          format: date-time
+        seen:
+          type: boolean
+        seenOn:
           type: string
           format: date-time
         affirmation:
@@ -348,6 +394,13 @@ components:
         - contentType
         - sizeInBytes
     CreateFileUploadUrlCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/FileDto'
+
+    CompleteFileUploadCommandResponseData:
       properties:
         apiResponse:
           $ref: '#/components/schemas/ApiResponse'
