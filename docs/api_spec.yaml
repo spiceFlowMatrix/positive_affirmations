@@ -46,6 +46,20 @@ paths:
                 $ref: '#/components/schemas/Member'
 
 components:
+  securitySchemes:
+    oAuth:
+      type: oauth2
+      description: This API uses OAuth 2 with the authorizationCode grant flow. This grant flow is required for mobile apps as [specified here](https://developers.google.com/identity/protocols/oauth2/native-app#exchange-authorization-code).
+      flows:
+        implicit:
+          authorizationUrl: https://api.example.com/oauth2/authorize
+          scopes:
+            read_member: Members reading their own details and other members' details.
+            read_members: Read details of all members.
+            update_member: Members updating their own details.
+            write_affirmations: Create new affirmations
+            update_affirmation: Update affirmations created by yourself
+            update_affirmations: Update any affirmation
   schemas:
     CreateMemberCommand:
       properties:
