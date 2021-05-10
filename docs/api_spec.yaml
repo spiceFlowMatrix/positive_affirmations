@@ -42,13 +42,19 @@ paths:
           required: true
           schema:
             type: integer
+        - in: query
+          description: If `profileDetails` is supplied in array, response MUST include `profileDetails` field. \n If `affirmations` is supplied in array, response MUST include `totalAffirmations` and `affirmations` fields. \n If `letters` is supplied in array, response MUST include `totalLetters` and `letters` fields.
+          name: fieldQuery
+          required: true
+          schema:
+            $ref: '#/components/schemas/GetMemberProfileQuery'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Member'
+                $ref: '#/components/schemas/GetMemberProfileQueryResponseData'
 
   /files:
     post:
@@ -94,6 +100,7 @@ components:
           type: string
         message:
           type: string
+
     Member:
       properties:
         id:
@@ -130,7 +137,7 @@ components:
     FileDto:
       properties:
         id:
-          type: string
+          type: integer
         contentType:
           description: See [object metadata](https://cloud.google.com/storage/docs/metadata) and more specifically, [content type metadata](https://cloud.google.com/storage/docs/metadata#content-type) to learn more.
           type: string
@@ -161,6 +168,121 @@ components:
         - signedUrlType
         - signedUrl
 
+    Affirmation:
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        subtitle:
+          type: string
+        liked:
+          type: boolean
+        totalLikes:
+          type: integer
+        totalReaffirmations:
+          type: integer
+        active:
+          type: boolean
+        createdOn:
+          type: string
+          format: date-time
+        modifiedOn:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - liked
+        - totalLikes
+        - totalReaffirmations
+        - active
+        - createdOn
+        - modifiedOn
+
+    NoteDto:
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        staticAsset:
+          description: The static asset that this note is stored as in the mobile app
+          type: string
+
+    FontDto:
+      properties:
+        id:
+          type: integer
+        title:
+          description: Font family
+          type: string
+        staticAsset:
+          description: The static asset that this font is stored as in the mobile app
+          type: string
+
+    StampDto:
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        staticAsset:
+          description: The static asset that this stamp is stored as in the mobile app
+          type: string
+
+    Reaffirmation:
+      properties:
+        id:
+          type: integer
+        note:
+          $ref: '#/components/schemas/NoteDto'
+        font:
+          $ref: '#/components/schemas/FontDto'
+        stamp:
+          $ref: '#/components/schemas/StampDto'
+        createdOn:
+          type: string
+          format: date-time
+      required:
+        - id
+        - note
+        - font
+        - stamp
+        - createdOn
+
+    LetterItem:
+      description: Simple version of a letter to be used in lists
+      properties:
+        id:
+          type: integer
+        letterDate:
+          type: string
+          format: date-time
+        createdOn:
+          type: string
+          format: date-time
+
+    Letter:
+      description: Simple version of a letter to be used in lists
+      properties:
+        id:
+          type: integer
+        letterDate:
+          type: string
+          format: date-time
+        createdOn:
+          type: string
+          format: date-time
+        affirmation:
+          $ref: '#/components/schemas/Affirmation'
+        totalReaffirmations:
+          type: integer
+        reaffirmations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reaffirmation'
+
     CreateMemberCommand:
       properties:
         name:
@@ -175,14 +297,36 @@ components:
           $ref: '#/components/schemas/ApiResponse'
         data:
           $ref: '#/components/schemas/Member'
-    UpdateMemberCommand:
+
+    GetMemberProfileQuery:
+      description: If `profileDetails` is supplied in array, response MUST include `profileDetails` field. \n If `affirmations` is supplied in array, response MUST include `totalAffirmations` and `affirmations` fields. \n If `letters` is supplied in array, response MUST include `totalLetters` and `letters` fields.
+      type: array
+      items:
+        format: string
+        enum:
+          - profileDetails
+          - affirmations
+          - letters
+    GetMemberProfileQueryResponseData:
       properties:
-        name:
-          type: string
-        nickName:
-          type: string
-        selfSummary:
-          type: string
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          properties:
+            profileDetails:
+              $ref: '#/components/schemas/Member'
+            totalAffirmations:
+              type: integer
+            affirmations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Affirmation'
+            totalLetters:
+              type: integer
+            letters:
+              type: array
+              items:
+                $ref: '#/components/schemas/LetterItem'
 
     CreateFileUploadUrlCommand:
       properties:
