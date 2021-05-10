@@ -35,6 +35,9 @@ paths:
     get:
       tags:
         - members
+      security:
+        - oAuth:
+            - read_member
       summary: Returns a member's profile details
       parameters:
         - in: path
