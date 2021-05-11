@@ -71,6 +71,55 @@ paths:
               schema:
                 $ref: '#/components/schemas/GetMemberProfileQueryResponseData'
 
+    patch:
+      tags:
+        - members
+      summary: Set a new file as the profile picture of the given user
+      operationId: setMemberProfilePictureCommand
+      parameters:
+        - in: path
+          name: memberId
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: uploadedFileId
+          required: true
+          schema:
+            $ref: '#/components/schemas/SetMemberProfilePictureCommand'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetMemberProfilePictureCommandResponseData'
+
+    put:
+      tags:
+        - members
+      summary: Update the details of the given member
+      operationId: updateMemberProfileCommand
+      parameters:
+        - in: path
+          name: memberId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMemberProfileCommand'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateMemberProfileCommandResponseData'
+
   /files:
     post:
       tags:
@@ -332,6 +381,39 @@ components:
           items:
             $ref: '#/components/schemas/Reaffirmation'
 
+    CreateFileUploadUrlCommand:
+      properties:
+        fileName:
+          type: string
+        contentType:
+          type: string
+          enum:
+            - application/json
+            - application/mp4
+            - video/mp4
+            - text/plain
+            - image/jpeg
+            - image/png
+        sizeInBytes:
+          type: integer
+      required:
+        - fileName
+        - contentType
+        - sizeInBytes
+    CreateFileUploadUrlCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/FileDto'
+
+    CompleteFileUploadCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/FileDto'
+
     CreateMemberCommand:
       properties:
         name:
@@ -377,35 +459,28 @@ components:
               items:
                 $ref: '#/components/schemas/LetterItem'
 
-    CreateFileUploadUrlCommand:
+    UpdateMemberProfileCommand:
       properties:
-        fileName:
+        name:
           type: string
-        contentType:
+        nickName:
           type: string
-          enum:
-            - application/json
-            - application/mp4
-            - video/mp4
-            - text/plain
-            - image/jpeg
-            - image/png
-        sizeInBytes:
-          type: integer
-      required:
-        - fileName
-        - contentType
-        - sizeInBytes
-    CreateFileUploadUrlCommandResponseData:
+        selfSummary:
+          type: string
+    UpdateMemberProfileCommandResponseData:
       properties:
         apiResponse:
           $ref: '#/components/schemas/ApiResponse'
         data:
-          $ref: '#/components/schemas/FileDto'
+          $ref: '#/components/schemas/Member'
 
-    CompleteFileUploadCommandResponseData:
+    SetMemberProfilePictureCommand:
+      properties:
+        uploadedFileId:
+          type: integer
+    SetMemberProfilePictureCommandResponseData:
       properties:
         apiResponse:
           $ref: '#/components/schemas/ApiResponse'
         data:
-          $ref: '#/components/schemas/FileDto'
+          $ref: '#/components/schemas/Member'
