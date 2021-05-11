@@ -342,6 +342,27 @@ paths:
               schema:
                 $ref: '#/components/schemas/CreateReaffirmationCommandResponseData'
 
+  /letters/{letterId}:
+    get:
+      tags:
+        - letters
+      summary: Get the details of a given letter
+      operationId: getLetterQuery
+      parameters:
+        - in: path
+          name: letterId
+          description: ID of the letter to be fetched
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLetterQueryResponseData'
+
 components:
   securitySchemes:
     oAuth:
@@ -797,3 +818,22 @@ components:
           $ref: '#/components/schemas/ApiResponse'
         data:
           $ref: '#/components/schemas/Reaffirmation'
+
+    GetLetterQuery:
+      properties:
+        letterId:
+          type: integer
+    GetLetterQueryResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          type: object
+          properties:
+            totalUnopenedLetters:
+              type: integer
+            nextLetterId:
+              description: ID of the letter that will be loaded when the user presses the `Next` button on the letter viewer screen
+              type: integer
+            letter:
+              $ref: '#/components/schemas/Letter'
