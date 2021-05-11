@@ -11,6 +11,46 @@ servers:
     description: Internal staging server for testing
 
 paths:
+  /files:
+    post:
+      tags:
+        - files
+      summary: Creates a signed url for uploading a given file
+      operationId: createFileUploadUrlCommand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFileUploadUrlCommand'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateFileUploadUrlCommandResponseData'
+
+  /files/{fileId}:
+    patch:
+      tags:
+        - files
+      summary: Signal that upload process for the given file was completed
+      operationId: completeFileUploadCommand
+      parameters:
+        - in: path
+          name: fileId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompleteFileUploadCommandResponseData'
+
   /members:
     post:
       tags:
@@ -86,7 +126,8 @@ paths:
           name: uploadedFileId
           required: true
           schema:
-            $ref: '#/components/schemas/SetMemberProfilePictureCommand'
+            type: integer
+#            $ref: '#/components/schemas/SetMemberProfilePictureCommand'
       responses:
         '200':
           description: OK
@@ -120,35 +161,39 @@ paths:
               schema:
                 $ref: '#/components/schemas/UpdateMemberProfileCommandResponseData'
 
-  /files:
+  /affirmations:
     post:
       tags:
-        - files
-      summary: Creates a signed url for uploading a given file
-      operationId: createFileUploadUrlCommand
+        - affirmations
+      summary: Creates a new affirmation with the given details
+      operationId: createAffirmationCommand
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateFileUploadUrlCommand'
+              $ref: '#/components/schemas/CreateAffirmationCommand'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateFileUploadUrlCommandResponseData'
+                $ref: '#/components/schemas/CreateAffirmationCommandResponseData'
 
-  /files/{fileId}:
-    patch:
+    get:
       tags:
-        - files
-      summary: Signal that upload process for the given file was completed
-      operationId: completeFileUploadCommand
+        - affirmations
+      summary: Get a list of affirmations
+      operationId: getAffirmationsListQuery
       parameters:
-        - in: path
-          name: fileId
+        - in: query
+          name: skip
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: take
           required: true
           schema:
             type: integer
@@ -158,7 +203,110 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CompleteFileUploadCommandResponseData'
+                $ref: '#/components/schemas/GetAffirmationsListQueryResponseData'
+
+  /affirmations/{affirmationId}:
+    get:
+      tags:
+        - affirmations
+      summary: Get details of a specific affirmation
+      operationId: getAffirmationQuery
+      parameters:
+        - in: path
+          name: affirmationId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAffirmationQueryResponseData'
+
+    put:
+      tags:
+        - affirmations
+      summary: Update the details of the given affirmation
+      operationId: updateAffirmationCommand
+      parameters:
+        - in: path
+          name: affirmationId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAffirmationCommand'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAffirmationCommandResponseData'
+
+    patch:
+      tags:
+        - affirmations
+      summary: Deactivate affirmation with given ID
+      operationId: deactivateAffirmationCommand
+      parameters:
+        - in: path
+          name: affirmationId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeactivateAffirmationCommandResponseData'
+
+    delete:
+      tags:
+        - affirmations
+      summary: Delete affirmation with given ID
+      operationId: deleteAffirmationCommand
+      parameters:
+        - in: path
+          name: affirmationId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteAffirmationCommandResponseData'
+
+  /affirmations/{affirmationId}/activate:
+    patch:
+      tags:
+        - affirmations
+      summary: Activate affirmation with given ID
+      operationId: activateAffirmationCommand
+      parameters:
+        - in: path
+          name: affirmationId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivateAffirmationCommandResponseData'
 
 components:
   securitySchemes:
@@ -484,3 +632,93 @@ components:
           $ref: '#/components/schemas/ApiResponse'
         data:
           $ref: '#/components/schemas/Member'
+
+    CreateAffirmationCommand:
+      properties:
+        title:
+          type: string
+        subtitle:
+          type: string
+      required:
+        - title
+    CreateAffirmationCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Affirmation'
+
+#    GetAffirmationsListQuery:
+#      properties:
+#        skip:
+#          type: integer
+#        take:
+#          type: integer
+    GetAffirmationsListQueryResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          type: object
+          properties:
+            totalAffirmations:
+              type: integer
+            affirmations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Affirmation'
+
+    GetAffirmationQuery:
+      properties:
+        affirmationId:
+          type: integer
+    GetAffirmationQueryResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Affirmation'
+
+    UpdateAffirmationCommand:
+      properties:
+        title:
+          type: string
+        subtitle:
+          type: string
+    UpdateAffirmationCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Affirmation'
+
+    DeactivateAffirmationCommand:
+      properties:
+        affirmationId:
+          type: string
+    DeactivateAffirmationCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Affirmation'
+
+    ActivateAffirmationCommand:
+      properties:
+        affirmationId:
+          type: string
+    ActivateAffirmationCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Affirmation'
+
+    DeleteAffirmationCommand:
+      properties:
+        affirmationId:
+          type: string
+    DeleteAffirmationCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
