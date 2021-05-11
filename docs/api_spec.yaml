@@ -308,6 +308,40 @@ paths:
               schema:
                 $ref: '#/components/schemas/ActivateAffirmationCommandResponseData'
 
+  /reaffirmations:
+    get:
+      tags:
+        - reaffirmations
+      summary: Get the form metadata for creating new reaffirmations.
+      description: Since the metadata that the server responds with will refer to static assets that must exist within the mobile app installation, as a bonus we can also use this to check if the user has the latest version of the mobile app installed. If they don't have a certain asset on their device, that means they don't have the latest version of the app installed.
+      operationId: getReaffirmationFormMetadataQuery
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetReaffirmationFormMetadataQueryResponseData'
+
+    post:
+      tags:
+        - reaffirmations
+      summary: Creates a new reaffirmation with the given details
+      operationId: createReaffirmationCommand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReaffirmationCommand'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateReaffirmationCommandResponseData'
+
 components:
   securitySchemes:
     oAuth:
@@ -648,12 +682,12 @@ components:
         data:
           $ref: '#/components/schemas/Affirmation'
 
-#    GetAffirmationsListQuery:
-#      properties:
-#        skip:
-#          type: integer
-#        take:
-#          type: integer
+    GetAffirmationsListQuery:
+      properties:
+        skip:
+          type: integer
+        take:
+          type: integer
     GetAffirmationsListQueryResponseData:
       properties:
         apiResponse:
@@ -722,3 +756,44 @@ components:
       properties:
         apiResponse:
           $ref: '#/components/schemas/ApiResponse'
+
+    GetReaffirmationFormMetadataQueryResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          type: object
+          properties:
+            notes:
+              type: array
+              items:
+                $ref: '#/components/schemas/NoteDto'
+            fonts:
+              type: array
+              items:
+                $ref: '#/components/schemas/FontDto'
+            stamps:
+              type: array
+              items:
+                $ref: '#/components/schemas/StampDto'
+
+    CreateReaffirmationCommand:
+      properties:
+        affirmationId:
+          type: integer
+        noteId:
+          type: integer
+        fontId:
+          type: integer
+        stampId:
+          type: integer
+      required:
+        - noteId
+        - fontId
+        - stampId
+    CreateReaffirmationCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Reaffirmation'
