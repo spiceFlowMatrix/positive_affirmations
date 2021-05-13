@@ -76,5 +76,26 @@ void main() {
         findsOneWidget,
       );
     });
+
+    testWidgets('components are rendered', (tester) async {
+      await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+
+      expect(
+        find.byKey(PositiveAffirmationsKeys.nickNameFieldLabel),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(PositiveAffirmationsKeys.nickNameField),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(PositiveAffirmationsKeys.nickNameSubmitButton),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(PositiveAffirmationsKeys.changeNameButton),
+        findsOneWidget,
+      );
+    });
   });
 }
