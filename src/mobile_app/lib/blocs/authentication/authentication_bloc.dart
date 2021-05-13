@@ -29,7 +29,7 @@ class AuthenticationBloc
       case AuthenticationStatus.unauthenticated:
         return const AuthenticationState.unauthenticated();
       case AuthenticationStatus.authenticated:
-        return AuthenticationState.authenticated(event.user!);
+        return AuthenticationState.authenticated(event.user);
       default:
         return AuthenticationState.unknown();
     }
