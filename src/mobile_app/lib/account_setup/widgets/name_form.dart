@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/account_setup/models/models.dart';
+import 'package:mobile_app/account_setup/widgets/nick_name_form_screen.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
-import 'package:formz/formz.dart';
 
 class NameForm extends StatelessWidget {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -31,7 +32,11 @@ class NameForm extends StatelessWidget {
           return ElevatedButton(
             key: PositiveAffirmationsKeys.nameSubmitButton,
             onPressed: state.nameStatus.isValidated
-                ? () => context.read<SignUpBloc>().add(NameSubmitted())
+                ? () {
+                    context.read<SignUpBloc>().add(NameSubmitted());
+                    final bloc = BlocProvider.of<SignUpBloc>(context);
+                    Navigator.of(context).push(NickNameFormScreen.route(bloc));
+                  }
                 : null,
             child: Text('NEXT'),
           );
