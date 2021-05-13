@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PositiveAffirmationsTheme {
+  static Color highlightColor = Color.fromRGBO(25, 118, 210, 1);
+
   static ThemeData get theme {
     final themeData = ThemeData.light();
 
@@ -11,14 +13,31 @@ class PositiveAffirmationsTheme {
     );
 
     return themeData.copyWith(
-      highlightColor: Color.fromRGBO(25, 118, 210, 1),
+      highlightColor: highlightColor,
       accentColor: Colors.red,
-      colorScheme: ColorScheme.fromSwatch(
-        accentColor: Colors.red,
-        backgroundColor: Colors.white,
-      ),
+      primaryColor: highlightColor,
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          textStyle: TextStyle(fontWeight: FontWeight.bold),
+          primary: highlightColor,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+        textStyle: TextStyle(fontWeight: FontWeight.bold),
+      )),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          backgroundColor: Colors.white,
+          primary: Colors.black,
+          side: BorderSide(
+            width: 1,
+          ),
+          textStyle: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       textTheme: newTextTheme,
     );
