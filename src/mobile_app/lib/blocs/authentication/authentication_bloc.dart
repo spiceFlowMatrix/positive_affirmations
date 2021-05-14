@@ -45,7 +45,6 @@ class AuthenticationBloc
       nickName: json[User.fieldNickName],
     );
 
-
     switch (status) {
       case AuthenticationStatus.unauthenticated:
         return const AuthenticationState.unauthenticated();

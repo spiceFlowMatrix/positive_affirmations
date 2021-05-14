@@ -40,7 +40,7 @@ class NickNameFormFixture extends StatelessWidget {
 
 void main() {
   const mockValidName = 'validName';
-  const mockValidNickName = 'validNickName';
+  // const mockValidNickName = 'validNickName';
 
   group('[NickNameForm]', () {
     late SignUpBloc signUpBloc;
