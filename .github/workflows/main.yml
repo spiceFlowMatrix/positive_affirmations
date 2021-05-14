@@ -37,16 +37,21 @@ jobs:
 
 
       - name: Get flutter dependencies
+        working-directory: ./src/mobile_app
         run: flutter pub get
 
       - name: Check for any formatting issues in the code.
+        working-directory: ./src/mobile_app
         run: flutter format --set-exit-if-changed .
 
       - name: Statically analyze the Dart code for any errors
+        working-directory: ./src/mobile_app
         run: flutter analyze .
 
       - name: Run widget tests for our flutter project.
+        working-directory: ./src/mobile_app
         run: flutter test
 
       - name: Build APK.
+        working-directory: ./src/mobile_app
         run: flutter build apk
