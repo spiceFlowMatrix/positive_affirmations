@@ -10,3 +10,5 @@ src/mobile_app/android/fastlane/metadata/android/en-US/video.txt
 src/mobile_app/android/fastlane/metadata/android/en-US/title.txt
 src/mobile_app/android/fastlane/metadata/android/en-US/short_description.txt
 src/mobile_app/android/fastlane/metadata/android/en-US/full_description.txt
+src/mobile_app/android/app/google-services.json
+src/mobile_app/android/fastlane/Pluginfile
