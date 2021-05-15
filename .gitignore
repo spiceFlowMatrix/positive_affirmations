@@ -1,3 +1,6 @@
 
 *.lock
 src/mobile_app/Gemfile
+src/mobile_app/android/Gemfile
+src/mobile_app/android/fastlane/Appfile
+src/mobile_app/android/fastlane/Fastfile
