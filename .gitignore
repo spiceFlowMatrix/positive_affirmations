@@ -4,3 +4,9 @@ src/mobile_app/Gemfile
 src/mobile_app/android/Gemfile
 src/mobile_app/android/fastlane/Appfile
 src/mobile_app/android/fastlane/Fastfile
+src/mobile_app/android/fastlane/report.xml
+src/mobile_app/android/fastlane/README.md
+src/mobile_app/android/fastlane/metadata/android/en-US/video.txt
+src/mobile_app/android/fastlane/metadata/android/en-US/title.txt
+src/mobile_app/android/fastlane/metadata/android/en-US/short_description.txt
+src/mobile_app/android/fastlane/metadata/android/en-US/full_description.txt
