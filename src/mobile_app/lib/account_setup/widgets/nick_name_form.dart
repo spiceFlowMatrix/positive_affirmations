@@ -26,11 +26,7 @@ class NickNameForm extends StatelessWidget {
               const Padding(padding: EdgeInsets.only(top: 10)),
               _SubmitButton(),
               const Padding(padding: EdgeInsets.only(top: 10)),
-              OutlinedButton(
-                key: PositiveAffirmationsKeys.changeNameButton,
-                onPressed: () {},
-                child: Text('BACK'),
-              ),
+              _ChangeNameButton(),
             ],
           ),
         ),
@@ -121,6 +117,17 @@ class _SubmitButton extends StatelessWidget {
           child: Text('NEXT'),
         );
       },
+    );
+  }
+}
+
+class _ChangeNameButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      key: PositiveAffirmationsKeys.changeNameButton,
+      onPressed: () => Navigator.of(context).pop(),
+      child: Text('BACK'),
     );
   }
 }
