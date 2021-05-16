@@ -11,6 +11,8 @@ import 'package:mobile_app/account_setup/widgets/name_form_screen.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../fixtures/fixtures.dart';
+
 class FakeSignUpEvent extends Fake implements SignUpEvent {}
 
 class FakeSignUpState extends Fake implements SignUpState {}
@@ -19,24 +21,6 @@ class MockSignUpBloc extends MockBloc<SignUpEvent, SignUpState>
     implements SignUpBloc {}
 
 class MockNameField extends Mock implements NameField {}
-
-class NameFormFixture extends StatelessWidget {
-  NameFormFixture(this.bloc);
-
-  final SignUpBloc bloc;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: bloc,
-      child: MaterialApp(
-        home: Scaffold(
-          body: NameForm(),
-        ),
-      ),
-    );
-  }
-}
 
 void main() {
   const mockInvalidName = '35.n\'fwe342-';
