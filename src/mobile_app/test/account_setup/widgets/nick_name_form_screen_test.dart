@@ -136,20 +136,6 @@ void main() {
       );
     });
 
-    testWidgets('submit button is disabled when form is fresh', (tester) async {
-      when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
-
-      await tester.pumpWidget(NickNameFormFixture(signUpBloc));
-
-      expect(
-        tester
-            .widget<ElevatedButton>(
-                find.byKey(PositiveAffirmationsKeys.nickNameSubmitButton))
-            .enabled,
-        isFalse,
-      );
-    });
-
     group('[FormWiredToBloc]', () {
       testWidgets('entering nickname updates state', (tester) async {
         when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
@@ -165,10 +151,9 @@ void main() {
             .called(1);
       });
 
-      testWidgets('error shows when nickname field is empty and unpure',
-          (tester) async {
+      testWidgets('error shows when nickname field is invalid', (tester) async {
         when(() => signUpBloc.state).thenReturn(mockValidSignUpState.copyWith(
-          nickName: NickNameField.dirty(''),
+          nickName: NickNameField.dirty(mockInvalidNickName),
           nickNameStatus: FormzStatus.invalid,
         ));
 
@@ -217,11 +202,11 @@ void main() {
         );
       });
 
-      testWidgets('submit button works when form is valid',
-          (tester) async {
+      testWidgets('submit button is enabled when form is pure', (tester) async {
         when(() => signUpBloc.state).thenReturn(mockValidSignUpState.copyWith(
-            nickName: const NickNameField.dirty(mockValidNickName),
-            nickNameStatus: FormzStatus.valid));
+          nickName: const NickNameField.pure(),
+          nickNameStatus: FormzStatus.pure,
+        ));
 
         await tester.pumpWidget(NickNameFormFixture(signUpBloc));
 
@@ -232,6 +217,38 @@ void main() {
               .enabled,
           isTrue,
         );
+      });
+
+      testWidgets('submit button is enabled when form is valid',
+          (tester) async {
+        when(() => signUpBloc.state).thenReturn(mockValidSignUpState.copyWith(
+          // nickName: const NickNameField.dirty(mockValidNickName),
+          nickNameStatus: FormzStatus.valid,
+        ));
+
+        await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+
+        expect(
+          tester
+              .widget<ElevatedButton>(
+                  find.byKey(PositiveAffirmationsKeys.nickNameSubmitButton))
+              .enabled,
+          isTrue,
+        );
+      });
+
+      testWidgets('tapping submit button is enabled when form is valid',
+          (tester) async {
+        when(() => signUpBloc.state).thenReturn(mockValidSignUpState.copyWith(
+          // nickName: const NickNameField.dirty(mockValidNickName),
+          nickNameStatus: FormzStatus.valid,
+        ));
+
+        await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+
+        await tester
+            .tap(find.byKey(PositiveAffirmationsKeys.nickNameSubmitButton));
+
         verify(() => signUpBloc.add(NickNameSubmitted())).called(1);
       });
     });
