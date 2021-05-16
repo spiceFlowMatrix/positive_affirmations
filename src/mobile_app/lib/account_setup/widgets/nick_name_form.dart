@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 
@@ -24,11 +25,7 @@ class NickNameForm extends StatelessWidget {
               const Padding(padding: EdgeInsets.only(top: 10)),
               _NickNameField(),
               const Padding(padding: EdgeInsets.only(top: 10)),
-              ElevatedButton(
-                key: PositiveAffirmationsKeys.nickNameSubmitButton,
-                onPressed: () {},
-                child: Text('NEXT'),
-              ),
+              _SubmitButton(),
               const Padding(padding: EdgeInsets.only(top: 10)),
               OutlinedButton(
                 key: PositiveAffirmationsKeys.changeNameButton,
@@ -53,6 +50,24 @@ class _NickNameField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Nickname',
       ),
+    );
+  }
+}
+
+class _SubmitButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpBloc, SignUpState>(
+      builder: (context, state) {
+        return ElevatedButton(
+          key: PositiveAffirmationsKeys.nickNameSubmitButton,
+          onPressed:
+              state.nickNameStatus.isValidated || state.nickNameStatus.isPure
+                  ? () => context.read<SignUpBloc>().add(NickNameSubmitted())
+                  : null,
+          child: Text('NEXT'),
+        );
+      },
     );
   }
 }
