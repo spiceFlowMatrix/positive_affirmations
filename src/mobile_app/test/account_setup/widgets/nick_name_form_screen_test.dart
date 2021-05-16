@@ -41,6 +41,7 @@ class NickNameFormFixture extends StatelessWidget {
 void main() {
   const mockValidName = 'validName';
   const mockValidNickName = 'validNickName';
+  const mockInvalidNickName = '35.n\'fwe342-';
   const mockValidSignUpState = SignUpState(
     name: const NameField.dirty(mockValidName),
     nameStatus: FormzStatus.submissionSuccess,
@@ -120,6 +121,35 @@ void main() {
       );
     });
 
+    testWidgets('pressing back button pops back to name form', (tester) async {
+      when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
+
+      await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+
+      await tester.tap(find.byKey(PositiveAffirmationsKeys.changeNameButton));
+
+      await tester.pumpAndSettle();
+
+      expect(
+        find.byKey(PositiveAffirmationsKeys.nameFormScreen),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('submit button is disabled when form is fresh', (tester) async {
+      when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
+
+      await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+
+      expect(
+        tester
+            .widget<ElevatedButton>(
+                find.byKey(PositiveAffirmationsKeys.nickNameSubmitButton))
+            .enabled,
+        isFalse,
+      );
+    });
+
     group('[FormWiredToBloc]', () {
       testWidgets('entering nickname updates state', (tester) async {
         when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
@@ -151,6 +181,56 @@ void main() {
               .decoration!
               .errorText,
           isNotNull,
+        );
+      });
+
+      testWidgets('valid label text is rendered', (tester) async {
+        when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
+
+        await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+
+        // Reference https://stackoverflow.com/a/41153547/5472560
+        expect(
+          find.byWidgetPredicate((widget) =>
+              widget is RichText &&
+              widget.key == PositiveAffirmationsKeys.nickNameFieldLabel &&
+              widget.text.toPlainText() ==
+                  'Nice to meet you $mockValidName}\nOne more question.\nWhat would you like me to call you? ;)'),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets('submit button is disabled when form is errored',
+          (tester) async {
+        when(() => signUpBloc.state).thenReturn(mockValidSignUpState.copyWith(
+            nickName: const NickNameField.dirty(mockInvalidNickName),
+            nickNameStatus: FormzStatus.invalid));
+
+        await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+
+        expect(
+          tester
+              .widget<ElevatedButton>(
+                  find.byKey(PositiveAffirmationsKeys.nickNameSubmitButton))
+              .enabled,
+          isFalse,
+        );
+      });
+
+      testWidgets('submit button is enabled when form is valid',
+          (tester) async {
+        when(() => signUpBloc.state).thenReturn(mockValidSignUpState.copyWith(
+            nickName: const NickNameField.dirty(mockValidNickName),
+            nickNameStatus: FormzStatus.valid));
+
+        await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+
+        expect(
+          tester
+              .widget<ElevatedButton>(
+                  find.byKey(PositiveAffirmationsKeys.nickNameSubmitButton))
+              .enabled,
+          isTrue,
         );
       });
     });
