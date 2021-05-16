@@ -180,7 +180,7 @@ void main() {
                   find.byKey(PositiveAffirmationsKeys.nickNameField))
               .decoration!
               .errorText,
-          isNotNull,
+          isA<String>(),
         );
       });
 

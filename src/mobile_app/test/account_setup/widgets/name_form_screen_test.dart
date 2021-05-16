@@ -39,6 +39,7 @@ class NameFormFixture extends StatelessWidget {
 }
 
 void main() {
+  const mockInvalidName = '35.n\'fwe342-';
   group('[NameFormScreen]', () {
     late SignUpBloc signUpBloc;
 
@@ -161,7 +162,7 @@ void main() {
         verify(() => signUpBloc.add(NameUpdated(nameValue))).called(1);
       });
 
-      testWidgets('Bloc event is triggered when pressing submit',
+      testWidgets('Bloc event is triggered when pressing submit on valid form',
           (tester) async {
         when(() => signUpBloc.state)
             .thenReturn(const SignUpState(nameStatus: FormzStatus.valid));
@@ -170,6 +171,24 @@ void main() {
         await tester.tap(find.byKey(PositiveAffirmationsKeys.nameSubmitButton));
 
         verify(() => signUpBloc.add(NameSubmitted())).called(1);
+      });
+
+      testWidgets('submit button is enabled when form is invalid',
+          (tester) async {
+        when(() => signUpBloc.state).thenReturn(const SignUpState(
+          name: const NameField.dirty(mockInvalidName),
+          nameStatus: FormzStatus.invalid,
+        ));
+
+        await tester.pumpWidget(NameFormFixture(signUpBloc));
+
+        expect(
+          tester
+              .widget<ElevatedButton>(
+                  find.byKey(PositiveAffirmationsKeys.nameSubmitButton))
+              .enabled,
+          isFalse,
+        );
       });
     });
   });
