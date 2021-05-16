@@ -217,7 +217,7 @@ void main() {
         );
       });
 
-      testWidgets('submit button is enabled when form is valid',
+      testWidgets('submit button works when form is valid',
           (tester) async {
         when(() => signUpBloc.state).thenReturn(mockValidSignUpState.copyWith(
             nickName: const NickNameField.dirty(mockValidNickName),
@@ -232,6 +232,7 @@ void main() {
               .enabled,
           isTrue,
         );
+        verify(() => signUpBloc.add(NickNameSubmitted())).called(1);
       });
     });
   });
