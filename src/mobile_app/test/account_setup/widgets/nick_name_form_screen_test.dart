@@ -40,7 +40,11 @@ class NickNameFormFixture extends StatelessWidget {
 
 void main() {
   const mockValidName = 'validName';
-  // const mockValidNickName = 'validNickName';
+  const mockValidNickName = 'validNickName';
+  const mockValidSignUpState = SignUpState(
+    name: const NameField.dirty(mockValidName),
+    nameStatus: FormzStatus.submissionSuccess,
+  );
 
   group('[NickNameForm]', () {
     late SignUpBloc signUpBloc;
@@ -96,6 +100,22 @@ void main() {
         find.byKey(PositiveAffirmationsKeys.changeNameButton),
         findsOneWidget,
       );
+    });
+
+    group('[FormWiredToBloc]', () {
+      testWidgets('entering nickname updates state', (tester) async {
+        when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
+
+        await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+
+        await tester.enterText(
+          find.byKey(PositiveAffirmationsKeys.nickNameField),
+          mockValidNickName,
+        );
+
+        verify(() => signUpBloc.add(NickNameUpdated(mockValidNickName)))
+            .called(1);
+      });
     });
   });
 }
