@@ -109,7 +109,8 @@ void main() {
 
     testWidgets('pressing back button pops back to name form', (tester) async {
       // final mockObserver = MockNavigatorObserver();
-      final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+      final GlobalKey<NavigatorState> navigatorKey =
+          GlobalKey<NavigatorState>();
 
       when(() => signUpBloc.state).thenReturn(const SignUpState(
         name: const NameField.dirty(mockValidName),
@@ -137,7 +138,6 @@ void main() {
       //       NickNameFormScreen.route(signUpBloc),
       //       any(),
       //     ));
-
 
       // await tester.tap(find.byKey(PositiveAffirmationsKeys.changeNameButton));
       //
