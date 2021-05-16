@@ -108,7 +108,7 @@ void main() {
     });
 
     testWidgets('pressing back button pops back to name form', (tester) async {
-      final mockObserver = MockNavigatorObserver();
+      // final mockObserver = MockNavigatorObserver();
       final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
       when(() => signUpBloc.state).thenReturn(const SignUpState(
