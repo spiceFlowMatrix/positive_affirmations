@@ -102,6 +102,24 @@ void main() {
       );
     });
 
+    testWidgets('pure and empty nickname does not show error', (tester) async {
+      when(() => signUpBloc.state).thenReturn(mockValidSignUpState.copyWith(
+        nickName: const NickNameField.pure(),
+        nickNameStatus: FormzStatus.pure,
+      ));
+
+      await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+
+      expect(
+        tester
+            .widget<TextField>(
+                find.byKey(PositiveAffirmationsKeys.nickNameField))
+            .decoration!
+            .errorText,
+        isNull,
+      );
+    });
+
     group('[FormWiredToBloc]', () {
       testWidgets('entering nickname updates state', (tester) async {
         when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
@@ -115,6 +133,25 @@ void main() {
 
         verify(() => signUpBloc.add(NickNameUpdated(mockValidNickName)))
             .called(1);
+      });
+
+      testWidgets('error shows when nickname field is empty and unpure',
+          (tester) async {
+        when(() => signUpBloc.state).thenReturn(mockValidSignUpState.copyWith(
+          nickName: NickNameField.dirty(''),
+          nickNameStatus: FormzStatus.invalid,
+        ));
+
+        await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+
+        expect(
+          tester
+              .widget<TextField>(
+                  find.byKey(PositiveAffirmationsKeys.nickNameField))
+              .decoration!
+              .errorText,
+          isNotNull,
+        );
       });
     });
   });
