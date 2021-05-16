@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 
 class NickNameForm extends StatelessWidget {
@@ -20,9 +22,7 @@ class NickNameForm extends StatelessWidget {
                 text: TextSpan(text: 'label'),
               ),
               const Padding(padding: EdgeInsets.only(top: 10)),
-              TextField(
-                key: PositiveAffirmationsKeys.nickNameField,
-              ),
+              _NickNameField(),
               const Padding(padding: EdgeInsets.only(top: 10)),
               ElevatedButton(
                 key: PositiveAffirmationsKeys.nickNameSubmitButton,
@@ -38,6 +38,20 @@ class NickNameForm extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _NickNameField extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      key: PositiveAffirmationsKeys.nickNameField,
+      onChanged: (nickName) =>
+          context.read<SignUpBloc>().add(NickNameUpdated(nickName)),
+      decoration: InputDecoration(
+        labelText: 'Nickname',
       ),
     );
   }
