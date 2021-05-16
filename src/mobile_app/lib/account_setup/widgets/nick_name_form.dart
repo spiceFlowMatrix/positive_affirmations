@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
+import 'package:mobile_app/account_setup/models/models.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
 
@@ -79,15 +80,29 @@ class _Label extends StatelessWidget {
 }
 
 class _NickNameField extends StatelessWidget {
+  String _generateErrorText(NickNameFieldValidationError error) {
+    switch (error) {
+      case NickNameFieldValidationError.invalid:
+        return 'Nickname cannot include any symbols';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      key: PositiveAffirmationsKeys.nickNameField,
-      onChanged: (nickName) =>
-          context.read<SignUpBloc>().add(NickNameUpdated(nickName)),
-      decoration: InputDecoration(
-        labelText: 'Nickname',
-      ),
+    return BlocBuilder<SignUpBloc, SignUpState>(
+      builder: (context, state) {
+        return TextField(
+          key: PositiveAffirmationsKeys.nickNameField,
+          onChanged: (nickName) =>
+              context.read<SignUpBloc>().add(NickNameUpdated(nickName)),
+          decoration: InputDecoration(
+            labelText: 'Nickname',
+            errorText: state.nickName.invalid
+                ? _generateErrorText(state.nickName.error!)
+                : null,
+          ),
+        );
+      },
     );
   }
 }
