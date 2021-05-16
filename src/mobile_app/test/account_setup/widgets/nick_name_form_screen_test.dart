@@ -103,21 +103,6 @@ void main() {
       );
     });
 
-    testWidgets('pressing back button pops back to name form', (tester) async {
-      when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
-
-      await tester.pumpWidget(NickNameFormFixture(signUpBloc));
-
-      await tester.tap(find.byKey(PositiveAffirmationsKeys.changeNameButton));
-
-      await tester.pumpAndSettle();
-
-      expect(
-        find.byKey(PositiveAffirmationsKeys.nameFormScreen),
-        findsOneWidget,
-      );
-    });
-
     group('[FormWiredToBloc]', () {
       testWidgets('entering nickname updates state', (tester) async {
         when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
