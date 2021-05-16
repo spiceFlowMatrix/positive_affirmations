@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
+import 'package:mobile_app/positive_affirmations_theme.dart';
 
 class NickNameForm extends StatelessWidget {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -18,10 +19,7 @@ class NickNameForm extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             children: [
-              RichText(
-                key: PositiveAffirmationsKeys.nickNameFieldLabel,
-                text: TextSpan(text: 'label'),
-              ),
+              _Label(),
               const Padding(padding: EdgeInsets.only(top: 10)),
               _NickNameField(),
               const Padding(padding: EdgeInsets.only(top: 10)),
@@ -36,6 +34,46 @@ class NickNameForm extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Label extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpBloc, SignUpState>(
+      builder: (context, state) {
+        return RichText(
+          key: PositiveAffirmationsKeys.nickNameFieldLabel,
+          text: TextSpan(
+            style:
+                PositiveAffirmationsTheme.theme.textTheme.headline1?.copyWith(
+              fontSize: 23,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+            ),
+            children: [
+              TextSpan(
+                text: 'Nice to meet you ',
+              ),
+              TextSpan(
+                text: '${state.name.value}\n',
+                style: TextStyle(
+                  decorationStyle: TextDecorationStyle.solid,
+                  decoration: TextDecoration.underline,
+                  decorationColor: PositiveAffirmationsTheme.highlightColor,
+                  decorationThickness: 2,
+                ),
+              ),
+              const TextSpan(text: 'One more question.\n'),
+              const TextSpan(
+                text: 'What would you like me to call you? 😉',
+                style: TextStyle(color: Colors.black),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
