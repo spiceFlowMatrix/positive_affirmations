@@ -180,7 +180,7 @@ void main() {
               widget is RichText &&
               widget.key == PositiveAffirmationsKeys.nickNameFieldLabel &&
               widget.text.toPlainText() ==
-                  'Nice to meet you $mockValidName\nOne more question.\nWhat would you like me to call you? ;)'),
+                  'Nice to meet you $mockValidName\nOne more question.\nWhat would you like me to call you? 😉'),
           findsOneWidget,
         );
       });
