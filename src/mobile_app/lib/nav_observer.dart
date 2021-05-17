@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-typedef OnObservation = void Function(Route<dynamic> route, Route<dynamic> previousRoute);
+typedef OnObservation = void Function(
+    Route<dynamic> route, Route<dynamic> previousRoute);
 
 class PositiveAffirmationsNavigatorObserver extends NavigatorObserver {
   OnObservation? onPushed;
@@ -24,7 +25,9 @@ class PositiveAffirmationsNavigatorObserver extends NavigatorObserver {
     onPushed = (route, previousRoute) {
       final isExpectedRoutePushed = route.settings.name == expectedRouteName;
       // trigger callback if expected route is pushed
-      if(isExpectedRoutePushed) { pushCallback(); }
+      if (isExpectedRoutePushed) {
+        pushCallback();
+      }
     };
   }
 
@@ -32,7 +35,9 @@ class PositiveAffirmationsNavigatorObserver extends NavigatorObserver {
     onPopped = (route, previousRoute) {
       final isExpectedRoutePushed = route.settings.name == expectedRouteName;
       // trigger callback if expected route is popped
-      if(isExpectedRoutePushed) { popCallback(); }
+      if (isExpectedRoutePushed) {
+        popCallback();
+      }
     };
   }
 }

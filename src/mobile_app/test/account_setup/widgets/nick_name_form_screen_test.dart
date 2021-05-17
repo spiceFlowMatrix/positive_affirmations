@@ -112,7 +112,6 @@ void main() {
       var isNickNameFormPushed = false;
       var isNickNameFormPopped = false;
 
-
       when(() => signUpBloc.state).thenReturn(const SignUpState(
         name: const NameField.dirty(mockValidName),
         nameStatus: FormzStatus.submissionSuccess,
@@ -122,13 +121,13 @@ void main() {
           NameFormFixture(signUpBloc, navigatorObserver: navigatorObserver));
       navigatorObserver.attachPushRouteObserver(
         NickNameFormScreen.routeName,
-            () {
+        () {
           isNickNameFormPushed = true;
         },
       );
       navigatorObserver.attachPopRouteObserver(
         NickNameFormScreen.routeName,
-            () {
+        () {
           isNickNameFormPopped = true;
         },
       );
@@ -149,7 +148,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(isNickNameFormPopped, true);
-
     });
 
     group('[FormWiredToBloc]', () {
