@@ -53,6 +53,6 @@ jobs:
         working-directory: ./src/mobile_app
         run: flutter test
 
-      - name: Build APK.
+      - name: Build DEBUG APK.
         working-directory: ./src/mobile_app
-        run: flutter build apk
+        run: flutter build apk --debug
