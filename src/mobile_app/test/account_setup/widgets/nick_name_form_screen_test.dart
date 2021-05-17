@@ -109,6 +109,7 @@ void main() {
     });
 
     testWidgets('pressing back button pops back to name form', (tester) async {
+      // Reference https://medium.com/@harsha973/widget-testing-pushing-a-new-page-13cd6a0bb055
       var isNickNameFormPushed = false;
       var isNickNameFormPopped = false;
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 typedef OnObservation = void Function(
     Route<dynamic> route, Route<dynamic> previousRoute);
 
+// Reference https://medium.com/@harsha973/widget-testing-pushing-a-new-page-13cd6a0bb055
 class PositiveAffirmationsNavigatorObserver extends NavigatorObserver {
   OnObservation? onPushed;
   OnObservation? onPopped;
