@@ -112,22 +112,22 @@ void main() {
       verify(() => signUpBloc.add(NameUpdated(nameValue))).called(1);
     });
 
-    testWidgets('navigates to nickName form upon successful form submission',
-        (tester) async {
-      when(() => signUpBloc.state).thenReturn(
-          const SignUpState(nameStatus: FormzStatus.submissionSuccess));
-
-      await tester.pumpWidget(NameFormFixture(signUpBloc));
-
-      await tester.tap(find.byKey(PositiveAffirmationsKeys.nameSubmitButton));
-
-      await tester.pumpAndSettle();
-
-      expect(
-        find.byKey(PositiveAffirmationsKeys.nickNameFormScreen),
-        findsOneWidget,
-      );
-    });
+    // testWidgets('navigates to nickName form upon successful form submission',
+    //     (tester) async {
+    //   when(() => signUpBloc.state).thenReturn(
+    //       const SignUpState(nameStatus: FormzStatus.submissionSuccess));
+    //
+    //   await tester.pumpWidget(NameFormFixture(signUpBloc));
+    //
+    //   await tester.tap(find.byKey(PositiveAffirmationsKeys.nameSubmitButton));
+    //
+    //   await tester.pumpAndSettle();
+    //
+    //   expect(
+    //     find.byKey(PositiveAffirmationsKeys.nickNameFormScreen),
+    //     findsOneWidget,
+    //   );
+    // });
 
     group('[FormWiredToBloc]', () {
       testWidgets('Bloc event is triggered when updating name', (tester) async {

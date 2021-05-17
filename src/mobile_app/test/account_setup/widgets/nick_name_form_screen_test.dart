@@ -5,8 +5,8 @@ import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/account_setup/models/models.dart';
 import 'package:mobile_app/account_setup/models/name_field.dart';
-import 'package:mobile_app/account_setup/widgets/name_form_screen.dart';
 import 'package:mobile_app/account_setup/widgets/nick_name_form_screen.dart';
+import 'package:mobile_app/nav_observer.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -34,6 +34,8 @@ void main() {
 
   group('[NickNameForm]', () {
     late SignUpBloc signUpBloc;
+    late PositiveAffirmationsNavigatorObserver navigatorObserver;
+
     setUpAll(() {
       registerFallbackValue<SignUpEvent>(FakeSignUpEvent());
       registerFallbackValue<SignUpState>(FakeSignUpState());
@@ -42,35 +44,34 @@ void main() {
 
     setUp(() {
       signUpBloc = MockSignUpBloc();
+      navigatorObserver = PositiveAffirmationsNavigatorObserver();
     });
 
-    test('NickName form screen is routable', () {
-      expect(NickNameFormScreen.route(signUpBloc), isA<MaterialPageRoute>());
-    });
+    // test('NickName form screen is routable', () {
+    //   expect(NickNameFormScreen.route(signUpBloc), isA<MaterialPageRoute>());
+    // });
 
-    testWidgets('NickNameForm renders when NameForm is submitted',
-        (tester) async {
-      when(() => signUpBloc.state).thenReturn(SignUpState(
-        name: const NameField.dirty(mockValidName),
-        nameStatus: FormzStatus.submissionSuccess,
-      ));
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: NickNameFormScreen(signUpBloc),
-        ),
-      );
-
-      expect(
-        find.byKey(PositiveAffirmationsKeys.nickNameFormScreen),
-        findsOneWidget,
-      );
-    });
+    // testWidgets('NickNameForm renders when NameForm is submitted',
+    //     (tester) async {
+    //   when(() => signUpBloc.state).thenReturn(SignUpState(
+    //     name: const NameField.dirty(mockValidName),
+    //     nameStatus: FormzStatus.submissionSuccess,
+    //   ));
+    //
+    //   await tester.pumpWidget(NameFormFixture(signUpBloc));
+    //
+    //   expect(
+    //     find.byKey(PositiveAffirmationsKeys.nickNameFormScreen),
+    //     findsOneWidget,
+    //   );
+    // });
 
     testWidgets('components are rendered', (tester) async {
+      // Setup
       when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
       await tester.pumpWidget(NickNameFormFixture(signUpBloc));
 
+      // Assert
       expect(
         find.byKey(PositiveAffirmationsKeys.nickNameFieldLabel),
         findsOneWidget,
@@ -108,22 +109,29 @@ void main() {
     });
 
     testWidgets('pressing back button pops back to name form', (tester) async {
-      // final mockObserver = MockNavigatorObserver();
-      final GlobalKey<NavigatorState> navigatorKey =
-          GlobalKey<NavigatorState>();
+      var isNickNameFormPushed = false;
+      var isNickNameFormPopped = false;
+
 
       when(() => signUpBloc.state).thenReturn(const SignUpState(
         name: const NameField.dirty(mockValidName),
         nameStatus: FormzStatus.submissionSuccess,
       ));
 
-      await tester.pumpWidget(MaterialApp(
-        home: NameFormScreen(),
-        // navigatorObservers: [mockObserver],
-        navigatorKey: navigatorKey,
-        onGenerateRoute: (_) => NameFormScreen.route(),
-      ));
-      print(navigatorKey.currentWidget!.key.toString());
+      await tester.pumpWidget(
+          NameFormFixture(signUpBloc, navigatorObserver: navigatorObserver));
+      navigatorObserver.attachPushRouteObserver(
+        NickNameFormScreen.routeName,
+            () {
+          isNickNameFormPushed = true;
+        },
+      );
+      navigatorObserver.attachPopRouteObserver(
+        NickNameFormScreen.routeName,
+            () {
+          isNickNameFormPopped = true;
+        },
+      );
 
       await tester.enterText(
         find.byKey(PositiveAffirmationsKeys.nameField),
@@ -132,16 +140,13 @@ void main() {
 
       await tester.tap(find.byKey(PositiveAffirmationsKeys.nameSubmitButton));
 
-      await tester.pumpAndSettle();
-
-      // verify(() => mockObserver.didPush(
-      //       NickNameFormScreen.route(signUpBloc),
-      //       any(),
-      //     ));
-
-      // await tester.tap(find.byKey(PositiveAffirmationsKeys.changeNameButton));
-      //
       // await tester.pumpAndSettle();
+
+      expect(isNickNameFormPushed, true);
+
+      await tester.tap(find.byKey(PositiveAffirmationsKeys.changeNameButton));
+
+      await tester.pumpAndSettle();
 
       // verify(() => mockObserver.didPop(
       //       NickNameFormScreen.route(signUpBloc),
@@ -151,15 +156,17 @@ void main() {
 
     group('[FormWiredToBloc]', () {
       testWidgets('entering nickname updates state', (tester) async {
+        /// Setup
         when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
-
         await tester.pumpWidget(NickNameFormFixture(signUpBloc));
 
+        /// Act
         await tester.enterText(
           find.byKey(PositiveAffirmationsKeys.nickNameField),
           mockValidNickName,
         );
 
+        /// Assert
         verify(() => signUpBloc.add(NickNameUpdated(mockValidNickName)))
             .called(1);
       });

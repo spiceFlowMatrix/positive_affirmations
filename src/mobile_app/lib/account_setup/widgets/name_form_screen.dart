@@ -5,9 +5,11 @@ import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NameFormScreen extends StatelessWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => NameFormScreen());
-  }
+  // static Route route() {
+  //   return MaterialPageRoute<void>(builder: (_) => NameFormScreen());
+  // }
+
+  static const routeName = '/nameFormScreen';
 
   @override
   Widget build(BuildContext context) {

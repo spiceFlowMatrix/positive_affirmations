@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_app/account_setup/widgets/name_form_screen.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
+import 'package:mobile_app/positive_affirmations_routes.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
 
 class App extends StatelessWidget {
@@ -39,29 +40,46 @@ class _AppViewState extends State<AppView> {
             print(state.status.toString());
             switch (state.status) {
               case AuthenticationStatus.unknown:
-                _navigator.pushAndRemoveUntil(
-                  NameFormScreen.route(),
+                _navigator.pushNamedAndRemoveUntil(
+                  NameFormScreen.routeName,
                   (route) => false,
                 );
+                // _navigator.pushAndRemoveUntil(
+                //   NameFormScreen.route(),
+                //   (route) => false,
+                // );
                 break;
               case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil(
-                  NameFormScreen.route(),
+                _navigator.pushNamedAndRemoveUntil(
+                  NameFormScreen.routeName,
                   (route) => false,
                 );
+                // _navigator.pushAndRemoveUntil(
+                //   NameFormScreen.route(),
+                //   (route) => false,
+                // );
                 break;
               case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil(
-                  NameFormScreen.route(),
+                _navigator.pushNamedAndRemoveUntil(
+                  NameFormScreen.routeName,
                   (route) => false,
                 );
+                // _navigator.pushAndRemoveUntil(
+                //   NameFormScreen.route(),
+                //   (route) => false,
+                // );
                 break;
             }
           },
           child: child,
         );
       },
-      onGenerateRoute: (_) => NameFormScreen.route(),
+      // onGenerateRoute: (_) => NameFormScreen.route(),
+      // routes: {
+      //   NickNameFormScreen.routeName: (context) => NickNameFormScreen(),
+      // },
+      initialRoute: NameFormScreen.routeName,
+      routes: PositiveAffirmationsRoutes().routes(context),
     );
   }
 }

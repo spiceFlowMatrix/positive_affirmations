@@ -35,7 +35,11 @@ class NameForm extends StatelessWidget {
                 ? () {
                     context.read<SignUpBloc>().add(NameSubmitted());
                     final bloc = BlocProvider.of<SignUpBloc>(context);
-                    Navigator.of(context).push(NickNameFormScreen.route(bloc));
+                    Navigator.pushNamed(
+                      context,
+                      NickNameFormScreen.routeName,
+                      arguments: NickNameFormScreenArguments(bloc),
+                    );
                   }
                 : null,
             child: Text('NEXT'),
