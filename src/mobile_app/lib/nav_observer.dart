@@ -24,7 +24,6 @@ class PositiveAffirmationsNavigatorObserver extends NavigatorObserver {
     onPushed = (route, previousRoute) {
       final isExpectedRoutePushed = route.settings.name == expectedRouteName;
       // trigger callback if expected route is pushed
-      print('newRoute: ${route.toString()},\n previousRoute: ${previousRoute.toString()}');
       if(isExpectedRoutePushed) { pushCallback(); }
     };
   }

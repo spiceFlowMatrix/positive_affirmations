@@ -140,7 +140,7 @@ void main() {
 
       await tester.tap(find.byKey(PositiveAffirmationsKeys.nameSubmitButton));
 
-      // await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
 
       expect(isNickNameFormPushed, true);
 
@@ -148,10 +148,8 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      // verify(() => mockObserver.didPop(
-      //       NickNameFormScreen.route(signUpBloc),
-      //       NameFormScreen.route(),
-      //     ));
+      expect(isNickNameFormPopped, true);
+
     });
 
     group('[FormWiredToBloc]', () {
