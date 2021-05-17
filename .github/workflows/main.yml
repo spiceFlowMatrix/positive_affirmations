@@ -55,8 +55,7 @@ jobs:
 
       - name: Set up Firebase credential
         working-directory: ./src/mobile_app
-        run: ls
-#        run: echo ${{ secrets.FIREBASE_GOOGLE_SERVICES_JSON }} | base64 -d > app/google-services.json
+        run: echo ${{ secrets.FIREBASE_GOOGLE_SERVICES_JSON }} | base64 -d > android/app/google-services.json
 
       - name: Build DEBUG APK.
         working-directory: ./src/mobile_app
