@@ -47,25 +47,6 @@ void main() {
       navigatorObserver = PositiveAffirmationsNavigatorObserver();
     });
 
-    // test('NickName form screen is routable', () {
-    //   expect(NickNameFormScreen.route(signUpBloc), isA<MaterialPageRoute>());
-    // });
-
-    // testWidgets('NickNameForm renders when NameForm is submitted',
-    //     (tester) async {
-    //   when(() => signUpBloc.state).thenReturn(SignUpState(
-    //     name: const NameField.dirty(mockValidName),
-    //     nameStatus: FormzStatus.submissionSuccess,
-    //   ));
-    //
-    //   await tester.pumpWidget(NameFormFixture(signUpBloc));
-    //
-    //   expect(
-    //     find.byKey(PositiveAffirmationsKeys.nickNameFormScreen),
-    //     findsOneWidget,
-    //   );
-    // });
-
     testWidgets('components are rendered', (tester) async {
       // Setup
       when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
