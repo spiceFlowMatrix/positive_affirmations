@@ -75,9 +75,9 @@ class _NameField extends StatelessWidget {
   String _generateErrorText(NameFieldValidationError error) {
     switch (error) {
       case NameFieldValidationError.empty:
-        return 'This is required';
+        return 'Come on, I\'d like to know your name';
       case NameFieldValidationError.invalid:
-        return 'Name cannot include any symbols';
+        return 'Apologies, my rule-set cannot allow names like that.\nPlease let the devs know if you\'d like it otherwise.';
     }
   }
 

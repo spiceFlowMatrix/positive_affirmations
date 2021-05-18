@@ -79,7 +79,7 @@ class _NickNameField extends StatelessWidget {
   String _generateErrorText(NickNameFieldValidationError error) {
     switch (error) {
       case NickNameFieldValidationError.invalid:
-        return 'Nickname cannot include any symbols';
+        return 'Apologies, my rule-set cannot allow names like that.\nPlease let the devs know if you\'d like it otherwise.';
     }
   }
 
