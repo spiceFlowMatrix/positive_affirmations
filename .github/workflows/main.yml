@@ -35,12 +35,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       # Setup Java environment
       - uses: actions/checkout@v2
+        working-directory: $HOME
       - uses: actions/setup-java@v1
+        working-directory: $HOME
         with:
           java-version: '12.x'
 
       # Setup flutter environment.
       - uses: subosito/flutter-action@v1
+        working-directory: $HOME
         with:
           flutter-version: '2.0.5'
 
