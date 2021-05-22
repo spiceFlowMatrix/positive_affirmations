@@ -30,7 +30,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: DEBUG
-        run: cd /
+        run: cd ..
+      - name: DEBUG
+        run: cd ..
       - name: DEBUG PRNT
         run: ls
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
