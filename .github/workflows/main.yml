@@ -19,10 +19,19 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
+
+    container:
+      image: gcr.io/positive-affirmations-313800/droid-deploy-env:latest
+      credentials:
+        username: _json_key
+        password: ${{ secrets.GCR_JSON_KEY }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: DEBUG
+        run: ls
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       # Setup Java environment
       - uses: actions/checkout@v2
