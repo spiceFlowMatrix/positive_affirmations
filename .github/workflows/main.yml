@@ -36,17 +36,13 @@ jobs:
         with:
           java-version: '12.x'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
       # Setup flutter environment.
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '2.2.0'
-
-      - name: Configure Android SDK
-        run: flutter config --android-sdk /opt/android-sdk/cmdline-tools/tools/lib
-
-      - name: Accept Android licenses
-        working-directory: ./src/mobile_app
-        run: flutter doctor
 
       - name: Get flutter dependencies
         working-directory: ./src/mobile_app
