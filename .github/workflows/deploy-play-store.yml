@@ -1,0 +1,37 @@
+name: Deploy to Play Store
+on:
+  workflow_dispatch:
+    # Enable manual run
+    inputs:
+      lane:
+        description: 'Fastlane lane to use (beta OR promote_to_production OR production)'
+        required: true
+        default: 'beta'
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+jobs:
+  fastlane-deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      # Set up Flutter.
+      - name: Clone Flutter repository with master channel
+        uses: subosito/flutter-action@v1.5.0
+        with:
+          channel: master
+      - run: flutter doctor -v
+
+      # Checkout gallery code and get packages.
+      - name: Checkout gallery code
+        uses: actions/checkout@v2
+      - run: flutter pub get
+
+      # Setup Ruby, Bundler, and Gemfile dependencies
+      - name: Setup Fastlane
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+          bundler-cache: true
+          working-directory: android
