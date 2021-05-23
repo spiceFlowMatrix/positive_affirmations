@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
+import 'package:mobile_app/positive_affirmations_keys.dart';
 
 class AppSummaryScreenArguments {
   AppSummaryScreenArguments(this.bloc);
@@ -12,8 +14,17 @@ class AppSummaryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _AppSummary(),
+    // Extract the arguments from the current ModalRoute
+    // settings and cast them as ScreenArguments.
+    final args =
+        ModalRoute.of(context)!.settings.arguments as AppSummaryScreenArguments;
+
+    return BlocProvider.value(
+      value: args.bloc,
+      child: Scaffold(
+        key: PositiveAffirmationsKeys.appSummaryScreen,
+        body: _AppSummary(),
+      ),
     );
   }
 }
