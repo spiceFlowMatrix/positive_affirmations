@@ -1,0 +1,42 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Submit a new Beta build to Google Play internal track"
+  lane :beta do
+    gradle(task: "bundle", build_type: "Release")
+    upload_to_play_store(
+      track: 'internal',
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+      json_key: ENV['PLAY_STORE_CONFIG_JSON'],
+      # json_key_data: ENV['PLAY_STORE_CONFIG_JSON'],
+    )
+    firebase_app_distribution(
+      app: ENV['FIREBASE_APP_DIST_APP'],
+      testers: ENV['FIREBASE_APP_DIST_TESTERS'],
+      # release_notes: "Initial commit!",
+      release_notes_file: "../release_notes.txt",
+      android_artifact_type: "AAB",
+      android_artifact_path: "../build/app/outputs/bundle/release/app-release.aab"
+    )
+  end
+end
