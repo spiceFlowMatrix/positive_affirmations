@@ -64,5 +64,6 @@ jobs:
 
       - name: Build DEBUG APK.
         working-directory: ./src/mobile_app
-        env: ${{ ANDROID_SDK_ROOT }}
+        env:
+          ANDROID_SDK_ROOT: ${{ ANDROID_SDK_ROOT }}
         run: flutter build apk --debug
