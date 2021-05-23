@@ -6,7 +6,7 @@ on:
       lane:
         description: 'Fastlane lane to use (beta OR promote_to_production OR production)'
         required: true
-        default: 'beta'
+#        default: 'beta'
   push:
     # Sequence of patterns matched against refs/tags
     tags:
