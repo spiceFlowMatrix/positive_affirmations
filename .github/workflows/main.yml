@@ -39,7 +39,7 @@ jobs:
       # Setup flutter environment.
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '2.0.5'
+          flutter-version: '2.2.0'
 
 
       - name: Get flutter dependencies
@@ -64,4 +64,5 @@ jobs:
 
       - name: Build DEBUG APK.
         working-directory: ./src/mobile_app
+        env: ${{ ANDROID_SDK_ROOT }}
         run: flutter build apk --debug
