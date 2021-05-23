@@ -41,6 +41,9 @@ jobs:
         with:
           flutter-version: '2.2.0'
 
+      - name: Configure Android SDK
+        run: flutter config --android-sdk /opt/android-sdk
+
       - name: Accept Android licenses
         working-directory: ./src/mobile_app
         run: flutter doctor
