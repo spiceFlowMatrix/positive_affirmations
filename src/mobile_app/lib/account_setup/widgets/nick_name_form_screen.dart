@@ -5,22 +5,14 @@ import 'package:mobile_app/account_setup/widgets/nick_name_form.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 
 class NickNameFormScreenArguments {
+  /// Can only route to this screen from nameForm and appSummary screens.
+  /// So makes sense to reuse the same bloc value instead of creating a new one.
   NickNameFormScreenArguments(this.bloc);
 
   final SignUpBloc bloc;
 }
 
 class NickNameFormScreen extends StatelessWidget {
-  // /// Can only route to this screen from nameForm and appSummary screens.
-  // /// So makes sense to reuse the same bloc value instead of creating a new one.
-  // const NickNameFormScreen(this.bloc);
-  //
-  // final SignUpBloc bloc;
-  //
-  // static Route route(SignUpBloc bloc) {
-  //   return MaterialPageRoute<void>(builder: (_) => NickNameFormScreen(bloc));
-  // }
-
   static const routeName = '/nickNameFormScreen';
 
   @override
