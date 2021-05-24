@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 
@@ -32,6 +33,27 @@ class AppSummaryScreen extends StatelessWidget {
 class _AppSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('App summary screen'));
+    return Column(
+      children: [
+        ListTile(),
+        _ScreenControls(),
+      ],
+    );
+  }
+}
+
+class _ScreenControls extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: FaIcon(
+        FontAwesomeIcons.chevronLeft,
+        key: PositiveAffirmationsKeys.changeNickNameButton,
+      ),
+      trailing: TextButton(
+        onPressed: () {},
+        child: Text('SKIP'),
+      ),
+    );
   }
 }
