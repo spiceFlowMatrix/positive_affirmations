@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/account_setup/widgets/app_summary_screen.dart';
 import 'package:mobile_app/account_setup/widgets/name_form_screen.dart';
 import 'package:mobile_app/account_setup/widgets/nick_name_form_screen.dart';
 
@@ -9,6 +10,7 @@ class PositiveAffirmationsRoutes {
       // '/': (context) => NameFormScreen(),
       NameFormScreen.routeName: (context) => NameFormScreen(),
       NickNameFormScreen.routeName: (context) => NickNameFormScreen(),
+      AppSummaryScreen.routeName: (context) => AppSummaryScreen(),
     };
   }
 // Map<String, Widget Function(BuildContext)> get  routes = () {

@@ -5,9 +5,5 @@ void main() {
     setUpAll(() {});
 
     setUp(() {});
-
-    // test('Name form screen is routable', () {
-    //   expect(NameFormScreen.route(), isA<MaterialPageRoute>());
-    // });
   });
 }

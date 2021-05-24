@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/account_setup/models/models.dart';
+import 'package:mobile_app/account_setup/widgets/app_summary_screen.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
 
@@ -112,7 +113,15 @@ class _SubmitButton extends StatelessWidget {
           key: PositiveAffirmationsKeys.nickNameSubmitButton,
           onPressed:
               state.nickNameStatus.isValidated || state.nickNameStatus.isPure
-                  ? () => context.read<SignUpBloc>().add(NickNameSubmitted())
+                  ? () {
+                      context.read<SignUpBloc>().add(NickNameSubmitted());
+                      final bloc = BlocProvider.of<SignUpBloc>(context);
+                      Navigator.pushNamed(
+                        context,
+                        AppSummaryScreen.routeName,
+                        arguments: AppSummaryScreenArguments(bloc),
+                      );
+                    }
                   : null,
           child: Text('NEXT'),
         );
