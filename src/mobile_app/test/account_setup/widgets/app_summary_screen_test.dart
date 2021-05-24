@@ -28,6 +28,8 @@ void main() {
   const mockValidSignUpState = SignUpState(
     name: const NameField.dirty(mockValidName),
     nameStatus: FormzStatus.submissionSuccess,
+    nickName: const NickNameField.dirty(mockValidNickName),
+    nickNameStatus: FormzStatus.submissionSuccess,
   );
   group('[AppSummaryScreen]', () {
     late SignUpBloc signUpBloc;
@@ -44,6 +46,7 @@ void main() {
     });
 
     testWidgets('all components exist', (tester) async {
+      when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
       await tester.pumpWidget(AppSummaryScreenFixture(signUpBloc));
 
       expect(
@@ -95,7 +98,6 @@ void main() {
         },
       );
 
-
       await tester.enterText(
         find.byKey(PositiveAffirmationsKeys.nameField),
         mockValidName,
@@ -109,12 +111,13 @@ void main() {
 
       navigatorObserver.attachPushRouteObserver(
         AppSummaryScreen.routeName,
-            () {
+        () {
           isAppSummaryScreenPushed = true;
         },
       );
 
-      await tester.tap(find.byKey(PositiveAffirmationsKeys.nickNameSubmitButton));
+      await tester
+          .tap(find.byKey(PositiveAffirmationsKeys.nickNameSubmitButton));
 
       await tester.pumpAndSettle();
 
