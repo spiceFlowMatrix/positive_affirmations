@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
+import 'package:mobile_app/positive_affirmations_theme.dart';
 
 class AppSummaryScreenArguments {
   AppSummaryScreenArguments(this.bloc);
@@ -34,9 +35,25 @@ class _AppSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ListTile(),
         _ScreenControls(),
+        _UserNameHeader(),
+        Text(
+          'Allow me to explain what I can do for you.',
+          key: PositiveAffirmationsKeys.appSummaryHeader,
+          textAlign: TextAlign.left,
+          style: PositiveAffirmationsTheme.theme.textTheme.headline1?.copyWith(
+            fontSize: 23,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        Text(
+          'You can skip this at any time if you\'re getting bored though.',
+          key: PositiveAffirmationsKeys.appSummarySubheader,
+        ),
       ],
     );
   }
@@ -54,6 +71,38 @@ class _ScreenControls extends StatelessWidget {
         onPressed: () {},
         child: Text('SKIP'),
       ),
+    );
+  }
+}
+
+class _UserNameHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpBloc, SignUpState>(
+      builder: (context, state) {
+        return RichText(
+          key: PositiveAffirmationsKeys.appSummaryUserNameHeader,
+          text: TextSpan(
+            style:
+                PositiveAffirmationsTheme.theme.textTheme.headline1?.copyWith(
+              fontSize: 23,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+            children: [
+              TextSpan(text: 'Alright, '),
+              TextSpan(
+                text:
+                    '${state.nickName.value.isNotEmpty ? state.nickName.value : state.name.value}',
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  decorationStyle: TextDecorationStyle.solid,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
