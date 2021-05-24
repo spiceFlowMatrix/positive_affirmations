@@ -12,24 +12,25 @@ class AppSummaryScreenFixture extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       onGenerateRoute: (settings) {
-        if (settings.name == AppSummaryScreen.routeName) {
-          final args = AppSummaryScreenArguments(bloc);
+        // if (settings.name == AppSummaryScreen.routeName) {
+        //
+        // }
 
-          return MaterialPageRoute(
-            builder: (context) {
-              return AppSummaryScreen();
-            },
-            settings: RouteSettings(
-              name: AppSummaryScreen.routeName,
-              arguments: args,
-            ),
-          );
-        }
+        final args = AppSummaryScreenArguments(bloc);
 
-        return null;
+        return MaterialPageRoute(
+          builder: (context) {
+            return AppSummaryScreen();
+          },
+          settings: RouteSettings(
+            name: AppSummaryScreen.routeName,
+            arguments: args,
+          ),
+        );
       },
       initialRoute: AppSummaryScreen.routeName,
-      routes: PositiveAffirmationsRoutes().routes(context),
+      // Removed routes definition because it conflicts with onGenerateRoute
+      // routes: PositiveAffirmationsRoutes().routes(context),
     );
   }
 }
