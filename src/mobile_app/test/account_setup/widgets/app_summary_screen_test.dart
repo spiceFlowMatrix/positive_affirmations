@@ -94,12 +94,7 @@ void main() {
           isNickNameFormPushed = true;
         },
       );
-      navigatorObserver.attachPushRouteObserver(
-        AppSummaryScreen.routeName,
-        () {
-          isAppSummaryScreenPushed = true;
-        },
-      );
+
 
       await tester.enterText(
         find.byKey(PositiveAffirmationsKeys.nameField),
@@ -111,6 +106,13 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(isNickNameFormPushed, true);
+
+      navigatorObserver.attachPushRouteObserver(
+        AppSummaryScreen.routeName,
+            () {
+          isAppSummaryScreenPushed = true;
+        },
+      );
 
       await tester.tap(find.byKey(PositiveAffirmationsKeys.nickNameSubmitButton));
 
