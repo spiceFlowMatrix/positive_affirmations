@@ -1,18 +1,22 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany } from 'typeorm';
-import { AffirmationEntity } from './affirmation.entity';
+import { Entity, Column, OneToOne, OneToMany, PrimaryColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { AffirmationEntity } from '../../affirmations/entities/affirmation.entity';
 import { LetterEntity } from './letter.entity';
 import { PhotoEntity } from './photo.entity';
 import { ReactionEntity } from './reaction.entity';
-import { ReaffirmationEntity } from './reaffirmation.entity';
+import { ReaffirmationEntity } from '../../affirmations/entities/reaffirmation.entity';
+import { ColumnNumericTransformer } from '@web-stack/typeorm-column-transformers';
 
 /**
- * TODO:
- * - Which fields should be nullable? (i.e. affirmations, reactions, letters)
+ * TODO
+ * - Consider removing the modifiedOn field if not required.
  */
 @Entity({ name: 'user' })
 export class UserEntity {
-    @PrimaryGeneratedColumn('uuid')
-    public id: string;
+    @PrimaryColumn('bigint', {
+      transformer: new ColumnNumericTransformer(),
+      generated: 'increment',
+    })
+    public id: number;
 
     // Reference for column types to database compatibility:
     // https://github.com/typeorm/typeorm/blob/master/src/driver/types/ColumnTypes.ts
@@ -43,8 +47,14 @@ export class UserEntity {
     @OneToOne((type) => PhotoEntity, (photo) => photo.user)
     public photo: PhotoEntity;
 
+    @CreateDateColumn()
+    public createdOn: Date;
+
+    @UpdateDateColumn()
+    public modifedOn: Date;
+
     constructor(
-        id: string,
+        id: number,
         name: string,
         description: string,
         affirmations: AffirmationEntity[],
@@ -52,6 +62,7 @@ export class UserEntity {
         letters: LetterEntity[],
         reactions: ReactionEntity[],
         photo: PhotoEntity,
+        archived = false,
         nickname?: string
         ) {
             this.id = id;
@@ -63,6 +74,6 @@ export class UserEntity {
             this.reactions = reactions;
             this.photo = photo;
             this.nickname = nickname;
-            this.archived = false;
+            this.archived = archived;
     }
 }

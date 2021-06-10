@@ -1,14 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { Entity, Column, OneToOne, PrimaryColumn, CreateDateColumn } from 'typeorm';
 import { UserEntity } from './user.entity';
+import { ColumnNumericTransformer } from '@web-stack/typeorm-column-transformers';
 
 /**
  * TODO
- * - Will the schema require anything else for bucket configuration?
+ * - What else will the schema require for bucket configuration?
+ * - Update constructor after bucket config schema is done
  */
 @Entity({ name: 'photo' })
 export class PhotoEntity {
-    @PrimaryGeneratedColumn('uuid')
-    public id: string;
+    @PrimaryColumn('bigint', {
+      transformer: new ColumnNumericTransformer(),
+      generated: 'increment',
+    })
+    public id: number;
 
     // Reference for column types to database compatibility:
     // https://github.com/typeorm/typeorm/blob/master/src/driver/types/ColumnTypes.ts
@@ -22,14 +27,36 @@ export class PhotoEntity {
 
     @OneToOne((type) => UserEntity, (user) => user.photo)
     public user: UserEntity;
-    
-    constructor(
-        id: string,
+
+    @Column('boolean')
+    public archived: boolean;
+
+    @CreateDateColumn()
+    public createdOn: Date;
+
+    // Bucket configuration
+
+    @Column('text')
+    public bucketFileID: string;
+
+    @Column('text')
+    public bucketName: string;
+
+    @Column('text')
+    public filePath: string;
+
+    @Column('boolean')
+    public uploaded: boolean;
+
+  constructor(
+        id: number,
+        archived = false,
         filename?: string,
         alt?: string
         ) {
         this.id = id;
         this.filename = filename;
         this.alt = alt;
+        this.archived = archived;
     }
 }

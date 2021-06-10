@@ -209,6 +209,27 @@
           }
         }
       }
+    },
+    "typeorm-column-transformers": {
+      "root": "libs/typeorm-column-transformers",
+      "sourceRoot": "libs/typeorm-column-transformers/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/typeorm-column-transformers/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/typeorm-column-transformers"],
+          "options": {
+            "jestConfig": "libs/typeorm-column-transformers/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

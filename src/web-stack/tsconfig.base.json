@@ -15,7 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@web-stack/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@web-stack/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@web-stack/typeorm-column-transformers": [
+        "libs/typeorm-column-transformers/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
