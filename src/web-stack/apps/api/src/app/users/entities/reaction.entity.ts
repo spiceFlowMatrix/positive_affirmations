@@ -22,7 +22,7 @@ export class ReactionEntity {
     @ManyToOne((type) => AffirmationEntity, affirmation => affirmation.reactions)
     public affirmation: AffirmationEntity;
 
-    @Column('enum', { nullable: true })
+    @Column('enum', { enum: ReactionType, nullable: true })
     public reactionType?: ReactionType;
 
     @ManyToOne((type) => UserEntity, (user) => user.reactions)

@@ -10,7 +10,7 @@ import { ColumnNumericTransformer } from '@web-stack/typeorm-column-transformers
  * TODO
  * - Consider removing the modifiedOn field if not required.
  */
-@Entity({ name: 'user' })
+@Entity({ name: 'users' })
 export class UserEntity {
     @PrimaryColumn('bigint', {
       transformer: new ColumnNumericTransformer(),
