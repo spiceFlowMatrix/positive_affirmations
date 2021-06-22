@@ -1,3 +1,18 @@
-/**
- * TODO implement using: https://github.com/HRahimy/showcasejs/blob/user_profile/apps/api/src/app/users/users.controller.spec.ts
- */
+import { Test, TestingModule } from '@nestjs/testing';
+import { UsersController } from './users.controller';
+
+describe('UsersController', () => {
+  let controller: UsersController;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [UsersController],
+    }).compile();
+
+    controller = module.get<UsersController>(UsersController);
+  });
+
+  it('should be defined', () => {
+    expect(controller).toBeDefined();
+  });
+});

@@ -26,10 +26,10 @@ export class UserEntity {
     @Column('text', { nullable: true })
     public nickname?: string;
 
-    @Column('text')
-    public description: string;
+    @Column('text', { nullable: true })
+    public description?: string;
 
-    @Column('boolean')
+    @Column('boolean', {default: false})
     public archived: boolean;
 
     @OneToMany((type) => AffirmationEntity, (affirmation) => affirmation.user)
@@ -53,27 +53,27 @@ export class UserEntity {
     @UpdateDateColumn()
     public modifedOn: Date;
 
-    constructor(
-        id: number,
-        name: string,
-        description: string,
-        affirmations: AffirmationEntity[],
-        reaffirmations: ReaffirmationEntity[],
-        letters: LetterEntity[],
-        reactions: ReactionEntity[],
-        photo: PhotoEntity,
-        archived = false,
-        nickname?: string
-        ) {
-            this.id = id;
-            this.name = name;
-            this.description = description;
-            this.affirmations = affirmations;
-            this.reaffirmations = reaffirmations;
-            this.letters = letters;
-            this.reactions = reactions;
-            this.photo = photo;
-            this.nickname = nickname;
-            this.archived = archived;
-    }
+    // constructor(
+    //     id: number,
+    //     name: string,
+    //     description: string,
+    //     affirmations: AffirmationEntity[],
+    //     reaffirmations: ReaffirmationEntity[],
+    //     letters: LetterEntity[],
+    //     reactions: ReactionEntity[],
+    //     photo: PhotoEntity,
+    //     archived = false,
+    //     nickname?: string
+    //     ) {
+    //         this.id = id;
+    //         this.name = name;
+    //         this.description = description;
+    //         this.affirmations = affirmations;
+    //         this.reaffirmations = reaffirmations;
+    //         this.letters = letters;
+    //         this.reactions = reactions;
+    //         this.photo = photo;
+    //         this.nickname = nickname;
+    //         this.archived = archived;
+    // }
 }
