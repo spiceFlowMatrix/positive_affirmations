@@ -23,10 +23,12 @@ jobs:
           channel: master
       - run: flutter doctor -v
 
-      # Checkout gallery code and get packages.
-      - name: Checkout gallery code
+
+      - name: Checkout application code
         uses: actions/checkout@v2
+
       - run: flutter pub get
+        working-directory: src/mobile_app
 
       # Setup Ruby, Bundler, and Gemfile dependencies
       - name: Setup Fastlane
