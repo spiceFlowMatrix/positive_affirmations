@@ -14,3 +14,15 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## CI/CD
+
+### Environment variables required
+
+- PLAY_STORE_CONFIG_JSON: Actual content of the Play Store API access service account json key. This content will be written onto a json file in local file system before its path is passed as an environment variable to steps that need it.
+- KEYSTORE_KEY_ALIAS: jks alias
+- KEYSTORE_STORE_PASSWORD: jks store password
+- KEYSTORE_KEY_PASSWORD: jks key password
+- FIREBASE_APP_DIST_APP: app id of the firebase app connected to the mobile app.
+- FIREBASE_APP_DIST_APP: Base64 encoded jks file for the mobile app
+- FIREBASE_GOOGLE_SERVICES_JSON: json content of the google services file that needs to exist at ./src/mobile_app/android/app/google-services.json
