@@ -136,7 +136,14 @@ class _AnimatedBody extends StatelessWidget {
     return AnimatedTextKit(
       animatedTexts: [
         TyperAnimatedText(
-          'Hello World',
+          'I\'m your very own cheerleader',
+          textStyle: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        TyperAnimatedText(
+          'You can count on me to, well, cheer you on. Always.',
         ),
       ],
       displayFullTextOnTap: true,
