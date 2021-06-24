@@ -43,7 +43,7 @@ platform :android do
   desc "Promote beta track to prod"
   lane :promote_to_production do
     upload_to_play_store(
-      track: 'beta',
+      track: 'internal',
       track_promote_to: 'production',
       skip_upload_changelogs: true,
       json_key: ENV['PLAY_STORE_CONFIG_JSON'],
