@@ -62,7 +62,7 @@ jobs:
       # Naturally, promote_to_production only deploys.
       - run: bundle exec fastlane ${{ github.event.inputs.lane || 'beta' }}
         env:
-          PLAY_STORE_UPLOAD_KEY_PATH: app/upload-keystore.jks
+          PLAY_STORE_CONFIG_JSON: ${{ secrets.PLAY_STORE_CONFIG_JSON }}
           FIREBASE_APP_DIST_APP: ${{ secrets.FIREBASE_APP_DIST_APP }}
           FIREBASE_APP_DIST_TESTERS: ${{ secrets.FIREBASE_APP_DIST_TESTERS }}
         working-directory: src/mobile_app/android
