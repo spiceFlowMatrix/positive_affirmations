@@ -27,7 +27,7 @@ platform :android do
     upload_to_play_store(
       track: 'internal',
       aab: "../build/app/outputs/bundle/release/app-release.aab",
-      json_key: ENV['PLAY_STORE_CONFIG_JSON'],
+      json_key: ENV['PLAY_STORE_UPLOAD_KEY_PATH'],
       # json_key_data: ENV['PLAY_STORE_CONFIG_JSON'],
     )
     firebase_app_distribution(
@@ -46,7 +46,7 @@ platform :android do
       track: 'beta',
       track_promote_to: 'production',
       skip_upload_changelogs: true,
-      json_key: ENV['PLAY_STORE_CONFIG_JSON'],
+      json_key: ENV['PLAY_STORE_UPLOAD_KEY_PATH'],
       # json_key_data: ENV['PLAY_STORE_CONFIG_JSON'],
     )
   end
