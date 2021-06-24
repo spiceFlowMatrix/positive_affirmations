@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/account_setup/widgets/app_summary_screen.dart';
-import 'package:mobile_app/positive_affirmations_routes.dart';
 
 class AppSummaryScreenFixture extends StatelessWidget {
   const AppSummaryScreenFixture(this.bloc);

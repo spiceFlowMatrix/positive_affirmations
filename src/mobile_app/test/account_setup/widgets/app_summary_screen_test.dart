@@ -24,7 +24,7 @@ class MockNameField extends Mock implements NameField {}
 void main() {
   const mockValidName = 'validName';
   const mockValidNickName = 'validNickName';
-  const mockInvalidNickName = '35.n\'fwe342-';
+  // const mockInvalidNickName = '35.n\'fwe342-';
   const mockValidSignUpState = SignUpState(
     name: const NameField.dirty(mockValidName),
     nameStatus: FormzStatus.submissionSuccess,
