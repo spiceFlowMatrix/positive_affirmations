@@ -1,0 +1,839 @@
+openapi: 3.0.0
+info:
+  title: Positive Affirmations REST API
+  description: Specification document defining all the functionality of the REST API for Positive Affirmations application
+  version: 0.1.0
+
+servers:
+  - url: http://positive-affirmations.quadimension.com/api/v1
+    description: Main (production) server
+  - url: http://localhost:3333/api/v1
+    description: Internal staging server for testing
+
+paths:
+  /files:
+    post:
+      tags:
+        - files
+      summary: Creates a signed url for uploading a given file
+      operationId: createFileUploadUrlCommand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFileUploadUrlCommand'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateFileUploadUrlCommandResponseData'
+
+  /files/{fileId}:
+    patch:
+      tags:
+        - files
+      summary: Signal that upload process for the given file was completed
+      operationId: completeFileUploadCommand
+      parameters:
+        - in: path
+          name: fileId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompleteFileUploadCommandResponseData'
+
+  /members:
+    post:
+      tags:
+        - members
+      summary: Creates a new member with given parameters
+      operationId: createMemberCommand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMemberCommand'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMemberCommandResponseData'
+
+  /members/{memberId}:
+    get:
+      tags:
+        - members
+      security:
+        - oAuth:
+            - read_member
+      summary: Returns a member's profile details
+      parameters:
+        - in: path
+          name: memberId
+          required: true
+          schema:
+            type: integer
+        - in: query
+          description: If `profileDetails` is supplied in array, response MUST include `profileDetails` field. \n If `affirmations` is supplied in array, response MUST include `totalAffirmations` and `affirmations` fields. \n If `letters` is supplied in array, response MUST include `totalLetters` and `letters` fields.
+          name: fieldQuery
+          required: true
+          schema:
+            $ref: '#/components/schemas/GetMemberProfileQuery'
+        - in: query
+          description: Used for pagination to skip specified amount of entries
+          name: listSkip
+          required: false
+          schema:
+            type: integer
+        - in: query
+          description: Used for pagination to take specified amount of entries
+          name: listTake
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMemberProfileQueryResponseData'
+
+    patch:
+      tags:
+        - members
+      summary: Set a new file as the profile picture of the given user
+      operationId: setMemberProfilePictureCommand
+      parameters:
+        - in: path
+          name: memberId
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: uploadedFileId
+          required: true
+          schema:
+            type: integer
+#            $ref: '#/components/schemas/SetMemberProfilePictureCommand'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetMemberProfilePictureCommandResponseData'
+
+    put:
+      tags:
+        - members
+      summary: Update the details of the given member
+      operationId: updateMemberProfileCommand
+      parameters:
+        - in: path
+          name: memberId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMemberProfileCommand'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateMemberProfileCommandResponseData'
+
+  /affirmations:
+    post:
+      tags:
+        - affirmations
+      summary: Creates a new affirmation with the given details
+      operationId: createAffirmationCommand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAffirmationCommand'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAffirmationCommandResponseData'
+
+    get:
+      tags:
+        - affirmations
+      summary: Get a list of affirmations
+      operationId: getAffirmationsListQuery
+      parameters:
+        - in: query
+          name: skip
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: take
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAffirmationsListQueryResponseData'
+
+  /affirmations/{affirmationId}:
+    get:
+      tags:
+        - affirmations
+      summary: Get details of a specific affirmation
+      operationId: getAffirmationQuery
+      parameters:
+        - in: path
+          name: affirmationId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAffirmationQueryResponseData'
+
+    put:
+      tags:
+        - affirmations
+      summary: Update the details of the given affirmation
+      operationId: updateAffirmationCommand
+      parameters:
+        - in: path
+          name: affirmationId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAffirmationCommand'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAffirmationCommandResponseData'
+
+    patch:
+      tags:
+        - affirmations
+      summary: Deactivate affirmation with given ID
+      operationId: deactivateAffirmationCommand
+      parameters:
+        - in: path
+          name: affirmationId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeactivateAffirmationCommandResponseData'
+
+    delete:
+      tags:
+        - affirmations
+      summary: Delete affirmation with given ID
+      operationId: deleteAffirmationCommand
+      parameters:
+        - in: path
+          name: affirmationId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteAffirmationCommandResponseData'
+
+  /affirmations/{affirmationId}/activate:
+    patch:
+      tags:
+        - affirmations
+      summary: Activate affirmation with given ID
+      operationId: activateAffirmationCommand
+      parameters:
+        - in: path
+          name: affirmationId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivateAffirmationCommandResponseData'
+
+  /reaffirmations:
+    get:
+      tags:
+        - reaffirmations
+      summary: Get the form metadata for creating new reaffirmations.
+      description: Since the metadata that the server responds with will refer to static assets that must exist within the mobile app installation, as a bonus we can also use this to check if the user has the latest version of the mobile app installed. If they don't have a certain asset on their device, that means they don't have the latest version of the app installed.
+      operationId: getReaffirmationFormMetadataQuery
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetReaffirmationFormMetadataQueryResponseData'
+
+    post:
+      tags:
+        - reaffirmations
+      summary: Creates a new reaffirmation with the given details
+      operationId: createReaffirmationCommand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReaffirmationCommand'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateReaffirmationCommandResponseData'
+
+  /letters/{letterId}:
+    get:
+      tags:
+        - letters
+      summary: Get the details of a given letter
+      operationId: getLetterQuery
+      parameters:
+        - in: path
+          name: letterId
+          description: ID of the letter to be fetched
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLetterQueryResponseData'
+
+components:
+  securitySchemes:
+    oAuth:
+      type: oauth2
+      description: This API uses OAuth 2 with the authorizationCode grant flow. This grant flow is required for mobile apps as [specified here](https://developers.google.com/identity/protocols/oauth2/native-app#exchange-authorization-code).
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.example.com/oauth2/authorize
+          tokenUrl: https://api.example.com/oauth2/authorize
+          scopes:
+            read_member: Members reading their own details and other members' details.
+            read_members: Read details of all members.
+            update_member: Members updating their own details.
+            write_affirmations: Create new affirmations
+            update_affirmation: Update affirmations created by yourself
+            update_affirmations: Update any affirmation
+
+  schemas:
+    ApiResponse:
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+
+    Member:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        nickName:
+          type: string
+        profilePicture:
+          $ref: '#/components/schemas/FileDto'
+        selfSummary:
+          type: string
+        totalAffirmations:
+          type: integer
+          default: 0
+        totalLetters:
+          type: integer
+          default: 0
+        totalReaffirmations:
+          type: integer
+          default: 0
+        createdOn:
+          type: string
+          format: date-time
+        modifiedOn:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - createdOn
+        - modifiedOn
+
+    FileDto:
+      properties:
+        id:
+          type: integer
+        contentType:
+          description: See [object metadata](https://cloud.google.com/storage/docs/metadata) and more specifically, [content type metadata](https://cloud.google.com/storage/docs/metadata#content-type) to learn more.
+          type: string
+          enum:
+            - application/json
+            - application/mp4
+            - video/mp4
+            - text/plain
+            - image/jpeg
+            - image/png
+        path:
+          description: The full path (starting at the root) of the file in the bucket
+          type: string
+        sizeInBytes:
+          type: integer
+        uploaded:
+          type: boolean
+        signedUrlType:
+          type: string
+          description: Does this URL allow downloading or uploading?
+          enum:
+            - upload
+            - download
+        signedUrl:
+          type: string
+      required:
+        - id
+        - contentType
+        - path
+        - signedUrlType
+        - signedUrl
+        - sizeInBytes
+        - uploaded
+
+    Affirmation:
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        subtitle:
+          type: string
+        liked:
+          type: boolean
+        totalLikes:
+          type: integer
+        totalReaffirmations:
+          type: integer
+        active:
+          type: boolean
+        createdOn:
+          type: string
+          format: date-time
+        modifiedOn:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - liked
+        - totalLikes
+        - totalReaffirmations
+        - active
+        - createdOn
+        - modifiedOn
+
+    NoteDto:
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        staticAsset:
+          description: The static asset that this note is stored as in the mobile app
+          type: string
+
+    FontDto:
+      properties:
+        id:
+          type: integer
+        title:
+          description: Font family
+          type: string
+        staticAsset:
+          description: The static asset that this font is stored as in the mobile app
+          type: string
+
+    StampDto:
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        staticAsset:
+          description: The static asset that this stamp is stored as in the mobile app
+          type: string
+
+    Reaffirmation:
+      properties:
+        id:
+          type: integer
+        note:
+          $ref: '#/components/schemas/NoteDto'
+        font:
+          $ref: '#/components/schemas/FontDto'
+        stamp:
+          $ref: '#/components/schemas/StampDto'
+        createdOn:
+          type: string
+          format: date-time
+      required:
+        - id
+        - note
+        - font
+        - stamp
+        - createdOn
+
+    LetterItem:
+      description: Simple version of a letter to be used in lists
+      properties:
+        id:
+          type: integer
+        letterDate:
+          type: string
+          format: date-time
+        createdOn:
+          type: string
+          format: date-time
+        seen:
+          type: boolean
+        seenOn:
+          type: string
+          format: date-time
+
+    Letter:
+      description: Simple version of a letter to be used in lists
+      properties:
+        id:
+          type: integer
+        letterDate:
+          type: string
+          format: date-time
+        createdOn:
+          type: string
+          format: date-time
+        seen:
+          type: boolean
+        seenOn:
+          type: string
+          format: date-time
+        affirmation:
+          $ref: '#/components/schemas/Affirmation'
+        totalReaffirmations:
+          type: integer
+        reaffirmations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reaffirmation'
+
+    CreateFileUploadUrlCommand:
+      properties:
+        fileName:
+          type: string
+        contentType:
+          type: string
+          enum:
+            - application/json
+            - application/mp4
+            - video/mp4
+            - text/plain
+            - image/jpeg
+            - image/png
+        sizeInBytes:
+          type: integer
+      required:
+        - fileName
+        - contentType
+        - sizeInBytes
+    CreateFileUploadUrlCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/FileDto'
+
+    CompleteFileUploadCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/FileDto'
+
+    CreateMemberCommand:
+      properties:
+        name:
+          type: string
+        nickName:
+          type: string
+      required:
+        - name
+    CreateMemberCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Member'
+
+    GetMemberProfileQuery:
+      description: If `profileDetails` is supplied in array, response MUST include `profileDetails` field. \n If `affirmations` is supplied in array, response MUST include `totalAffirmations` and `affirmations` fields. \n If `letters` is supplied in array, response MUST include `totalLetters` and `letters` fields.
+      type: array
+      items:
+        format: string
+        enum:
+          - profileDetails
+          - affirmations
+          - letters
+    GetMemberProfileQueryResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          properties:
+            profileDetails:
+              $ref: '#/components/schemas/Member'
+            totalAffirmations:
+              type: integer
+            affirmations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Affirmation'
+            totalLetters:
+              type: integer
+            letters:
+              type: array
+              items:
+                $ref: '#/components/schemas/LetterItem'
+
+    UpdateMemberProfileCommand:
+      properties:
+        name:
+          type: string
+        nickName:
+          type: string
+        selfSummary:
+          type: string
+    UpdateMemberProfileCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Member'
+
+    SetMemberProfilePictureCommand:
+      properties:
+        uploadedFileId:
+          type: integer
+    SetMemberProfilePictureCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Member'
+
+    CreateAffirmationCommand:
+      properties:
+        title:
+          type: string
+        subtitle:
+          type: string
+      required:
+        - title
+    CreateAffirmationCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Affirmation'
+
+    GetAffirmationsListQuery:
+      properties:
+        skip:
+          type: integer
+        take:
+          type: integer
+    GetAffirmationsListQueryResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          type: object
+          properties:
+            totalAffirmations:
+              type: integer
+            affirmations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Affirmation'
+
+    GetAffirmationQuery:
+      properties:
+        affirmationId:
+          type: integer
+    GetAffirmationQueryResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Affirmation'
+
+    UpdateAffirmationCommand:
+      properties:
+        title:
+          type: string
+        subtitle:
+          type: string
+    UpdateAffirmationCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Affirmation'
+
+    DeactivateAffirmationCommand:
+      properties:
+        affirmationId:
+          type: string
+    DeactivateAffirmationCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Affirmation'
+
+    ActivateAffirmationCommand:
+      properties:
+        affirmationId:
+          type: string
+    ActivateAffirmationCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Affirmation'
+
+    DeleteAffirmationCommand:
+      properties:
+        affirmationId:
+          type: string
+    DeleteAffirmationCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+
+    GetReaffirmationFormMetadataQueryResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          type: object
+          properties:
+            notes:
+              type: array
+              items:
+                $ref: '#/components/schemas/NoteDto'
+            fonts:
+              type: array
+              items:
+                $ref: '#/components/schemas/FontDto'
+            stamps:
+              type: array
+              items:
+                $ref: '#/components/schemas/StampDto'
+
+    CreateReaffirmationCommand:
+      properties:
+        affirmationId:
+          type: integer
+        noteId:
+          type: integer
+        fontId:
+          type: integer
+        stampId:
+          type: integer
+      required:
+        - noteId
+        - fontId
+        - stampId
+    CreateReaffirmationCommandResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          $ref: '#/components/schemas/Reaffirmation'
+
+    GetLetterQuery:
+      properties:
+        letterId:
+          type: integer
+    GetLetterQueryResponseData:
+      properties:
+        apiResponse:
+          $ref: '#/components/schemas/ApiResponse'
+        data:
+          type: object
+          properties:
+            totalUnopenedLetters:
+              type: integer
+            nextLetterId:
+              description: ID of the letter that will be loaded when the user presses the `Next` button on the letter viewer screen
+              type: integer
+            letter:
+              $ref: '#/components/schemas/Letter'
