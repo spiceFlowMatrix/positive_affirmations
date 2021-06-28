@@ -21,6 +21,17 @@ class PositiveAffirmationsKeys {
   static const changeNickNameButton = Key('__changeNickNameButton__');
   static const skipAppSummaryButton = Key('__skipAppSummaryButton__');
 
+  // App summary animated text bodies
+
+  static const cheerleaderTitle = Key('__cheerleaderTitle__');
+  static const cheerleaderBody = Key('__cheerleaderBody__');
+  static const awesomenessTitle = Key('__awesomenessTitle__');
+  static const awesomenessBody = Key('__awesomenessBody__');
+  static const honestTitle = Key('__honestTitle__');
+  static const honestBody = Key('__honestBody__');
+  static const spreadWordTitle = Key('__spreadWordTitle__');
+  static const spreadWordBody = Key('__spreadWordBody__');
+
   // Affirmations
   static const affirmationsList = Key('__affirmationsList__');
   static const affirmationsLoading = Key('__affirmationsLoading__');
