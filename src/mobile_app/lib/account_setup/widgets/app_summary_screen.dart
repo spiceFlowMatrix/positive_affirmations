@@ -35,37 +35,41 @@ class AppSummaryScreen extends StatelessWidget {
 class _AppSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 35),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Padding(padding: EdgeInsets.only(top: 20)),
-          _ScreenControls(),
-          _UserNameHeader(),
-          Text(
-            'Allow me to explain what I can do for you.',
-            key: PositiveAffirmationsKeys.appSummaryHeader,
-            textAlign: TextAlign.left,
-            style:
-                PositiveAffirmationsTheme.theme.textTheme.headline1?.copyWith(
-              fontSize: 23,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
+    return Column(
+      children: [
+        const Padding(padding: EdgeInsets.only(top: 20)),
+        _ScreenControls(),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 35),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _UserNameHeader(),
+              Text(
+                'Allow me to explain what I can do for you.',
+                key: PositiveAffirmationsKeys.appSummaryHeader,
+                textAlign: TextAlign.left,
+                style: PositiveAffirmationsTheme.theme.textTheme.headline1
+                    ?.copyWith(
+                  fontSize: 23,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              Text(
+                'You can skip this at any time if you\'re getting bored though.',
+                key: PositiveAffirmationsKeys.appSummarySubheader,
+              ),
+              Divider(
+                thickness: 2,
+              ),
+              _AnimatedBody(
+                key: PositiveAffirmationsKeys.appSummaryAnimatedBody,
+              ),
+            ],
           ),
-          Text(
-            'You can skip this at any time if you\'re getting bored though.',
-            key: PositiveAffirmationsKeys.appSummarySubheader,
-          ),
-          Divider(
-            thickness: 2,
-          ),
-          _AnimatedBody(
-            key: PositiveAffirmationsKeys.appSummaryAnimatedBody,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -74,10 +78,15 @@ class _ScreenControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: FaIcon(
-        FontAwesomeIcons.chevronLeft,
+      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+      leading: IconButton(
         key: PositiveAffirmationsKeys.changeNickNameButton,
+        icon: FaIcon(
+          FontAwesomeIcons.chevronLeft,
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
       ),
       trailing: TextButton(
         key: PositiveAffirmationsKeys.skipAppSummaryButton,
