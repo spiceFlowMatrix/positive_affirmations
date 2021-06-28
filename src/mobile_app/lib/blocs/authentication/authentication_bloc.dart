@@ -39,11 +39,8 @@ class AuthenticationBloc
   AuthenticationState? fromJson(Map<String, dynamic> json) {
     final AuthenticationStatus status = AuthenticationStatus
         .values[json[AuthenticationState.fieldStatus] as int];
-    final User? user = User(
-      id: json[User.fieldId],
-      name: json[User.fieldName],
-      nickName: json[User.fieldNickName],
-    );
+
+    final User? user = User.fromJson(json);
 
     switch (status) {
       case AuthenticationStatus.unauthenticated:
@@ -58,8 +55,6 @@ class AuthenticationBloc
   @override
   Map<String, dynamic>? toJson(AuthenticationState state) => {
         AuthenticationState.fieldStatus: state.status.index,
-        User.fieldId: state.user.id,
-        User.fieldName: state.user.name,
-        User.fieldNickName: state.user.nickName,
+        ...state.user.fieldValues,
       };
 }
