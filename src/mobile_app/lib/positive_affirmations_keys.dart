@@ -22,7 +22,6 @@ class PositiveAffirmationsKeys {
   static const skipAppSummaryButton = Key('__skipAppSummaryButton__');
 
   // App summary animated text bodies
-
   static const cheerleaderTitle = Key('__cheerleaderTitle__');
   static const cheerleaderBody = Key('__cheerleaderBody__');
   static const awesomenessTitle = Key('__awesomenessTitle__');
