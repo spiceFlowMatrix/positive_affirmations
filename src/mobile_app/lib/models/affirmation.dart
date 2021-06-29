@@ -5,35 +5,34 @@ class Affirmation extends Equatable {
     this.id = '',
     this.title = '',
     this.subtitle = '',
-    this.createdOn = '',
-    this.modifiedOn = '',
+    String createdOn = '',
+    String modifiedOn = '',
     this.likes = 0,
     this.totalReaffirmations = 0,
     this.active = true,
-  });
+  })  : this._createdOn = createdOn,
+        this._modifiedOn = modifiedOn;
 
   final String id;
   final String title;
   final String subtitle;
-
-  /// Value must be a Iso8601 String.
-  /// Use the `toIso8601String()` on the DateTime class to ensure correct values are stored.
-  final String createdOn;
-
-  /// Value must be a Iso8601 String.
-  /// Use the `toIso8601String()` on the DateTime class to ensure correct values are stored.
-  final String modifiedOn;
+  final String _createdOn;
+  final String _modifiedOn;
   final int likes;
   final int totalReaffirmations;
   final bool active;
+
+  DateTime? get createdOn => DateTime.tryParse(_createdOn);
+
+  DateTime? get modifiedOn => DateTime.tryParse(_modifiedOn);
 
   @override
   List<Object> get props => [
         id,
         title,
         subtitle,
-        createdOn,
-        modifiedOn,
+        _createdOn,
+        _modifiedOn,
         likes,
         totalReaffirmations,
         active,
@@ -53,8 +52,8 @@ class Affirmation extends Equatable {
         fieldId: this.id,
         fieldTitle: this.title,
         fieldSubtitle: this.subtitle,
-        fieldCreatedOn: this.createdOn,
-        fieldModifiedOn: this.modifiedOn,
+        fieldCreatedOn: this._createdOn,
+        fieldModifiedOn: this._modifiedOn,
         fieldLikes: this.likes,
         fieldTotalReaffirmations: this.totalReaffirmations,
         fieldActive: this.active,
@@ -87,8 +86,8 @@ class Affirmation extends Equatable {
       id: id ?? this.id,
       title: title ?? this.title,
       subtitle: subtitle ?? this.subtitle,
-      createdOn: createdOn ?? this.createdOn,
-      modifiedOn: modifiedOn ?? this.modifiedOn,
+      createdOn: createdOn ?? this._createdOn,
+      modifiedOn: modifiedOn ?? this._modifiedOn,
       likes: likes ?? this.likes,
       totalReaffirmations: totalReaffirmations ?? this.totalReaffirmations,
       active: active ?? this.active,

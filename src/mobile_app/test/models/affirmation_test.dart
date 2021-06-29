@@ -2,21 +2,29 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/models/affirmation.dart';
 
 void main() {
-  const Affirmation mockValidAffirmation = Affirmation(
+  Affirmation mockValidAffirmation = Affirmation(
     id: 'testId',
     title: 'testTitle',
     subtitle: 'testSubtitle',
+    createdOn: DateTime.now().toIso8601String(),
+    modifiedOn: DateTime.now().toIso8601String(),
     totalReaffirmations: 12,
     likes: 8,
+    active: true,
   );
 
   Map<String, dynamic> mockValidAffirmationJson = {
     Affirmation.fieldId: mockValidAffirmation.id,
     Affirmation.fieldSubtitle: mockValidAffirmation.subtitle,
     Affirmation.fieldTitle: mockValidAffirmation.title,
+    Affirmation.fieldCreatedOn:
+        mockValidAffirmation.createdOn!.toIso8601String(),
+    Affirmation.fieldModifiedOn:
+        mockValidAffirmation.modifiedOn!.toIso8601String(),
     Affirmation.fieldLikes: mockValidAffirmation.likes,
     Affirmation.fieldTotalReaffirmations:
         mockValidAffirmation.totalReaffirmations,
+    Affirmation.fieldActive: mockValidAffirmation.active,
   };
   Map<String, dynamic> mockIncompleteAffirmationJson = {
     Affirmation.fieldId: mockValidAffirmation.id,
