@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_app/account_setup/widgets/name_form_screen.dart';
+import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/positive_affirmations_routes.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
@@ -13,6 +14,7 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()),
+        BlocProvider<ApptabBloc>(create: (_) => ApptabBloc()),
       ],
       child: AppView(),
     );

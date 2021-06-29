@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
+import 'package:mobile_app/affirmations/widgets/home_screen.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
 
@@ -90,7 +91,9 @@ class _ScreenControls extends StatelessWidget {
       ),
       trailing: TextButton(
         key: PositiveAffirmationsKeys.skipAppSummaryButton,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, HomeScreen.routeName);
+        },
         child: Text(
           'SKIP',
           style: TextStyle(
