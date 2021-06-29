@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
-import 'package:mobile_app/affirmations/widgets/home_screen.dart';
+import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
+import 'package:mobile_app/models/models.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
 
@@ -78,30 +79,42 @@ class _AppSummary extends StatelessWidget {
 class _ScreenControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: 20),
-      leading: IconButton(
-        key: PositiveAffirmationsKeys.changeNickNameButton,
-        icon: FaIcon(
-          FontAwesomeIcons.chevronLeft,
-        ),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ),
-      trailing: TextButton(
-        key: PositiveAffirmationsKeys.skipAppSummaryButton,
-        onPressed: () {
-          Navigator.pushNamed(context, HomeScreen.routeName);
-        },
-        child: Text(
-          'SKIP',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      builder: (context, state) {
+        return ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 20),
+          leading: IconButton(
+            key: PositiveAffirmationsKeys.changeNickNameButton,
+            icon: FaIcon(
+              FontAwesomeIcons.chevronLeft,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
-        ),
-      ),
+          trailing: TextButton(
+            key: PositiveAffirmationsKeys.skipAppSummaryButton,
+            onPressed: () {
+              BlocProvider.of<AuthenticationBloc>(context)
+                  .add(AuthenticationStatusChanged(
+                status: AuthenticationStatus.authenticated,
+                user: new User(
+                  id: state.user.id,
+                  name: state.user.name,
+                  nickName: state.user.nickName,
+                ),
+              ));
+            },
+            child: Text(
+              'SKIP',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
