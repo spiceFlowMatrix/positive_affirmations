@@ -42,9 +42,31 @@ void main() {
 
       test('missing fields in a json object are handled', () {
         expect(
-          Affirmation.fromJson(mockIncompleteAffirmationJson),
-          equals(
-              mockValidAffirmation.copyWith(likes: 0, totalReaffirmations: 0)),
+          Affirmation.fromJson({Affirmation.fieldId: mockValidAffirmation.id}),
+          equals(Affirmation(id: mockValidAffirmation.id)),
+        );
+        expect(
+          Affirmation.fromJson(
+              {Affirmation.fieldTitle: mockValidAffirmation.title}),
+          equals(Affirmation(title: mockValidAffirmation.title)),
+        );
+        expect(
+          Affirmation.fromJson(
+              {Affirmation.fieldSubtitle: mockValidAffirmation.subtitle}),
+          equals(Affirmation(subtitle: mockValidAffirmation.subtitle)),
+        );
+        expect(
+          Affirmation.fromJson(
+              {Affirmation.fieldLikes: mockValidAffirmation.likes}),
+          equals(Affirmation(likes: mockValidAffirmation.likes)),
+        );
+        expect(
+          Affirmation.fromJson({
+            Affirmation.fieldTotalReaffirmations:
+                mockValidAffirmation.totalReaffirmations
+          }),
+          equals(Affirmation(
+              totalReaffirmations: mockValidAffirmation.totalReaffirmations)),
         );
       });
     });
