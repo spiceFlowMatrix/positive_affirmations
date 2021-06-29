@@ -17,4 +17,6 @@ class AffirmationsState extends Equatable {
 
   @override
   List<Object> get props => [affirmations];
+
+  static const String fieldAffirmations = 'affirmations';
 }
