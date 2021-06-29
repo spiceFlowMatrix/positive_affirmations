@@ -33,6 +33,10 @@ class HomeScreen extends StatelessWidget {
       child: BlocBuilder<ApptabBloc, AppTab>(
         builder: (context, state) {
           return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                  state == AppTab.affirmations ? 'Affirmations' : 'Profile'),
+            ),
             body: _mapBody(state),
             bottomNavigationBar: AppNavigator(
               activeTab: state,

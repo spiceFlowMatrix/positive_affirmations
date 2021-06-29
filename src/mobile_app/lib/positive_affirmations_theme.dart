@@ -40,6 +40,14 @@ class PositiveAffirmationsTheme {
         ),
       ),
       textTheme: newTextTheme,
+      // appBarTheme: AppBarTheme(
+      //   backgroundColor: Colors.white,
+      //   titleTextStyle: TextStyle(
+      //     color: Colors.black,
+      //     backgroundColor: Colors.black,
+      //     fontSize: 30
+      //   ),
+      // ),
     );
   }
 }
