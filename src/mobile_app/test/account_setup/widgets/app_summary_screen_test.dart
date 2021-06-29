@@ -5,6 +5,7 @@ import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/account_setup/models/models.dart';
 import 'package:mobile_app/account_setup/widgets/app_summary_screen.dart';
 import 'package:mobile_app/account_setup/widgets/nick_name_form_screen.dart';
+import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/nav_observer.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
@@ -18,6 +19,14 @@ class FakeSignUpState extends Fake implements SignUpState {}
 
 class MockSignUpBloc extends MockBloc<SignUpEvent, SignUpState>
     implements SignUpBloc {}
+
+class FakeAuthenticationEvent extends Fake implements AuthenticationEvent {}
+
+class FakeAuthenticationState extends Fake implements AuthenticationState {}
+
+class MockAuthenticationBloc
+    extends MockBloc<AuthenticationEvent, AuthenticationState>
+    implements AuthenticationBloc {}
 
 class MockNameField extends Mock implements NameField {}
 
@@ -33,21 +42,30 @@ void main() {
   );
   group('[AppSummaryScreen]', () {
     late SignUpBloc signUpBloc;
+    late AuthenticationBloc authBloc;
     late PositiveAffirmationsNavigatorObserver navigatorObserver;
 
     setUpAll(() {
       registerFallbackValue<SignUpEvent>(FakeSignUpEvent());
       registerFallbackValue<SignUpState>(FakeSignUpState());
+      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
+      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
     });
 
     setUp(() {
       signUpBloc = MockSignUpBloc();
+      authBloc = MockAuthenticationBloc();
       navigatorObserver = PositiveAffirmationsNavigatorObserver();
     });
 
     testWidgets('all components exist', (tester) async {
+      when(() => authBloc.state)
+          .thenReturn(const AuthenticationState.unknown());
       when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
-      await tester.pumpWidget(AppSummaryScreenFixture(signUpBloc));
+      await tester.pumpWidget(AppSummaryScreenFixture(
+        signUpBloc,
+        authBloc: authBloc,
+      ));
 
       expect(
         find.byKey(PositiveAffirmationsKeys.appSummaryScreen),
@@ -84,13 +102,18 @@ void main() {
       var isNickNameFormPushed = false;
       var isAppSummaryScreenPushed = false;
 
+      when(() => authBloc.state)
+          .thenReturn(const AuthenticationState.unknown());
       when(() => signUpBloc.state).thenReturn(const SignUpState(
         name: const NameField.dirty(mockValidName),
         nameStatus: FormzStatus.submissionSuccess,
       ));
 
-      await tester.pumpWidget(
-          NameFormFixture(signUpBloc, navigatorObserver: navigatorObserver));
+      await tester.pumpWidget(NameFormFixture(
+        signUpBloc,
+        navigatorObserver: navigatorObserver,
+        authBloc: authBloc,
+      ));
       navigatorObserver.attachPushRouteObserver(
         NickNameFormScreen.routeName,
         () {
@@ -130,13 +153,18 @@ void main() {
       var isAppSummaryScreenPushed = false;
       var isAppSummaryScreenPopped = false;
 
+      when(() => authBloc.state)
+          .thenReturn(const AuthenticationState.unknown());
       when(() => signUpBloc.state).thenReturn(const SignUpState(
         name: const NameField.dirty(mockValidName),
         nameStatus: FormzStatus.submissionSuccess,
       ));
 
-      await tester.pumpWidget(
-          NameFormFixture(signUpBloc, navigatorObserver: navigatorObserver));
+      await tester.pumpWidget(NameFormFixture(
+        signUpBloc,
+        navigatorObserver: navigatorObserver,
+        authBloc: authBloc,
+      ));
       navigatorObserver.attachPushRouteObserver(
         NickNameFormScreen.routeName,
         () {
