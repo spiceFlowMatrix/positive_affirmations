@@ -123,5 +123,64 @@ void main() {
 
       expect(isAppSummaryScreenPushed, true);
     });
+
+    testWidgets('back button works', (tester) async {
+      // Reference https://medium.com/@harsha973/widget-testing-pushing-a-new-page-13cd6a0bb055
+      var isNickNameFormPushed = false;
+      var isAppSummaryScreenPushed = false;
+      var isAppSummaryScreenPopped = false;
+
+      when(() => signUpBloc.state).thenReturn(const SignUpState(
+        name: const NameField.dirty(mockValidName),
+        nameStatus: FormzStatus.submissionSuccess,
+      ));
+
+      await tester.pumpWidget(
+          NameFormFixture(signUpBloc, navigatorObserver: navigatorObserver));
+      navigatorObserver.attachPushRouteObserver(
+        NickNameFormScreen.routeName,
+        () {
+          isNickNameFormPushed = true;
+        },
+      );
+
+      await tester.enterText(
+        find.byKey(PositiveAffirmationsKeys.nameField),
+        mockValidName,
+      );
+
+      await tester.tap(find.byKey(PositiveAffirmationsKeys.nameSubmitButton));
+
+      await tester.pumpAndSettle();
+
+      expect(isNickNameFormPushed, true);
+
+      navigatorObserver.attachPushRouteObserver(
+        AppSummaryScreen.routeName,
+        () {
+          isAppSummaryScreenPushed = true;
+        },
+      );
+      navigatorObserver.attachPopRouteObserver(
+        AppSummaryScreen.routeName,
+        () {
+          isAppSummaryScreenPopped = true;
+        },
+      );
+
+      await tester
+          .tap(find.byKey(PositiveAffirmationsKeys.nickNameSubmitButton));
+
+      await tester.pumpAndSettle();
+
+      expect(isAppSummaryScreenPushed, true);
+
+      await tester
+          .tap(find.byKey(PositiveAffirmationsKeys.changeNickNameButton));
+
+      await tester.pumpAndSettle();
+
+      expect(isAppSummaryScreenPopped, true);
+    });
   });
 }
