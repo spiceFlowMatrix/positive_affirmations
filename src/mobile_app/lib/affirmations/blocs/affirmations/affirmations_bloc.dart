@@ -22,6 +22,8 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
       yield _mapAffirmationCreatedToState(event, state);
     } else if (event is AffirmationLiked) {
       yield _mapAffirmationLikedToState(event, state);
+    } else if (event is AffirmationActivationToggled) {
+      yield _mapAffirmationActivationToggled(event, state);
     }
   }
 
@@ -46,6 +48,17 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
     final updatedAffirmations = state.affirmations.map((affirmation) {
       return affirmation.id == event.id
           ? affirmation.copyWith(liked: !affirmation.liked)
+          : affirmation;
+    }).toList();
+
+    return state.copyWith(affirmations: [...updatedAffirmations]);
+  }
+
+  AffirmationsState _mapAffirmationActivationToggled(
+      AffirmationActivationToggled event, AffirmationsState state) {
+    final updatedAffirmations = state.affirmations.map((affirmation) {
+      return affirmation.id == event.id
+          ? affirmation.copyWith(active: !affirmation.active)
           : affirmation;
     }).toList();
 
