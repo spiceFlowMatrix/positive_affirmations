@@ -10,19 +10,19 @@ void main() {
     });
     group('[AffirmationUpdated]', () {
       test('supports value comparisons', () {
-        expect(AffirmationUpdated('-', '-', '-'),
-            AffirmationUpdated('-', '-', '-'));
+        expect(AffirmationUpdated(1, '-', '-'),
+            AffirmationUpdated(1, '-', '-'));
       });
     });
     group('[AffirmationActivationToggled]', () {
       test('supports value comparisons', () {
-        expect(AffirmationActivationToggled('-'),
-            AffirmationActivationToggled('-'));
+        expect(AffirmationActivationToggled(1),
+            AffirmationActivationToggled(1));
       });
     });
     group('[AffirmationLiked]', () {
       test('supports value comparisons', () {
-        expect(AffirmationLiked('-'), AffirmationLiked('-'));
+        expect(AffirmationLiked(1), AffirmationLiked(1));
       });
     });
   });

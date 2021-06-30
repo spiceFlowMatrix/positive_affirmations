@@ -9,6 +9,7 @@ class Affirmation extends Equatable {
     this.likes = 0,
     this.totalReaffirmations = 0,
     this.active = true,
+    this.liked = false,
   });
 
   final int id;
@@ -17,6 +18,7 @@ class Affirmation extends Equatable {
   final DateTime createdOn;
   final int likes;
   final int totalReaffirmations;
+  final bool liked;
   final bool active;
 
   @override
@@ -28,6 +30,7 @@ class Affirmation extends Equatable {
         likes,
         totalReaffirmations,
         active,
+        liked,
       ];
 
   static final empty =
@@ -39,6 +42,7 @@ class Affirmation extends Equatable {
   static const String fieldLikes = 'likes';
   static const String fieldTotalReaffirmations = 'totalReaffirmations';
   static const String fieldActive = 'active';
+  static const String fieldLiked = 'liked';
 
   Map<String, dynamic> get fieldValues => {
         fieldId: this.id,
@@ -48,6 +52,7 @@ class Affirmation extends Equatable {
         fieldLikes: this.likes,
         fieldTotalReaffirmations: this.totalReaffirmations,
         fieldActive: this.active,
+        fieldLiked: this.liked,
       };
 
   static Affirmation fromJson(Map<String, dynamic> json) {
@@ -61,6 +66,7 @@ class Affirmation extends Equatable {
       totalReaffirmations: json[Affirmation.fieldTotalReaffirmations] ??
           empty.totalReaffirmations,
       active: json[Affirmation.fieldActive] ?? empty.active,
+      liked: json[Affirmation.fieldLiked] ?? empty.liked,
     );
   }
 
@@ -72,6 +78,7 @@ class Affirmation extends Equatable {
     int? likes,
     int? totalReaffirmations,
     bool? active,
+    bool? liked,
   }) {
     return Affirmation(
       id: id ?? this.id,
@@ -81,6 +88,7 @@ class Affirmation extends Equatable {
       likes: likes ?? this.likes,
       totalReaffirmations: totalReaffirmations ?? this.totalReaffirmations,
       active: active ?? this.active,
+      liked: liked ?? this.liked,
     );
   }
 }
