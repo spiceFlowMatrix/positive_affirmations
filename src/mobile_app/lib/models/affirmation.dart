@@ -30,7 +30,8 @@ class Affirmation extends Equatable {
         active,
       ];
 
-  static final empty = Affirmation(id: 0, title: '-', subtitle: '-', createdOn: DateTime.utc(0));
+  static final empty =
+      Affirmation(id: 0, title: '-', subtitle: '-', createdOn: DateTime.utc(0));
   static const String fieldId = 'id';
   static const String fieldTitle = 'title';
   static const String fieldSubtitle = 'subtitle';
@@ -54,9 +55,11 @@ class Affirmation extends Equatable {
       id: json[Affirmation.fieldId] ?? empty.id,
       title: json[Affirmation.fieldTitle] ?? empty.title,
       subtitle: json[Affirmation.fieldSubtitle] ?? empty.subtitle,
-      createdOn: DateTime.tryParse('${json[Affirmation.fieldCreatedOn]}') ?? empty.createdOn,
+      createdOn: DateTime.tryParse('${json[Affirmation.fieldCreatedOn]}') ??
+          empty.createdOn,
       likes: json[Affirmation.fieldLikes] ?? empty.likes,
-      totalReaffirmations: json[Affirmation.fieldTotalReaffirmations] ?? empty.totalReaffirmations,
+      totalReaffirmations: json[Affirmation.fieldTotalReaffirmations] ??
+          empty.totalReaffirmations,
       active: json[Affirmation.fieldActive] ?? empty.active,
     );
   }
