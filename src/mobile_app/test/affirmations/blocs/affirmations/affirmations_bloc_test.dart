@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
+import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/models/affirmation.dart';
 import 'package:mobile_app/models/machine_date_time.dart';
 import 'package:mocktail/mocktail.dart';
@@ -55,6 +56,31 @@ void main() {
                 ),
               ],
             ),
+          ];
+        },
+      );
+    });
+
+    group('[AffirmationLiked]', () {
+      blocTest<AffirmationsBloc, AffirmationsState>(
+        'valid state is emitted',
+        build: () => affirmationsBloc,
+        seed: () => AffirmationsState(
+            affirmations: PositiveAffirmationsConsts.seedAffirmations),
+        act: (bloc) {
+          bloc
+            ..add(AffirmationLiked(
+                PositiveAffirmationsConsts.seedAffirmations[1].id));
+        },
+        expect: () {
+          final updatedAffirmations =
+              PositiveAffirmationsConsts.seedAffirmations.map((e) {
+            return e.id == 2 ? e.copyWith(liked: !e.liked) : e;
+          }).toList();
+          return <AffirmationsState>[
+            AffirmationsState(
+              affirmations: [...updatedAffirmations],
+            )
           ];
         },
       );
