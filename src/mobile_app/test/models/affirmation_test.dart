@@ -6,7 +6,7 @@ void main() {
     id: 'testId',
     title: 'testTitle',
     subtitle: 'testSubtitle',
-    createdOn: DateTime.utc(0),
+    createdOn: DateTime.now(),
     totalReaffirmations: 12,
     likes: 8,
     active: true,
