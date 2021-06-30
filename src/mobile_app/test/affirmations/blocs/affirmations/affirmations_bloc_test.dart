@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
+import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/models/affirmation.dart';
 
 void main() {
@@ -22,18 +23,31 @@ void main() {
             ..add(new AffirmationCreated('-', '-'));
         },
         expect: () => <AffirmationsState>[
-          AffirmationsState(affirmations: [
-            Affirmation(
-              id: affirmationsBloc.state.affirmations.length + 1,
-              title: '-',
-              createdOn: mockCreatedOn,
-            ),
-            Affirmation(
-              id: affirmationsBloc.state.affirmations.length + 2,
-              title: '-',
-              createdOn: mockCreatedOn,
-            ),
-          ]),
+          AffirmationsState(
+            affirmations: [
+              ...affirmationsBloc.state.affirmations,
+              Affirmation(
+                id: affirmationsBloc.state.affirmations.length + 1,
+                title: '-',
+                createdOn: mockCreatedOn,
+              ),
+            ],
+          ),
+          AffirmationsState(
+            affirmations: [
+              ...PositiveAffirmationsConsts.seedAffirmations,
+              Affirmation(
+                id: affirmationsBloc.state.affirmations.length + 1,
+                title: '-',
+                createdOn: mockCreatedOn,
+              ),
+              Affirmation(
+                id: affirmationsBloc.state.affirmations.length + 2,
+                title: '-',
+                createdOn: mockCreatedOn,
+              ),
+            ],
+          ),
         ],
       );
     });
