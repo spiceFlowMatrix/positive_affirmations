@@ -20,6 +20,8 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
   ) async* {
     if (event is AffirmationCreated) {
       yield _mapAffirmationCreatedToState(event, state);
+    } else if (event is AffirmationLiked) {
+      yield _mapAffirmationLikedToState(event, state);
     }
   }
 
@@ -37,6 +39,17 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
     ];
 
     return state.copyWith(affirmations: newAffirmations);
+  }
+
+  AffirmationsState _mapAffirmationLikedToState(
+      AffirmationLiked event, AffirmationsState state) {
+    final updatedAffirmations = state.affirmations.map((affirmation) {
+      return affirmation.id == event.id
+          ? affirmation.copyWith(liked: !affirmation.liked)
+          : affirmation;
+    }).toList();
+
+    return state.copyWith(affirmations: [...updatedAffirmations]);
   }
 
 // @override
