@@ -22,6 +22,7 @@ void main() {
     Affirmation.fieldTotalReaffirmations:
         mockValidAffirmation.totalReaffirmations,
     Affirmation.fieldActive: mockValidAffirmation.active,
+    Affirmation.fieldLiked: mockValidAffirmation.liked,
   };
 
   group('[AffirmationModel]', () {
@@ -76,6 +77,12 @@ void main() {
             equals(Affirmation.empty.copyWith(
               createdOn: mockValidAffirmation.createdOn,
             )));
+
+        expect(
+          Affirmation.fromJson(
+              {Affirmation.fieldLiked: mockValidAffirmation.liked}),
+          equals(Affirmation.empty.copyWith(liked: mockValidAffirmation.liked)),
+        );
       });
     });
   });
