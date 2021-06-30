@@ -1,12 +1,9 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/account_setup/widgets/name_form.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/positive_affirmations_routes.dart';
-import 'package:mocktail/mocktail.dart';
 
 class NameFormFixture extends StatelessWidget {
   NameFormFixture(this.bloc, {this.navigatorObserver, this.authBloc});
