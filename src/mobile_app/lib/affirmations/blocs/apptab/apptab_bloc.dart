@@ -15,7 +15,7 @@ class ApptabBloc extends Bloc<ApptabEvent, AppTab> {
     ApptabEvent event,
   ) async* {
     if (event is TabUpdated) {
-      yield event.tab;
+      if (event.tab != state) yield event.tab;
     }
   }
 }
