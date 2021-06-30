@@ -11,7 +11,7 @@ class Affirmation extends Equatable {
     this.active = true,
   });
 
-  final String id;
+  final int id;
   final String title;
   final String subtitle;
   final DateTime createdOn;
@@ -30,7 +30,7 @@ class Affirmation extends Equatable {
         active,
       ];
 
-  static final empty = Affirmation(id: '-', title: '-', subtitle: '-', createdOn: DateTime.utc(0));
+  static final empty = Affirmation(id: 0, title: '-', subtitle: '-', createdOn: DateTime.utc(0));
   static const String fieldId = 'id';
   static const String fieldTitle = 'title';
   static const String fieldSubtitle = 'subtitle';
@@ -62,7 +62,7 @@ class Affirmation extends Equatable {
   }
 
   Affirmation copyWith({
-    String? id,
+    int? id,
     String? title,
     String? subtitle,
     DateTime? createdOn,

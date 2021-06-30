@@ -3,7 +3,7 @@ import 'package:mobile_app/models/affirmation.dart';
 
 void main() {
   Affirmation mockValidAffirmation = Affirmation(
-    id: 'testId',
+    id: 0,
     title: 'testTitle',
     subtitle: 'testSubtitle',
     createdOn: DateTime.now(),
