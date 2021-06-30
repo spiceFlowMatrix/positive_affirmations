@@ -1,6 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/models/affirmation.dart';
 
@@ -18,10 +17,23 @@ void main() {
         'emits updated affirmations list when valid affirmation submitted',
         build: () => affirmationsBloc,
         act: (bloc) {
-          bloc..add(new AffirmationCreated('-', '-'));
+          bloc
+            ..add(new AffirmationCreated('-', '-'))
+            ..add(new AffirmationCreated('-', '-'));
         },
         expect: () => <AffirmationsState>[
-          AffirmationsState(affirmations: [Affirmation(id: 1, title: '-', createdOn: mockCreatedOn)]),
+          AffirmationsState(affirmations: [
+            Affirmation(
+              id: affirmationsBloc.state.affirmations.length + 1,
+              title: '-',
+              createdOn: mockCreatedOn,
+            ),
+            Affirmation(
+              id: affirmationsBloc.state.affirmations.length + 2,
+              title: '-',
+              createdOn: mockCreatedOn,
+            ),
+          ]),
         ],
       );
     });
