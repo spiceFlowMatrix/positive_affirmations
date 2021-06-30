@@ -85,5 +85,30 @@ void main() {
         },
       );
     });
+
+    group('[AffirmationActivationToggled]', () {
+      blocTest<AffirmationsBloc, AffirmationsState>(
+        'valid state is emitted',
+        build: () => affirmationsBloc,
+        seed: () => AffirmationsState(
+            affirmations: PositiveAffirmationsConsts.seedAffirmations),
+        act: (bloc) {
+          bloc
+            ..add(AffirmationLiked(
+                PositiveAffirmationsConsts.seedAffirmations[1].id));
+        },
+        expect: () {
+          final updatedAffirmations =
+          PositiveAffirmationsConsts.seedAffirmations.map((e) {
+            return e.id == 2 ? e.copyWith(active: !e.active) : e;
+          }).toList();
+          return <AffirmationsState>[
+            AffirmationsState(
+              affirmations: [...updatedAffirmations],
+            )
+          ];
+        },
+      );
+    });
   });
 }
