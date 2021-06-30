@@ -6,8 +6,7 @@ void main() {
     id: 'testId',
     title: 'testTitle',
     subtitle: 'testSubtitle',
-    createdOn: DateTime.now().toIso8601String(),
-    modifiedOn: DateTime.now().toIso8601String(),
+    createdOn: DateTime.utc(0),
     totalReaffirmations: 12,
     likes: 8,
     active: true,
@@ -18,18 +17,11 @@ void main() {
     Affirmation.fieldSubtitle: mockValidAffirmation.subtitle,
     Affirmation.fieldTitle: mockValidAffirmation.title,
     Affirmation.fieldCreatedOn:
-        mockValidAffirmation.createdOn!.toIso8601String(),
-    Affirmation.fieldModifiedOn:
-        mockValidAffirmation.modifiedOn!.toIso8601String(),
+        mockValidAffirmation.createdOn.toIso8601String(),
     Affirmation.fieldLikes: mockValidAffirmation.likes,
     Affirmation.fieldTotalReaffirmations:
         mockValidAffirmation.totalReaffirmations,
     Affirmation.fieldActive: mockValidAffirmation.active,
-  };
-  Map<String, dynamic> mockIncompleteAffirmationJson = {
-    Affirmation.fieldId: mockValidAffirmation.id,
-    Affirmation.fieldSubtitle: mockValidAffirmation.subtitle,
-    Affirmation.fieldTitle: mockValidAffirmation.title,
   };
 
   group('[AffirmationModel]', () {
@@ -51,31 +43,39 @@ void main() {
       test('missing fields in a json object are handled', () {
         expect(
           Affirmation.fromJson({Affirmation.fieldId: mockValidAffirmation.id}),
-          equals(Affirmation(id: mockValidAffirmation.id)),
+          equals(Affirmation.empty.copyWith(id: mockValidAffirmation.id)),
         );
         expect(
           Affirmation.fromJson(
               {Affirmation.fieldTitle: mockValidAffirmation.title}),
-          equals(Affirmation(title: mockValidAffirmation.title)),
+          equals(Affirmation.empty.copyWith(title: mockValidAffirmation.title)),
         );
         expect(
           Affirmation.fromJson(
               {Affirmation.fieldSubtitle: mockValidAffirmation.subtitle}),
-          equals(Affirmation(subtitle: mockValidAffirmation.subtitle)),
+          equals(Affirmation.empty
+              .copyWith(subtitle: mockValidAffirmation.subtitle)),
         );
         expect(
           Affirmation.fromJson(
               {Affirmation.fieldLikes: mockValidAffirmation.likes}),
-          equals(Affirmation(likes: mockValidAffirmation.likes)),
+          equals(Affirmation.empty.copyWith(likes: mockValidAffirmation.likes)),
         );
         expect(
           Affirmation.fromJson({
             Affirmation.fieldTotalReaffirmations:
                 mockValidAffirmation.totalReaffirmations
           }),
-          equals(Affirmation(
+          equals(Affirmation.empty.copyWith(
               totalReaffirmations: mockValidAffirmation.totalReaffirmations)),
         );
+
+        expect(
+            Affirmation.fromJson(
+                {Affirmation.fieldCreatedOn: mockValidAffirmation.createdOn}),
+            equals(Affirmation.empty.copyWith(
+              createdOn: mockValidAffirmation.createdOn,
+            )));
       });
     });
   });
