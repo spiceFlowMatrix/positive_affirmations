@@ -33,10 +33,14 @@ class _ListItem extends StatelessWidget {
 
   final Affirmation affirmation;
 
+  static const Padding _subtitlePadding =
+      const Padding(padding: EdgeInsets.only(top: 10));
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      minVerticalPadding: 8,
+      onTap: () {},
+      minVerticalPadding: 20,
       title: Text(
         affirmation.title,
         style: TextStyle(
@@ -47,7 +51,9 @@ class _ListItem extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          _subtitlePadding,
           Text(affirmation.subtitle),
+          _subtitlePadding,
           RichText(
             text: TextSpan(
               style: TextStyle(
@@ -69,6 +75,7 @@ class _ListItem extends StatelessWidget {
               ],
             ),
           ),
+          _subtitlePadding,
           Text(
             '${affirmation.totalReaffirmations} reaffirmations...',
             style: TextStyle(
