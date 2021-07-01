@@ -36,13 +36,15 @@ class _AppNavigatorState extends State<AppNavigator>
     super.initState();
   }
 
-  Tab _mapNavigationBarItem(AppTab tab) {
+  Tab _mapNavigationBarItem(AppTab tab, AppTab currentTab) {
     switch (tab) {
       case AppTab.affirmations:
         return Tab(
           key: PositiveAffirmationsKeys.homeTab,
           icon: FaIcon(
-            FontAwesomeIcons.heart,
+            currentTab == AppTab.affirmations
+                ? FontAwesomeIcons.solidHeart
+                : FontAwesomeIcons.heart,
             key: PositiveAffirmationsKeys.homeTabIcon,
             color: Colors.black,
           ),
@@ -59,7 +61,9 @@ class _AppNavigatorState extends State<AppNavigator>
         return Tab(
           key: PositiveAffirmationsKeys.profileTab,
           icon: FaIcon(
-            FontAwesomeIcons.userCircle,
+            currentTab == AppTab.profile
+                ? FontAwesomeIcons.solidUserCircle
+                : FontAwesomeIcons.userCircle,
             key: PositiveAffirmationsKeys.profileTabIcon,
             color: Colors.black,
           ),
@@ -98,7 +102,7 @@ class _AppNavigatorState extends State<AppNavigator>
           },
           isScrollable: false,
           tabs: AppTab.values.map((tab) {
-            return _mapNavigationBarItem(tab);
+            return _mapNavigationBarItem(tab, state);
           }).toList(),
         );
       },
