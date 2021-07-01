@@ -52,8 +52,11 @@ class _ListItem extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(right: 10),
               child: FaIcon(
-                FontAwesomeIcons.heart,
+                affirmation.liked
+                    ? FontAwesomeIcons.solidHeart
+                    : FontAwesomeIcons.heart,
                 size: 18,
+                color: affirmation.liked ? Colors.red : Colors.black,
                 key: PositiveAffirmationsKeys.affirmationItemLikeButton(
                     '${affirmation.id}'),
               ),
