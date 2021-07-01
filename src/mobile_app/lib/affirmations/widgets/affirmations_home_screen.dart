@@ -7,7 +7,11 @@ import 'package:mobile_app/affirmations/widgets/affirmations_list.dart';
 import 'package:mobile_app/affirmations/widgets/app_navigator.dart';
 
 class AffirmationsHomeScreen extends StatelessWidget {
+  const AffirmationsHomeScreen({this.affirmationsBloc});
+
   static const routeName = '/homeScreen';
+
+  final AffirmationsBloc? affirmationsBloc;
 
   Widget _mapBody(AppTab tab) {
     switch (tab) {
@@ -24,34 +28,42 @@ class AffirmationsHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaffold = BlocBuilder<ApptabBloc, AppTab>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              state == AppTab.affirmations ? 'Affirmations' : 'Profile',
+            ),
+            actions: [
+              if (state == AppTab.affirmations)
+                IconButton(
+                  icon: FaIcon(FontAwesomeIcons.plusSquare),
+                  onPressed: () {},
+                )
+            ],
+          ),
+          body: _mapBody(state),
+          bottomNavigationBar: AppNavigator(
+            activeTab: state,
+            onTabSelected: (tab) =>
+                BlocProvider.of<ApptabBloc>(context).add(TabUpdated(tab)),
+          ),
+        );
+      },
+    );
+
+    if (affirmationsBloc != null)
+      return BlocProvider<AffirmationsBloc>.value(
+        value: affirmationsBloc!,
+        child: scaffold,
+      );
+
     return BlocProvider<AffirmationsBloc>(
       create: (context) {
         return new AffirmationsBloc();
       },
-      child: BlocBuilder<ApptabBloc, AppTab>(
-        builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                state == AppTab.affirmations ? 'Affirmations' : 'Profile',
-              ),
-              actions: [
-                if (state == AppTab.affirmations)
-                  IconButton(
-                    icon: FaIcon(FontAwesomeIcons.plusSquare),
-                    onPressed: () {},
-                  )
-              ],
-            ),
-            body: _mapBody(state),
-            bottomNavigationBar: AppNavigator(
-              activeTab: state,
-              onTabSelected: (tab) =>
-                  BlocProvider.of<ApptabBloc>(context).add(TabUpdated(tab)),
-            ),
-          );
-        },
-      ),
+      child: scaffold,
     );
   }
 }
