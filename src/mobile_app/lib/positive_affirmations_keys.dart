@@ -73,7 +73,7 @@ class PositiveAffirmationsKeys {
   static final affirmationDeleteButton =
       (String id) => Key('__affirmationDeleteButton__$id');
 
-  // Affirmation details button
+  // Affirmation details screen
   static final affirmationDetailsBackButton =
       (String id) => Key('__affirmationDetailsBackButton__$id');
   static const affirmationDetailsAppbarTitle =
@@ -92,6 +92,10 @@ class PositiveAffirmationsKeys {
       (String id) => Key('__affirmationDetailsReaffirmationsCount__$id');
   static final affirmationDetailsReaffirmButton =
       (String id) => Key('__affirmationDetailsReaffirmButton__$id');
+
+  // Profile details tab
+  static const profileAppbarTitle = Key('__profileAppbarTitle__');
+  static const profileAppbarEditButton = Key('__profileAppbarEditButton__');
 
   // Tabs
   static const homeTab = Key('__homeTab__');
