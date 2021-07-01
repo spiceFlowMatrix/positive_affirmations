@@ -75,5 +75,18 @@ void main() {
         expect(find.byKey(itemReaffirmationsKey), findsOneWidget);
       });
     });
+    testWidgets('pressing like button triggers like event', (tester) async {
+      await tester.pumpWidget(_buildFixture());
+
+      await tester.tap(
+        find.byKey(
+          PositiveAffirmationsKeys.affirmationItemLikeButton(
+              '${PositiveAffirmationsConsts.seedAffirmations[0].id}'),
+        ),
+      );
+
+      verify(() => affirmationsBloc.add(AffirmationLiked(
+          PositiveAffirmationsConsts.seedAffirmations[0].id))).called(1);
+    });
   });
 }
