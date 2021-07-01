@@ -10,6 +10,7 @@ import 'package:mobile_app/nav_observer.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../../mocks/authentication_bloc_mock.dart';
 import '../fixtures/app_summary_screen_fixture.dart';
 import '../fixtures/fixtures.dart';
 
@@ -19,14 +20,6 @@ class FakeSignUpState extends Fake implements SignUpState {}
 
 class MockSignUpBloc extends MockBloc<SignUpEvent, SignUpState>
     implements SignUpBloc {}
-
-class FakeAuthenticationEvent extends Fake implements AuthenticationEvent {}
-
-class FakeAuthenticationState extends Fake implements AuthenticationState {}
-
-class MockAuthenticationBloc
-    extends MockBloc<AuthenticationEvent, AuthenticationState>
-    implements AuthenticationBloc {}
 
 class MockNameField extends Mock implements NameField {}
 
