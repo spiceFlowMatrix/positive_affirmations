@@ -6,6 +6,6 @@ class FakeAffirmationsEvent extends Fake implements AffirmationsEvent {}
 
 class FakeAffirmationsState extends Fake implements AffirmationsState {}
 
-class MockAffirmationsState
+class MockAffirmationsBloc
     extends MockBloc<AffirmationsEvent, AffirmationsState>
     implements AffirmationsBloc {}
