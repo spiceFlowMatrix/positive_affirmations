@@ -31,7 +31,7 @@ class PositiveAffirmationsKeys {
   static const spreadWordTitle = Key('__spreadWordTitle__');
   static const spreadWordBody = Key('__spreadWordBody__');
 
-  // Affirmations
+  // Affirmations tab body
   static const affirmationsList = Key('__affirmationsList__');
   static const affirmationsLoading = Key('__affirmationsLoading__');
   static final affirmationItem = (String id) => Key('AffirmationItem__$id');
@@ -47,7 +47,57 @@ class PositiveAffirmationsKeys {
       (String id) => Key('AffirmationItemReaffirmationsCount__$id');
   static const addNewAffirmationAction = Key('__addNewAffirmationAction__');
 
+  static const noAffirmationsWarningBody = Key('__noAffirmationsWarningBody__');
+  static const noAffirmationsWarningIcon = Key('__noAffirmationsWarningIcon__');
+  static const noAffirmationsWarningLabel =
+      Key('__noAffirmationsWarningLabel__');
+  static const noAffirmationsWarningButton =
+      Key('__noAffirmationsWarningButton__');
+
+  static const affirmationsAppbarTitle = Key('__affirmationsAppbarTitle__');
+  static const affirmationsAppBarAddButton =
+      Key('__affirmationsAppBarAddButton__');
+
+  // Add/Edit affirmation form
+  static final affirmationFormBackButton = Key('__affirmationFormBackButton__');
+  static const affirmationFormAppbarTitle =
+      Key('__newAffirmationFormAppbarTitle__');
+  static const affirmationTitle = Key('__newAffirmationTitle__');
+  static const affirmationTitleLabel = Key('__newAffirmationTitleLabel__');
+  static const affirmationSubtitle = Key('__newAffirmationSubtitle__');
+  static const affirmationSubtitleLabel =
+      Key('__newAffirmationSubtitleLabel__');
+  static const affirmationSaveButton = Key('__newAffirmationSaveButton__');
+  static final affirmationFormDeactivateDeactivateButton =
+      (String id) => Key('__affirmationFormDeactivateDeactivateButton__$id');
+  static final affirmationDeleteButton =
+      (String id) => Key('__affirmationDeleteButton__$id');
+
+  // Affirmation details button
+  static final affirmationDetailsBackButton =
+      (String id) => Key('__affirmationDetailsBackButton__$id');
+  static const affirmationDetailsAppbarTitle =
+      Key('__affirmationDetailsAppbarTitle__');
+  static final affirmationDetailsAppbarEditButton =
+      (String id) => Key('__affirmationDetailsAppbarEditButton__$id');
+  static final affirmationDetailsTitle =
+      (String id) => Key('__affirmationDetailsTitle__$id');
+  static final affirmationDetailsSubtitle =
+      (String id) => Key('__affirmationDetailsSubtitle__$id');
+  static final affirmationDetailsLikeButton =
+      (String id) => Key('__affirmationDetailsLikeButton__$id');
+  static final affirmationDetailsLikes =
+      (String id) => Key('__affirmationDetailsLikes__$id');
+  static final affirmationDetailsReaffirmationsCount =
+      (String id) => Key('__affirmationDetailsReaffirmationsCount__$id');
+  static final affirmationDetailsReaffirmButton =
+      (String id) => Key('__affirmationDetailsReaffirmButton__$id');
+
   // Tabs
   static const homeTab = Key('__homeTab__');
+  static const homeTabLabel = Key('__homeTabLabel__');
+  static const homeTabIcon = Key('__homeTabIcon__');
   static const profileTab = Key('__profileTab__');
+  static const profileTabLabel = Key('__profileTabLabel__');
+  static const profileTabIcon = Key('__profileTabIcon__');
 }
