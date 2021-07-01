@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
@@ -61,6 +62,34 @@ void main() {
         expect(find.byKey(PositiveAffirmationsKeys.profileTabLabel),
             findsOneWidget);
       });
+
+      testWidgets('affirmations appbar title is rendered affirmations tab selected',
+          (tester) async {
+        when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
+        await tester.pumpWidget(AffirmationsHomeScreenFixture(
+          apptabBloc: apptabBloc,
+          authBloc: authBloc,
+        ));
+
+        final widget = tester.widget<Text>(
+            find.byKey(PositiveAffirmationsKeys.affirmationsAppbarTitle));
+
+        expect(widget.data, 'Affirmations');
+      });
+
+      testWidgets('profile appbar title is rendered profile tab selected',
+              (tester) async {
+            when(() => apptabBloc.state).thenReturn(AppTab.profile);
+            await tester.pumpWidget(AffirmationsHomeScreenFixture(
+              apptabBloc: apptabBloc,
+              authBloc: authBloc,
+            ));
+
+            final widget = tester.widget<Text>(
+                find.byKey(PositiveAffirmationsKeys.profileAppbarTitle));
+
+            expect(widget.data, 'Profile');
+          });
     });
   });
 }
