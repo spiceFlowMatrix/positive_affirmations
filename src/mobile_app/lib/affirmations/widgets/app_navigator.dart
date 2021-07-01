@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
+import 'package:mobile_app/positive_affirmations_keys.dart';
 
 class AppNavigator extends StatefulWidget {
   final AppTab activeTab;
@@ -38,8 +40,15 @@ class _AppNavigatorState extends State<AppNavigator>
     switch (tab) {
       case AppTab.affirmations:
         return Tab(
-          icon: Text(
+          key: PositiveAffirmationsKeys.homeTab,
+          icon: FaIcon(
+            FontAwesomeIcons.heart,
+            key: PositiveAffirmationsKeys.homeTabIcon,
+            color: Colors.black,
+          ),
+          child: Text(
             'Affirmations',
+            key: PositiveAffirmationsKeys.homeTabLabel,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -48,8 +57,15 @@ class _AppNavigatorState extends State<AppNavigator>
         );
       case AppTab.profile:
         return Tab(
-          icon: Text(
+          key: PositiveAffirmationsKeys.profileTab,
+          icon: FaIcon(
+            FontAwesomeIcons.userCircle,
+            key: PositiveAffirmationsKeys.profileTabIcon,
+            color: Colors.black,
+          ),
+          child: Text(
             'Profile',
+            key: PositiveAffirmationsKeys.profileTabLabel,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.black,
