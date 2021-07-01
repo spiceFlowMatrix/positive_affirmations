@@ -63,7 +63,8 @@ void main() {
             findsOneWidget);
       });
 
-      testWidgets('affirmations appbar title is rendered affirmations tab selected',
+      testWidgets(
+          'affirmations appbar title is rendered affirmations tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
@@ -78,18 +79,47 @@ void main() {
       });
 
       testWidgets('profile appbar title is rendered profile tab selected',
-              (tester) async {
-            when(() => apptabBloc.state).thenReturn(AppTab.profile);
-            await tester.pumpWidget(AffirmationsHomeScreenFixture(
-              apptabBloc: apptabBloc,
-              authBloc: authBloc,
-            ));
+          (tester) async {
+        when(() => apptabBloc.state).thenReturn(AppTab.profile);
+        await tester.pumpWidget(AffirmationsHomeScreenFixture(
+          apptabBloc: apptabBloc,
+          authBloc: authBloc,
+        ));
 
-            final widget = tester.widget<Text>(
-                find.byKey(PositiveAffirmationsKeys.profileAppbarTitle));
+        final widget = tester.widget<Text>(
+            find.byKey(PositiveAffirmationsKeys.profileAppbarTitle));
 
-            expect(widget.data, 'Profile');
-          });
+        expect(widget.data, 'Profile');
+      });
+
+      testWidgets(
+          'affirmations appbar add action is rendered affirmations tab selected',
+          (tester) async {
+        when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
+        await tester.pumpWidget(AffirmationsHomeScreenFixture(
+          apptabBloc: apptabBloc,
+          authBloc: authBloc,
+        ));
+
+        expect(
+          find.byKey(PositiveAffirmationsKeys.affirmationsAppBarAddButton),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets('profile appbar edit action is rendered profile tab selected',
+          (tester) async {
+        when(() => apptabBloc.state).thenReturn(AppTab.profile);
+        await tester.pumpWidget(AffirmationsHomeScreenFixture(
+          apptabBloc: apptabBloc,
+          authBloc: authBloc,
+        ));
+
+        expect(
+          find.byKey(PositiveAffirmationsKeys.profileAppbarEditButton),
+          findsOneWidget,
+        );
+      });
     });
   });
 }
