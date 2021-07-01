@@ -5,6 +5,7 @@ import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dar
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:mobile_app/affirmations/widgets/affirmations_list.dart';
 import 'package:mobile_app/affirmations/widgets/app_navigator.dart';
+import 'package:mobile_app/positive_affirmations_keys.dart';
 
 class AffirmationsHomeScreen extends StatelessWidget {
   const AffirmationsHomeScreen({this.affirmationsBloc});
@@ -34,6 +35,9 @@ class AffirmationsHomeScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text(
               state == AppTab.affirmations ? 'Affirmations' : 'Profile',
+              key: state == AppTab.affirmations
+                  ? PositiveAffirmationsKeys.affirmationsAppbarTitle
+                  : PositiveAffirmationsKeys.profileAppbarTitle,
             ),
             actions: [
               if (state == AppTab.affirmations)
