@@ -6,6 +6,8 @@ import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dar
 import 'package:mobile_app/models/affirmation.dart';
 
 class AffirmationsList extends StatelessWidget {
+  AffirmationsList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return _List();

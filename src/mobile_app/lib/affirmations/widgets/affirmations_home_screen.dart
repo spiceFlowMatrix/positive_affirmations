@@ -5,6 +5,7 @@ import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dar
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:mobile_app/affirmations/widgets/affirmations_list.dart';
 import 'package:mobile_app/affirmations/widgets/app_navigator.dart';
+import 'package:mobile_app/affirmations/widgets/profile_details.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 
 class AffirmationsHomeScreen extends StatelessWidget {
@@ -17,13 +18,17 @@ class AffirmationsHomeScreen extends StatelessWidget {
   Widget _mapBody(AppTab tab) {
     switch (tab) {
       case AppTab.affirmations:
-        return AffirmationsList();
+        return AffirmationsList(
+          key: PositiveAffirmationsKeys.affirmationsList,
+        );
       case AppTab.profile:
-        return Center(
-          child: Text('Profile Screen'),
+        return ProfileDetails(
+          key: PositiveAffirmationsKeys.profileDetails,
         );
       default:
-        return AffirmationsList();
+        return AffirmationsList(
+          key: PositiveAffirmationsKeys.affirmationsList,
+        );
     }
   }
 
