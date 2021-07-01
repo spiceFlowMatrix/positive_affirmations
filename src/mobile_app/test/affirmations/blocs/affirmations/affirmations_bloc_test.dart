@@ -137,6 +137,20 @@ void main() {
           ];
         },
       );
+      blocTest<AffirmationsBloc, AffirmationsState>(
+        'supplying exact values as the current state does not emit new state',
+        build: () => affirmationsBloc,
+        seed: () => AffirmationsState(affirmations: seedAffirmations),
+        act: (bloc) {
+          bloc
+            ..add(AffirmationUpdated(
+              seedAffirmations[1].id,
+              seedAffirmations[1].title,
+              seedAffirmations[1].subtitle,
+            ));
+        },
+        expect: () => <AffirmationsState>[],
+      );
     });
   });
 }
