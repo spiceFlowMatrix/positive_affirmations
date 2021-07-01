@@ -96,6 +96,7 @@ class PositiveAffirmationsKeys {
   // Profile details tab
   static const profileAppbarTitle = Key('__profileAppbarTitle__');
   static const profileAppbarEditButton = Key('__profileAppbarEditButton__');
+  static const profileDetails = Key('__profileDetails__');
 
   // Tabs
   static const homeTab = Key('__homeTab__');
