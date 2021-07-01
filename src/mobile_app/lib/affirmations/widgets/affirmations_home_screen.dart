@@ -40,11 +40,15 @@ class AffirmationsHomeScreen extends StatelessWidget {
                   : PositiveAffirmationsKeys.profileAppbarTitle,
             ),
             actions: [
-              if (state == AppTab.affirmations)
-                IconButton(
-                  icon: FaIcon(FontAwesomeIcons.plusSquare),
-                  onPressed: () {},
-                )
+              IconButton(
+                icon: FaIcon(state == AppTab.affirmations
+                    ? FontAwesomeIcons.plusSquare
+                    : FontAwesomeIcons.edit),
+                key: state == AppTab.affirmations
+                    ? PositiveAffirmationsKeys.affirmationsAppBarAddButton
+                    : PositiveAffirmationsKeys.profileAppbarEditButton,
+                onPressed: () {},
+              )
             ],
           ),
           body: _mapBody(state),
