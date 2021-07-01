@@ -16,7 +16,11 @@ class AffirmationFormState extends Equatable {
     SubtitleField? subtitle,
     FormzStatus? status,
   }) {
-    return AffirmationFormState();
+    return AffirmationFormState(
+      title: title ?? this.title,
+      subtitle: subtitle ?? this.subtitle,
+      status: status ?? this.status,
+    );
   }
 
   @override
