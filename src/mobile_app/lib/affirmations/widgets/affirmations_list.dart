@@ -39,7 +39,7 @@ class _ListItem extends StatelessWidget {
   static const Padding _subtitlePadding =
       const Padding(padding: EdgeInsets.only(top: 10));
 
-  RichText _buildLikes() {
+  RichText _buildLikes(BuildContext context) {
     return RichText(
       key: PositiveAffirmationsKeys.affirmationItemLikes('${affirmation.id}'),
       text: TextSpan(
@@ -51,14 +51,18 @@ class _ListItem extends StatelessWidget {
           WidgetSpan(
             child: Padding(
               padding: EdgeInsets.only(right: 10),
-              child: FaIcon(
-                affirmation.liked
-                    ? FontAwesomeIcons.solidHeart
-                    : FontAwesomeIcons.heart,
-                size: 18,
-                color: affirmation.liked ? Colors.red : Colors.black,
+              child: GestureDetector(
                 key: PositiveAffirmationsKeys.affirmationItemLikeButton(
                     '${affirmation.id}'),
+                onTap: () => BlocProvider.of<AffirmationsBloc>(context)
+                    .add(AffirmationLiked(affirmation.id)),
+                child: FaIcon(
+                  affirmation.liked
+                      ? FontAwesomeIcons.solidHeart
+                      : FontAwesomeIcons.heart,
+                  size: 18,
+                  color: affirmation.liked ? Colors.red : Colors.black,
+                ),
               ),
             ),
             alignment: PlaceholderAlignment.middle,
@@ -95,7 +99,7 @@ class _ListItem extends StatelessWidget {
                 '${affirmation.id}'),
           ),
           _subtitlePadding,
-          _buildLikes(),
+          _buildLikes(context),
           _subtitlePadding,
           Text(
             '${affirmation.totalReaffirmations} reaffirmations...',
