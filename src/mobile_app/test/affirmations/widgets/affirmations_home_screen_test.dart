@@ -4,6 +4,7 @@ import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dar
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/nav_observer.dart';
+import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/apptab_bloc_mock.dart';
@@ -48,6 +49,17 @@ void main() {
           apptabBloc: apptabBloc,
           authBloc: authBloc,
         ));
+
+        expect(find.byKey(PositiveAffirmationsKeys.homeTab), findsOneWidget);
+        expect(
+            find.byKey(PositiveAffirmationsKeys.homeTabIcon), findsOneWidget);
+        expect(
+            find.byKey(PositiveAffirmationsKeys.homeTabLabel), findsOneWidget);
+        expect(find.byKey(PositiveAffirmationsKeys.profileTab), findsOneWidget);
+        expect(find.byKey(PositiveAffirmationsKeys.profileTabIcon),
+            findsOneWidget);
+        expect(find.byKey(PositiveAffirmationsKeys.profileTabLabel),
+            findsOneWidget);
       });
     });
   });
