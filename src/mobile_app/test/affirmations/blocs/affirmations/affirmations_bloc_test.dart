@@ -15,6 +15,9 @@ void main() {
   late int mockAffirmationsLength;
   late List<Affirmation> seedAffirmations;
 
+  final String updatedTitle = 'updatedTitle';
+  final String updatedSubtitle = 'updatedSubtitle';
+
   setUp(() {
     seedAffirmations = [...PositiveAffirmationsConsts.seedAffirmations];
     mockMachineTime = MockMachineDateTime();
@@ -90,11 +93,42 @@ void main() {
         build: () => affirmationsBloc,
         seed: () => AffirmationsState(affirmations: seedAffirmations),
         act: (bloc) {
-          bloc..add(AffirmationLiked(seedAffirmations[1].id));
+          bloc..add(AffirmationActivationToggled(seedAffirmations[1].id));
         },
         expect: () {
           final updatedAffirmations = seedAffirmations.map((e) {
             return e.id == 2 ? e.copyWith(active: !e.active) : e;
+          }).toList();
+          return <AffirmationsState>[
+            AffirmationsState(
+              affirmations: [...updatedAffirmations],
+            )
+          ];
+        },
+      );
+    });
+
+    group('[AffirmationUpdated]', () {
+      blocTest<AffirmationsBloc, AffirmationsState>(
+        'updated affirmation is emitted in list when valid values are supplied',
+        build: () => affirmationsBloc,
+        seed: () => AffirmationsState(affirmations: seedAffirmations),
+        act: (bloc) {
+          bloc
+            ..add(AffirmationUpdated(
+              seedAffirmations[1].id,
+              updatedTitle,
+              updatedSubtitle,
+            ));
+        },
+        expect: () {
+          final updatedAffirmations = seedAffirmations.map((e) {
+            return e.id == 2
+                ? e.copyWith(
+                    title: updatedTitle,
+                    subtitle: updatedSubtitle,
+                  )
+                : e;
           }).toList();
           return <AffirmationsState>[
             AffirmationsState(
