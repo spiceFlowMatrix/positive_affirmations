@@ -120,6 +120,35 @@ void main() {
           findsOneWidget,
         );
       });
+
+      testWidgets(
+          'affirmations list body is rendered when affirmations tab selected',
+          (tester) async {
+        when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
+        await tester.pumpWidget(AffirmationsHomeScreenFixture(
+          apptabBloc: apptabBloc,
+          authBloc: authBloc,
+        ));
+
+        expect(
+          find.byKey(PositiveAffirmationsKeys.affirmationsList),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets('profile details body is rendered when profile tab selected',
+          (tester) async {
+        when(() => apptabBloc.state).thenReturn(AppTab.profile);
+        await tester.pumpWidget(AffirmationsHomeScreenFixture(
+          apptabBloc: apptabBloc,
+          authBloc: authBloc,
+        ));
+
+        expect(
+          find.byKey(PositiveAffirmationsKeys.profileDetails),
+          findsOneWidget,
+        );
+      });
     });
   });
 }
