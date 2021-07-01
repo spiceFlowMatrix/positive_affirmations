@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/models/affirmation.dart';
+import 'package:mobile_app/positive_affirmations_keys.dart';
 
 class AffirmationsList extends StatelessWidget {
   AffirmationsList({Key? key}) : super(key: key);
@@ -38,13 +39,44 @@ class _ListItem extends StatelessWidget {
   static const Padding _subtitlePadding =
       const Padding(padding: EdgeInsets.only(top: 10));
 
+  RichText _buildLikes() {
+    return RichText(
+      key: PositiveAffirmationsKeys.affirmationItemLikes('${affirmation.id}'),
+      text: TextSpan(
+        style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w500,
+        ),
+        children: [
+          WidgetSpan(
+            child: Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: FaIcon(
+                FontAwesomeIcons.heart,
+                size: 18,
+                key: PositiveAffirmationsKeys.affirmationItemLikeButton(
+                    '${affirmation.id}'),
+              ),
+            ),
+            alignment: PlaceholderAlignment.middle,
+          ),
+          TextSpan(
+            text: '${affirmation.likes} likes',
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      key: PositiveAffirmationsKeys.affirmationItem('${affirmation.id}'),
       onTap: () {},
       minVerticalPadding: 20,
       title: Text(
         affirmation.title,
+        key: PositiveAffirmationsKeys.affirmationItemTitle('${affirmation.id}'),
         style: TextStyle(
           fontWeight: FontWeight.w500,
           fontSize: 18,
@@ -54,32 +86,18 @@ class _ListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _subtitlePadding,
-          Text(affirmation.subtitle),
-          _subtitlePadding,
-          RichText(
-            text: TextSpan(
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
-              ),
-              children: [
-                WidgetSpan(
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 10),
-                    child: FaIcon(
-                      FontAwesomeIcons.heart,
-                      size: 18,
-                    ),
-                  ),
-                  alignment: PlaceholderAlignment.middle,
-                ),
-                TextSpan(text: '${affirmation.likes} likes'),
-              ],
-            ),
+          Text(
+            affirmation.subtitle,
+            key: PositiveAffirmationsKeys.affirmationItemSubtitle(
+                '${affirmation.id}'),
           ),
+          _subtitlePadding,
+          _buildLikes(),
           _subtitlePadding,
           Text(
             '${affirmation.totalReaffirmations} reaffirmations...',
+            key: PositiveAffirmationsKeys.affirmationItemReaffirmationsCount(
+                '${affirmation.id}'),
             style: TextStyle(
               fontWeight: FontWeight.w500,
             ),
