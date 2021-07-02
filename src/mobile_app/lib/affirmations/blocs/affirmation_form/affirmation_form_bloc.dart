@@ -31,6 +31,20 @@ class AffirmationFormBloc
   Stream<AffirmationFormState> mapEventToState(
     AffirmationFormEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    if (event is TitleUpdated) {
+      yield _mapTitleUpdatedToState(event, state);
+    }
+  }
+
+  AffirmationFormState _mapTitleUpdatedToState(
+      TitleUpdated event, AffirmationFormState state) {
+    final title = TitleField.dirty(event.title);
+    return state.copyWith(
+      title: title,
+      status: Formz.validate([
+        title,
+        state.subtitle,
+      ]),
+    );
   }
 }

@@ -5,8 +5,6 @@ import 'package:mobile_app/affirmations/blocs/affirmation_form/affirmation_form_
 import 'package:mobile_app/affirmations/models/subtitle_field.dart';
 import 'package:mobile_app/affirmations/models/title_field.dart';
 
-/// 2. valid title supplied in TitleUpdated emits new state
-/// 3. invalid OR empty title supplied in TitleUpdated does not emit new state
 /// 4. valid subtitle supplied in SubtitleUpdated emits new state
 /// 5. invalid subtitle supplied in SubtitleUpdated does not emit new state
 /// 7. submit event emits new state only if form is valid
@@ -52,7 +50,7 @@ void main() {
 
     group('[TitleUpdated]', () {
       blocTest<AffirmationFormBloc, AffirmationFormState>(
-        'supplying valid title emits new state',
+        'supplying valid title emits valid status',
         build: () => formBloc,
         act: (bloc) {
           bloc..add(TitleUpdated(mockValidTitle));
@@ -61,6 +59,19 @@ void main() {
           const AffirmationFormState(
             title: TitleField.dirty(mockValidTitle),
             status: FormzStatus.valid,
+          ),
+        ],
+      );
+      blocTest<AffirmationFormBloc, AffirmationFormState>(
+        'supplying invalid title emits invalid status',
+        build: () => formBloc,
+        act: (bloc) {
+          bloc..add(TitleUpdated(mockInvalidTitle));
+        },
+        expect: () => <AffirmationFormState>[
+          const AffirmationFormState(
+            title: TitleField.dirty(mockInvalidTitle),
+            status: FormzStatus.invalid,
           ),
         ],
       );
