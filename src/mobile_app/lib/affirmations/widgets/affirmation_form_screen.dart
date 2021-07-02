@@ -5,6 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/affirmations/blocs/affirmation_form/affirmation_form_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
+import 'package:mobile_app/affirmations/models/subtitle_field.dart';
+import 'package:mobile_app/affirmations/models/title_field.dart';
+import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/models/affirmation.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 
@@ -126,32 +129,63 @@ class _AffirmationForm extends StatelessWidget {
 }
 
 class _TitleField extends StatelessWidget {
+  String _generateErrorText(TitleFieldValidationError error) {
+    switch (error) {
+      case TitleFieldValidationError.empty:
+        return PositiveAffirmationsConsts.titleFieldEmptyError;
+      case TitleFieldValidationError.invalid:
+        return PositiveAffirmationsConsts.titleFieldInvalidError;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      key: PositiveAffirmationsKeys.affirmationFormTitleField,
-      onChanged: (title) {
-        BlocProvider.of<AffirmationFormBloc>(context).add(TitleUpdated(title));
+    return BlocBuilder<AffirmationFormBloc, AffirmationFormState>(
+      builder: (context, state) {
+        return TextField(
+          key: PositiveAffirmationsKeys.affirmationFormTitleField,
+          onChanged: (title) {
+            BlocProvider.of<AffirmationFormBloc>(context)
+                .add(TitleUpdated(title));
+          },
+          decoration: InputDecoration(
+            labelText: 'Title',
+            errorText: state.title.invalid
+                ? _generateErrorText(state.title.error!)
+                : null,
+          ),
+        );
       },
-      decoration: InputDecoration(
-        labelText: 'Title',
-      ),
     );
   }
 }
 
 class _SubtitleField extends StatelessWidget {
+  String _generateErrorText(SubtitleFieldValidationError error) {
+    switch (error) {
+      case SubtitleFieldValidationError.invalid:
+        return PositiveAffirmationsConsts.subtitleFieldInvalidError;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      key: PositiveAffirmationsKeys.affirmationFormSubtitleField,
-      onChanged: (subtitle) {
-        BlocProvider.of<AffirmationFormBloc>(context)
-            .add(SubtitleUpdated(subtitle));
+    return BlocBuilder<AffirmationFormBloc, AffirmationFormState>(
+      builder: (context, state) {
+        return TextField(
+          key: PositiveAffirmationsKeys.affirmationFormSubtitleField,
+          onChanged: (subtitle) {
+            BlocProvider.of<AffirmationFormBloc>(context)
+                .add(SubtitleUpdated(subtitle));
+          },
+          decoration: InputDecoration(
+            labelText: 'Description',
+            errorText: state.subtitle.invalid
+                ? _generateErrorText(state.subtitle.error!)
+                : null,
+          ),
+        );
       },
-      decoration: InputDecoration(
-        labelText: 'Description',
-      ),
     );
   }
 }

@@ -182,7 +182,7 @@ void main() {
       });
       testWidgets('invalid subtitle shows error', (tester) async {
         when(() => affirmationFormBloc.state).thenReturn(AffirmationFormState(
-          title: TitleField.dirty(invalidSubtitleInput),
+          subtitle: SubtitleField.dirty(invalidSubtitleInput),
           status: FormzStatus.invalid,
         ));
         await tester.pumpWidget(_buildNewFormNoSetup());
