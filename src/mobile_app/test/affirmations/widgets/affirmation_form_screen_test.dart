@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/affirmations/blocs/affirmation_form/affirmation_form_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
+import 'package:mobile_app/affirmations/models/subtitle_field.dart';
+import 'package:mobile_app/affirmations/models/title_field.dart';
 import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/models/affirmation.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
@@ -36,6 +38,7 @@ void main() {
   });
 
   AffirmationFormScreenFixture _buildNewForm() {
+    when(() => affirmationFormBloc.state).thenReturn(AffirmationFormState());
     return AffirmationFormScreenFixture(
       affirmationsBloc: affirmationsBloc,
       affirmationFormBloc: affirmationFormBloc,
@@ -43,6 +46,14 @@ void main() {
   }
 
   AffirmationFormScreenFixture _buildEditForm() {
+    when(() => affirmationFormBloc.affirmationsBloc)
+        .thenReturn(affirmationsBloc);
+    when(() => affirmationFormBloc.toUpdateAffirmation)
+        .thenReturn(toUpdateAffirmation);
+    when(() => affirmationFormBloc.state).thenReturn(AffirmationFormState(
+      title: TitleField.dirty(toUpdateAffirmation.title),
+      subtitle: SubtitleField.dirty(toUpdateAffirmation.subtitle),
+    ));
     return AffirmationFormScreenFixture(
       affirmationsBloc: affirmationsBloc,
       affirmationFormBloc: affirmationFormBloc,
@@ -126,13 +137,13 @@ void main() {
           validSubtitleInput,
         );
 
-        verify(() => affirmationFormBloc.add(TitleUpdated(validSubtitleInput)))
+        verify(() => affirmationFormBloc.add(SubtitleUpdated(validSubtitleInput)))
             .called(1);
       });
       testWidgets('submit button is disabled when form is invalid',
           (tester) async {
-        when(() => affirmationFormBloc.state.status)
-            .thenReturn(FormzStatus.invalid);
+        when(() => affirmationFormBloc.state)
+            .thenReturn(AffirmationFormState(status: FormzStatus.invalid));
 
         await tester.pumpWidget(_buildNewForm());
         expect(
@@ -145,8 +156,8 @@ void main() {
       });
       testWidgets('submit button is disabled when form is pure',
           (tester) async {
-        when(() => affirmationFormBloc.state.status)
-            .thenReturn(FormzStatus.pure);
+        when(() => affirmationFormBloc.state)
+            .thenReturn(AffirmationFormState(status: FormzStatus.pure));
 
         await tester.pumpWidget(_buildNewForm());
         expect(
