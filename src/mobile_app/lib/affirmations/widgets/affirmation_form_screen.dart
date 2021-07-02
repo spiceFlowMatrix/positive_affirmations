@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -73,6 +74,9 @@ class _AffirmationForm extends StatelessWidget {
     return Text(
       'Tell me something awesome about you',
       key: PositiveAffirmationsKeys.affirmationFormTitleFieldLabel,
+      style: TextStyle(
+        fontWeight: FontWeight.w500,
+      ),
     );
   }
 
@@ -80,6 +84,9 @@ class _AffirmationForm extends StatelessWidget {
     return Text(
       'I\'d love it if you told me more about that',
       key: PositiveAffirmationsKeys.affirmationFormSubtitleFieldLabel,
+      style: TextStyle(
+        fontWeight: FontWeight.w500,
+      ),
     );
   }
 
@@ -95,12 +102,18 @@ class _AffirmationForm extends StatelessWidget {
             shrinkWrap: true,
             children: [
               _buildTitleLabel(),
+              const Padding(padding: EdgeInsets.only(top: 15)),
               _TitleField(),
+              const Padding(padding: EdgeInsets.only(top: 30)),
               _buildSubtitleLabel(),
+              const Padding(padding: EdgeInsets.only(top: 15)),
               _SubtitleField(),
+              const Padding(padding: EdgeInsets.only(top: 30)),
               _SaveButton(),
               if (toUpdateAffirmation != null) ...[
+                const Padding(padding: EdgeInsets.only(top: 30)),
                 _ActivateDeactivateButton(toUpdateAffirmation!.id),
+                const Padding(padding: EdgeInsets.only(top: 30)),
                 _DeleteButton(toUpdateAffirmation!.id),
               ]
             ],
