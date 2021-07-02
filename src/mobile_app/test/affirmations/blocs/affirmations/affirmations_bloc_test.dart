@@ -15,6 +15,9 @@ void main() {
   late int mockAffirmationsLength;
   late List<Affirmation> seedAffirmations;
 
+  const String validTitle = 'valid title';
+  const String validSubtitle = 'valid sub title';
+
   final String updatedTitle = 'updatedTitle';
   final String updatedSubtitle = 'updatedSubtitle';
 
@@ -33,8 +36,8 @@ void main() {
         build: () => affirmationsBloc,
         act: (bloc) {
           bloc
-            ..add(new AffirmationCreated('-', '-'))
-            ..add(new AffirmationCreated('-', '-'));
+            ..add(new AffirmationCreated(validTitle, validSubtitle))
+            ..add(new AffirmationCreated('$validTitle 2', '$validSubtitle 2'));
         },
         expect: () {
           return <AffirmationsState>[
@@ -42,7 +45,8 @@ void main() {
               affirmations: [
                 Affirmation(
                   id: mockAffirmationsLength + 1,
-                  title: '-',
+                  title: validTitle,
+                  subtitle: validSubtitle,
                   createdOn: mockTime,
                 ),
               ],
@@ -51,12 +55,14 @@ void main() {
               affirmations: [
                 Affirmation(
                   id: mockAffirmationsLength + 1,
-                  title: '-',
+                  title: validTitle,
+                  subtitle: validSubtitle,
                   createdOn: mockTime,
                 ),
                 Affirmation(
                   id: mockAffirmationsLength + 2,
-                  title: '-',
+                  title: '$validTitle 2',
+                  subtitle: '$validSubtitle 2',
                   createdOn: mockTime,
                 ),
               ],
