@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
+import 'package:mobile_app/consts.dart';
+import 'package:mobile_app/models/affirmation.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -12,10 +14,14 @@ import '../../mocks/authentication_bloc_mock.dart';
 import '../fixtures/affirmations_home_screen_fixture.dart';
 
 void main() {
-  // late AffirmationsBloc affirmationsBloc;
+  late AffirmationsBloc affirmationsBloc;
   late AuthenticationBloc authBloc;
   late ApptabBloc apptabBloc;
   // late PositiveAffirmationsNavigatorObserver navigatorObserver;
+
+  final List<Affirmation> seedAffirmations = <Affirmation>[
+    ...PositiveAffirmationsConsts.seedAffirmations,
+  ];
 
   setUpAll(() {
     registerFallbackValue<AffirmationsEvent>(FakeAffirmationsEvent());
@@ -29,18 +35,26 @@ void main() {
   setUp(() {
     apptabBloc = MockApptabBloc();
     authBloc = MockAuthenticationBloc();
-    // affirmationsBloc = MockAffirmationsBloc();
+    affirmationsBloc = MockAffirmationsBloc();
     // navigatorObserver = PositiveAffirmationsNavigatorObserver();
+    when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
+      affirmations: seedAffirmations,
+    ));
   });
+
+  AffirmationsHomeScreenFixture _setupFixture() {
+    return AffirmationsHomeScreenFixture(
+      apptabBloc: apptabBloc,
+      authBloc: authBloc,
+      affirmationsBloc: affirmationsBloc,
+    );
+  }
 
   group('[AffirmationsHomeScreen]', () {
     group('[AppNavigator]', () {
       testWidgets('navigator tabs exist', (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
-        await tester.pumpWidget(AffirmationsHomeScreenFixture(
-          apptabBloc: apptabBloc,
-          authBloc: authBloc,
-        ));
+        await tester.pumpWidget(_setupFixture());
 
         expect(find.byKey(PositiveAffirmationsKeys.homeTab), findsOneWidget);
         expect(
@@ -58,10 +72,7 @@ void main() {
           'affirmations appbar title is rendered affirmations tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
-        await tester.pumpWidget(AffirmationsHomeScreenFixture(
-          apptabBloc: apptabBloc,
-          authBloc: authBloc,
-        ));
+        await tester.pumpWidget(_setupFixture());
 
         final widget = tester.widget<Text>(
             find.byKey(PositiveAffirmationsKeys.affirmationsAppbarTitle));
@@ -87,10 +98,7 @@ void main() {
           'affirmations appbar add action is rendered affirmations tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
-        await tester.pumpWidget(AffirmationsHomeScreenFixture(
-          apptabBloc: apptabBloc,
-          authBloc: authBloc,
-        ));
+        await tester.pumpWidget(_setupFixture());
 
         expect(
           find.byKey(PositiveAffirmationsKeys.affirmationsAppBarAddButton),
@@ -116,10 +124,7 @@ void main() {
           'affirmations list body is rendered when affirmations tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
-        await tester.pumpWidget(AffirmationsHomeScreenFixture(
-          apptabBloc: apptabBloc,
-          authBloc: authBloc,
-        ));
+        await tester.pumpWidget(_setupFixture());
 
         expect(
           find.byKey(PositiveAffirmationsKeys.affirmationsList),
