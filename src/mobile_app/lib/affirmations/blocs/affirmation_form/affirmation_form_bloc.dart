@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/models/subtitle_field.dart';
 import 'package:mobile_app/affirmations/models/title_field.dart';
 
@@ -13,6 +14,7 @@ part 'affirmation_form_state.dart';
 class AffirmationFormBloc
     extends Bloc<AffirmationFormEvent, AffirmationFormState> {
   AffirmationFormBloc({
+    required this.affirmationsBloc,
     this.initialTitle,
     this.initialSubtitle,
   }) : super(AffirmationFormState(
@@ -24,6 +26,7 @@ class AffirmationFormBloc
               : SubtitleField.pure(),
         ));
 
+  final AffirmationsBloc affirmationsBloc;
   final String? initialTitle;
   final String? initialSubtitle;
 
