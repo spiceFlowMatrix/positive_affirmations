@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -81,20 +82,29 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
 
     return state.copyWith(affirmations: [...updatedAffirmations]);
   }
+}
 
-// @override
-// AffirmationsState? fromJson(Map<String, dynamic> json) {
-//   List<Affirmation> affirmations = [
-//     ...json[AffirmationsState.fieldAffirmations] as List<Affirmation>
-//   ];
-//
-//   return AffirmationsState(affirmations: affirmations);
-// }
-//
-// @override
-// Map<String, dynamic>? toJson(AffirmationsState state) => {
-//       AffirmationsState.fieldAffirmations: [
-//         ...state.affirmations.map((e) => e.fieldValues),
-//       ],
-//     };
+class HydratedAffirmationsBloc extends AffirmationsBloc with HydratedMixin {
+  @override
+  AffirmationsState? fromJson(Map<String, dynamic> json) {
+    (json[AffirmationsState.fieldAffirmations] as List<dynamic>)
+        .forEach((e) => log(e.toString()));
+    List<Affirmation> affirmations = [
+      ...(json[AffirmationsState.fieldAffirmations] as List<dynamic>)
+          .map((affirmation) {
+        final affirmationJson = affirmation as Map<String, dynamic>;
+        return Affirmation.fromJson(affirmationJson);
+      }),
+    ];
+
+    return AffirmationsState(affirmations: affirmations);
+    // return AffirmationsState();
+  }
+
+  @override
+  Map<String, dynamic>? toJson(AffirmationsState state) => {
+        AffirmationsState.fieldAffirmations: [
+          ...state.affirmations.map((e) => e.fieldValues),
+        ],
+      };
 }

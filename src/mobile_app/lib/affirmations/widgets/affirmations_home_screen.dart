@@ -82,7 +82,7 @@ class AffirmationsHomeScreen extends StatelessWidget {
 
     return BlocProvider<AffirmationsBloc>(
       create: (context) {
-        return new AffirmationsBloc();
+        return new HydratedAffirmationsBloc();
       },
       child: scaffold,
     );
