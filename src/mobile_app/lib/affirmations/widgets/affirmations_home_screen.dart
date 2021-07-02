@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
+import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/affirmations/widgets/affirmations_list.dart';
 import 'package:mobile_app/affirmations/widgets/app_navigator.dart';
 import 'package:mobile_app/affirmations/widgets/profile_details.dart';
@@ -52,7 +53,14 @@ class AffirmationsHomeScreen extends StatelessWidget {
                 key: state == AppTab.affirmations
                     ? PositiveAffirmationsKeys.affirmationsAppBarAddButton
                     : PositiveAffirmationsKeys.profileAppbarEditButton,
-                onPressed: () {},
+                onPressed: () {
+                  final bloc = BlocProvider.of<AffirmationsBloc>(context);
+                  Navigator.of(context).pushNamed(
+                    AffirmationFormScreen.routeName,
+                    arguments:
+                        AffirmationFormScreenArguments(affirmationsBloc: bloc),
+                  );
+                },
               )
             ],
           ),
