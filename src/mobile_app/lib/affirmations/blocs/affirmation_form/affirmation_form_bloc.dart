@@ -38,6 +38,8 @@ class AffirmationFormBloc
       yield _mapTitleUpdatedToState(event, state);
     } else if (event is SubtitleUpdated) {
       yield _mapSubtitleUpdatedToState(event, state);
+    } else if (event is AffirmationSubmitted) {
+      yield* _mapAffirmationSubmittedToState(event, state);
     }
   }
 
@@ -63,5 +65,17 @@ class AffirmationFormBloc
         subtitle,
       ]),
     );
+  }
+
+  Stream<AffirmationFormState> _mapAffirmationSubmittedToState(
+      AffirmationSubmitted event, AffirmationFormState state) async* {
+    if (state.status == FormzStatus.valid) {
+      yield state.copyWith(status: FormzStatus.submissionInProgress);
+
+      affirmationsBloc
+          .add(AffirmationCreated(state.title.value, state.subtitle.value));
+
+      yield state.copyWith(status: FormzStatus.submissionSuccess);
+    }
   }
 }
