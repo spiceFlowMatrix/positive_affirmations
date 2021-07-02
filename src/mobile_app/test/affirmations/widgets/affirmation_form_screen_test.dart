@@ -16,6 +16,11 @@ void main() {
   final Affirmation toUpdateAffirmation =
       PositiveAffirmationsConsts.seedAffirmations[1];
 
+  const String validTitleInput = 'valid title';
+  const String invalidTitleInput = '!nv@l%dTitle';
+  const String validSubtitleInput = 'valid subtitle';
+  const String invalidSubtitleInput = '!nv@l%dSubtitle';
+
   setUpAll(() {
     registerFallbackValue<AffirmationsState>(FakeAffirmationsState());
     registerFallbackValue<AffirmationsEvent>(FakeAffirmationsEvent());
@@ -28,12 +33,24 @@ void main() {
     affirmationFormBloc = MockAffirmationFormBloc();
   });
 
+  AffirmationFormScreenFixture _buildNewForm() {
+    return AffirmationFormScreenFixture(
+      affirmationsBloc: affirmationsBloc,
+      affirmationFormBloc: affirmationFormBloc,
+    );
+  }
+
+  AffirmationFormScreenFixture _buildEditForm() {
+    return AffirmationFormScreenFixture(
+      affirmationsBloc: affirmationsBloc,
+      affirmationFormBloc: affirmationFormBloc,
+      toUpdateAffirmation: toUpdateAffirmation,
+    );
+  }
+
   group('[AffirmationFormScreen]', () {
     testWidgets('components exist for new affirmation form', (tester) async {
-      await tester.pumpWidget(AffirmationFormScreenFixture(
-        affirmationsBloc: affirmationsBloc,
-        affirmationFormBloc: affirmationFormBloc,
-      ));
+      await tester.pumpWidget(_buildNewForm());
 
       expect(find.byKey(PositiveAffirmationsKeys.affirmationFormBackButton),
           findsOneWidget);
@@ -57,11 +74,7 @@ void main() {
     });
 
     testWidgets('components exist for edit affirmation form', (tester) async {
-      await tester.pumpWidget(AffirmationFormScreenFixture(
-        affirmationsBloc: affirmationsBloc,
-        affirmationFormBloc: affirmationFormBloc,
-        toUpdateAffirmation: toUpdateAffirmation,
-      ));
+      await tester.pumpWidget(_buildEditForm());
 
       expect(find.byKey(PositiveAffirmationsKeys.affirmationFormBackButton),
           findsOneWidget);
@@ -88,6 +101,20 @@ void main() {
               .affirmationFormDeactivateDeactivateButton(
                   '${toUpdateAffirmation.id}')),
           findsOneWidget);
+    });
+
+    group('Bloc Integration', () {
+      testWidgets('title input triggers TitleUpdated event', (tester) async {
+        await tester.pumpWidget(_buildNewForm());
+
+        await tester.enterText(
+          find.byKey(PositiveAffirmationsKeys.affirmationFormTitleField),
+          validTitleInput,
+        );
+
+        verify(() => affirmationFormBloc.add(TitleUpdated(validTitleInput)))
+            .called(1);
+      });
     });
   });
 }
