@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:formz/formz.dart';
 import 'package:mobile_app/affirmations/blocs/affirmation_form/affirmation_form_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/consts.dart';
@@ -115,7 +117,8 @@ void main() {
         verify(() => affirmationFormBloc.add(TitleUpdated(validTitleInput)))
             .called(1);
       });
-      testWidgets('subtitle input triggers SubtitleTitleUpdated event', (tester) async {
+      testWidgets('subtitle input triggers SubtitleTitleUpdated event',
+          (tester) async {
         await tester.pumpWidget(_buildNewForm());
 
         await tester.enterText(
@@ -125,6 +128,34 @@ void main() {
 
         verify(() => affirmationFormBloc.add(TitleUpdated(validSubtitleInput)))
             .called(1);
+      });
+      testWidgets('submit button is disabled when form is invalid',
+          (tester) async {
+        when(() => affirmationFormBloc.state.status)
+            .thenReturn(FormzStatus.invalid);
+
+        await tester.pumpWidget(_buildNewForm());
+        expect(
+          tester
+              .widget<ElevatedButton>(find
+                  .byKey(PositiveAffirmationsKeys.affirmationFormSaveButton))
+              .enabled,
+          isFalse,
+        );
+      });
+      testWidgets('submit button is disabled when form is pure',
+          (tester) async {
+        when(() => affirmationFormBloc.state.status)
+            .thenReturn(FormzStatus.pure);
+
+        await tester.pumpWidget(_buildNewForm());
+        expect(
+          tester
+              .widget<ElevatedButton>(find
+                  .byKey(PositiveAffirmationsKeys.affirmationFormSaveButton))
+              .enabled,
+          isFalse,
+        );
       });
     });
   });
