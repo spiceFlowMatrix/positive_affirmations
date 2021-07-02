@@ -29,9 +29,64 @@ void main() {
   });
 
   group('[AffirmationFormScreen]', () {
-    testWidgets('all components exist', (tester) async {
-      await tester.pumpWidget(
-          AffirmationFormScreenFixture(affirmationsBloc: affirmationsBloc));
+    testWidgets('components exist for new affirmation form', (tester) async {
+      await tester.pumpWidget(AffirmationFormScreenFixture(
+        affirmationsBloc: affirmationsBloc,
+        affirmationFormBloc: affirmationFormBloc,
+      ));
+
+      expect(find.byKey(PositiveAffirmationsKeys.affirmationFormBackButton),
+          findsOneWidget);
+      expect(find.byKey(PositiveAffirmationsKeys.newAffirmationFormAppbarTitle),
+          findsOneWidget);
+      expect(
+          find.byKey(PositiveAffirmationsKeys.affirmationForm), findsOneWidget);
+      expect(find.byKey(PositiveAffirmationsKeys.affirmationFormTitleField),
+          findsOneWidget);
+      expect(
+          find.byKey(PositiveAffirmationsKeys.affirmationFormTitleFieldLabel),
+          findsOneWidget);
+      expect(find.byKey(PositiveAffirmationsKeys.affirmationFormSubtitleField),
+          findsOneWidget);
+      expect(
+          find.byKey(
+              PositiveAffirmationsKeys.affirmationFormSubtitleFieldLabel),
+          findsOneWidget);
+      expect(find.byKey(PositiveAffirmationsKeys.affirmationFormSaveButton),
+          findsOneWidget);
+    });
+    testWidgets('components exist for edit affirmation form', (tester) async {
+      await tester.pumpWidget(AffirmationFormScreenFixture(
+        affirmationsBloc: affirmationsBloc,
+        affirmationFormBloc: affirmationFormBloc,
+        toUpdateAffirmation: toUpdateAffirmation,
+      ));
+
+      expect(find.byKey(PositiveAffirmationsKeys.affirmationFormBackButton),
+          findsOneWidget);
+      expect(
+          find.byKey(PositiveAffirmationsKeys.editAffirmationFormAppbarTitle),
+          findsOneWidget);
+      expect(
+          find.byKey(PositiveAffirmationsKeys.affirmationForm), findsOneWidget);
+      expect(find.byKey(PositiveAffirmationsKeys.affirmationFormTitleField),
+          findsOneWidget);
+      expect(
+          find.byKey(PositiveAffirmationsKeys.affirmationFormTitleFieldLabel),
+          findsOneWidget);
+      expect(find.byKey(PositiveAffirmationsKeys.affirmationFormSubtitleField),
+          findsOneWidget);
+      expect(
+          find.byKey(
+              PositiveAffirmationsKeys.affirmationFormSubtitleFieldLabel),
+          findsOneWidget);
+      expect(find.byKey(PositiveAffirmationsKeys.affirmationFormSaveButton),
+          findsOneWidget);
+      expect(
+          find.byKey(PositiveAffirmationsKeys
+              .affirmationFormDeactivateDeactivateButton(
+                  '${toUpdateAffirmation.id}')),
+          findsOneWidget);
     });
   });
 }

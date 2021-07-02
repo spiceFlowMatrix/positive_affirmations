@@ -7,12 +7,12 @@ import 'package:mobile_app/models/affirmation.dart';
 class AffirmationFormScreenFixture extends StatelessWidget {
   AffirmationFormScreenFixture({
     required this.affirmationsBloc,
-    this.affirmationFormBloc,
+    required this.affirmationFormBloc,
     this.toUpdateAffirmation,
   });
 
   final AffirmationsBloc affirmationsBloc;
-  final AffirmationFormBloc? affirmationFormBloc;
+  final AffirmationFormBloc affirmationFormBloc;
   final Affirmation? toUpdateAffirmation;
 
   @override

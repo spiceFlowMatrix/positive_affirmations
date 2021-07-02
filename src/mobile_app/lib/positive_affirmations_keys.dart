@@ -66,8 +66,8 @@ class PositiveAffirmationsKeys {
       Key('__editAffirmationFormAppbarTitle__');
   static const affirmationForm = Key('__affirmationForm__');
   static const affirmationFormTitleField = Key('__affirmationFormTitleField__');
-  static const affirmationTitleFieldLabel =
-      Key('__affirmationTitleFieldLabel__');
+  static const affirmationFormTitleFieldLabel =
+      Key('__affirmationFormTitleFieldLabel__');
   static const affirmationFormSubtitleField =
       Key('__affirmationFormSubtitleField__');
   static const affirmationFormSubtitleFieldLabel =
