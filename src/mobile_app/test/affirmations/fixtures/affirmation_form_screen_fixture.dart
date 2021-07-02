@@ -3,6 +3,7 @@ import 'package:mobile_app/affirmations/blocs/affirmation_form/affirmation_form_
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/models/affirmation.dart';
+import 'package:mobile_app/positive_affirmations_routes.dart';
 
 class AffirmationFormScreenFixture extends StatelessWidget {
   AffirmationFormScreenFixture({
@@ -36,6 +37,7 @@ class AffirmationFormScreenFixture extends StatelessWidget {
         );
       },
       initialRoute: AffirmationFormScreen.routeName,
+      // routes: PositiveAffirmationsRoutes().routes(context),
     );
   }
 }
