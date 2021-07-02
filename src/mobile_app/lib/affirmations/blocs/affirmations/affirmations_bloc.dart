@@ -34,6 +34,7 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
     final newAffirmation = Affirmation(
       id: state.affirmations.length + 1,
       title: event.title,
+      subtitle: event.subtitle,
       createdOn: time?.now ?? DateTime.now(),
     );
 
