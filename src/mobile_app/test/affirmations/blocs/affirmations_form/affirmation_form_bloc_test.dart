@@ -154,6 +154,18 @@ void main() {
           act: (bloc) {
             bloc..add(AffirmationSubmitted());
           },
+          expect: () => <AffirmationFormState>[
+                AffirmationFormState(
+                  title: TitleField.dirty(mockValidTitle),
+                  subtitle: SubtitleField.dirty(mockValidSubtitle),
+                  status: FormzStatus.submissionInProgress,
+                ),
+                AffirmationFormState(
+                  title: TitleField.dirty(mockValidTitle),
+                  subtitle: SubtitleField.dirty(mockValidSubtitle),
+                  status: FormzStatus.submissionSuccess,
+                ),
+              ],
           verify: (_) {
             verify(() => affirmationsBloc
                     .add(AffirmationCreated(mockValidTitle, mockValidSubtitle)))
