@@ -10,14 +10,14 @@ void main() {
     });
     group('[AffirmationUpdated]', () {
       test('supports value comparisons', () {
-        expect(AffirmationUpdated(1, '-', '-'),
-            AffirmationUpdated(1, '-', '-'));
+        expect(
+            AffirmationUpdated(1, '-', '-'), AffirmationUpdated(1, '-', '-'));
       });
     });
     group('[AffirmationActivationToggled]', () {
       test('supports value comparisons', () {
-        expect(AffirmationActivationToggled(1),
-            AffirmationActivationToggled(1));
+        expect(
+            AffirmationActivationToggled(1), AffirmationActivationToggled(1));
       });
     });
     group('[AffirmationLiked]', () {
