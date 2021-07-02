@@ -62,16 +62,17 @@ class PositiveAffirmationsKeys {
   static final affirmationFormBackButton = Key('__affirmationFormBackButton__');
   static const affirmationFormAppbarTitle =
       Key('__newAffirmationFormAppbarTitle__');
-  static const affirmationTitle = Key('__newAffirmationTitle__');
-  static const affirmationTitleLabel = Key('__newAffirmationTitleLabel__');
-  static const affirmationSubtitle = Key('__newAffirmationSubtitle__');
-  static const affirmationSubtitleLabel =
-      Key('__newAffirmationSubtitleLabel__');
-  static const affirmationSaveButton = Key('__newAffirmationSaveButton__');
+  static const affirmationForm = Key('__affirmationForm__');
+  static const affirmationFormTitleField = Key('__affirmationFormTitleField__');
+  static const affirmationTitleFieldLabel = Key('__affirmationTitleFieldLabel__');
+  static const affirmationFormSubtitleField = Key('__affirmationFormSubtitleField__');
+  static const affirmationFormSubtitleFieldLabel =
+      Key('__affirmationFormSubtitleFieldLabel__');
+  static const affirmationFormSaveButton = Key('__affirmationFormSaveButton__');
   static final affirmationFormDeactivateDeactivateButton =
       (String id) => Key('__affirmationFormDeactivateDeactivateButton__$id');
-  static final affirmationDeleteButton =
-      (String id) => Key('__affirmationDeleteButton__$id');
+  static final affirmationFormDeleteButton =
+      (String id) => Key('__affirmationFormDeleteButton__$id');
 
   // Affirmation details screen
   static final affirmationDetailsBackButton =
