@@ -165,6 +165,35 @@ void main() {
                     .add(AffirmationCreated(mockValidTitle, mockValidSubtitle)))
                 .called(1);
           });
+      blocTest<AffirmationFormBloc, AffirmationFormState>(
+          'affirmation update event is triggered if toUpdateAffirmation was initialized in the bloc',
+          build: () => initializedBloc,
+          seed: () => AffirmationFormState(
+                title: TitleField.dirty(toUpdateAffirmation.title),
+                subtitle: SubtitleField.dirty(mockValidSubtitle),
+                status: FormzStatus.valid,
+              ),
+          act: (bloc) {
+            bloc..add(AffirmationSubmitted());
+          },
+          expect: () => <AffirmationFormState>[
+                AffirmationFormState(
+                  title: TitleField.dirty(toUpdateAffirmation.title),
+                  subtitle: SubtitleField.dirty(mockValidSubtitle),
+                  status: FormzStatus.submissionInProgress,
+                ),
+                AffirmationFormState(
+                  title: TitleField.dirty(toUpdateAffirmation.title),
+                  subtitle: SubtitleField.dirty(mockValidSubtitle),
+                  status: FormzStatus.submissionSuccess,
+                ),
+              ],
+          verify: (_) {
+            verify(() => affirmationsBloc.add(AffirmationUpdated(
+                toUpdateAffirmation.id,
+                toUpdateAffirmation.title,
+                mockValidSubtitle))).called(1);
+          });
     });
   });
 }
