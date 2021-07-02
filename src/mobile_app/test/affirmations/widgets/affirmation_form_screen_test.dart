@@ -115,6 +115,17 @@ void main() {
         verify(() => affirmationFormBloc.add(TitleUpdated(validTitleInput)))
             .called(1);
       });
+      testWidgets('subtitle input triggers SubtitleTitleUpdated event', (tester) async {
+        await tester.pumpWidget(_buildNewForm());
+
+        await tester.enterText(
+          find.byKey(PositiveAffirmationsKeys.affirmationFormSubtitleField),
+          validSubtitleInput,
+        );
+
+        verify(() => affirmationFormBloc.add(TitleUpdated(validSubtitleInput)))
+            .called(1);
+      });
     });
   });
 }
