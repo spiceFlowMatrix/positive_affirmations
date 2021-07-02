@@ -71,8 +71,12 @@ class AffirmationFormBloc
     if (state.status == FormzStatus.valid) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
 
-      affirmationsBloc
-          .add(AffirmationCreated(state.title.value, state.subtitle.value));
+      if (toUpdateAffirmation == null)
+        affirmationsBloc
+            .add(AffirmationCreated(state.title.value, state.subtitle.value));
+      else
+        affirmationsBloc.add(AffirmationUpdated(
+            toUpdateAffirmation!.id, state.title.value, state.subtitle.value));
 
       yield state.copyWith(status: FormzStatus.submissionSuccess);
     }
