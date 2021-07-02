@@ -6,6 +6,7 @@ import 'package:formz/formz.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/models/subtitle_field.dart';
 import 'package:mobile_app/affirmations/models/title_field.dart';
+import 'package:mobile_app/models/affirmation.dart';
 
 part 'affirmation_form_event.dart';
 
@@ -15,20 +16,18 @@ class AffirmationFormBloc
     extends Bloc<AffirmationFormEvent, AffirmationFormState> {
   AffirmationFormBloc({
     required this.affirmationsBloc,
-    this.initialTitle,
-    this.initialSubtitle,
+    this.toUpdateAffirmation,
   }) : super(AffirmationFormState(
-          title: initialTitle != null
-              ? TitleField.dirty(initialTitle)
+          title: toUpdateAffirmation != null
+              ? TitleField.dirty(toUpdateAffirmation.title)
               : TitleField.pure(),
-          subtitle: initialSubtitle != null
-              ? SubtitleField.dirty(initialSubtitle)
+          subtitle: toUpdateAffirmation != null
+              ? SubtitleField.dirty(toUpdateAffirmation.subtitle)
               : SubtitleField.pure(),
         ));
 
   final AffirmationsBloc affirmationsBloc;
-  final String? initialTitle;
-  final String? initialSubtitle;
+  final Affirmation? toUpdateAffirmation;
 
   @override
   Stream<AffirmationFormState> mapEventToState(
