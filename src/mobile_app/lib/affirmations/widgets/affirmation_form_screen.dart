@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:formz/formz.dart';
 import 'package:mobile_app/affirmations/blocs/affirmation_form/affirmation_form_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/models/affirmation.dart';
@@ -144,7 +145,10 @@ class _SubtitleField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       key: PositiveAffirmationsKeys.affirmationFormSubtitleField,
-      onChanged: (title) {},
+      onChanged: (subtitle) {
+        BlocProvider.of<AffirmationFormBloc>(context)
+            .add(SubtitleUpdated(subtitle));
+      },
       decoration: InputDecoration(
         labelText: 'Description',
       ),
@@ -155,10 +159,17 @@ class _SubtitleField extends StatelessWidget {
 class _SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      key: PositiveAffirmationsKeys.affirmationFormSaveButton,
-      onPressed: () {},
-      child: Text('SAVE'),
+    return BlocBuilder<AffirmationFormBloc, AffirmationFormState>(
+      builder: (context, state) {
+        return ElevatedButton(
+          key: PositiveAffirmationsKeys.affirmationFormSaveButton,
+          onPressed: state.status == FormzStatus.invalid ||
+                  state.status == FormzStatus.pure
+              ? null
+              : () {},
+          child: Text('SAVE'),
+        );
+      },
     );
   }
 }
