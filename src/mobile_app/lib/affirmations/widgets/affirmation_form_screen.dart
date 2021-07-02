@@ -200,7 +200,11 @@ class _SaveButton extends StatelessWidget {
           onPressed: state.status == FormzStatus.invalid ||
                   state.status == FormzStatus.pure
               ? null
-              : () {},
+              : () {
+                  BlocProvider.of<AffirmationFormBloc>(context)
+                      .add(AffirmationSubmitted());
+                  Navigator.of(context).pop();
+                },
           child: Text('SAVE'),
         );
       },
