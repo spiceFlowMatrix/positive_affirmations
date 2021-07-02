@@ -129,7 +129,9 @@ class _TitleField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       key: PositiveAffirmationsKeys.affirmationFormTitleField,
-      onChanged: (title) {},
+      onChanged: (title) {
+        BlocProvider.of<AffirmationFormBloc>(context).add(TitleUpdated(title));
+      },
       decoration: InputDecoration(
         labelText: 'Title',
       ),
