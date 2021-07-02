@@ -45,6 +45,13 @@ void main() {
     );
   }
 
+  AffirmationFormScreenFixture _buildNewFormNoSetup() {
+    return AffirmationFormScreenFixture(
+      affirmationsBloc: affirmationsBloc,
+      affirmationFormBloc: affirmationFormBloc,
+    );
+  }
+
   AffirmationFormScreenFixture _buildEditForm() {
     when(() => affirmationFormBloc.affirmationsBloc)
         .thenReturn(affirmationsBloc);
@@ -128,6 +135,38 @@ void main() {
         verify(() => affirmationFormBloc.add(TitleUpdated(validTitleInput)))
             .called(1);
       });
+      testWidgets('invalid title shows error', (tester) async {
+        when(() => affirmationFormBloc.state).thenReturn(AffirmationFormState(
+          title: TitleField.dirty(invalidTitleInput),
+          status: FormzStatus.invalid,
+        ));
+        await tester.pumpWidget(_buildNewFormNoSetup());
+
+        expect(
+          tester
+              .widget<TextField>(find
+                  .byKey(PositiveAffirmationsKeys.affirmationFormTitleField))
+              .decoration!
+              .errorText,
+          equals(PositiveAffirmationsConsts.titleFieldInvalidError),
+        );
+      });
+      testWidgets('empty title shows error when unpure', (tester) async {
+        when(() => affirmationFormBloc.state).thenReturn(AffirmationFormState(
+          title: TitleField.dirty(''),
+          status: FormzStatus.invalid,
+        ));
+        await tester.pumpWidget(_buildNewFormNoSetup());
+
+        expect(
+          tester
+              .widget<TextField>(find
+                  .byKey(PositiveAffirmationsKeys.affirmationFormTitleField))
+              .decoration!
+              .errorText,
+          equals(PositiveAffirmationsConsts.titleFieldEmptyError),
+        );
+      });
       testWidgets('subtitle input triggers SubtitleTitleUpdated event',
           (tester) async {
         await tester.pumpWidget(_buildNewForm());
@@ -137,8 +176,25 @@ void main() {
           validSubtitleInput,
         );
 
-        verify(() => affirmationFormBloc.add(SubtitleUpdated(validSubtitleInput)))
+        verify(() =>
+                affirmationFormBloc.add(SubtitleUpdated(validSubtitleInput)))
             .called(1);
+      });
+      testWidgets('invalid subtitle shows error', (tester) async {
+        when(() => affirmationFormBloc.state).thenReturn(AffirmationFormState(
+          title: TitleField.dirty(invalidSubtitleInput),
+          status: FormzStatus.invalid,
+        ));
+        await tester.pumpWidget(_buildNewFormNoSetup());
+
+        expect(
+          tester
+              .widget<TextField>(find
+                  .byKey(PositiveAffirmationsKeys.affirmationFormSubtitleField))
+              .decoration!
+              .errorText,
+          equals(PositiveAffirmationsConsts.subtitleFieldInvalidError),
+        );
       });
       testWidgets('submit button is disabled when form is invalid',
           (tester) async {
