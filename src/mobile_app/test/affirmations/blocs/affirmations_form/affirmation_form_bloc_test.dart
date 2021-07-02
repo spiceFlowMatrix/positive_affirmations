@@ -21,7 +21,7 @@ void main() {
   late AffirmationsBloc affirmationsBloc;
   late AffirmationFormBloc formBloc;
   late AffirmationFormBloc initializedBloc;
-  late AffirmationFormBloc subtitleInitFormBloc;
+  // late AffirmationFormBloc subtitleInitFormBloc;
 
   final toUpdateAffirmation = PositiveAffirmationsConsts.seedAffirmations[1];
 

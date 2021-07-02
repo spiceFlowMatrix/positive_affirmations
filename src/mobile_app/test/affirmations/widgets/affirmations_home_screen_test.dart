@@ -1,10 +1,8 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
-import 'package:mobile_app/nav_observer.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -14,10 +12,10 @@ import '../../mocks/authentication_bloc_mock.dart';
 import '../fixtures/affirmations_home_screen_fixture.dart';
 
 void main() {
-  late AffirmationsBloc affirmationsBloc;
+  // late AffirmationsBloc affirmationsBloc;
   late AuthenticationBloc authBloc;
   late ApptabBloc apptabBloc;
-  late PositiveAffirmationsNavigatorObserver navigatorObserver;
+  // late PositiveAffirmationsNavigatorObserver navigatorObserver;
 
   setUpAll(() {
     registerFallbackValue<AffirmationsEvent>(FakeAffirmationsEvent());
@@ -31,8 +29,8 @@ void main() {
   setUp(() {
     apptabBloc = MockApptabBloc();
     authBloc = MockAuthenticationBloc();
-    affirmationsBloc = MockAffirmationsBloc();
-    navigatorObserver = PositiveAffirmationsNavigatorObserver();
+    // affirmationsBloc = MockAffirmationsBloc();
+    // navigatorObserver = PositiveAffirmationsNavigatorObserver();
   });
 
   group('[AffirmationsHomeScreen]', () {
