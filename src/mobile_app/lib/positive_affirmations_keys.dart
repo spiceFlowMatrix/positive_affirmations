@@ -60,12 +60,16 @@ class PositiveAffirmationsKeys {
 
   // Add/Edit affirmation form
   static final affirmationFormBackButton = Key('__affirmationFormBackButton__');
-  static const affirmationFormAppbarTitle =
+  static const newAffirmationFormAppbarTitle =
       Key('__newAffirmationFormAppbarTitle__');
+  static const editAffirmationFormAppbarTitle =
+      Key('__editAffirmationFormAppbarTitle__');
   static const affirmationForm = Key('__affirmationForm__');
   static const affirmationFormTitleField = Key('__affirmationFormTitleField__');
-  static const affirmationTitleFieldLabel = Key('__affirmationTitleFieldLabel__');
-  static const affirmationFormSubtitleField = Key('__affirmationFormSubtitleField__');
+  static const affirmationTitleFieldLabel =
+      Key('__affirmationTitleFieldLabel__');
+  static const affirmationFormSubtitleField =
+      Key('__affirmationFormSubtitleField__');
   static const affirmationFormSubtitleFieldLabel =
       Key('__affirmationFormSubtitleFieldLabel__');
   static const affirmationFormSaveButton = Key('__affirmationFormSaveButton__');
