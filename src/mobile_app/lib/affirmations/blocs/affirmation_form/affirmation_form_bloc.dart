@@ -33,6 +33,8 @@ class AffirmationFormBloc
   ) async* {
     if (event is TitleUpdated) {
       yield _mapTitleUpdatedToState(event, state);
+    } else if (event is SubtitleUpdated) {
+      yield _mapSubtitleUpdatedToState(event, state);
     }
   }
 
@@ -44,6 +46,18 @@ class AffirmationFormBloc
       status: Formz.validate([
         title,
         state.subtitle,
+      ]),
+    );
+  }
+
+  AffirmationFormState _mapSubtitleUpdatedToState(
+      SubtitleUpdated event, AffirmationFormState state) {
+    final subtitle = SubtitleField.dirty(event.subtitle);
+    return state.copyWith(
+      subtitle: subtitle,
+      status: Formz.validate([
+        state.title,
+        subtitle,
       ]),
     );
   }
