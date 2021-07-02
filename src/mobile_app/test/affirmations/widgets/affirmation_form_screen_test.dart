@@ -201,7 +201,7 @@ void main() {
         when(() => affirmationFormBloc.state)
             .thenReturn(AffirmationFormState(status: FormzStatus.invalid));
 
-        await tester.pumpWidget(_buildNewForm());
+        await tester.pumpWidget(_buildNewFormNoSetup());
         expect(
           tester
               .widget<ElevatedButton>(find
@@ -215,7 +215,7 @@ void main() {
         when(() => affirmationFormBloc.state)
             .thenReturn(AffirmationFormState(status: FormzStatus.pure));
 
-        await tester.pumpWidget(_buildNewForm());
+        await tester.pumpWidget(_buildNewFormNoSetup());
         expect(
           tester
               .widget<ElevatedButton>(find
@@ -223,6 +223,28 @@ void main() {
               .enabled,
           isFalse,
         );
+      });
+      testWidgets('submitting the form triggers AffirmationSubmitted',
+          (tester) async {
+        when(() => affirmationFormBloc.state).thenReturn(AffirmationFormState(
+          title: TitleField.dirty(validTitleInput),
+          subtitle: SubtitleField.dirty(validSubtitleInput),
+          status: FormzStatus.valid,
+        ));
+
+        await tester.pumpWidget(_buildNewFormNoSetup());
+        expect(
+          tester
+              .widget<ElevatedButton>(find
+                  .byKey(PositiveAffirmationsKeys.affirmationFormSaveButton))
+              .enabled,
+          isTrue,
+        );
+
+        await tester.tap(
+            find.byKey(PositiveAffirmationsKeys.affirmationFormSaveButton));
+
+        verify(() => affirmationFormBloc.add(AffirmationSubmitted())).called(1);
       });
     });
   });
