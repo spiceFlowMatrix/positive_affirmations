@@ -76,5 +76,34 @@ void main() {
         ],
       );
     });
+
+    group('[SubtitleUpdated]', () {
+      blocTest<AffirmationFormBloc, AffirmationFormState>(
+        'supplying valid subtitle emits valid status',
+        build: () => formBloc,
+        act: (bloc) {
+          bloc..add(SubtitleUpdated(mockValidSubtitle));
+        },
+        expect: () => <AffirmationFormState>[
+          const AffirmationFormState(
+            subtitle: SubtitleField.dirty(mockValidSubtitle),
+            status: FormzStatus.valid,
+          ),
+        ],
+      );
+      blocTest<AffirmationFormBloc, AffirmationFormState>(
+        'supplying valid subtitle emits valid status',
+        build: () => formBloc,
+        act: (bloc) {
+          bloc..add(SubtitleUpdated(mockInvalidSubtitle));
+        },
+        expect: () => <AffirmationFormState>[
+          const AffirmationFormState(
+            subtitle: SubtitleField.dirty(mockInvalidSubtitle),
+            status: FormzStatus.invalid,
+          ),
+        ],
+      );
+    });
   });
 }
