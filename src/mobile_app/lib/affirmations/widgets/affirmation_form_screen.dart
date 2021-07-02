@@ -7,12 +7,12 @@ class AffirmationFormScreenArguments {
   AffirmationFormScreenArguments({
     required this.affirmationsBloc,
     this.affirmationFormBloc,
-    this.editAffirmation,
+    this.toUpdateAffirmation,
   });
 
   final AffirmationsBloc affirmationsBloc;
   final AffirmationFormBloc? affirmationFormBloc;
-  final Affirmation? editAffirmation;
+  final Affirmation? toUpdateAffirmation;
 }
 
 class AffirmationFormScreen extends StatelessWidget {
