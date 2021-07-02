@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
+import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/nav_observer.dart';
@@ -42,6 +43,7 @@ void main() {
       apptabBloc: apptabBloc,
       authBloc: authBloc,
       affirmationsBloc: affirmationsBloc,
+      navigatorObserver: navigatorObserver,
     );
   }
 
@@ -87,6 +89,27 @@ void main() {
 
       verify(() => affirmationsBloc.add(AffirmationLiked(
           PositiveAffirmationsConsts.seedAffirmations[0].id))).called(1);
+    });
+  });
+
+  group('[AppBar]', () {
+    testWidgets('tapping the add action navigates affirmation form',
+        (tester) async {
+      var isAffirmationFormPushed = false;
+      await tester.pumpWidget(_buildFixture());
+
+      navigatorObserver.attachPushRouteObserver(
+        AffirmationFormScreen.routeName,
+        () {
+          isAffirmationFormPushed = true;
+        },
+      );
+
+      await tester.tap(
+          find.byKey(PositiveAffirmationsKeys.affirmationsAppBarAddButton));
+      await tester.pumpAndSettle();
+
+      expect(isAffirmationFormPushed, true);
     });
   });
 }

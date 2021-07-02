@@ -55,6 +55,7 @@ void main() {
       expect(find.byKey(PositiveAffirmationsKeys.affirmationFormSaveButton),
           findsOneWidget);
     });
+
     testWidgets('components exist for edit affirmation form', (tester) async {
       await tester.pumpWidget(AffirmationFormScreenFixture(
         affirmationsBloc: affirmationsBloc,
