@@ -87,8 +87,6 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
 class HydratedAffirmationsBloc extends AffirmationsBloc with HydratedMixin {
   @override
   AffirmationsState? fromJson(Map<String, dynamic> json) {
-    // (json[AffirmationsState.fieldAffirmations] as List<dynamic>)
-    //     .forEach((e) => log(e.toString()));
     List<Affirmation> affirmations = [
       ...(json[AffirmationsState.fieldAffirmations] as List<dynamic>)
           .map((affirmation) {
@@ -98,7 +96,6 @@ class HydratedAffirmationsBloc extends AffirmationsBloc with HydratedMixin {
     ];
 
     return AffirmationsState(affirmations: affirmations);
-    // return AffirmationsState();
   }
 
   @override
