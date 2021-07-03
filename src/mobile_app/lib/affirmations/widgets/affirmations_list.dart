@@ -20,6 +20,9 @@ class _List extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AffirmationsBloc, AffirmationsState>(
       builder: (context, state) {
+        if (state.affirmations.isEmpty) {
+          return _CallToAction();
+        }
         return ListView.builder(
           itemCount: state.affirmations.length,
           itemBuilder: (context, index) => _ListItem(
@@ -109,6 +112,52 @@ class _ListItem extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           )
+        ],
+      ),
+    );
+  }
+}
+
+class _CallToAction extends StatelessWidget {
+  Padding _buildVerticalPadding() {
+    return Padding(padding: EdgeInsets.only(top: 15));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 35),
+      child: Column(
+        key: PositiveAffirmationsKeys.noAffirmationsWarningBody,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: FaIcon(
+              FontAwesomeIcons.heartBroken,
+              key: PositiveAffirmationsKeys.noAffirmationsWarningIcon,
+              color: Colors.red.withOpacity(0.5),
+              size: 86,
+            ),
+          ),
+          _buildVerticalPadding(),
+          Text(
+            'Nothing here yet 😧',
+            key: PositiveAffirmationsKeys.noAffirmationsWarningLabel,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 22,
+              color: Colors.black.withOpacity(0.82),
+            ),
+          ),
+          _buildVerticalPadding(),
+          ElevatedButton(
+            onPressed: () {},
+            child: Text('ADD'),
+            key: PositiveAffirmationsKeys.noAffirmationsWarningButton,
+          ),
         ],
       ),
     );
