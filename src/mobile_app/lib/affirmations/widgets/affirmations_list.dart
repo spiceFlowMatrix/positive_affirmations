@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
+import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/models/affirmation.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 
@@ -154,8 +155,15 @@ class _CallToAction extends StatelessWidget {
           ),
           _buildVerticalPadding(),
           ElevatedButton(
-            onPressed: () {},
-            child: Text('ADD'),
+            onPressed: () {
+              final bloc = BlocProvider.of<AffirmationsBloc>(context);
+              Navigator.of(context).pushNamed(
+                AffirmationFormScreen.routeName,
+                arguments:
+                    AffirmationFormScreenArguments(affirmationsBloc: bloc),
+              );
+            },
+            child: Text('LETS GET STARTED'),
             key: PositiveAffirmationsKeys.noAffirmationsWarningButton,
           ),
         ],

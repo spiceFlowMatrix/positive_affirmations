@@ -6,7 +6,7 @@ class ProfileDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Profile details'),
+      child: Text('UNDER CONSTRUCTION'),
     );
   }
 }
