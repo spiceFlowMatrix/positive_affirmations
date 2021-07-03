@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Flutter CI
+name: Flutter Test
 
 # Controls when the action will run.
 on:
@@ -54,12 +54,12 @@ jobs:
         working-directory: ./src/mobile_app
         run: flutter test
 
-      - name: Set up Firebase credential
-        working-directory: ./src/mobile_app
-        run: echo ${{ secrets.FIREBASE_GOOGLE_SERVICES_JSON }} | base64 -d > android/app/google-services.json
-
-      - name: Build DEBUG APK.
-        working-directory: ./src/mobile_app
-        env:
-          ANDROID_SDK_ROOT: /opt/android-sdk/cmdline-tools/tools/lib
-        run: flutter build apk --debug
+#      - name: Set up Firebase credential
+#        working-directory: ./src/mobile_app
+#        run: echo ${{ secrets.FIREBASE_GOOGLE_SERVICES_JSON }} | base64 -d > android/app/google-services.json
+#
+#      - name: Build DEBUG APK.
+#        working-directory: ./src/mobile_app
+#        env:
+#          ANDROID_SDK_ROOT: /opt/android-sdk/cmdline-tools/tools/lib
+#        run: flutter build apk --debug
