@@ -68,6 +68,25 @@ void main() {
         findsOneWidget,
       );
     });
+
+    testWidgets('pressing add navigates to affirmation form screen',
+        (tester) async {
+      var isAffirmationFormPushed = false;
+      await tester.pumpWidget(_buildFixture());
+
+      navigatorObserver.attachPushRouteObserver(
+        AffirmationFormScreen.routeName,
+        () {
+          isAffirmationFormPushed = true;
+        },
+      );
+
+      await tester.tap(
+          find.byKey(PositiveAffirmationsKeys.noAffirmationsWarningButton));
+      await tester.pumpAndSettle();
+
+      expect(isAffirmationFormPushed, true);
+    });
   });
 
   group('[AffirmationsList]', () {
