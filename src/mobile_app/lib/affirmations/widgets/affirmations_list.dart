@@ -83,7 +83,7 @@ class _ListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       key: PositiveAffirmationsKeys.affirmationItem('${affirmation.id}'),
-      onTap: () {},
+      // onTap: () {},
       minVerticalPadding: 20,
       title: Text(
         affirmation.title,
