@@ -45,7 +45,6 @@ class PositiveAffirmationsKeys {
       (String id) => Key('AffirmationItemLikes__$id');
   static final affirmationItemReaffirmationsCount =
       (String id) => Key('AffirmationItemReaffirmationsCount__$id');
-  static const addNewAffirmationAction = Key('__addNewAffirmationAction__');
 
   static const noAffirmationsWarningBody = Key('__noAffirmationsWarningBody__');
   static const noAffirmationsWarningIcon = Key('__noAffirmationsWarningIcon__');
