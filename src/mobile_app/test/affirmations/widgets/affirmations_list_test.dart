@@ -120,6 +120,9 @@ void main() {
         final itemReaffirmationsKey =
             PositiveAffirmationsKeys.affirmationItemReaffirmationsCount(
                 element.id.toString());
+        final itemDeleteButtonKey =
+            PositiveAffirmationsKeys.affirmationFormDeleteButton(
+                '${element.id}');
 
         expect(find.byKey(itemKey), findsOneWidget);
         expect(find.byKey(itemTitleKey), findsOneWidget);
@@ -127,6 +130,7 @@ void main() {
         expect(find.byKey(itemLikeButtonKey), findsOneWidget);
         expect(find.byKey(itemLikesKey), findsOneWidget);
         expect(find.byKey(itemReaffirmationsKey), findsOneWidget);
+        expect(find.byKey(itemDeleteButtonKey), findsOneWidget);
       });
     });
     testWidgets('pressing like button triggers like event', (tester) async {
