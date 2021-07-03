@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/models/affirmation.dart';
+import 'package:mobile_app/positive_affirmations_keys.dart';
 
 class AffirmationDetailScreenArguments {
   const AffirmationDetailScreenArguments(this.affirmation);
@@ -18,6 +20,16 @@ class AffirmationDetailScreen extends StatelessWidget {
         as AffirmationDetailScreenArguments;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Affirmation Details'),
+        key: PositiveAffirmationsKeys.affirmationDetailsAppbarTitle,
+        leading: IconButton(
+          onPressed: () {},
+          icon: FaIcon(FontAwesomeIcons.arrowLeft),
+          key: PositiveAffirmationsKeys.affirmationDetailsBackButton(
+              '${args.affirmation.id}'),
+        ),
+      ),
       body: _Body(args.affirmation),
     );
   }
