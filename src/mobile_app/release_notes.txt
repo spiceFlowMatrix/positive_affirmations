@@ -1,3 +1,4 @@
 - Added animated text body to app summary screen
 - Pressing the back button on app summary screen will take you back to the nickname screen
--
+- Add affirmations list screen
+- Add affirmations form
