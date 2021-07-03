@@ -28,16 +28,6 @@ void main() {
     registerFallbackValue<AppTab>(AppTab.affirmations);
   });
 
-  setUp(() {
-    apptabBloc = MockApptabBloc();
-    authBloc = MockAuthenticationBloc();
-    affirmationsBloc = MockAffirmationsBloc();
-    navigatorObserver = PositiveAffirmationsNavigatorObserver();
-    when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
-    when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
-        affirmations: PositiveAffirmationsConsts.seedAffirmations));
-  });
-
   AffirmationsHomeScreenFixture _buildFixture() {
     return AffirmationsHomeScreenFixture(
       apptabBloc: apptabBloc,
@@ -47,7 +37,50 @@ void main() {
     );
   }
 
+  group('[AffirmationsListEmpty]', () {
+    setUp(() {
+      apptabBloc = MockApptabBloc();
+      authBloc = MockAuthenticationBloc();
+      affirmationsBloc = MockAffirmationsBloc();
+      navigatorObserver = PositiveAffirmationsNavigatorObserver();
+      when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
+      when(() => affirmationsBloc.state).thenReturn(AffirmationsState());
+    });
+
+    testWidgets('shows call to action when no affirmations exist',
+        (tester) async {
+      await tester.pumpWidget(_buildFixture());
+
+      expect(
+        find.byKey(PositiveAffirmationsKeys.noAffirmationsWarningBody),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(PositiveAffirmationsKeys.noAffirmationsWarningIcon),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(PositiveAffirmationsKeys.noAffirmationsWarningLabel),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(PositiveAffirmationsKeys.noAffirmationsWarningButton),
+        findsOneWidget,
+      );
+    });
+  });
+
   group('[AffirmationsList]', () {
+    setUp(() {
+      apptabBloc = MockApptabBloc();
+      authBloc = MockAuthenticationBloc();
+      affirmationsBloc = MockAffirmationsBloc();
+      navigatorObserver = PositiveAffirmationsNavigatorObserver();
+      when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
+      when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
+          affirmations: PositiveAffirmationsConsts.seedAffirmations));
+    });
+
     testWidgets('list items are generated equal to number of affirmations',
         (tester) async {
       await tester.pumpWidget(_buildFixture());
