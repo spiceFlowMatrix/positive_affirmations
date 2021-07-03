@@ -21,16 +21,16 @@ or alternatively using `brew install fastlane`
 fastlane android test
 ```
 Runs all the tests
-### android firedist
-```
-fastlane android firedist
-```
-Distribute app to firebase
 ### android beta
 ```
 fastlane android beta
 ```
 Submit a new Beta build to Google Play internal track
+### android promote_to_production
+```
+fastlane android promote_to_production
+```
+Promote beta track to prod
 
 ----
 
