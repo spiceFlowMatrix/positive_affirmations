@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
+import 'package:mobile_app/affirmations/widgets/affirmation_detail_screen.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/consts.dart';
@@ -145,6 +146,24 @@ void main() {
 
       verify(() => affirmationsBloc.add(AffirmationLiked(
           PositiveAffirmationsConsts.seedAffirmations[0].id))).called(1);
+    });
+    testWidgets('tapping an affirmation navigates details screen',
+        (tester) async {
+      var isAffirmationDetailsPushed = false;
+      await tester.pumpWidget(_buildFixture());
+
+      navigatorObserver.attachPushRouteObserver(
+        AffirmationDetailScreen.routeName,
+        () {
+          isAffirmationDetailsPushed = true;
+        },
+      );
+
+      await tester.tap(find.byKey(PositiveAffirmationsKeys.affirmationItem(
+          '${PositiveAffirmationsConsts.seedAffirmations[1].id}')));
+      await tester.pumpAndSettle();
+
+      expect(isAffirmationDetailsPushed, true);
     });
   });
 
