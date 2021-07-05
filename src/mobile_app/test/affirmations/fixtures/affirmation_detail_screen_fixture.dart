@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_detail_screen.dart';
 import 'package:mobile_app/models/affirmation.dart';
+import 'package:mobile_app/positive_affirmations_routes.dart';
 
 class AffirmationDetailScreenFixture extends StatelessWidget {
   AffirmationDetailScreenFixture({
@@ -16,26 +18,30 @@ class AffirmationDetailScreenFixture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateRoute: (settings) {
-        final args = AffirmationDetailScreenArguments(
-          affirmation,
-          affirmationsBloc,
-        );
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AffirmationsBloc>.value(value: affirmationsBloc),
+      ],
+      child: MaterialApp(
+        onGenerateRoute: (settings) {
+          final args = AffirmationDetailScreenArguments(
+            affirmation,
+            affirmationsBloc,
+          );
 
-        return MaterialPageRoute(
-          builder: (context) {
-            return AffirmationDetailScreen();
-          },
-          settings: RouteSettings(
-            name: AffirmationDetailScreen.routeName,
-            arguments: args,
-          ),
-        );
-      },
-      initialRoute: AffirmationDetailScreen.routeName,
-      // routes: PositiveAffirmationsRoutes().routes(context),
-      navigatorObservers: [if (navigatorObserver != null) navigatorObserver!],
+          return MaterialPageRoute(
+            builder: (context) {
+              return AffirmationDetailScreen();
+            },
+            settings: RouteSettings(
+              name: AffirmationDetailScreen.routeName,
+              arguments: args,
+            ),
+          );
+        },
+        initialRoute: AffirmationDetailScreen.routeName,
+        navigatorObservers: [if (navigatorObserver != null) navigatorObserver!],
+      ),
     );
   }
 }

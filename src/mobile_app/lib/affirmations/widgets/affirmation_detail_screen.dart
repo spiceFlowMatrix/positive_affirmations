@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
+import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/affirmations/widgets/likes_span.dart';
 import 'package:mobile_app/models/affirmation.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
@@ -44,7 +47,16 @@ class AffirmationDetailScreen extends StatelessWidget {
             IconButton(
               key: PositiveAffirmationsKeys.affirmationDetailsAppbarEditButton(
                   '${args.affirmation.id}'),
-              onPressed: () {},
+              onPressed: () {
+                final bloc = args.affirmationsBloc;
+                Navigator.of(context).pushNamed(
+                  AffirmationFormScreen.routeName,
+                  arguments: AffirmationFormScreenArguments(
+                    affirmationsBloc: bloc,
+                    toUpdateAffirmation: args.affirmation,
+                  ),
+                );
+              },
               icon: FaIcon(FontAwesomeIcons.pen),
             ),
           ],
