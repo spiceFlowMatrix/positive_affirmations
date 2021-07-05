@@ -265,11 +265,16 @@ class _ActivateDeactivateButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return OutlinedButton(
       key: PositiveAffirmationsKeys.affirmationFormDeactivateDeactivateButton(
           '$id'),
-      onPressed: () {},
-      child: Text('DEACTIVATE'),
+      onPressed: null,
+      child: Text(
+        'DEACTIVATE',
+        style: TextStyle(
+          color: Colors.grey,
+        ),
+      ),
     );
   }
 }
@@ -281,10 +286,15 @@ class _DeleteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return OutlinedButton(
       key: PositiveAffirmationsKeys.affirmationFormDeleteButton('$id'),
-      onPressed: () {},
-      child: Text('DELETE'),
+      onPressed: null,
+      child: Text(
+        'DELETE',
+        style: TextStyle(
+          color: Colors.grey,
+        ),
+      ),
     );
   }
 }
