@@ -25,7 +25,9 @@ class AffirmationDetailScreen extends StatelessWidget {
         title: Text('Affirmation Details'),
         key: PositiveAffirmationsKeys.affirmationDetailsAppbarTitle,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           icon: FaIcon(FontAwesomeIcons.arrowLeft),
           key: PositiveAffirmationsKeys.affirmationDetailsBackButton(
               '${args.affirmation.id}'),
