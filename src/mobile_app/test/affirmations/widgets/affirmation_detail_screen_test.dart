@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
-import 'package:mobile_app/affirmations/widgets/affirmation_detail_screen.dart';
-import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/models/affirmation.dart';
 import 'package:mobile_app/nav_observer.dart';
@@ -25,8 +23,8 @@ void main() {
   setUp(() {
     affirmationsBloc = MockAffirmationsBloc();
     navigatorObserver = PositiveAffirmationsNavigatorObserver();
-    when(() => affirmationsBloc.state.affirmations)
-        .thenReturn(PositiveAffirmationsConsts.seedAffirmations);
+    when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
+        affirmations: PositiveAffirmationsConsts.seedAffirmations));
   });
 
   group('[AffirmationDetailScreen]', () {
@@ -107,5 +105,23 @@ void main() {
     //
     //   expect(isAffirmationFormPushed, true);
     // });
+
+    testWidgets('pressing like button triggers like event', (tester) async {
+      await tester.pumpWidget(AffirmationDetailScreenFixture(
+        affirmation: mockAffirmation,
+        affirmationsBloc: affirmationsBloc,
+        navigatorObserver: navigatorObserver,
+      ));
+
+      await tester.tap(
+        find.byKey(
+          PositiveAffirmationsKeys.affirmationDetailsLikeButton(
+              '${mockAffirmation.id}'),
+        ),
+      );
+
+      verify(() => affirmationsBloc.add(AffirmationLiked(mockAffirmation.id)))
+          .called(1);
+    });
   });
 }

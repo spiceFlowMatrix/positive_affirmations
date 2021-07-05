@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -108,13 +106,20 @@ class _Body extends StatelessWidget {
             ),
           ),
           _buildPadding(
-            child: LikesSpan(
-              affirmation,
-              spanKey: PositiveAffirmationsKeys.affirmationDetailsLikes(
-                  '${affirmation.id}'),
-              likeButtonKey:
-                  PositiveAffirmationsKeys.affirmationDetailsLikeButton(
+            child: BlocBuilder<AffirmationsBloc, AffirmationsState>(
+              buildWhen: (previous, current) =>
+                  previous.affirmations != current.affirmations,
+              builder: (context, state) {
+                return LikesSpan(
+                  state.affirmations
+                      .firstWhere((element) => element.id == affirmation.id),
+                  spanKey: PositiveAffirmationsKeys.affirmationDetailsLikes(
                       '${affirmation.id}'),
+                  likeButtonKey:
+                      PositiveAffirmationsKeys.affirmationDetailsLikeButton(
+                          '${affirmation.id}'),
+                );
+              },
             ),
           ),
           _buildPadding(
