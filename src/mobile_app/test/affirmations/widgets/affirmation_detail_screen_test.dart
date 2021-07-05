@@ -39,8 +39,9 @@ void main() {
         findsOneWidget,
       );
       expect(
-        find.byKey(PositiveAffirmationsKeys.affirmationDetailsReaffirmationsCount(
-            '${mockAffirmation.id}')),
+        find.byKey(
+            PositiveAffirmationsKeys.affirmationDetailsReaffirmationsCount(
+                '${mockAffirmation.id}')),
         findsOneWidget,
       );
       expect(

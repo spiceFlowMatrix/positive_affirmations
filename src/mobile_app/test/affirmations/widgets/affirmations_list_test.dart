@@ -147,7 +147,7 @@ void main() {
       verify(() => affirmationsBloc.add(AffirmationLiked(
           PositiveAffirmationsConsts.seedAffirmations[0].id))).called(1);
     });
-    testWidgets('tapping an affirmation navigates details screen',
+    testWidgets('[Navigation] tapping an affirmation navigates details screen',
         (tester) async {
       var isAffirmationDetailsPushed = false;
       await tester.pumpWidget(_buildFixture());
@@ -165,26 +165,59 @@ void main() {
 
       expect(isAffirmationDetailsPushed, true);
     });
-  });
-
-  group('[AppBar]', () {
-    testWidgets('tapping the add action navigates affirmation form',
+    testWidgets(
+        '[Navigation] pressing back button returns to affirmations list',
         (tester) async {
-      var isAffirmationFormPushed = false;
+      var isAffirmationDetailsPushed = false;
+      var isAffirmationDetailsPopped = false;
       await tester.pumpWidget(_buildFixture());
 
       navigatorObserver.attachPushRouteObserver(
-        AffirmationFormScreen.routeName,
+        AffirmationDetailScreen.routeName,
         () {
-          isAffirmationFormPushed = true;
+          isAffirmationDetailsPushed = true;
+        },
+      );
+      navigatorObserver.attachPopRouteObserver(
+        AffirmationDetailScreen.routeName,
+        () {
+          isAffirmationDetailsPopped = true;
         },
       );
 
-      await tester.tap(
-          find.byKey(PositiveAffirmationsKeys.affirmationsAppBarAddButton));
+      await tester.tap(find.byKey(PositiveAffirmationsKeys.affirmationItem(
+          '${PositiveAffirmationsConsts.seedAffirmations[1].id}')));
       await tester.pumpAndSettle();
 
-      expect(isAffirmationFormPushed, true);
+      expect(isAffirmationDetailsPushed, true);
+
+      await tester.tap(find.byKey(
+          PositiveAffirmationsKeys.affirmationDetailsBackButton(
+              '${PositiveAffirmationsConsts.seedAffirmations[1].id}')));
+      await tester.pumpAndSettle();
+
+      expect(isAffirmationDetailsPopped, true);
+    });
+
+    group('[AppBar]', () {
+      testWidgets('tapping the add action navigates affirmation form',
+          (tester) async {
+        var isAffirmationFormPushed = false;
+        await tester.pumpWidget(_buildFixture());
+
+        navigatorObserver.attachPushRouteObserver(
+          AffirmationFormScreen.routeName,
+          () {
+            isAffirmationFormPushed = true;
+          },
+        );
+
+        await tester.tap(
+            find.byKey(PositiveAffirmationsKeys.affirmationsAppBarAddButton));
+        await tester.pumpAndSettle();
+
+        expect(isAffirmationFormPushed, true);
+      });
     });
   });
 }
