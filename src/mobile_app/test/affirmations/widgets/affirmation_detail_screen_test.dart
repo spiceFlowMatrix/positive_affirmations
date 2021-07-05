@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
+import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/models/affirmation.dart';
 import 'package:mobile_app/nav_observer.dart';
@@ -81,14 +82,25 @@ void main() {
     });
 
     testWidgets('tapping edit button navigates to edit form', (tester) async {
+      var isAffirmationFormPushed = false;
       await tester.pumpWidget(AffirmationDetailScreenFixture(
         affirmation: mockAffirmation,
         affirmationsBloc: affirmationsBloc,
+        navigatorObserver: navigatorObserver,
       ));
+
+      navigatorObserver.attachPushRouteObserver(
+        AffirmationFormScreen.routeName,
+        () {
+          isAffirmationFormPushed = true;
+        },
+      );
 
       await tester.tap(find.byKey(
           PositiveAffirmationsKeys.affirmationDetailsAppbarEditButton(
               '${mockAffirmation.id}')));
+
+      expect(isAffirmationFormPushed, true);
     });
   });
 }
