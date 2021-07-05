@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/widgets/likes_span.dart';
 import 'package:mobile_app/models/affirmation.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 
 class AffirmationDetailScreenArguments {
-  const AffirmationDetailScreenArguments(this.affirmation);
+  const AffirmationDetailScreenArguments(
+    this.affirmation,
+    this.affirmationsBloc,
+  );
 
   final Affirmation affirmation;
+  final AffirmationsBloc affirmationsBloc;
 }
 
 class AffirmationDetailScreen extends StatelessWidget {
@@ -20,28 +26,31 @@ class AffirmationDetailScreen extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments
         as AffirmationDetailScreenArguments;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Affirmation Details'),
-        key: PositiveAffirmationsKeys.affirmationDetailsAppbarTitle,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: FaIcon(FontAwesomeIcons.arrowLeft),
-          key: PositiveAffirmationsKeys.affirmationDetailsBackButton(
-              '${args.affirmation.id}'),
-        ),
-        actions: [
-          IconButton(
-            key: PositiveAffirmationsKeys.affirmationDetailsAppbarEditButton(
+    return BlocProvider<AffirmationsBloc>.value(
+      value: args.affirmationsBloc,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Affirmation Details'),
+          key: PositiveAffirmationsKeys.affirmationDetailsAppbarTitle,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: FaIcon(FontAwesomeIcons.arrowLeft),
+            key: PositiveAffirmationsKeys.affirmationDetailsBackButton(
                 '${args.affirmation.id}'),
-            onPressed: () {},
-            icon: FaIcon(FontAwesomeIcons.pen),
           ),
-        ],
+          actions: [
+            IconButton(
+              key: PositiveAffirmationsKeys.affirmationDetailsAppbarEditButton(
+                  '${args.affirmation.id}'),
+              onPressed: () {},
+              icon: FaIcon(FontAwesomeIcons.pen),
+            ),
+          ],
+        ),
+        body: _Body(args.affirmation),
       ),
-      body: _Body(args.affirmation),
     );
   }
 }
