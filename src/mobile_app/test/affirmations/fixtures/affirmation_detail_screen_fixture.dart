@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_detail_screen.dart';
 import 'package:mobile_app/models/affirmation.dart';
-import 'package:mobile_app/positive_affirmations_routes.dart';
 
 class AffirmationDetailScreenFixture extends StatelessWidget {
   AffirmationDetailScreenFixture({

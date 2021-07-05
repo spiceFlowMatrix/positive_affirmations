@@ -109,7 +109,9 @@ class _AffirmationForm extends StatelessWidget {
             children: [
               _buildTitleLabel(),
               const Padding(padding: EdgeInsets.only(top: 15)),
-              _TitleField(toUpdateAffirmation?.title),
+              _TitleField(
+                initialText: toUpdateAffirmation?.title,
+              ),
               const Padding(padding: EdgeInsets.only(top: 30)),
               _buildSubtitleLabel(),
               const Padding(padding: EdgeInsets.only(top: 15)),
@@ -130,11 +132,26 @@ class _AffirmationForm extends StatelessWidget {
   }
 }
 
-class _TitleField extends StatelessWidget {
-  _TitleField(String? initialTitle)
-      : _textController = TextEditingController(text: initialTitle);
+class _TitleField extends StatefulWidget {
+  _TitleField({this.initialText});
 
-  TextEditingController _textController;
+  final String? initialText;
+
+  @override
+  __TitleFieldState createState() => __TitleFieldState(initialText);
+}
+
+class __TitleFieldState extends State<_TitleField> {
+  __TitleFieldState(this.initialText);
+
+  String? initialText;
+  TextEditingController? _textController;
+
+  @override
+  initState() {
+    _textController = TextEditingController(text: initialText);
+    super.initState();
+  }
 
   String _generateErrorText(TitleFieldValidationError error) {
     switch (error) {
@@ -168,11 +185,26 @@ class _TitleField extends StatelessWidget {
   }
 }
 
-class _SubtitleField extends StatelessWidget {
-  _SubtitleField(String? initialTitle)
-      : _textController = TextEditingController(text: initialTitle);
+class _SubtitleField extends StatefulWidget {
+  _SubtitleField(this.initialText);
 
-  TextEditingController _textController;
+  final String? initialText;
+
+  @override
+  __SubtitleFieldState createState() => __SubtitleFieldState(initialText);
+}
+
+class __SubtitleFieldState extends State<_SubtitleField> {
+  __SubtitleFieldState(this.initialText);
+
+  String? initialText;
+  TextEditingController? _textController;
+
+  @override
+  initState() {
+    _textController = TextEditingController(text: initialText);
+    super.initState();
+  }
 
   String _generateErrorText(SubtitleFieldValidationError error) {
     switch (error) {

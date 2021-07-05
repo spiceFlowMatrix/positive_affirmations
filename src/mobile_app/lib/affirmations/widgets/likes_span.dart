@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/models/affirmation.dart';
-import 'package:mobile_app/positive_affirmations_keys.dart';
 
 class LikesSpan extends StatelessWidget {
   LikesSpan(

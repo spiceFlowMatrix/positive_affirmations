@@ -88,21 +88,33 @@ class _Body extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            affirmation.title,
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 22,
-            ),
-            key: PositiveAffirmationsKeys.affirmationDetailsTitle(
-                '${affirmation.id}'),
+          BlocBuilder<AffirmationsBloc, AffirmationsState>(
+            builder: (context, state) {
+              return Text(
+                state.affirmations
+                    .firstWhere((element) => element.id == affirmation.id)
+                    .title,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 22,
+                ),
+                key: PositiveAffirmationsKeys.affirmationDetailsTitle(
+                    '${affirmation.id}'),
+              );
+            },
           ),
           _buildPadding(
-            child: Text(
-              affirmation.subtitle,
-              style: TextStyle(),
-              key: PositiveAffirmationsKeys.affirmationDetailsSubtitle(
-                  '${affirmation.id}'),
+            child: BlocBuilder<AffirmationsBloc, AffirmationsState>(
+              builder: (context, state) {
+                return Text(
+                  state.affirmations
+                      .firstWhere((element) => element.id == affirmation.id)
+                      .subtitle,
+                  style: TextStyle(),
+                  key: PositiveAffirmationsKeys.affirmationDetailsSubtitle(
+                      '${affirmation.id}'),
+                );
+              },
             ),
           ),
           _buildPadding(
