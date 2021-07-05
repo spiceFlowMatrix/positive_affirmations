@@ -42,7 +42,9 @@ class AffirmationFormScreen extends StatelessWidget {
         else
           BlocProvider<AffirmationFormBloc>(
               create: (_) => new AffirmationFormBloc(
-                  affirmationsBloc: args.affirmationsBloc))
+                    affirmationsBloc: args.affirmationsBloc,
+                    toUpdateAffirmation: args.toUpdateAffirmation,
+                  ))
       ],
       child: Scaffold(
         key: PositiveAffirmationsKeys.affirmationForm,
@@ -107,11 +109,11 @@ class _AffirmationForm extends StatelessWidget {
             children: [
               _buildTitleLabel(),
               const Padding(padding: EdgeInsets.only(top: 15)),
-              _TitleField(),
+              _TitleField(toUpdateAffirmation?.title),
               const Padding(padding: EdgeInsets.only(top: 30)),
               _buildSubtitleLabel(),
               const Padding(padding: EdgeInsets.only(top: 15)),
-              _SubtitleField(),
+              _SubtitleField(toUpdateAffirmation?.subtitle),
               const Padding(padding: EdgeInsets.only(top: 30)),
               _SaveButton(),
               if (toUpdateAffirmation != null) ...[
@@ -129,6 +131,11 @@ class _AffirmationForm extends StatelessWidget {
 }
 
 class _TitleField extends StatelessWidget {
+  _TitleField(String? initialTitle)
+      : _textController = TextEditingController(text: initialTitle);
+
+  TextEditingController _textController;
+
   String _generateErrorText(TitleFieldValidationError error) {
     switch (error) {
       case TitleFieldValidationError.empty:
@@ -144,6 +151,7 @@ class _TitleField extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: PositiveAffirmationsKeys.affirmationFormTitleField,
+          controller: _textController,
           onChanged: (title) {
             BlocProvider.of<AffirmationFormBloc>(context)
                 .add(TitleUpdated(title));
@@ -161,6 +169,11 @@ class _TitleField extends StatelessWidget {
 }
 
 class _SubtitleField extends StatelessWidget {
+  _SubtitleField(String? initialTitle)
+      : _textController = TextEditingController(text: initialTitle);
+
+  TextEditingController _textController;
+
   String _generateErrorText(SubtitleFieldValidationError error) {
     switch (error) {
       case SubtitleFieldValidationError.invalid:
@@ -174,6 +187,7 @@ class _SubtitleField extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: PositiveAffirmationsKeys.affirmationFormSubtitleField,
+          controller: _textController,
           onChanged: (subtitle) {
             BlocProvider.of<AffirmationFormBloc>(context)
                 .add(SubtitleUpdated(subtitle));
