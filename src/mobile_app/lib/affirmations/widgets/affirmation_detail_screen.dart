@@ -49,44 +49,66 @@ class _Body extends StatelessWidget {
 
   final Affirmation affirmation;
 
+  Padding _buildPadding({
+    Widget? child,
+    double? top,
+  }) {
+    return Padding(
+      padding: EdgeInsets.only(top: top ?? 10),
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 35),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             affirmation.title,
             style: TextStyle(
               fontWeight: FontWeight.w500,
+              fontSize: 22,
             ),
             key: PositiveAffirmationsKeys.affirmationDetailsTitle(
                 '${affirmation.id}'),
           ),
-          Text(
-            affirmation.subtitle,
-            style: TextStyle(),
-            key: PositiveAffirmationsKeys.affirmationDetailsSubtitle(
-                '${affirmation.id}'),
+          _buildPadding(
+            child: Text(
+              affirmation.subtitle,
+              style: TextStyle(),
+              key: PositiveAffirmationsKeys.affirmationDetailsSubtitle(
+                  '${affirmation.id}'),
+            ),
           ),
-          LikesSpan(
-            affirmation,
-            spanKey: PositiveAffirmationsKeys.affirmationDetailsLikes(
-                '${affirmation.id}'),
-            likeButtonKey:
-                PositiveAffirmationsKeys.affirmationDetailsLikeButton(
-                    '${affirmation.id}'),
+          _buildPadding(
+            child: LikesSpan(
+              affirmation,
+              spanKey: PositiveAffirmationsKeys.affirmationDetailsLikes(
+                  '${affirmation.id}'),
+              likeButtonKey:
+                  PositiveAffirmationsKeys.affirmationDetailsLikeButton(
+                      '${affirmation.id}'),
+            ),
           ),
-          Text(
-            '${affirmation.totalReaffirmations} reaffirmations',
-            key: PositiveAffirmationsKeys.affirmationDetailsReaffirmationsCount(
-                '${affirmation.id}'),
+          _buildPadding(
+            child: Text(
+              '${affirmation.totalReaffirmations} reaffirmations',
+              key: PositiveAffirmationsKeys
+                  .affirmationDetailsReaffirmationsCount('${affirmation.id}'),
+            ),
           ),
-          ElevatedButton(
-            key: PositiveAffirmationsKeys.affirmationDetailsReaffirmButton(
-                '${affirmation.id}'),
-            onPressed: () {},
-            child: Text('REAFFIRM'),
+          _buildPadding(
+            child: ElevatedButton(
+              key: PositiveAffirmationsKeys.affirmationDetailsReaffirmButton(
+                  '${affirmation.id}'),
+              onPressed: () {},
+              child: Text('REAFFIRM'),
+            ),
+            top: 20,
           ),
         ],
       ),
