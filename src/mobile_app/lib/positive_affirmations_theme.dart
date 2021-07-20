@@ -29,6 +29,10 @@ class PositiveAffirmationsTheme {
           style: TextButton.styleFrom(
         textStyle: TextStyle(fontWeight: FontWeight.bold),
       )),
+      /* primaryTextTheme affects the appbar title text.
+         Reference for working solution for fixing appbar title theme https://stackoverflow.com/a/52804265
+       */
+      primaryTextTheme: newTextTheme,
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           backgroundColor: Colors.white,
@@ -40,14 +44,15 @@ class PositiveAffirmationsTheme {
         ),
       ),
       textTheme: newTextTheme,
-      // appBarTheme: AppBarTheme(
-      //   backgroundColor: Colors.white,
-      //   titleTextStyle: TextStyle(
-      //     color: Colors.black,
-      //     backgroundColor: Colors.black,
-      //     fontSize: 30
-      //   ),
-      // ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: Colors.white,
+        titleTextStyle: TextStyle(
+          color: Colors.black,
+          backgroundColor: Colors.black,
+          fontSize: 60,
+        ),
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
     );
   }
 }
