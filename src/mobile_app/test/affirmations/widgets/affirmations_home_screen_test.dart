@@ -43,6 +43,8 @@ void main() {
   });
 
   AffirmationsHomeScreenFixture _setupFixture() {
+    when(() => affirmationsBloc.authenticatedUser)
+        .thenReturn(PositiveAffirmationsConsts.seedUser);
     return AffirmationsHomeScreenFixture(
       apptabBloc: apptabBloc,
       authBloc: authBloc,
@@ -83,6 +85,8 @@ void main() {
       testWidgets('profile appbar title is rendered profile tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
+        when(() => authBloc.state).thenReturn(AuthenticationState.authenticated(
+            PositiveAffirmationsConsts.seedUser));
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,
@@ -109,6 +113,8 @@ void main() {
       testWidgets('profile appbar edit action is rendered profile tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
+        when(() => authBloc.state).thenReturn(AuthenticationState.authenticated(
+            PositiveAffirmationsConsts.seedUser));
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,
@@ -135,6 +141,8 @@ void main() {
       testWidgets('profile details body is rendered when profile tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
+        when(() => authBloc.state).thenReturn(AuthenticationState.authenticated(
+            PositiveAffirmationsConsts.seedUser));
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,

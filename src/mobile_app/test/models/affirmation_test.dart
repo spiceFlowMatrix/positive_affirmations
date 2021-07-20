@@ -18,6 +18,7 @@ void main() {
     Affirmation.fieldId: mockValidAffirmation.id,
     Affirmation.fieldSubtitle: mockValidAffirmation.subtitle,
     Affirmation.fieldTitle: mockValidAffirmation.title,
+    Affirmation.fieldCreatedById: mockValidAffirmation.createdById,
     Affirmation.fieldCreatedOn:
         mockValidAffirmation.createdOn.toIso8601String(),
     Affirmation.fieldLikes: mockValidAffirmation.likes,
@@ -71,6 +72,13 @@ void main() {
           }),
           equals(Affirmation.empty.copyWith(
               totalReaffirmations: mockValidAffirmation.totalReaffirmations)),
+        );
+
+        expect(
+          Affirmation.fromJson(
+              {Affirmation.fieldCreatedById: mockValidAffirmation.createdById}),
+          equals(Affirmation.empty
+              .copyWith(createdById: mockValidAffirmation.createdById)),
         );
 
         expect(
