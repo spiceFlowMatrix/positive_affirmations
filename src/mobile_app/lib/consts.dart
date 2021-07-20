@@ -25,4 +25,6 @@ class PositiveAffirmationsConsts {
   static const String titleFieldEmptyError = 'Title is required';
   static const String titleFieldInvalidError = 'Invalid title';
   static const String subtitleFieldInvalidError = 'Invalid subtitle';
+
+  static const String underConstructionSnackbarText = 'UNDER CONSTRUCTION';
 }

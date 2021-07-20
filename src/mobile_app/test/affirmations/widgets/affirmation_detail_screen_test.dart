@@ -131,11 +131,15 @@ void main() {
         affirmationsBloc: affirmationsBloc,
       ));
 
+      // Reference for solution https://stackoverflow.com/a/65067950
       expect(
         find.byKey(PositiveAffirmationsKeys.underConstructionSnackbar),
         findsNothing,
       );
-      expect(find.text('UNDER CONSTRUCTION'), findsNothing);
+      expect(
+        find.text(PositiveAffirmationsConsts.underConstructionSnackbarText),
+        findsNothing,
+      );
       await tester.tap(
         find.byKey(PositiveAffirmationsKeys.affirmationDetailsReaffirmButton(
             '${mockAffirmation.id}')),
