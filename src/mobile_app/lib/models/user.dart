@@ -6,6 +6,7 @@ class User extends Equatable {
     required this.name,
     this.nickName = '',
     this.email = '',
+    this.pictureB64Enc = '',
     this.accountCreated = false,
     this.emailVerified = false,
   });
@@ -13,19 +14,34 @@ class User extends Equatable {
   final String id;
   final String name;
   final String nickName;
+  final String pictureB64Enc;
   final String email;
   final bool accountCreated;
   final bool emailVerified;
 
   @override
-  List<Object?> get props =>
-      [id, name, nickName, email, accountCreated, emailVerified];
+  List<Object?> get props => [
+        id,
+        name,
+        nickName,
+        email,
+        pictureB64Enc,
+        accountCreated,
+        emailVerified,
+      ];
 
-  static const empty = User(id: '-', name: '-', nickName: '-', email: '-');
+  static const empty = User(
+    id: '-',
+    name: '-',
+    nickName: '-',
+    email: '-',
+    pictureB64Enc: '-',
+  );
   static const String fieldId = 'id';
   static const String fieldName = 'name';
   static const String fieldNickName = 'nickName';
   static const String fieldEmail = 'email';
+  static const String fieldPictureB64Enc = 'pictureB64Enc';
   static const String fieldAccountCreated = 'accountCreated';
   static const String fieldEmailVerified = 'emailVerified';
 
@@ -34,6 +50,7 @@ class User extends Equatable {
         fieldName: this.name,
         fieldNickName: this.nickName,
         fieldEmail: this.email,
+        fieldPictureB64Enc: this.pictureB64Enc,
         fieldAccountCreated: this.accountCreated,
         fieldEmailVerified: this.emailVerified,
       };
@@ -44,6 +61,7 @@ class User extends Equatable {
       name: json[User.fieldName],
       nickName: json[User.fieldNickName] ?? '',
       email: json[User.fieldEmail] ?? '',
+      pictureB64Enc: json[User.fieldPictureB64Enc] ?? '',
       accountCreated: json[User.fieldAccountCreated] ?? false,
       emailVerified: json[User.fieldEmailVerified] ?? false,
     );
