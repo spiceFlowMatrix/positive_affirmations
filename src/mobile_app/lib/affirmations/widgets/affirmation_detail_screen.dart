@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/affirmations/widgets/likes_span.dart';
+import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/models/affirmation.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 
@@ -66,9 +67,14 @@ class AffirmationDetailScreen extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  const _Body(this.affirmation);
+  _Body(this.affirmation);
 
   final Affirmation affirmation;
+
+  final _underConstructionSnackbar = SnackBar(
+    key: PositiveAffirmationsKeys.underConstructionSnackbar,
+    content: Text(PositiveAffirmationsConsts.underConstructionSnackbarText),
+  );
 
   Padding _buildPadding({
     Widget? child,
@@ -145,7 +151,10 @@ class _Body extends StatelessWidget {
             child: ElevatedButton(
               key: PositiveAffirmationsKeys.affirmationDetailsReaffirmButton(
                   '${affirmation.id}'),
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(_underConstructionSnackbar);
+              },
               child: Text('REAFFIRM'),
             ),
             top: 20,

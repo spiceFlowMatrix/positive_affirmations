@@ -123,5 +123,33 @@ void main() {
       verify(() => affirmationsBloc.add(AffirmationLiked(mockAffirmation.id)))
           .called(1);
     });
+
+    testWidgets('pressing reaffirm shows under construction snackbar',
+        (tester) async {
+      await tester.pumpWidget(AffirmationDetailScreenFixture(
+        affirmation: mockAffirmation,
+        affirmationsBloc: affirmationsBloc,
+      ));
+
+      // Reference for solution https://stackoverflow.com/a/65067950
+      expect(
+        find.byKey(PositiveAffirmationsKeys.underConstructionSnackbar),
+        findsNothing,
+      );
+      expect(
+        find.text(PositiveAffirmationsConsts.underConstructionSnackbarText),
+        findsNothing,
+      );
+      await tester.tap(
+        find.byKey(PositiveAffirmationsKeys.affirmationDetailsReaffirmButton(
+            '${mockAffirmation.id}')),
+      );
+      await tester.pump();
+      expect(
+        find.byKey(PositiveAffirmationsKeys.underConstructionSnackbar),
+        findsOneWidget,
+      );
+      expect(find.text('UNDER CONSTRUCTION'), findsOneWidget);
+    });
   });
 }
