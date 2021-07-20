@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
+import 'package:mobile_app/affirmations/widgets/affirmation_detail_screen.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
+import 'package:mobile_app/affirmations/widgets/likes_span.dart';
 import 'package:mobile_app/models/affirmation.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 
@@ -43,47 +45,17 @@ class _ListItem extends StatelessWidget {
   static const Padding _subtitlePadding =
       const Padding(padding: EdgeInsets.only(top: 10));
 
-  RichText _buildLikes(BuildContext context) {
-    return RichText(
-      key: PositiveAffirmationsKeys.affirmationItemLikes('${affirmation.id}'),
-      text: TextSpan(
-        style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.w500,
-        ),
-        children: [
-          WidgetSpan(
-            child: Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: GestureDetector(
-                key: PositiveAffirmationsKeys.affirmationItemLikeButton(
-                    '${affirmation.id}'),
-                onTap: () => BlocProvider.of<AffirmationsBloc>(context)
-                    .add(AffirmationLiked(affirmation.id)),
-                child: FaIcon(
-                  affirmation.liked
-                      ? FontAwesomeIcons.solidHeart
-                      : FontAwesomeIcons.heart,
-                  size: 18,
-                  color: affirmation.liked ? Colors.red : Colors.black,
-                ),
-              ),
-            ),
-            alignment: PlaceholderAlignment.middle,
-          ),
-          TextSpan(
-            text: '${affirmation.likes} likes',
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListTile(
       key: PositiveAffirmationsKeys.affirmationItem('${affirmation.id}'),
-      // onTap: () {},
+      onTap: () {
+        final bloc = BlocProvider.of<AffirmationsBloc>(context);
+        Navigator.of(context).pushNamed(
+          AffirmationDetailScreen.routeName,
+          arguments: AffirmationDetailScreenArguments(affirmation, bloc),
+        );
+      },
       minVerticalPadding: 20,
       title: Text(
         affirmation.title,
@@ -103,7 +75,13 @@ class _ListItem extends StatelessWidget {
                 '${affirmation.id}'),
           ),
           _subtitlePadding,
-          _buildLikes(context),
+          LikesSpan(
+            affirmation,
+            spanKey: PositiveAffirmationsKeys.affirmationItemLikes(
+                '${affirmation.id}'),
+            likeButtonKey: PositiveAffirmationsKeys.affirmationItemLikeButton(
+                '${affirmation.id}'),
+          ),
           _subtitlePadding,
           Text(
             '${affirmation.totalReaffirmations} reaffirmations...',

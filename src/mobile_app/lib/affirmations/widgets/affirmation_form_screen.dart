@@ -42,7 +42,9 @@ class AffirmationFormScreen extends StatelessWidget {
         else
           BlocProvider<AffirmationFormBloc>(
               create: (_) => new AffirmationFormBloc(
-                  affirmationsBloc: args.affirmationsBloc))
+                    affirmationsBloc: args.affirmationsBloc,
+                    toUpdateAffirmation: args.toUpdateAffirmation,
+                  ))
       ],
       child: Scaffold(
         key: PositiveAffirmationsKeys.affirmationForm,
@@ -107,11 +109,13 @@ class _AffirmationForm extends StatelessWidget {
             children: [
               _buildTitleLabel(),
               const Padding(padding: EdgeInsets.only(top: 15)),
-              _TitleField(),
+              _TitleField(
+                initialText: toUpdateAffirmation?.title,
+              ),
               const Padding(padding: EdgeInsets.only(top: 30)),
               _buildSubtitleLabel(),
               const Padding(padding: EdgeInsets.only(top: 15)),
-              _SubtitleField(),
+              _SubtitleField(toUpdateAffirmation?.subtitle),
               const Padding(padding: EdgeInsets.only(top: 30)),
               _SaveButton(),
               if (toUpdateAffirmation != null) ...[
@@ -128,7 +132,27 @@ class _AffirmationForm extends StatelessWidget {
   }
 }
 
-class _TitleField extends StatelessWidget {
+class _TitleField extends StatefulWidget {
+  _TitleField({this.initialText});
+
+  final String? initialText;
+
+  @override
+  __TitleFieldState createState() => __TitleFieldState(initialText);
+}
+
+class __TitleFieldState extends State<_TitleField> {
+  __TitleFieldState(this.initialText);
+
+  String? initialText;
+  TextEditingController? _textController;
+
+  @override
+  initState() {
+    _textController = TextEditingController(text: initialText);
+    super.initState();
+  }
+
   String _generateErrorText(TitleFieldValidationError error) {
     switch (error) {
       case TitleFieldValidationError.empty:
@@ -144,6 +168,7 @@ class _TitleField extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: PositiveAffirmationsKeys.affirmationFormTitleField,
+          controller: _textController,
           onChanged: (title) {
             BlocProvider.of<AffirmationFormBloc>(context)
                 .add(TitleUpdated(title));
@@ -160,7 +185,27 @@ class _TitleField extends StatelessWidget {
   }
 }
 
-class _SubtitleField extends StatelessWidget {
+class _SubtitleField extends StatefulWidget {
+  _SubtitleField(this.initialText);
+
+  final String? initialText;
+
+  @override
+  __SubtitleFieldState createState() => __SubtitleFieldState(initialText);
+}
+
+class __SubtitleFieldState extends State<_SubtitleField> {
+  __SubtitleFieldState(this.initialText);
+
+  String? initialText;
+  TextEditingController? _textController;
+
+  @override
+  initState() {
+    _textController = TextEditingController(text: initialText);
+    super.initState();
+  }
+
   String _generateErrorText(SubtitleFieldValidationError error) {
     switch (error) {
       case SubtitleFieldValidationError.invalid:
@@ -174,6 +219,7 @@ class _SubtitleField extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: PositiveAffirmationsKeys.affirmationFormSubtitleField,
+          controller: _textController,
           onChanged: (subtitle) {
             BlocProvider.of<AffirmationFormBloc>(context)
                 .add(SubtitleUpdated(subtitle));
@@ -219,11 +265,16 @@ class _ActivateDeactivateButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return OutlinedButton(
       key: PositiveAffirmationsKeys.affirmationFormDeactivateDeactivateButton(
           '$id'),
-      onPressed: () {},
-      child: Text('DEACTIVATE'),
+      onPressed: null,
+      child: Text(
+        'DEACTIVATE',
+        style: TextStyle(
+          color: Colors.grey,
+        ),
+      ),
     );
   }
 }
@@ -235,10 +286,15 @@ class _DeleteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return OutlinedButton(
       key: PositiveAffirmationsKeys.affirmationFormDeleteButton('$id'),
-      onPressed: () {},
-      child: Text('DELETE'),
+      onPressed: null,
+      child: Text(
+        'DELETE',
+        style: TextStyle(
+          color: Colors.grey,
+        ),
+      ),
     );
   }
 }

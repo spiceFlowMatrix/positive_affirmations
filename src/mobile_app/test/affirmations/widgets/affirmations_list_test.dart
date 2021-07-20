@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
+import 'package:mobile_app/affirmations/widgets/affirmation_detail_screen.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/consts.dart';
@@ -120,6 +121,9 @@ void main() {
         final itemReaffirmationsKey =
             PositiveAffirmationsKeys.affirmationItemReaffirmationsCount(
                 element.id.toString());
+        // final itemDeleteButtonKey =
+        //     PositiveAffirmationsKeys.affirmationFormDeleteButton(
+        //         '${element.id}');
 
         expect(find.byKey(itemKey), findsOneWidget);
         expect(find.byKey(itemTitleKey), findsOneWidget);
@@ -127,6 +131,7 @@ void main() {
         expect(find.byKey(itemLikeButtonKey), findsOneWidget);
         expect(find.byKey(itemLikesKey), findsOneWidget);
         expect(find.byKey(itemReaffirmationsKey), findsOneWidget);
+        // expect(find.byKey(itemDeleteButtonKey), findsOneWidget);
       });
     });
     testWidgets('pressing like button triggers like event', (tester) async {
@@ -142,26 +147,77 @@ void main() {
       verify(() => affirmationsBloc.add(AffirmationLiked(
           PositiveAffirmationsConsts.seedAffirmations[0].id))).called(1);
     });
-  });
-
-  group('[AppBar]', () {
-    testWidgets('tapping the add action navigates affirmation form',
+    testWidgets('[Navigation] tapping an affirmation navigates details screen',
         (tester) async {
-      var isAffirmationFormPushed = false;
+      var isAffirmationDetailsPushed = false;
       await tester.pumpWidget(_buildFixture());
 
       navigatorObserver.attachPushRouteObserver(
-        AffirmationFormScreen.routeName,
+        AffirmationDetailScreen.routeName,
         () {
-          isAffirmationFormPushed = true;
+          isAffirmationDetailsPushed = true;
         },
       );
 
-      await tester.tap(
-          find.byKey(PositiveAffirmationsKeys.affirmationsAppBarAddButton));
+      await tester.tap(find.byKey(PositiveAffirmationsKeys.affirmationItem(
+          '${PositiveAffirmationsConsts.seedAffirmations[1].id}')));
       await tester.pumpAndSettle();
 
-      expect(isAffirmationFormPushed, true);
+      expect(isAffirmationDetailsPushed, true);
+    });
+    testWidgets(
+        '[Navigation] pressing back button returns to affirmations list',
+        (tester) async {
+      var isAffirmationDetailsPushed = false;
+      var isAffirmationDetailsPopped = false;
+      await tester.pumpWidget(_buildFixture());
+
+      navigatorObserver.attachPushRouteObserver(
+        AffirmationDetailScreen.routeName,
+        () {
+          isAffirmationDetailsPushed = true;
+        },
+      );
+      navigatorObserver.attachPopRouteObserver(
+        AffirmationDetailScreen.routeName,
+        () {
+          isAffirmationDetailsPopped = true;
+        },
+      );
+
+      await tester.tap(find.byKey(PositiveAffirmationsKeys.affirmationItem(
+          '${PositiveAffirmationsConsts.seedAffirmations[1].id}')));
+      await tester.pumpAndSettle();
+
+      expect(isAffirmationDetailsPushed, true);
+
+      await tester.tap(find.byKey(
+          PositiveAffirmationsKeys.affirmationDetailsBackButton(
+              '${PositiveAffirmationsConsts.seedAffirmations[1].id}')));
+      await tester.pumpAndSettle();
+
+      expect(isAffirmationDetailsPopped, true);
+    });
+
+    group('[AppBar]', () {
+      testWidgets('tapping the add action navigates affirmation form',
+          (tester) async {
+        var isAffirmationFormPushed = false;
+        await tester.pumpWidget(_buildFixture());
+
+        navigatorObserver.attachPushRouteObserver(
+          AffirmationFormScreen.routeName,
+          () {
+            isAffirmationFormPushed = true;
+          },
+        );
+
+        await tester.tap(
+            find.byKey(PositiveAffirmationsKeys.affirmationsAppBarAddButton));
+        await tester.pumpAndSettle();
+
+        expect(isAffirmationFormPushed, true);
+      });
     });
   });
 }
