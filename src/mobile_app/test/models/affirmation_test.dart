@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/models/affirmation.dart';
 
 void main() {
@@ -6,6 +7,7 @@ void main() {
     id: 0,
     title: 'testTitle',
     subtitle: 'testSubtitle',
+    createdById: PositiveAffirmationsConsts.seedUser.id,
     createdOn: DateTime.now(),
     totalReaffirmations: 12,
     likes: 8,

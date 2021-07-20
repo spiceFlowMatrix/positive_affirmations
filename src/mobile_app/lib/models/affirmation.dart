@@ -6,6 +6,7 @@ class Affirmation extends Equatable {
     required this.title,
     this.subtitle = '-',
     required this.createdOn,
+    required this.createdById,
     this.likes = 0,
     this.totalReaffirmations = 0,
     this.active = true,
@@ -15,6 +16,7 @@ class Affirmation extends Equatable {
   final int id;
   final String title;
   final String subtitle;
+  final String createdById;
   final DateTime createdOn;
   final int likes;
   final int totalReaffirmations;
@@ -27,17 +29,24 @@ class Affirmation extends Equatable {
         title,
         subtitle,
         createdOn,
+        createdById,
         likes,
         totalReaffirmations,
         active,
         liked,
       ];
 
-  static final empty =
-      Affirmation(id: 0, title: '-', subtitle: '-', createdOn: DateTime.utc(0));
+  static final empty = Affirmation(
+    id: 0,
+    title: '-',
+    subtitle: '-',
+    createdById: '-',
+    createdOn: DateTime.utc(0),
+  );
   static const String fieldId = 'id';
   static const String fieldTitle = 'title';
   static const String fieldSubtitle = 'subtitle';
+  static const String fieldCreatedById = 'createdById';
   static const String fieldCreatedOn = 'createdOn';
   static const String fieldLikes = 'likes';
   static const String fieldTotalReaffirmations = 'totalReaffirmations';
@@ -48,6 +57,7 @@ class Affirmation extends Equatable {
         fieldId: this.id,
         fieldTitle: this.title,
         fieldSubtitle: this.subtitle,
+        fieldCreatedById: this.createdById,
         fieldCreatedOn: this.createdOn.toIso8601String(),
         fieldLikes: this.likes,
         fieldTotalReaffirmations: this.totalReaffirmations,
@@ -60,6 +70,7 @@ class Affirmation extends Equatable {
       id: json[Affirmation.fieldId] ?? empty.id,
       title: json[Affirmation.fieldTitle] ?? empty.title,
       subtitle: json[Affirmation.fieldSubtitle] ?? empty.subtitle,
+      createdById: json[Affirmation.fieldCreatedById] ?? empty.createdById,
       createdOn: DateTime.tryParse('${json[Affirmation.fieldCreatedOn]}') ??
           empty.createdOn,
       likes: json[Affirmation.fieldLikes] ?? empty.likes,
@@ -74,6 +85,7 @@ class Affirmation extends Equatable {
     int? id,
     String? title,
     String? subtitle,
+    String? createdById,
     DateTime? createdOn,
     int? likes,
     int? totalReaffirmations,
@@ -84,6 +96,7 @@ class Affirmation extends Equatable {
       id: id ?? this.id,
       title: title ?? this.title,
       subtitle: subtitle ?? this.subtitle,
+      createdById: createdById ?? this.createdById,
       createdOn: createdOn ?? this.createdOn,
       likes: likes ?? this.likes,
       totalReaffirmations: totalReaffirmations ?? this.totalReaffirmations,

@@ -7,6 +7,7 @@ import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/affirmations/widgets/affirmations_list.dart';
 import 'package:mobile_app/affirmations/widgets/app_navigator.dart';
 import 'package:mobile_app/affirmations/widgets/profile_details.dart';
+import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 
 class AffirmationsHomeScreen extends StatelessWidget {
@@ -80,9 +81,11 @@ class AffirmationsHomeScreen extends StatelessWidget {
         child: scaffold,
       );
 
+    final authUser = context.read<AuthenticationBloc>().state.user;
+
     return BlocProvider<AffirmationsBloc>(
       create: (context) {
-        return new HydratedAffirmationsBloc();
+        return new HydratedAffirmationsBloc(authenticatedUser: authUser);
       },
       child: scaffold,
     );

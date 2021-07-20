@@ -10,9 +10,13 @@ part 'affirmations_event.dart';
 part 'affirmations_state.dart';
 
 class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
-  AffirmationsBloc({this.time}) : super(AffirmationsState());
+  AffirmationsBloc({
+    required this.authenticatedUser,
+    this.time,
+  }) : super(AffirmationsState());
 
   final MachineDateTime? time;
+  final User authenticatedUser;
 
   @override
   Stream<AffirmationsState> mapEventToState(
@@ -35,6 +39,7 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
       id: state.affirmations.length + 1,
       title: event.title,
       subtitle: event.subtitle,
+      createdById: authenticatedUser.id,
       createdOn: time?.now ?? DateTime.now(),
     );
 
@@ -84,6 +89,9 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
 }
 
 class HydratedAffirmationsBloc extends AffirmationsBloc with HydratedMixin {
+  HydratedAffirmationsBloc({required User authenticatedUser})
+      : super(authenticatedUser: authenticatedUser);
+
   @override
   AffirmationsState? fromJson(Map<String, dynamic> json) {
     List<Affirmation> affirmations = [

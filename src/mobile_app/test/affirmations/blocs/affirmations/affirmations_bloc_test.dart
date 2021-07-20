@@ -24,7 +24,10 @@ void main() {
   setUp(() {
     seedAffirmations = [...PositiveAffirmationsConsts.seedAffirmations];
     mockMachineTime = MockMachineDateTime();
-    affirmationsBloc = AffirmationsBloc(time: mockMachineTime);
+    affirmationsBloc = AffirmationsBloc(
+      time: mockMachineTime,
+      authenticatedUser: PositiveAffirmationsConsts.seedUser,
+    );
     mockAffirmationsLength = affirmationsBloc.state.affirmations.length;
     when(() => mockMachineTime.now).thenReturn(mockTime);
   });
@@ -47,6 +50,7 @@ void main() {
                   id: mockAffirmationsLength + 1,
                   title: validTitle,
                   subtitle: validSubtitle,
+                  createdById: PositiveAffirmationsConsts.seedUser.id,
                   createdOn: mockTime,
                 ),
               ],
@@ -57,12 +61,14 @@ void main() {
                   id: mockAffirmationsLength + 1,
                   title: validTitle,
                   subtitle: validSubtitle,
+                  createdById: PositiveAffirmationsConsts.seedUser.id,
                   createdOn: mockTime,
                 ),
                 Affirmation(
                   id: mockAffirmationsLength + 2,
                   title: '$validTitle 2',
                   subtitle: '$validSubtitle 2',
+                  createdById: PositiveAffirmationsConsts.seedUser.id,
                   createdOn: mockTime,
                 ),
               ],
