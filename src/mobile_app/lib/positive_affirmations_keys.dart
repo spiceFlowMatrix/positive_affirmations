@@ -109,4 +109,7 @@ class PositiveAffirmationsKeys {
   static const profileTab = Key('__profileTab__');
   static const profileTabLabel = Key('__profileTabLabel__');
   static const profileTabIcon = Key('__profileTabIcon__');
+
+  // Snackbars
+  static const underConstructionSnackbar = Key('__underConstructionSnackbar__');
 }

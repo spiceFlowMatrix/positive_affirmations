@@ -123,5 +123,29 @@ void main() {
       verify(() => affirmationsBloc.add(AffirmationLiked(mockAffirmation.id)))
           .called(1);
     });
+
+    testWidgets('pressing reaffirm shows under construction snackbar',
+        (tester) async {
+      await tester.pumpWidget(AffirmationDetailScreenFixture(
+        affirmation: mockAffirmation,
+        affirmationsBloc: affirmationsBloc,
+      ));
+
+      expect(
+        find.byKey(PositiveAffirmationsKeys.underConstructionSnackbar),
+        findsNothing,
+      );
+      expect(find.text('UNDER CONSTRUCTION'), findsNothing);
+      await tester.tap(
+        find.byKey(PositiveAffirmationsKeys.affirmationDetailsReaffirmButton(
+            '${mockAffirmation.id}')),
+      );
+      await tester.pump();
+      expect(
+        find.byKey(PositiveAffirmationsKeys.underConstructionSnackbar),
+        findsOneWidget,
+      );
+      expect(find.text('UNDER CONSTRUCTION'), findsOneWidget);
+    });
   });
 }
