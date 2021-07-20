@@ -57,6 +57,26 @@ class PositiveAffirmationsKeys {
   static const affirmationsAppBarAddButton =
       Key('__affirmationsAppBarAddButton__');
 
+  // Profile tab body
+  static const profileTabBody = Key('__profileTabBody__');
+  static final profilePicture = (String id) => Key('ProfilePicture__$id');
+  static final profileName = (String id) => Key('ProfileName__$id');
+  static final profileNickName = (String id) => Key('ProfileNickName__$id');
+  static final profileAffirmationsCount =
+      (String id) => Key('ProfileAffirmationsCount__$id');
+  static final profileLettersCount =
+      (String id) => Key('ProfileLettersCount__$id');
+  static final profileReaffirmationsCount =
+      (String id) => Key('ProfileReaffirmationsCount__$id');
+  static final profileAffirmationsSubtab =
+      (String id) => Key('ProfileAffirmationsSubtab__$id');
+  static final profileLettersSubtab =
+      (String id) => Key('ProfileLettersSubtab__$id');
+  static final profileAffirmationsSubtabBody =
+      (String id) => Key('ProfileAffirmationsSubtabBody__$id');
+  static final profileLettersSubtabBody =
+      (String id) => Key('ProfileLettersSubtabBody__$id');
+
   // Add/Edit affirmation form
   static final affirmationFormBackButton = Key('__affirmationFormBackButton__');
   static const newAffirmationFormAppbarTitle =
