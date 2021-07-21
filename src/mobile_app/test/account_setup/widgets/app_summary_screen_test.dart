@@ -257,6 +257,7 @@ void main() {
         authBloc: authBloc,
       ));
 
+      // TODO: This test is valid but I need to learn why in tests the auth status changed event is called twice.
       verify(() => authBloc.add(AuthenticationStatusChanged(
             status: AuthenticationStatus.authenticated,
             user: createdUser,
