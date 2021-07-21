@@ -14,6 +14,8 @@ class ProfileTabBloc extends Bloc<ProfileTabEvent, ProfileTab> {
   Stream<ProfileTab> mapEventToState(
     ProfileTabEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    if (event is TabUpdated) {
+      if (event.tab != state) yield event.tab;
+    }
   }
 }
