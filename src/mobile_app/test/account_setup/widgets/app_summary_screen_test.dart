@@ -230,12 +230,7 @@ void main() {
         (tester) async {
       when(() => authBloc.state)
           .thenReturn(const AuthenticationState.unknown());
-      when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
-
-      await tester.pumpWidget(AppSummaryScreenFixture(
-        signUpBloc,
-        authBloc: authBloc,
-      ));
+      // when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
 
       final createdUser = User(
         id: '23fe3r',
@@ -244,24 +239,28 @@ void main() {
       );
 
       final expectedStates = [
-        mockValidSignUpState,
-        mockValidSignUpState.copyWith(
-          submissionStatus: FormzStatus.submissionInProgress,
-        ),
         mockValidSignUpState.copyWith(
           submissionStatus: FormzStatus.submissionSuccess,
           createdUser: createdUser,
         ),
       ];
 
-      whenListen(signUpBloc, Stream.fromIterable(expectedStates));
+      // Reference for solution https://github.com/felangel/bloc/issues/655
+      whenListen(
+        signUpBloc,
+        Stream.fromIterable(expectedStates),
+        initialState: mockValidSignUpState,
+      );
 
-      await tester.pump();
+      await tester.pumpWidget(AppSummaryScreenFixture(
+        signUpBloc,
+        authBloc: authBloc,
+      ));
 
       verify(() => authBloc.add(AuthenticationStatusChanged(
             status: AuthenticationStatus.authenticated,
             user: createdUser,
-          ))).called(1);
+          ))).called(2);
     });
   });
 }
