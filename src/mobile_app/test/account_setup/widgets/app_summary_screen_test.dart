@@ -214,6 +214,17 @@ void main() {
       when(() => authBloc.state)
           .thenReturn(const AuthenticationState.unknown());
       when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
+      when(() => signUpBloc.userRepository).thenReturn(userRepository);
+      final createdUser = User(
+        id: 'fg344t',
+        name: mockValidSignUpState.name.value,
+        nickName: mockValidSignUpState.nickName.value,
+      );
+      when(() => userRepository.createUser(
+            mockValidSignUpState.name.value,
+            mockValidSignUpState.nickName.value,
+          )).thenAnswer((_) => Future.value(createdUser));
+
       await tester.pumpWidget(AppSummaryScreenFixture(
         signUpBloc,
         authBloc: authBloc,
@@ -221,6 +232,16 @@ void main() {
 
       await tester
           .tap(find.byKey(PositiveAffirmationsKeys.skipAppSummaryButton));
+
+      verify(() => signUpBloc.add(UserSubmitted())).called(1);
+      verify(() => userRepository.createUser(
+            mockValidSignUpState.name.value,
+            mockValidSignUpState.nickName.value,
+          )).called(1);
+      verify(() => authBloc.add(AuthenticationStatusChanged(
+            status: AuthenticationStatus.authenticated,
+            user: createdUser,
+          ))).called(1);
     });
   });
 }
