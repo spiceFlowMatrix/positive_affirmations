@@ -19,6 +19,7 @@ class User extends Equatable {
   final bool accountCreated;
   final bool emailVerified;
 
+  // Reference for working solution https://stackoverflow.com/a/61289387
   String nameInitials() {
     List<String> names = name.split(' ');
     String initials = '';
@@ -33,6 +34,7 @@ class User extends Equatable {
     return initials;
   }
 
+  // Reference for working solution https://stackoverflow.com/a/61289387
   String nickNameInitials() {
     List<String> names = nickName.split(' ');
     String initials = '';
