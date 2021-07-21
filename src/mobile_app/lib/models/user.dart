@@ -19,6 +19,34 @@ class User extends Equatable {
   final bool accountCreated;
   final bool emailVerified;
 
+  String nameInitials() {
+    List<String> names = name.split(' ');
+    String initials = '';
+    int numWords = 2;
+
+    if (numWords < names.length) {
+      numWords = names.length;
+    }
+    for (var i = 0; i < numWords; i++) {
+      initials += '${names[i][0]}';
+    }
+    return initials;
+  }
+
+  String nickNameInitials() {
+    List<String> names = nickName.split(' ');
+    String initials = '';
+    int numWords = 2;
+
+    if (numWords < names.length) {
+      numWords = names.length;
+    }
+    for (var i = 0; i < numWords; i++) {
+      initials += '${names[i][0]}';
+    }
+    return initials;
+  }
+
   @override
   List<Object?> get props => [
         id,
