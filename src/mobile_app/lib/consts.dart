@@ -1,5 +1,4 @@
-import 'package:mobile_app/models/affirmation.dart';
-import 'package:mobile_app/models/models.dart';
+import 'package:repository/repository.dart';
 
 class PositiveAffirmationsConsts {
   static const User seedUser = User(

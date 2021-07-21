@@ -4,9 +4,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
-import 'package:mobile_app/models/models.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/profile/blocs/profile_tab/profile_tab_bloc.dart';
+import 'package:repository/repository.dart';
 
 class ProfileDetailsTabBody extends StatelessWidget {
   const ProfileDetailsTabBody({this.profileTabBloc})

@@ -8,8 +8,8 @@ import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dar
 import 'package:mobile_app/affirmations/models/subtitle_field.dart';
 import 'package:mobile_app/affirmations/models/title_field.dart';
 import 'package:mobile_app/consts.dart';
-import 'package:mobile_app/models/affirmation.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
+import 'package:repository/repository.dart';
 
 class AffirmationFormScreenArguments {
   AffirmationFormScreenArguments({

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/affirmations/blocs/affirmation_form/affirmation_form_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
-import 'package:mobile_app/models/affirmation.dart';
+import 'package:repository/src/models/affirmation.dart';
 
 class AffirmationFormScreenFixture extends StatelessWidget {
   AffirmationFormScreenFixture({

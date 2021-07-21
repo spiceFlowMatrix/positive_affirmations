@@ -2,7 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/consts.dart';
-import 'package:mobile_app/models/affirmation.dart';
+import 'package:repository/src/models/affirmation.dart';
 import 'package:mobile_app/models/machine_date_time.dart';
 import 'package:mocktail/mocktail.dart';
 

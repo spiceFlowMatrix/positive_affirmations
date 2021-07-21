@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/consts.dart';
-import 'package:mobile_app/models/affirmation.dart';
+import 'package:repository/src/models/affirmation.dart';
 
 void main() {
   Affirmation mockValidAffirmation = Affirmation(

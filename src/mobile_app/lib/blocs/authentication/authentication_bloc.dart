@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:mobile_app/models/models.dart';
+import 'package:repository/repository.dart';
 
 part 'authentication_event.dart';
 

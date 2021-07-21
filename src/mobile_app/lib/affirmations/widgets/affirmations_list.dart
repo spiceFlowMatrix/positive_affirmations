@@ -6,8 +6,8 @@ import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dar
 import 'package:mobile_app/affirmations/widgets/affirmation_detail_screen.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/affirmations/widgets/likes_span.dart';
-import 'package:mobile_app/models/affirmation.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
+import 'package:repository/repository.dart';
 
 class AffirmationsList extends StatelessWidget {
   AffirmationsList({Key? key}) : super(key: key);
