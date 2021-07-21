@@ -274,6 +274,36 @@ void main() {
           ),
         ],
       );
+
+      blocTest<SignUpBloc, SignUpState>(
+        'valid submission workflow takes place upon repository exception',
+        build: () {
+          when(() => userRepository.createUser(
+            mockCreatableState.name.value,
+            mockCreatableState.nickName.value,
+          )).thenThrow(Exception('oops!'));
+
+          return signUpBloc;
+        },
+        seed: () => mockCreatableState,
+        act: (bloc) {
+          bloc..add(UserSubmitted());
+        },
+        verify: (_) {
+          verify(() => userRepository.createUser(
+            mockCreatableState.name.value,
+            mockCreatableState.nickName.value,
+          )).called(1);
+        },
+        expect: () => <SignUpState>[
+          mockCreatableState.copyWith(
+            submissionStatus: FormzStatus.submissionInProgress,
+          ),
+          mockCreatableState.copyWith(
+            submissionStatus: FormzStatus.submissionFailure,
+          ),
+        ],
+      );
     });
   });
 }
