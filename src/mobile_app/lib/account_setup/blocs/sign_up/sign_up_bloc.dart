@@ -27,6 +27,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield _mapNickNameUpdatedToState(event, state);
     } else if (event is NickNameSubmitted) {
       yield _mapNickNameSubmittedToState(event, state);
+    } else if (event is UserSubmitted) {
+      yield* _mapUserSubmittedToState(event, state);
     }
   }
 
@@ -66,6 +68,20 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     return state.copyWith(nickNameStatus: FormzStatus.submissionSuccess);
   }
 
-  // Stream<SignUpState> _mapUserSubmittedToState(UserSubmitted event, SignUpState state) async* {
-  // }
+  Stream<SignUpState> _mapUserSubmittedToState(
+      UserSubmitted event, SignUpState state) async* {
+    yield state.copyWith(submissionStatus: FormzStatus.submissionInProgress);
+
+    try {
+      final User newUser = await userRepository.createUser(
+          state.name.value, state.nickName.value);
+
+      yield state.copyWith(
+        submissionStatus: FormzStatus.submissionSuccess,
+        createdUser: newUser,
+      );
+    } catch (_) {
+      yield state.copyWith(submissionStatus: FormzStatus.submissionFailure);
+    }
+  }
 }
