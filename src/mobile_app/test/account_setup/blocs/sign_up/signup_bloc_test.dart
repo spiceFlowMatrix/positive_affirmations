@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/account_setup/models/models.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:repository/repository.dart';
 
 import '../../../mocks/user_repository_mock.dart';
@@ -15,6 +16,19 @@ void main() {
   const invalidName = 'mock-name.invalid';
   const validNickName = 'mockNickName';
   const invalidNickName = 'mock-invalid.nickname';
+
+  const SignUpState mockCreatableState = SignUpState(
+    name: NameField.dirty(validName),
+    nameStatus: FormzStatus.submissionSuccess,
+    nickName: NickNameField.dirty(validNickName),
+    nickNameStatus: FormzStatus.submissionSuccess,
+  );
+
+  final User mockCreatedUser = User(
+    id: '23fe3r',
+    name: mockCreatableState.name.value,
+    nickName: mockCreatableState.nickName.value,
+  );
 
   setUp(() {
     userRepository = MockUserRepository();
@@ -224,6 +238,39 @@ void main() {
             nameStatus: FormzStatus.submissionSuccess,
             nickName: const NickNameField.dirty(invalidNickName),
             nickNameStatus: FormzStatus.invalid,
+          ),
+        ],
+      );
+    });
+
+    group('[UserSubmitted]', () {
+      blocTest<SignUpBloc, SignUpState>(
+        'valid submission workflow takes place upon valid user submission',
+        build: () {
+          when(() => userRepository.createUser(
+                mockCreatableState.name.value,
+                mockCreatableState.nickName.value,
+              )).thenAnswer((_) => Future.value(mockCreatedUser));
+
+          return signUpBloc;
+        },
+        seed: () => mockCreatableState,
+        act: (bloc) {
+          bloc..add(UserSubmitted());
+        },
+        verify: (_) {
+          verify(() => userRepository.createUser(
+                mockCreatableState.name.value,
+                mockCreatableState.nickName.value,
+              )).called(1);
+        },
+        expect: () => <SignUpState>[
+          mockCreatableState.copyWith(
+            submissionStatus: FormzStatus.submissionInProgress,
+          ),
+          mockCreatableState.copyWith(
+            submissionStatus: FormzStatus.submissionSuccess,
+            createdUser: mockCreatedUser,
           ),
         ],
       );
