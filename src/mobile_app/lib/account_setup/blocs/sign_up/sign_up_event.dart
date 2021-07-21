@@ -32,3 +32,5 @@ class NickNameUpdated extends SignUpEvent {
 class NickNameSubmitted extends SignUpEvent {
   const NickNameSubmitted();
 }
+
+class UserCreated extends SignUpEvent {}

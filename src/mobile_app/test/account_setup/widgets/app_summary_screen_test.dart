@@ -203,5 +203,18 @@ void main() {
 
       expect(isAppSummaryScreenPopped, true);
     });
+
+    testWidgets('skipping summary screen saves user details', (tester) async {
+      when(() => authBloc.state)
+          .thenReturn(const AuthenticationState.unknown());
+      when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
+      await tester.pumpWidget(AppSummaryScreenFixture(
+        signUpBloc,
+        authBloc: authBloc,
+      ));
+
+      await tester
+          .tap(find.byKey(PositiveAffirmationsKeys.skipAppSummaryButton));
+    });
   });
 }
