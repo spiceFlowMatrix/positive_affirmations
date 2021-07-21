@@ -58,9 +58,9 @@ class PositiveAffirmationsKeys {
       Key('__affirmationsAppBarAddButton__');
 
   // Profile tab body
+  static const profileDetails = Key('__profileDetails__');
   static const profileAppbarTitle = Key('__profileAppbarTitle__');
   static const profileAppbarEditButton = Key('__profileAppbarEditButton__');
-  static const profileDetails = Key('__profileDetails__');
   static final profilePicture = (String id) => Key('ProfilePicture__$id');
   static final profileName = (String id) => Key('ProfileName__$id');
   static final profileNickName = (String id) => Key('ProfileNickName__$id');
