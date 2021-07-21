@@ -234,14 +234,6 @@ void main() {
           .tap(find.byKey(PositiveAffirmationsKeys.skipAppSummaryButton));
 
       verify(() => signUpBloc.add(UserSubmitted())).called(1);
-      verify(() => userRepository.createUser(
-            mockValidSignUpState.name.value,
-            mockValidSignUpState.nickName.value,
-          )).called(1);
-      verify(() => authBloc.add(AuthenticationStatusChanged(
-            status: AuthenticationStatus.authenticated,
-            user: createdUser,
-          ))).called(1);
     });
   });
 }
