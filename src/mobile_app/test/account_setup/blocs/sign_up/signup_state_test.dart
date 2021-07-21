@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/account_setup/models/models.dart';
+import 'package:mobile_app/consts.dart';
 
 void main() {
   const name = NameField.dirty('mockName');
@@ -46,6 +47,25 @@ void main() {
           SignUpState()
               .copyWith(nickNameStatus: FormzStatus.submissionInProgress),
           SignUpState(nickNameStatus: FormzStatus.submissionInProgress),
+        );
+      });
+
+      test('returns object with updated createdUser when createdUser is passed',
+          () {
+        expect(
+          SignUpState()
+              .copyWith(createdUser: PositiveAffirmationsConsts.seedUser),
+          SignUpState(createdUser: PositiveAffirmationsConsts.seedUser),
+        );
+      });
+
+      test(
+          'returns object with updated submissionStatus when submissionStatus is passed',
+          () {
+        expect(
+          SignUpState()
+              .copyWith(submissionStatus: FormzStatus.submissionInProgress),
+          SignUpState(submissionStatus: FormzStatus.submissionInProgress),
         );
       });
     });

@@ -6,6 +6,7 @@ class SignUpState extends Equatable {
     this.nickName = const NickNameField.pure(),
     this.nameStatus = FormzStatus.pure,
     this.nickNameStatus = FormzStatus.pure,
+    this.createdUser = User.empty,
     this.submissionStatus = FormzStatus.pure,
   });
 
@@ -13,6 +14,7 @@ class SignUpState extends Equatable {
   final NickNameField nickName;
   final FormzStatus nameStatus;
   final FormzStatus nickNameStatus;
+  final User createdUser;
   final FormzStatus submissionStatus;
 
   SignUpState copyWith({
@@ -20,6 +22,7 @@ class SignUpState extends Equatable {
     NickNameField? nickName,
     FormzStatus? nameStatus,
     FormzStatus? nickNameStatus,
+    User? createdUser,
     FormzStatus? submissionStatus,
   }) {
     return SignUpState(
@@ -27,6 +30,7 @@ class SignUpState extends Equatable {
       nickName: nickName ?? this.nickName,
       nameStatus: nameStatus ?? this.nameStatus,
       nickNameStatus: nickNameStatus ?? this.nickNameStatus,
+      createdUser: createdUser ?? this.createdUser,
       submissionStatus: submissionStatus ?? this.submissionStatus,
     );
   }
@@ -38,6 +42,7 @@ class SignUpState extends Equatable {
         nickName,
         nameStatus,
         nickNameStatus,
+        createdUser,
         submissionStatus,
       ];
 }
