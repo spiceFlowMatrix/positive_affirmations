@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
@@ -7,7 +8,9 @@ import 'package:mobile_app/account_setup/models/models.dart';
 import 'package:mobile_app/account_setup/widgets/name_form_screen.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repository/repository.dart';
 
+import '../../mocks/user_repository_mock.dart';
 import '../fixtures/fixtures.dart';
 
 class FakeSignUpEvent extends Fake implements SignUpEvent {}
@@ -23,6 +26,7 @@ void main() {
   const mockInvalidName = '35.n\'fwe342-';
   group('[NameFormScreen]', () {
     late SignUpBloc signUpBloc;
+    late UserRepository userRepository;
 
     setUpAll(() {
       registerFallbackValue<SignUpEvent>(FakeSignUpEvent());
@@ -30,11 +34,15 @@ void main() {
     });
 
     setUp(() {
+      userRepository = MockUserRepository();
       signUpBloc = MockSignUpBloc();
     });
 
     testWidgets('Components exist by key', (tester) async {
-      await tester.pumpWidget(MaterialApp(home: NameFormScreen()));
+      await tester.pumpWidget(RepositoryProvider.value(
+        value: userRepository,
+        child: MaterialApp(home: NameFormScreen()),
+      ));
 
       expect(find.byKey(PositiveAffirmationsKeys.nameField), findsOneWidget);
       expect(
@@ -46,7 +54,10 @@ void main() {
     testWidgets('Empty form cannot be submitted', (tester) async {
       when(() => signUpBloc.state)
           .thenReturn(const SignUpState(nameStatus: FormzStatus.pure));
-      await tester.pumpWidget(NameFormFixture(signUpBloc));
+      await tester.pumpWidget(NameFormFixture(
+        signUpBloc,
+        userRepository: userRepository,
+      ));
 
       expect(
         tester
@@ -69,7 +80,10 @@ void main() {
           nameStatus: FormzStatus.invalid,
         ),
       );
-      await tester.pumpWidget(NameFormFixture(signUpBloc));
+      await tester.pumpWidget(NameFormFixture(
+        signUpBloc,
+        userRepository: userRepository,
+      ));
 
       expect(
         tester
@@ -88,7 +102,10 @@ void main() {
       when(() => nameField.error).thenReturn(NameFieldValidationError.empty);
       when(() => signUpBloc.state).thenReturn(SignUpState(name: nameField));
 
-      await tester.pumpWidget(NameFormFixture(signUpBloc));
+      await tester.pumpWidget(NameFormFixture(
+        signUpBloc,
+        userRepository: userRepository,
+      ));
 
       expect(
         tester
@@ -102,7 +119,10 @@ void main() {
     testWidgets('Form is wired to bloc', (tester) async {
       final String nameValue = 'my name';
       when(() => signUpBloc.state).thenReturn(const SignUpState());
-      await tester.pumpWidget(NameFormFixture(signUpBloc));
+      await tester.pumpWidget(NameFormFixture(
+        signUpBloc,
+        userRepository: userRepository,
+      ));
 
       await tester.enterText(
         find.byKey(PositiveAffirmationsKeys.nameField),
@@ -133,7 +153,10 @@ void main() {
       testWidgets('Bloc event is triggered when updating name', (tester) async {
         final String nameValue = 'my name';
         when(() => signUpBloc.state).thenReturn(const SignUpState());
-        await tester.pumpWidget(NameFormFixture(signUpBloc));
+        await tester.pumpWidget(NameFormFixture(
+          signUpBloc,
+          userRepository: userRepository,
+        ));
 
         await tester.enterText(
           find.byKey(PositiveAffirmationsKeys.nameField),
@@ -147,7 +170,10 @@ void main() {
           (tester) async {
         when(() => signUpBloc.state)
             .thenReturn(const SignUpState(nameStatus: FormzStatus.valid));
-        await tester.pumpWidget(NameFormFixture(signUpBloc));
+        await tester.pumpWidget(NameFormFixture(
+          signUpBloc,
+          userRepository: userRepository,
+        ));
 
         await tester.tap(find.byKey(PositiveAffirmationsKeys.nameSubmitButton));
 
@@ -161,7 +187,10 @@ void main() {
           nameStatus: FormzStatus.invalid,
         ));
 
-        await tester.pumpWidget(NameFormFixture(signUpBloc));
+        await tester.pumpWidget(NameFormFixture(
+          signUpBloc,
+          userRepository: userRepository,
+        ));
 
         expect(
           tester

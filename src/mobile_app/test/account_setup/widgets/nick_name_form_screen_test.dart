@@ -9,7 +9,9 @@ import 'package:mobile_app/account_setup/widgets/nick_name_form_screen.dart';
 import 'package:mobile_app/nav_observer.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repository/repository.dart';
 
+import '../../mocks/user_repository_mock.dart';
 import '../fixtures/fixtures.dart';
 
 class FakeSignUpEvent extends Fake implements SignUpEvent {}
@@ -33,6 +35,7 @@ void main() {
   );
 
   group('[NickNameForm]', () {
+    late UserRepository userRepository;
     late SignUpBloc signUpBloc;
     late PositiveAffirmationsNavigatorObserver navigatorObserver;
 
@@ -43,6 +46,7 @@ void main() {
     });
 
     setUp(() {
+      userRepository = MockUserRepository();
       signUpBloc = MockSignUpBloc();
       navigatorObserver = PositiveAffirmationsNavigatorObserver();
     });
@@ -99,8 +103,11 @@ void main() {
         nameStatus: FormzStatus.submissionSuccess,
       ));
 
-      await tester.pumpWidget(
-          NameFormFixture(signUpBloc, navigatorObserver: navigatorObserver));
+      await tester.pumpWidget(NameFormFixture(
+        signUpBloc,
+        userRepository: userRepository,
+        navigatorObserver: navigatorObserver,
+      ));
       navigatorObserver.attachPushRouteObserver(
         NickNameFormScreen.routeName,
         () {

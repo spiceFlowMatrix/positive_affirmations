@@ -3,8 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/account_setup/models/models.dart';
+import 'package:repository/repository.dart';
+
+import '../../../mocks/user_repository_mock.dart';
 
 void main() {
+  late UserRepository userRepository;
   late SignUpBloc signUpBloc;
 
   const validName = 'mockName';
@@ -13,7 +17,8 @@ void main() {
   const invalidNickName = 'mock-invalid.nickname';
 
   setUp(() {
-    signUpBloc = SignUpBloc();
+    userRepository = MockUserRepository();
+    signUpBloc = SignUpBloc(userRepository: userRepository);
   });
 
   group('[SignUpBloc]', () {

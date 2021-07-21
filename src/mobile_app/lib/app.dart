@@ -6,18 +6,29 @@ import 'package:mobile_app/affirmations/widgets/affirmations_home_screen.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/positive_affirmations_routes.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
+import 'package:repository/repository.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({
+    Key? key,
+    required this.userRepository,
+  }) : super(key: key);
+
+  final UserRepository userRepository;
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()),
-        BlocProvider<ApptabBloc>(create: (_) => ApptabBloc()),
+        RepositoryProvider<UserRepository>.value(value: userRepository),
       ],
-      child: AppView(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()),
+          BlocProvider<ApptabBloc>(create: (_) => ApptabBloc()),
+        ],
+        child: AppView(),
+      ),
     );
   }
 }

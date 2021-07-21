@@ -9,8 +9,10 @@ import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/nav_observer.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repository/repository.dart';
 
 import '../../mocks/authentication_bloc_mock.dart';
+import '../../mocks/user_repository_mock.dart';
 import '../fixtures/app_summary_screen_fixture.dart';
 import '../fixtures/fixtures.dart';
 
@@ -37,6 +39,7 @@ void main() {
     late SignUpBloc signUpBloc;
     late AuthenticationBloc authBloc;
     late PositiveAffirmationsNavigatorObserver navigatorObserver;
+    late UserRepository userRepository;
 
     setUpAll(() {
       registerFallbackValue<SignUpEvent>(FakeSignUpEvent());
@@ -46,6 +49,7 @@ void main() {
     });
 
     setUp(() {
+      userRepository = MockUserRepository();
       signUpBloc = MockSignUpBloc();
       authBloc = MockAuthenticationBloc();
       navigatorObserver = PositiveAffirmationsNavigatorObserver();
@@ -104,6 +108,7 @@ void main() {
 
       await tester.pumpWidget(NameFormFixture(
         signUpBloc,
+        userRepository: userRepository,
         navigatorObserver: navigatorObserver,
         authBloc: authBloc,
       ));
@@ -155,6 +160,7 @@ void main() {
 
       await tester.pumpWidget(NameFormFixture(
         signUpBloc,
+        userRepository: userRepository,
         navigatorObserver: navigatorObserver,
         authBloc: authBloc,
       ));

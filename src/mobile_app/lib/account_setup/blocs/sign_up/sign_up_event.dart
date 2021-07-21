@@ -33,4 +33,4 @@ class NickNameSubmitted extends SignUpEvent {
   const NickNameSubmitted();
 }
 
-class UserCreated extends SignUpEvent {}
+class UserSubmitted extends SignUpEvent {}

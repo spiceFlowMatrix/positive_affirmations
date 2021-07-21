@@ -4,13 +4,16 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/models/models.dart';
+import 'package:repository/repository.dart';
 
 part 'sign_up_event.dart';
 
 part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  SignUpBloc() : super(const SignUpState());
+  SignUpBloc({required this.userRepository}) : super(const SignUpState());
+
+  final UserRepository userRepository;
 
   @override
   Stream<SignUpState> mapEventToState(
@@ -62,4 +65,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
     return state.copyWith(nickNameStatus: FormzStatus.submissionSuccess);
   }
+
+  // Stream<SignUpState> _mapUserSubmittedToState(UserSubmitted event, SignUpState state) async* {
+  // }
 }
