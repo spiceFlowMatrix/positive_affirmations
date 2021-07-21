@@ -2,11 +2,11 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
-import 'package:repository/repository.dart';
 
 class AppSummaryScreenArguments {
   AppSummaryScreenArguments(this.bloc);
@@ -79,34 +79,43 @@ class _AppSummary extends StatelessWidget {
 class _ScreenControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-      builder: (context, state) {
-        return ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 20),
-          leading: IconButton(
-            key: PositiveAffirmationsKeys.changeNickNameButton,
-            icon: FaIcon(
-              FontAwesomeIcons.chevronLeft,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          trailing: TextButton(
-            key: PositiveAffirmationsKeys.skipAppSummaryButton,
-            onPressed: () {
-              BlocProvider.of<SignUpBloc>(context).add(UserSubmitted());
-            },
-            child: Text(
-              'SKIP',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-              ),
-            ),
-          ),
-        );
+    return BlocListener<SignUpBloc, SignUpState>(
+      listenWhen: (previous, current) =>
+          previous.submissionStatus != current.submissionStatus,
+      listener: (context, state) {
+        if (state.submissionStatus == FormzStatus.submissionSuccess) {
+          BlocProvider.of<AuthenticationBloc>(context)
+              .add(AuthenticationStatusChanged(
+            status: AuthenticationStatus.authenticated,
+            user: state.createdUser,
+          ));
+        }
       },
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 20),
+        leading: IconButton(
+          key: PositiveAffirmationsKeys.changeNickNameButton,
+          icon: FaIcon(
+            FontAwesomeIcons.chevronLeft,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        trailing: TextButton(
+          key: PositiveAffirmationsKeys.skipAppSummaryButton,
+          onPressed: () {
+            BlocProvider.of<SignUpBloc>(context).add(UserSubmitted());
+          },
+          child: Text(
+            'SKIP',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
