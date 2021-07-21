@@ -214,16 +214,6 @@ void main() {
       when(() => authBloc.state)
           .thenReturn(const AuthenticationState.unknown());
       when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
-      when(() => signUpBloc.userRepository).thenReturn(userRepository);
-      final createdUser = User(
-        id: 'fg344t',
-        name: mockValidSignUpState.name.value,
-        nickName: mockValidSignUpState.nickName.value,
-      );
-      when(() => userRepository.createUser(
-            mockValidSignUpState.name.value,
-            mockValidSignUpState.nickName.value,
-          )).thenAnswer((_) => Future.value(createdUser));
 
       await tester.pumpWidget(AppSummaryScreenFixture(
         signUpBloc,
@@ -234,6 +224,44 @@ void main() {
           .tap(find.byKey(PositiveAffirmationsKeys.skipAppSummaryButton));
 
       verify(() => signUpBloc.add(UserSubmitted())).called(1);
+    });
+
+    testWidgets('when new user is created, authentication status is changed',
+        (tester) async {
+      when(() => authBloc.state)
+          .thenReturn(const AuthenticationState.unknown());
+      when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
+
+      await tester.pumpWidget(AppSummaryScreenFixture(
+        signUpBloc,
+        authBloc: authBloc,
+      ));
+
+      final createdUser = User(
+        id: '23fe3r',
+        name: mockValidSignUpState.name.value,
+        nickName: mockValidSignUpState.nickName.value,
+      );
+
+      final expectedStates = [
+        mockValidSignUpState,
+        mockValidSignUpState.copyWith(
+          submissionStatus: FormzStatus.submissionInProgress,
+        ),
+        mockValidSignUpState.copyWith(
+          submissionStatus: FormzStatus.submissionSuccess,
+          createdUser: createdUser,
+        ),
+      ];
+
+      whenListen(signUpBloc, Stream.fromIterable(expectedStates));
+
+      await tester.pump();
+
+      verify(() => authBloc.add(AuthenticationStatusChanged(
+            status: AuthenticationStatus.authenticated,
+            user: createdUser,
+          ))).called(1);
     });
   });
 }
