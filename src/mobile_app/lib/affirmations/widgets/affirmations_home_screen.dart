@@ -6,9 +6,9 @@ import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/affirmations/widgets/affirmations_list.dart';
 import 'package:mobile_app/affirmations/widgets/app_navigator.dart';
-import 'package:mobile_app/affirmations/widgets/profile_details.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
+import 'package:mobile_app/profile/widgets/profile_details_body.dart';
 
 class AffirmationsHomeScreen extends StatelessWidget {
   const AffirmationsHomeScreen({this.affirmationsBloc});
@@ -24,9 +24,7 @@ class AffirmationsHomeScreen extends StatelessWidget {
           key: PositiveAffirmationsKeys.affirmationsList,
         );
       case AppTab.profile:
-        return ProfileDetails(
-          key: PositiveAffirmationsKeys.profileDetails,
-        );
+        return ProfileDetailsTabBody();
       default:
         return AffirmationsList(
           key: PositiveAffirmationsKeys.affirmationsList,
