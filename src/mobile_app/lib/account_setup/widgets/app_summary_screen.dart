@@ -95,15 +95,7 @@ class _ScreenControls extends StatelessWidget {
           trailing: TextButton(
             key: PositiveAffirmationsKeys.skipAppSummaryButton,
             onPressed: () {
-              BlocProvider.of<AuthenticationBloc>(context)
-                  .add(AuthenticationStatusChanged(
-                status: AuthenticationStatus.authenticated,
-                user: new User(
-                  id: state.user.id,
-                  name: state.user.name,
-                  nickName: state.user.nickName,
-                ),
-              ));
+              BlocProvider.of<SignUpBloc>(context).add(UserSubmitted());
             },
             child: Text(
               'SKIP',
