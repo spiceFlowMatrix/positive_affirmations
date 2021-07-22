@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
+import 'package:mobile_app/positive_affirmations_theme.dart';
 import 'package:mobile_app/profile/blocs/profile_tab/profile_tab_bloc.dart';
 import 'package:repository/repository.dart';
 
@@ -63,22 +65,36 @@ class _ProfileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      key: PositiveAffirmationsKeys.profilePicture(user.id),
-      child: user.pictureB64Enc.isEmpty ||
-              user.pictureB64Enc == User.empty.pictureB64Enc
-          ? Text(
-              user.nameInitials().toUpperCase(),
-              key: PositiveAffirmationsKeys.profilePictureEmptyLabel(user.id),
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-              ),
-            )
-          : Image.memory(
-              Base64Decoder().convert(user.pictureB64Enc),
-              key: PositiveAffirmationsKeys.profilePictureImage(user.id),
-            ),
-      radius: 36,
+    return Stack(
+      children: [
+        CircleAvatar(
+          key: PositiveAffirmationsKeys.profilePicture(user.id),
+          child: user.pictureB64Enc.isEmpty ||
+                  user.pictureB64Enc == User.empty.pictureB64Enc
+              ? Text(
+                  user.nameInitials().toUpperCase(),
+                  key: PositiveAffirmationsKeys.profilePictureEmptyLabel(
+                      user.id),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                )
+              : Image.memory(
+                  Base64Decoder().convert(user.pictureB64Enc),
+                  key: PositiveAffirmationsKeys.profilePictureImage(user.id),
+                ),
+          radius: 36,
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: FaIcon(
+            FontAwesomeIcons.cameraRetro,
+            size: 18,
+            key: PositiveAffirmationsKeys.profilePictureCameraIndicator,
+          ),
+        ),
+      ],
     );
   }
 }

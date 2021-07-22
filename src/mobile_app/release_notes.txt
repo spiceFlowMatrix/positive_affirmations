@@ -21,3 +21,5 @@ Improved UX for new affirmation form input.
 Fix empty space that would be rendered for affirmations with an empty description.
 
 Render profile picture if available.
+
+Add camera indicator to profile picture.
