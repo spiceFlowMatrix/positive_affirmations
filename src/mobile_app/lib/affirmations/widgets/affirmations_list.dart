@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
-import 'package:mobile_app/affirmations/widgets/affirmation_detail_screen.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/affirmations/widgets/likes_span.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
@@ -115,9 +114,7 @@ class _LikeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Reference for working border solution https://flutteragency.com/how-to-listview-with-separator-in-flutter/
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12),
-      child: Container(
+    return Container(
         decoration: new BoxDecoration(
           border: new Border(
             top: new BorderSide(color: Colors.grey.withOpacity(0.5)),
@@ -136,7 +133,10 @@ class _LikeButton extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          trailing: FaIcon(FontAwesomeIcons.chevronRight),
+          trailing: FaIcon(
+            FontAwesomeIcons.chevronRight,
+            color: affirmation.liked ? Colors.grey.withOpacity(0.5) : null,
+          ),
           // Reference for working solution https://www.codesansar.com/flutter/circle-avatar-border.htm
           leading: CircleAvatar(
             radius: 17,
@@ -157,8 +157,7 @@ class _LikeButton extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
 
@@ -169,9 +168,7 @@ class _ReaffirmButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12),
-      child: Container(
+    return Container(
         decoration: new BoxDecoration(
           border: new Border(
             // bottom: new BorderSide(color: Colors.grey.withOpacity(0.5)),
@@ -198,8 +195,7 @@ class _ReaffirmButton extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
 
