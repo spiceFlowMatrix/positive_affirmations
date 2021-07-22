@@ -133,9 +133,6 @@ class _Body extends StatelessWidget {
                       .firstWhere((element) => element.id == affirmation.id),
                   spanKey: PositiveAffirmationsKeys.affirmationDetailsLikes(
                       '${affirmation.id}'),
-                  likeButtonKey:
-                      PositiveAffirmationsKeys.affirmationDetailsLikeButton(
-                          '${affirmation.id}'),
                 );
               },
             ),

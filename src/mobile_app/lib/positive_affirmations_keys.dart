@@ -35,8 +35,6 @@ class PositiveAffirmationsKeys {
   static const affirmationsList = Key('__affirmationsList__');
   static const affirmationsLoading = Key('__affirmationsLoading__');
   static final affirmationItem = (String id) => Key('AffirmationItem__$id');
-  static final affirmationItemLikeButton =
-      (String id) => Key('AffirmationItemLikeButton__$id');
   static final affirmationItemTitle =
       (String id) => Key('AffirmationItemTitle__$id');
   static final affirmationItemSubtitle =
@@ -45,6 +43,10 @@ class PositiveAffirmationsKeys {
       (String id) => Key('AffirmationItemLikes__$id');
   static final affirmationItemReaffirmationsCount =
       (String id) => Key('AffirmationItemReaffirmationsCount__$id');
+  static final affirmationItemLikeButton =
+      (String id) => Key('AffirmationItemLikeButton__$id');
+  static final affirmationItemReaffirmButton =
+      (String id) => Key('AffirmationItemReaffirmButton__$id');
 
   static const noAffirmationsWarningBody = Key('__noAffirmationsWarningBody__');
   static const noAffirmationsWarningIcon = Key('__noAffirmationsWarningIcon__');

@@ -13,7 +13,7 @@ import '../fixtures/profile_details_body_fixture.dart';
 
 void main() {
   final mockUser = PositiveAffirmationsConsts.seedUser;
-  final mockAffirmations = PositiveAffirmationsConsts.seedAffirmations;
+  // final mockAffirmations = PositiveAffirmationsConsts.seedAffirmations;
 
   late AffirmationsBloc affirmationsBloc;
   late AuthenticationBloc authBloc;
