@@ -116,22 +116,33 @@ class _LikeButton extends StatelessWidget {
             ),
           ),
           // Reference for working solution https://www.codesansar.com/flutter/circle-avatar-border.htm
+          // leading: CircleAvatar(
+          //   radius: 17,
+          //   backgroundColor: affirmation.liked
+          //       ? Colors.red.withOpacity(0.1)
+          //       : Colors.red.withOpacity(0.5),
+          //   child: CircleAvatar(
+          //     radius: 15,
+          //     backgroundColor:
+          //         affirmation.liked ? Colors.transparent : Colors.white,
+          //     child: FaIcon(
+          //       affirmation.liked
+          //           ? FontAwesomeIcons.solidHeart
+          //           : FontAwesomeIcons.heart,
+          //       color: Colors.red,
+          //       size: 18,
+          //     ),
+          //   ),
+          // ),
           leading: CircleAvatar(
-            radius: 17,
-            backgroundColor: affirmation.liked
-                ? Colors.red.withOpacity(0.1)
-                : Colors.red.withOpacity(0.5),
-            child: CircleAvatar(
-              radius: 15,
-              backgroundColor:
-                  affirmation.liked ? Colors.transparent : Colors.white,
-              child: FaIcon(
-                affirmation.liked
-                    ? FontAwesomeIcons.solidHeart
-                    : FontAwesomeIcons.heart,
-                color: Colors.red,
-                size: 15,
-              ),
+            radius: 15,
+            backgroundColor: Colors.white,
+            child: FaIcon(
+              affirmation.liked
+                  ? FontAwesomeIcons.solidHeart
+                  : FontAwesomeIcons.heart,
+              color: Colors.red,
+              size: 20,
             ),
           ),
         ),
