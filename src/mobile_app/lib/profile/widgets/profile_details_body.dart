@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
-import 'package:mobile_app/positive_affirmations_theme.dart';
 import 'package:mobile_app/profile/blocs/profile_tab/profile_tab_bloc.dart';
 import 'package:repository/repository.dart';
 
@@ -51,6 +50,18 @@ class _DetailsContent extends StatelessWidget {
             _contentPadding,
             _ProfileImage(state.user),
             _contentPadding,
+            Text(
+              state.user.name,
+              key: PositiveAffirmationsKeys.profileName(state.user.id),
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            _contentPadding,
+            Text(
+              state.user.nickName,
+              key: PositiveAffirmationsKeys.profileNickName(state.user.id),
+            ),
           ],
         );
       },

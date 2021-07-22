@@ -23,3 +23,5 @@ Fix empty space that would be rendered for affirmations with an empty descriptio
 Render profile picture if available.
 
 Add camera indicator to profile picture.
+
+Add profile details in profile tab.
