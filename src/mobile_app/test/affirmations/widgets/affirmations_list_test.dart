@@ -20,6 +20,8 @@ void main() {
   late ApptabBloc apptabBloc;
   late PositiveAffirmationsNavigatorObserver navigatorObserver;
 
+  final mockAffirmations = [...PositiveAffirmationsConsts.seedAffirmations];
+
   setUpAll(() {
     registerFallbackValue<AffirmationsEvent>(FakeAffirmationsEvent());
     registerFallbackValue<AffirmationsState>(FakeAffirmationsState());
@@ -97,15 +99,13 @@ void main() {
       affirmationsBloc = MockAffirmationsBloc();
       navigatorObserver = PositiveAffirmationsNavigatorObserver();
       when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
-      when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
-          affirmations: PositiveAffirmationsConsts.seedAffirmations));
+      when(() => affirmationsBloc.state)
+          .thenReturn(AffirmationsState(affirmations: mockAffirmations));
     });
 
     testWidgets('list items are generated equal to number of affirmations',
         (tester) async {
       await tester.pumpWidget(_buildFixture());
-
-      final mockAffirmations = PositiveAffirmationsConsts.seedAffirmations;
 
       for (int i = 0; i < mockAffirmations.length; i++) {
         final itemKey = PositiveAffirmationsKeys.affirmationItem(
@@ -157,12 +157,41 @@ void main() {
       await tester.tap(
         find.byKey(
           PositiveAffirmationsKeys.affirmationItemLikeButton(
-              '${PositiveAffirmationsConsts.seedAffirmations[0].id}'),
+              '${mockAffirmations[0].id}'),
         ),
       );
 
-      verify(() => affirmationsBloc.add(AffirmationLiked(
-          PositiveAffirmationsConsts.seedAffirmations[0].id))).called(1);
+      verify(() =>
+              affirmationsBloc.add(AffirmationLiked(mockAffirmations[0].id)))
+          .called(1);
+    });
+
+    testWidgets('pressing reaffirm button shows under construction snackbar ',
+        (tester) async {
+      await tester.pumpWidget(_buildFixture());
+
+      // Reference for solution https://stackoverflow.com/a/65067950
+      expect(
+        find.byKey(PositiveAffirmationsKeys.underConstructionSnackbar),
+        findsNothing,
+      );
+      expect(
+        find.text(PositiveAffirmationsConsts.underConstructionSnackbarText),
+        findsNothing,
+      );
+      await tester.tap(
+        find.byKey(PositiveAffirmationsKeys.affirmationDetailsReaffirmButton(
+            '${mockAffirmations[0].id}')),
+      );
+      await tester.pump();
+      expect(
+        find.byKey(PositiveAffirmationsKeys.underConstructionSnackbar),
+        findsOneWidget,
+      );
+      expect(
+        find.text(PositiveAffirmationsConsts.underConstructionSnackbarText),
+        findsOneWidget,
+      );
     });
 
     // testWidgets('[Navigation] tapping an affirmation navigates details screen',
@@ -178,7 +207,7 @@ void main() {
     //   );
     //
     //   await tester.tap(find.byKey(PositiveAffirmationsKeys.affirmationItem(
-    //       '${PositiveAffirmationsConsts.seedAffirmations[1].id}')));
+    //       '${mockAffirmations[1].id}')));
     //   await tester.pumpAndSettle();
     //
     //   expect(isAffirmationDetailsPushed, true);
@@ -204,14 +233,14 @@ void main() {
     //   );
     //
     //   await tester.tap(find.byKey(PositiveAffirmationsKeys.affirmationItem(
-    //       '${PositiveAffirmationsConsts.seedAffirmations[1].id}')));
+    //       '${mockAffirmations[1].id}')));
     //   await tester.pumpAndSettle();
     //
     //   expect(isAffirmationDetailsPushed, true);
     //
     //   await tester.tap(find.byKey(
     //       PositiveAffirmationsKeys.affirmationDetailsBackButton(
-    //           '${PositiveAffirmationsConsts.seedAffirmations[1].id}')));
+    //           '${mockAffirmations[1].id}')));
     //   await tester.pumpAndSettle();
     //
     //   expect(isAffirmationDetailsPopped, true);
