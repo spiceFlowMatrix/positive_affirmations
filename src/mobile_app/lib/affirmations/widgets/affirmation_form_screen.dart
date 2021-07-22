@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -76,6 +75,8 @@ class _AffirmationForm extends StatelessWidget {
 
   final Affirmation? toUpdateAffirmation;
 
+  final FocusNode _titleFocusNode = FocusNode();
+
   Widget _buildTitleLabel() {
     return Text(
       'Tell me something awesome about you',
@@ -98,6 +99,8 @@ class _AffirmationForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _titleFocusNode.requestFocus();
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 35),
       child: Form(
@@ -111,6 +114,7 @@ class _AffirmationForm extends StatelessWidget {
               const Padding(padding: EdgeInsets.only(top: 15)),
               _TitleField(
                 initialText: toUpdateAffirmation?.title,
+                focusNode: _titleFocusNode,
               ),
               const Padding(padding: EdgeInsets.only(top: 30)),
               _buildSubtitleLabel(),
@@ -133,16 +137,19 @@ class _AffirmationForm extends StatelessWidget {
 }
 
 class _TitleField extends StatefulWidget {
-  _TitleField({this.initialText});
+  _TitleField({required this.focusNode, this.initialText});
 
   final String? initialText;
+  final FocusNode focusNode;
 
   @override
-  __TitleFieldState createState() => __TitleFieldState(initialText);
+  __TitleFieldState createState() => __TitleFieldState(focusNode, initialText);
 }
 
 class __TitleFieldState extends State<_TitleField> {
-  __TitleFieldState(this.initialText);
+  __TitleFieldState(this.focusNode, this.initialText);
+
+  final FocusNode focusNode;
 
   String? initialText;
   TextEditingController? _textController;
@@ -169,6 +176,8 @@ class __TitleFieldState extends State<_TitleField> {
         return TextField(
           key: PositiveAffirmationsKeys.affirmationFormTitleField,
           controller: _textController,
+          focusNode: focusNode,
+          textInputAction: TextInputAction.next,
           onChanged: (title) {
             BlocProvider.of<AffirmationFormBloc>(context)
                 .add(TitleUpdated(title));
@@ -220,10 +229,19 @@ class __SubtitleFieldState extends State<_SubtitleField> {
         return TextField(
           key: PositiveAffirmationsKeys.affirmationFormSubtitleField,
           controller: _textController,
+          textInputAction: TextInputAction.done,
           onChanged: (subtitle) {
             BlocProvider.of<AffirmationFormBloc>(context)
                 .add(SubtitleUpdated(subtitle));
           },
+          onEditingComplete: state.status == FormzStatus.invalid ||
+                  state.status == FormzStatus.pure
+              ? null
+              : () {
+                  BlocProvider.of<AffirmationFormBloc>(context)
+                      .add(AffirmationSubmitted());
+                  Navigator.of(context).pop();
+                },
           decoration: InputDecoration(
             labelText: 'Description',
             errorText: state.subtitle.invalid

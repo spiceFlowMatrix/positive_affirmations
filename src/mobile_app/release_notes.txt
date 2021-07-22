@@ -15,3 +15,5 @@ Enlarge like button leading icon and remove circle border.
 Reaffirm button icon improved styling.
 
 Add colors to selected app tabs.
+
+Improved UX for new affirmation form input.
