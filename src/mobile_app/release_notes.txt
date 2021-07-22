@@ -1,2 +1,3 @@
 - Add under construction snackbar for reaffirm button on affirmation detail screen.
 - Fix appbar theme.
+- Redesigned UI and UX for affirmation likes and reaffirmations.
