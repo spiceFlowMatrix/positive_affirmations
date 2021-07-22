@@ -27,6 +27,12 @@ class PositiveAffirmationsConsts {
       createdById: seedUser.id,
       createdOn: DateTime.utc(0),
     ),
+    Affirmation(
+      id: 4,
+      title: 'title 4',
+      createdById: seedUser.id,
+      createdOn: DateTime.utc(0),
+    ),
   ];
 
   static const String titleFieldEmptyError = 'Title is required';

@@ -132,7 +132,10 @@ void main() {
 
         expect(find.byKey(itemKey), findsOneWidget);
         expect(find.byKey(itemTitleKey), findsOneWidget);
-        expect(find.byKey(itemSubtitleKey), findsOneWidget);
+        if (mockAffirmations[i].subtitle.isEmpty)
+          expect(find.byKey(itemSubtitleKey), findsNothing);
+        else
+          expect(find.byKey(itemSubtitleKey), findsOneWidget);
         expect(find.byKey(itemLikeButtonKey), findsOneWidget);
         expect(find.byKey(itemLikesKey), findsOneWidget);
         expect(find.byKey(itemReaffirmationsKey), findsOneWidget);
