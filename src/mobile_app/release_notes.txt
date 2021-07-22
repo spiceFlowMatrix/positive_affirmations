@@ -7,3 +7,5 @@ Improved appbar styling.
 Set app body background color to pure white.
 
 Show under construction when pressing reaffirm button.
+
+Remove right chevrons for like button since it doesn't navigate you anywhere.

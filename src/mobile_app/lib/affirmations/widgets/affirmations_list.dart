@@ -110,14 +110,10 @@ class _LikeButton extends StatelessWidget {
                 .add(AffirmationLiked(affirmation.id));
           },
           title: Text(
-            'LIKE',
+            'Like',
             style: TextStyle(
               fontWeight: FontWeight.w600,
             ),
-          ),
-          trailing: FaIcon(
-            FontAwesomeIcons.chevronRight,
-            color: affirmation.liked ? Colors.grey.withOpacity(0.5) : null,
           ),
           // Reference for working solution https://www.codesansar.com/flutter/circle-avatar-border.htm
           leading: CircleAvatar(
@@ -169,12 +165,16 @@ class _ReaffirmButton extends StatelessWidget {
                 .showSnackBar(_underConstructionSnackbar);
           },
           title: Text(
-            'REAFFIRM',
+            'Reaffirm',
             style: TextStyle(
               fontWeight: FontWeight.w600,
             ),
           ),
-          trailing: FaIcon(FontAwesomeIcons.chevronRight),
+          trailing: FaIcon(
+            FontAwesomeIcons.chevronRight,
+            size: 16,
+            color: Colors.black,
+          ),
           // Reference for working solution https://www.codesansar.com/flutter/circle-avatar-border.htm
           leading: CircleAvatar(
             backgroundColor: Colors.transparent,
