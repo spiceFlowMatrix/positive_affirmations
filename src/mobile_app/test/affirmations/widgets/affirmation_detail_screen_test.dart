@@ -50,11 +50,6 @@ void main() {
         findsOneWidget,
       );
       expect(
-        find.byKey(PositiveAffirmationsKeys.affirmationDetailsLikeButton(
-            '${mockAffirmation.id}')),
-        findsOneWidget,
-      );
-      expect(
         find.byKey(PositiveAffirmationsKeys.affirmationDetailsLikes(
             '${mockAffirmation.id}')),
         findsOneWidget,
@@ -106,23 +101,23 @@ void main() {
     //   expect(isAffirmationFormPushed, true);
     // });
 
-    testWidgets('pressing like button triggers like event', (tester) async {
-      await tester.pumpWidget(AffirmationDetailScreenFixture(
-        affirmation: mockAffirmation,
-        affirmationsBloc: affirmationsBloc,
-        navigatorObserver: navigatorObserver,
-      ));
-
-      await tester.tap(
-        find.byKey(
-          PositiveAffirmationsKeys.affirmationDetailsLikeButton(
-              '${mockAffirmation.id}'),
-        ),
-      );
-
-      verify(() => affirmationsBloc.add(AffirmationLiked(mockAffirmation.id)))
-          .called(1);
-    });
+    // testWidgets('pressing like button triggers like event', (tester) async {
+    //   await tester.pumpWidget(AffirmationDetailScreenFixture(
+    //     affirmation: mockAffirmation,
+    //     affirmationsBloc: affirmationsBloc,
+    //     navigatorObserver: navigatorObserver,
+    //   ));
+    //
+    //   await tester.tap(
+    //     find.byKey(
+    //       PositiveAffirmationsKeys.affirmationDetailsLikeButton(
+    //           '${mockAffirmation.id}'),
+    //     ),
+    //   );
+    //
+    //   verify(() => affirmationsBloc.add(AffirmationLiked(mockAffirmation.id)))
+    //       .called(1);
+    // });
 
     testWidgets('pressing reaffirm shows under construction snackbar',
         (tester) async {
