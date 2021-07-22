@@ -135,14 +135,12 @@ class _LikeButton extends StatelessWidget {
           //   ),
           // ),
           leading: CircleAvatar(
-            radius: 15,
             backgroundColor: Colors.white,
             child: FaIcon(
               affirmation.liked
                   ? FontAwesomeIcons.solidHeart
                   : FontAwesomeIcons.heart,
               color: Colors.red,
-              size: 20,
             ),
           ),
         ),
@@ -188,9 +186,9 @@ class _ReaffirmButton extends StatelessWidget {
           ),
           // Reference for working solution https://www.codesansar.com/flutter/circle-avatar-border.htm
           leading: CircleAvatar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.white,
             child: FaIcon(
-              FontAwesomeIcons.solidThumbsUp,
+              FontAwesomeIcons.rocket,
               color: PositiveAffirmationsTheme.highlightColor,
             ),
           ),
