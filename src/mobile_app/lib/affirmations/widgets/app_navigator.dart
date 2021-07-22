@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
+import 'package:mobile_app/positive_affirmations_theme.dart';
 
 class AppNavigator extends StatefulWidget {
   final AppTab activeTab;
@@ -46,14 +47,18 @@ class _AppNavigatorState extends State<AppNavigator>
                 ? FontAwesomeIcons.solidHeart
                 : FontAwesomeIcons.heart,
             key: PositiveAffirmationsKeys.homeTabIcon,
-            color: Colors.black,
+            color: currentTab == AppTab.affirmations
+                ? PositiveAffirmationsTheme.highlightColor
+                : Colors.black,
           ),
           child: Text(
             'Affirmations',
             key: PositiveAffirmationsKeys.homeTabLabel,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: currentTab == AppTab.affirmations
+                  ? PositiveAffirmationsTheme.highlightColor
+                  : Colors.black,
             ),
           ),
         );
@@ -65,14 +70,18 @@ class _AppNavigatorState extends State<AppNavigator>
                 ? FontAwesomeIcons.solidUserCircle
                 : FontAwesomeIcons.userCircle,
             key: PositiveAffirmationsKeys.profileTabIcon,
-            color: Colors.black,
+            color: currentTab == AppTab.profile
+                ? PositiveAffirmationsTheme.highlightColor
+                : Colors.black,
           ),
           child: Text(
             'Profile',
             key: PositiveAffirmationsKeys.profileTabLabel,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: currentTab == AppTab.profile
+                  ? PositiveAffirmationsTheme.highlightColor
+                  : Colors.black,
             ),
           ),
         );
