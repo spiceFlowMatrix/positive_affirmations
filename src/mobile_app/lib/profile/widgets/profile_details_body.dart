@@ -42,7 +42,6 @@ class _ProfileImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        log(state.user.toString());
         return CircleAvatar(
           key: PositiveAffirmationsKeys.profilePicture(state.user.id),
           child: state.user.pictureB64Enc.isEmpty ||
