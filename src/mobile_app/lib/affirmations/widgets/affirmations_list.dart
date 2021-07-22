@@ -62,12 +62,14 @@ class _ListItem extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _subtitlePadding,
-          Text(
-            affirmation.subtitle,
-            key: PositiveAffirmationsKeys.affirmationItemSubtitle(
-                '${affirmation.id}'),
-          ),
+          if (affirmation.subtitle.isNotEmpty) ...[
+            _subtitlePadding,
+            Text(
+              affirmation.subtitle,
+              key: PositiveAffirmationsKeys.affirmationItemSubtitle(
+                  '${affirmation.id}'),
+            ),
+          ],
           _subtitlePadding,
           LikesSpan(
             affirmation,
