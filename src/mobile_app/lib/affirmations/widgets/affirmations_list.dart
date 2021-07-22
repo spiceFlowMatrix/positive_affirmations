@@ -56,13 +56,13 @@ class _ListItem extends StatelessWidget {
       ),
       child: ListTile(
         key: PositiveAffirmationsKeys.affirmationItem('${affirmation.id}'),
-        onTap: () {
-          final bloc = BlocProvider.of<AffirmationsBloc>(context);
-          Navigator.of(context).pushNamed(
-            AffirmationDetailScreen.routeName,
-            arguments: AffirmationDetailScreenArguments(affirmation, bloc),
-          );
-        },
+        // onTap: () {
+        //   final bloc = BlocProvider.of<AffirmationsBloc>(context);
+        //   Navigator.of(context).pushNamed(
+        //     AffirmationDetailScreen.routeName,
+        //     arguments: AffirmationDetailScreenArguments(affirmation, bloc),
+        //   );
+        // },
         minVerticalPadding: 20,
         title: Text(
           affirmation.title,
