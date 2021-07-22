@@ -49,12 +49,16 @@ class _ProfileImage extends StatelessWidget {
                   state.user.pictureB64Enc == User.empty.pictureB64Enc
               ? Text(
                   state.user.nameInitials().toUpperCase(),
+                  key: PositiveAffirmationsKeys.profilePictureEmptyLabel(
+                      state.user.id),
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
                 )
               : Image.memory(
                   Base64Decoder().convert(state.user.pictureB64Enc),
+                  key: PositiveAffirmationsKeys.profilePictureImage(
+                      state.user.id),
                 ),
           radius: 36,
         );
