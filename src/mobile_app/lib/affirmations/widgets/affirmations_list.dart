@@ -47,60 +47,45 @@ class _ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: new BoxDecoration(
-        border: new Border(
-          bottom: new BorderSide(color: Colors.grey.withOpacity(0.2)),
+    return ListTile(
+      key: PositiveAffirmationsKeys.affirmationItem('${affirmation.id}'),
+      minVerticalPadding: 12,
+      title: Text(
+        affirmation.title,
+        key: PositiveAffirmationsKeys.affirmationItemTitle('${affirmation.id}'),
+        style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 18,
         ),
       ),
-      child: ListTile(
-        key: PositiveAffirmationsKeys.affirmationItem('${affirmation.id}'),
-        // onTap: () {
-        //   final bloc = BlocProvider.of<AffirmationsBloc>(context);
-        //   Navigator.of(context).pushNamed(
-        //     AffirmationDetailScreen.routeName,
-        //     arguments: AffirmationDetailScreenArguments(affirmation, bloc),
-        //   );
-        // },
-        minVerticalPadding: 20,
-        title: Text(
-          affirmation.title,
-          key: PositiveAffirmationsKeys.affirmationItemTitle(
-              '${affirmation.id}'),
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 18,
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _subtitlePadding,
+          Text(
+            affirmation.subtitle,
+            key: PositiveAffirmationsKeys.affirmationItemSubtitle(
+                '${affirmation.id}'),
           ),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _subtitlePadding,
-            Text(
-              affirmation.subtitle,
-              key: PositiveAffirmationsKeys.affirmationItemSubtitle(
-                  '${affirmation.id}'),
+          _subtitlePadding,
+          LikesSpan(
+            affirmation,
+            spanKey: PositiveAffirmationsKeys.affirmationItemLikes(
+                '${affirmation.id}'),
+          ),
+          _subtitlePadding,
+          Text(
+            '${affirmation.totalReaffirmations} reaffirmations...',
+            key: PositiveAffirmationsKeys.affirmationItemReaffirmationsCount(
+                '${affirmation.id}'),
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
             ),
-            _subtitlePadding,
-            LikesSpan(
-              affirmation,
-              spanKey: PositiveAffirmationsKeys.affirmationItemLikes(
-                  '${affirmation.id}'),
-            ),
-            _subtitlePadding,
-            Text(
-              '${affirmation.totalReaffirmations} reaffirmations...',
-              key: PositiveAffirmationsKeys.affirmationItemReaffirmationsCount(
-                  '${affirmation.id}'),
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            _subtitlePadding,
-            _LikeButton(affirmation: affirmation),
-            _ReaffirmButton(affirmation),
-          ],
-        ),
+          ),
+          _subtitlePadding,
+          _LikeButton(affirmation: affirmation),
+          _ReaffirmButton(affirmation),
+        ],
       ),
     );
   }
@@ -114,13 +99,9 @@ class _LikeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Reference for working border solution https://flutteragency.com/how-to-listview-with-separator-in-flutter/
-    return Container(
-        decoration: new BoxDecoration(
-          border: new Border(
-            top: new BorderSide(color: Colors.grey.withOpacity(0.5)),
-          ),
-        ),
-        child: ListTile(
+    return Column(
+      children: [
+        ListTile(
           key: PositiveAffirmationsKeys.affirmationItemLikeButton(
               '${affirmation.id}'),
           onTap: () {
@@ -157,7 +138,12 @@ class _LikeButton extends StatelessWidget {
             ),
           ),
         ),
-      );
+        Divider(
+          height: 0,
+          thickness: 1.5,
+        ),
+      ],
+    );
   }
 }
 
@@ -168,14 +154,9 @@ class _ReaffirmButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: new BoxDecoration(
-          border: new Border(
-            // bottom: new BorderSide(color: Colors.grey.withOpacity(0.5)),
-            top: new BorderSide(color: Colors.grey.withOpacity(0.5)),
-          ),
-        ),
-        child: ListTile(
+    return Column(
+      children: [
+        ListTile(
           key: PositiveAffirmationsKeys.affirmationItemReaffirmButton(
               '${affirmation.id}'),
           onTap: () {},
@@ -195,7 +176,12 @@ class _ReaffirmButton extends StatelessWidget {
             ),
           ),
         ),
-      );
+        Divider(
+          height: 0,
+          thickness: 1.5,
+        ),
+      ],
+    );
   }
 }
 
