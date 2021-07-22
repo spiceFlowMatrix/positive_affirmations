@@ -64,6 +64,10 @@ class PositiveAffirmationsKeys {
   static const profileAppbarTitle = Key('__profileAppbarTitle__');
   static const profileAppbarEditButton = Key('__profileAppbarEditButton__');
   static final profilePicture = (String id) => Key('ProfilePicture__$id');
+  static final profilePictureEmptyLabel =
+      (String id) => Key('ProfilePictureEmptyLabel__$id');
+  static final profilePictureImage =
+      (String id) => Key('ProfilePictureImage__$id');
   static final profileName = (String id) => Key('ProfileName__$id');
   static final profileNickName = (String id) => Key('ProfileNickName__$id');
   static final profileAffirmationsCount =

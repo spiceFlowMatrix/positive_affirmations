@@ -13,6 +13,7 @@ import '../fixtures/profile_details_body_fixture.dart';
 
 void main() {
   final mockUser = PositiveAffirmationsConsts.seedUser;
+  final mockUserWithPicture = PositiveAffirmationsConsts.seedUserWithPicture;
   // final mockAffirmations = PositiveAffirmationsConsts.seedAffirmations;
 
   late AffirmationsBloc affirmationsBloc;
@@ -33,14 +34,62 @@ void main() {
       affirmationsBloc = MockAffirmationsBloc();
       authBloc = MockAuthenticationBloc();
       profileTabBloc = MockProfileTabBloc();
+    });
 
-      when(() => authBloc.state)
-          .thenReturn(AuthenticationState.authenticated(mockUser));
+    group('[PictureAvatar]', () {
+      testWidgets('initials are rendered as label when no picture',
+          (tester) async {
+        when(() => authBloc.state)
+            .thenReturn(AuthenticationState.authenticated(mockUser));
+        when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
 
-      when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
+        await tester.pumpWidget(ProfileDetailsBodyFixture(
+          affirmationsBloc: affirmationsBloc,
+          authBloc: authBloc,
+        ));
+
+        expect(
+          find.byKey(PositiveAffirmationsKeys.profilePictureEmptyLabel(
+              '${mockUser.id}')),
+          findsOneWidget,
+        );
+        expect(
+          find.byKey(
+              PositiveAffirmationsKeys.profilePictureImage('${mockUser.id}')),
+          findsNothing,
+        );
+      });
+      testWidgets('initials are rendered as label when there is a picture',
+              (tester) async {
+            when(() => authBloc.state)
+                .thenReturn(AuthenticationState.authenticated(mockUserWithPicture));
+            when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUserWithPicture);
+
+            await tester.pumpWidget(ProfileDetailsBodyFixture(
+              affirmationsBloc: affirmationsBloc,
+              authBloc: authBloc,
+            ));
+
+            expect(
+              find.byKey(PositiveAffirmationsKeys.profilePictureEmptyLabel(
+                  '${mockUserWithPicture.id}')),
+              findsNothing,
+            );
+            expect(
+              find.byKey(
+                  PositiveAffirmationsKeys.profilePictureImage('${mockUserWithPicture.id}')),
+              findsOneWidget,
+            );
+          });
     });
 
     group('all widgets are composed', () {
+      setUp(() {
+        when(() => authBloc.state)
+            .thenReturn(AuthenticationState.authenticated(mockUser));
+
+        when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
+      });
       testWidgets('base widgets are composed', (tester) async {
         await tester.pumpWidget(ProfileDetailsBodyFixture(
           affirmationsBloc: affirmationsBloc,
