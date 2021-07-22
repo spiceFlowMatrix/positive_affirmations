@@ -60,27 +60,28 @@ void main() {
         );
       });
       testWidgets('initials are rendered as label when there is a picture',
-              (tester) async {
-            when(() => authBloc.state)
-                .thenReturn(AuthenticationState.authenticated(mockUserWithPicture));
-            when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUserWithPicture);
+          (tester) async {
+        when(() => authBloc.state)
+            .thenReturn(AuthenticationState.authenticated(mockUserWithPicture));
+        when(() => affirmationsBloc.authenticatedUser)
+            .thenReturn(mockUserWithPicture);
 
-            await tester.pumpWidget(ProfileDetailsBodyFixture(
-              affirmationsBloc: affirmationsBloc,
-              authBloc: authBloc,
-            ));
+        await tester.pumpWidget(ProfileDetailsBodyFixture(
+          affirmationsBloc: affirmationsBloc,
+          authBloc: authBloc,
+        ));
 
-            expect(
-              find.byKey(PositiveAffirmationsKeys.profilePictureEmptyLabel(
-                  '${mockUserWithPicture.id}')),
-              findsNothing,
-            );
-            expect(
-              find.byKey(
-                  PositiveAffirmationsKeys.profilePictureImage('${mockUserWithPicture.id}')),
-              findsOneWidget,
-            );
-          });
+        expect(
+          find.byKey(PositiveAffirmationsKeys.profilePictureEmptyLabel(
+              '${mockUserWithPicture.id}')),
+          findsNothing,
+        );
+        expect(
+          find.byKey(PositiveAffirmationsKeys.profilePictureImage(
+              '${mockUserWithPicture.id}')),
+          findsOneWidget,
+        );
+      });
     });
 
     group('all widgets are composed', () {
@@ -98,6 +99,10 @@ void main() {
 
         expect(
           find.byKey(PositiveAffirmationsKeys.profilePicture(mockUser.id)),
+          findsOneWidget,
+        );
+        expect(
+          find.byKey(PositiveAffirmationsKeys.profilePictureCameraIndicator),
           findsOneWidget,
         );
         expect(

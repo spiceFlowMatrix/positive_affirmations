@@ -68,6 +68,8 @@ class PositiveAffirmationsKeys {
       (String id) => Key('ProfilePictureEmptyLabel__$id');
   static final profilePictureImage =
       (String id) => Key('ProfilePictureImage__$id');
+  static const profilePictureCameraIndicator =
+      Key('__profilePictureCameraIndicator__');
   static final profileName = (String id) => Key('ProfileName__$id');
   static final profileNickName = (String id) => Key('ProfileNickName__$id');
   static final profileAffirmationsCount =
