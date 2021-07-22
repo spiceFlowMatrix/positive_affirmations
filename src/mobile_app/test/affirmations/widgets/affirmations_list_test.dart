@@ -123,6 +123,9 @@ void main() {
         final itemReaffirmationsKey =
             PositiveAffirmationsKeys.affirmationItemReaffirmationsCount(
                 mockAffirmations[i].id.toString());
+        final itemReaffirmButtonKey =
+            PositiveAffirmationsKeys.affirmationItemReaffirmButton(
+                mockAffirmations[i].id.toString());
         // final itemDeleteButtonKey =
         //     PositiveAffirmationsKeys.affirmationFormDeleteButton(
         //         '${element.id}');
@@ -133,6 +136,7 @@ void main() {
         expect(find.byKey(itemLikeButtonKey), findsOneWidget);
         expect(find.byKey(itemLikesKey), findsOneWidget);
         expect(find.byKey(itemReaffirmationsKey), findsOneWidget);
+        expect(find.byKey(itemReaffirmButtonKey), findsOneWidget);
         // expect(find.byKey(itemDeleteButtonKey), findsOneWidget);
 
         /* References:
