@@ -4,7 +4,7 @@ class Affirmation extends Equatable {
   const Affirmation({
     required this.id,
     required this.title,
-    this.subtitle = '-',
+    this.subtitle = '',
     required this.createdOn,
     required this.createdById,
     this.likes = 0,
