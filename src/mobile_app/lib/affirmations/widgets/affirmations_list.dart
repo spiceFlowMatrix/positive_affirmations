@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/affirmations/widgets/likes_span.dart';
+import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
 import 'package:repository/repository.dart';
@@ -148,9 +149,13 @@ class _LikeButton extends StatelessWidget {
 }
 
 class _ReaffirmButton extends StatelessWidget {
-  const _ReaffirmButton(this.affirmation);
+  _ReaffirmButton(this.affirmation);
 
   final Affirmation affirmation;
+  final _underConstructionSnackbar = SnackBar(
+    key: PositiveAffirmationsKeys.underConstructionSnackbar,
+    content: Text(PositiveAffirmationsConsts.underConstructionSnackbarText),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +164,10 @@ class _ReaffirmButton extends StatelessWidget {
         ListTile(
           key: PositiveAffirmationsKeys.affirmationItemReaffirmButton(
               '${affirmation.id}'),
-          onTap: () {},
+          onTap: () {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(_underConstructionSnackbar);
+          },
           title: Text(
             'REAFFIRM',
             style: TextStyle(

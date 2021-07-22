@@ -180,7 +180,7 @@ void main() {
         findsNothing,
       );
       await tester.tap(
-        find.byKey(PositiveAffirmationsKeys.affirmationDetailsReaffirmButton(
+        find.byKey(PositiveAffirmationsKeys.affirmationItemReaffirmButton(
             '${mockAffirmations[0].id}')),
       );
       await tester.pump();
