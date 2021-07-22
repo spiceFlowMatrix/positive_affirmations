@@ -17,3 +17,5 @@ Reaffirm button icon improved styling.
 Add colors to selected app tabs.
 
 Improved UX for new affirmation form input.
+
+Fix empty space that would be rendered for affirmations with an empty description.
