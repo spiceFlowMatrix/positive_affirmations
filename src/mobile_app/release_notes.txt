@@ -2,3 +2,6 @@ Remove divider lines separating affirmation list items.
 
 Replace top divider between affirmation action buttons with bottom border.
 
+Improved appbar styling.
+
+Set app body background color to pure white.

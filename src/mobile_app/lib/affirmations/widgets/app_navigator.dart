@@ -95,15 +95,21 @@ class _AppNavigatorState extends State<AppNavigator>
       buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
         _tabController?.index = AppTab.values.indexOf(state);
-        return TabBar(
-          controller: _tabController,
-          onTap: (index) {
-            onTabSelected(AppTab.values[index]);
-          },
-          isScrollable: false,
-          tabs: AppTab.values.map((tab) {
-            return _mapNavigationBarItem(tab, state);
-          }).toList(),
+        return Container(
+          decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: Colors.grey.shade300)),
+            color: Colors.grey.withOpacity(0.05),
+          ),
+          child: TabBar(
+            controller: _tabController,
+            onTap: (index) {
+              onTabSelected(AppTab.values[index]);
+            },
+            isScrollable: false,
+            tabs: AppTab.values.map((tab) {
+              return _mapNavigationBarItem(tab, state);
+            }).toList(),
+          ),
         );
       },
     );

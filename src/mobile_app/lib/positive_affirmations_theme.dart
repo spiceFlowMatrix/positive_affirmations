@@ -19,6 +19,7 @@ class PositiveAffirmationsTheme {
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(),
       ),
+      scaffoldBackgroundColor: Colors.white,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           textStyle: TextStyle(fontWeight: FontWeight.bold),
