@@ -48,6 +48,8 @@ void main() {
         when(() => authBloc.state)
             .thenReturn(AuthenticationState.authenticated());
         when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
+        when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
+            affirmations: PositiveAffirmationsConsts.seedAffirmations));
         when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
 
         await tester.pumpWidget(ProfileDetailsBodyFixture(
@@ -73,6 +75,8 @@ void main() {
             .thenReturn(AuthenticationState.authenticated());
         when(() => affirmationsBloc.authenticatedUser)
             .thenReturn(mockUserWithPicture);
+        when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
+            affirmations: PositiveAffirmationsConsts.seedAffirmations));
         when(() => profileBloc.state)
             .thenReturn(ProfileState(user: mockUserWithPicture));
 
@@ -101,6 +105,8 @@ void main() {
             .thenReturn(AuthenticationState.authenticated());
 
         when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
+        when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
+            affirmations: PositiveAffirmationsConsts.seedAffirmations));
       });
 
       testWidgets('base widgets are composed', (tester) async {

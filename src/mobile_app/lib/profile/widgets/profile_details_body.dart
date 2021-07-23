@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mobile_app/profile/blocs/profile_tab/profile_tab_bloc.dart';
@@ -41,6 +42,22 @@ class _DetailsContent extends StatelessWidget {
   static const Padding _contentPadding =
       const Padding(padding: EdgeInsets.only(top: 10));
 
+  Widget _buildCountsRow(BuildContext context, User user) {
+    final affirmationsCount = BlocBuilder<AffirmationsBloc, AffirmationsState>(
+        builder: (context, state) {
+      return _CountDisplay(
+        label: 'Affirmations',
+        value: state.affirmations
+            .where((element) => element.createdById == user.id)
+            .length,
+        key: PositiveAffirmationsKeys.profileAffirmationsCount('${user.id}'),
+      );
+    });
+    return Wrap(
+      children: [affirmationsCount],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
@@ -63,9 +80,34 @@ class _DetailsContent extends StatelessWidget {
               state.user.nickName,
               key: PositiveAffirmationsKeys.profileNickName(state.user.id),
             ),
+            _contentPadding,
+            _buildCountsRow(context, state.user),
           ],
         );
       },
+    );
+  }
+}
+
+class _CountDisplay extends StatelessWidget {
+  const _CountDisplay({
+    required this.label,
+    required this.value,
+    required this.key,
+  }) : super(key: key);
+
+  final String label;
+  final int value;
+  final Key key;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text('$value'),
+        Text(label),
+      ],
     );
   }
 }
