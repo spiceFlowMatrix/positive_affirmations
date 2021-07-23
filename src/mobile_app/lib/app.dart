@@ -52,6 +52,7 @@ class _AppViewState extends State<AppView> {
           theme: PositiveAffirmationsTheme.theme,
           builder: (context, child) {
             return BlocListener<AuthenticationBloc, AuthenticationState>(
+              listenWhen: (previous, current) => previous != current,
               listener: (context, state) {
                 print(state.status.toString());
                 switch (state.status) {
