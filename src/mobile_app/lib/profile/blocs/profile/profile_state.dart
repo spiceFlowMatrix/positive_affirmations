@@ -1,10 +1,12 @@
 part of 'profile_bloc.dart';
 
-abstract class ProfileState extends Equatable {
-  const ProfileState();
-}
+class ProfileState extends Equatable {
+  const ProfileState({
+    this.user = User.empty,
+  });
 
-class ProfileInitial extends ProfileState {
+  final User user;
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [user];
 }
