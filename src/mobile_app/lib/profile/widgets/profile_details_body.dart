@@ -166,24 +166,27 @@ class _ProfileImage extends StatelessWidget {
       },
       child: Stack(
         children: [
-          CircleAvatar(
-            key: PositiveAffirmationsKeys.profilePicture(user.id),
-            child: user.pictureB64Enc.isEmpty ||
-                    user.pictureB64Enc == User.empty.pictureB64Enc
-                ? Text(
-                    user.nameInitials().toUpperCase(),
-                    key: PositiveAffirmationsKeys.profilePictureEmptyLabel(
-                        user.id),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  )
-                : Image.memory(
-                    Base64Decoder().convert(user.pictureB64Enc),
-                    key: PositiveAffirmationsKeys.profilePictureImage(user.id),
-                  ),
-            radius: 36,
-          ),
+          if (user.pictureB64Enc.isEmpty ||
+              user.pictureB64Enc == User.empty.pictureB64Enc)
+            CircleAvatar(
+              key: PositiveAffirmationsKeys.profilePicture(user.id),
+              child: Text(
+                user.nameInitials().toUpperCase(),
+                key: PositiveAffirmationsKeys.profilePictureEmptyLabel(user.id),
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              radius: 36,
+            )
+          else
+            CircleAvatar(
+              key: PositiveAffirmationsKeys.profilePictureImage(user.id),
+              backgroundImage: MemoryImage(
+                Base64Decoder().convert(user.pictureB64Enc),
+              ),
+              radius: 36,
+            ),
           Positioned(
             bottom: 0,
             right: 0,
