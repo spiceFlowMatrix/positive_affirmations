@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:repository/repository.dart';
 
 part 'authentication_event.dart';
 
@@ -29,7 +28,7 @@ class AuthenticationBloc
       case AuthenticationStatus.unauthenticated:
         return const AuthenticationState.unauthenticated();
       case AuthenticationStatus.authenticated:
-        return AuthenticationState.authenticated(event.user);
+        return AuthenticationState.authenticated();
       default:
         return AuthenticationState.unknown();
     }
@@ -40,13 +39,11 @@ class AuthenticationBloc
     final AuthenticationStatus status = AuthenticationStatus
         .values[json[AuthenticationState.fieldStatus] as int];
 
-    final User? user = User.fromJson(json);
-
     switch (status) {
       case AuthenticationStatus.unauthenticated:
         return const AuthenticationState.unauthenticated();
       case AuthenticationStatus.authenticated:
-        return AuthenticationState.authenticated(user!);
+        return AuthenticationState.authenticated();
       default:
         return AuthenticationState.unknown();
     }
@@ -55,6 +52,5 @@ class AuthenticationBloc
   @override
   Map<String, dynamic>? toJson(AuthenticationState state) => {
         AuthenticationState.fieldStatus: state.status.index,
-        ...state.user.fieldValues,
       };
 }

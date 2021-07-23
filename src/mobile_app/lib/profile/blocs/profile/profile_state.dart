@@ -7,6 +7,8 @@ class ProfileState extends Equatable {
 
   final User user;
 
+  static const String fieldUser = 'user';
+
   ProfileState copyWith({
     User? user,
   }) {

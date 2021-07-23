@@ -6,15 +6,18 @@ import 'package:mobile_app/affirmations/widgets/affirmations_home_screen.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/positive_affirmations_routes.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
+import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:repository/repository.dart';
 
 class App extends StatelessWidget {
   const App({
     Key? key,
     required this.userRepository,
+    this.profileBloc,
   }) : super(key: key);
 
   final UserRepository userRepository;
+  final ProfileBloc? profileBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +27,11 @@ class App extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          if (profileBloc != null)
+            BlocProvider<ProfileBloc>(create: (_) => profileBloc!)
+          else
+            BlocProvider<ProfileBloc>(create: (_) => HydratedProfileBloc()),
+
           BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()),
           BlocProvider<ApptabBloc>(create: (_) => ApptabBloc()),
         ],
