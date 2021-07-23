@@ -49,6 +49,26 @@ class User extends Equatable {
     return initials;
   }
 
+  User copyWith({
+    String? id,
+    String? name,
+    String? nickName,
+    String? pictureB64Enc,
+    String? email,
+    bool? accountCreated,
+    bool? emailVerified,
+  }) {
+    return User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      nickName: nickName ?? this.nickName,
+      pictureB64Enc: pictureB64Enc ?? this.pictureB64Enc,
+      email: email ?? this.email,
+      accountCreated: accountCreated ?? this.accountCreated,
+      emailVerified: emailVerified ?? this.emailVerified,
+    );
+  }
+
   @override
   List<Object?> get props => [
         id,

@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:repository/repository.dart';
 
 part 'profile_event.dart';
+
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
@@ -14,6 +15,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> mapEventToState(
     ProfileEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    if (event is ProfileEdited) {
+      yield _mapUserUpdatedToState(event, state);
+    }
+  }
+
+  ProfileState _mapUserUpdatedToState(ProfileEdited event, ProfileState state) {
+    final updatedUser = state.user.copyWith(
+      name: event.name,
+      nickName: event.nickName,
+    );
+
+    return state.copyWith(user: updatedUser);
   }
 }

@@ -4,11 +4,15 @@ abstract class ProfileEvent extends Equatable {
   const ProfileEvent();
 }
 
-class ProfileUpdated extends ProfileEvent {
-  const ProfileUpdated({required this.toUpdateUser});
+class ProfileEdited extends ProfileEvent {
+  const ProfileEdited({
+    required this.name,
+    required this.nickName,
+  });
 
-  final User toUpdateUser;
+  final String name;
+  final String nickName;
 
   @override
-  List<Object> get props => [toUpdateUser];
+  List<Object> get props => [name, nickName];
 }
