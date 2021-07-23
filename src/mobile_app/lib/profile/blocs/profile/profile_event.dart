@@ -25,3 +25,11 @@ class ProfileEdited extends ProfileEvent {
   @override
   List<Object> get props => [name, nickName];
 }
+
+class PictureUpdated extends ProfileEvent {
+  const PictureUpdated({required this.pictureB64Enc});
+  final String pictureB64Enc;
+
+  @override
+  List<Object?> get props => [pictureB64Enc];
+}

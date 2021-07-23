@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -156,6 +157,12 @@ class _ProfileImage extends StatelessWidget {
       onTap: () async {
         final ImagePicker _picker = ImagePicker();
         final XFile? file = await _picker.pickImage(source: ImageSource.camera);
+        if (file != null) {
+          Uint8List imageBytes = await file.readAsBytes();
+          String imageBase64 = base64Encode(imageBytes);
+          BlocProvider.of<ProfileBloc>(context)
+              .add(PictureUpdated(pictureB64Enc: imageBase64));
+        }
       },
       child: Stack(
         children: [
