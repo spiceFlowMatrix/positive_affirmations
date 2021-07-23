@@ -54,7 +54,21 @@ class _DetailsContent extends StatelessWidget {
       );
     });
     return Wrap(
-      children: [affirmationsCount],
+      alignment: WrapAlignment.spaceEvenly,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: affirmationsCount,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: affirmationsCount,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: affirmationsCount,
+        ),
+      ],
     );
   }
 
@@ -106,7 +120,10 @@ class _CountDisplay extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text('$value'),
-        Text(label),
+        Text(
+          label,
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
       ],
     );
   }
