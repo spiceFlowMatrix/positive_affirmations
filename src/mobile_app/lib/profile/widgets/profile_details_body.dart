@@ -40,34 +40,49 @@ class ProfileDetailsTabBody extends StatelessWidget {
 
 class _DetailsContent extends StatelessWidget {
   static const Padding _contentPadding =
-      const Padding(padding: EdgeInsets.only(top: 10));
+  const Padding(padding: EdgeInsets.only(top: 10));
 
   Widget _buildCountsRow(BuildContext context, User user) {
     final affirmationsCount = BlocBuilder<AffirmationsBloc, AffirmationsState>(
         builder: (context, state) {
-      return _CountDisplay(
-        label: 'Affirmations',
-        value: state.affirmations
-            .where((element) => element.createdById == user.id)
-            .length,
-        key: PositiveAffirmationsKeys.profileAffirmationsCount('${user.id}'),
-      );
-    });
+          return _CountDisplay(
+            label: 'Affirmations',
+            value: state.affirmations
+                .where((element) => element.createdById == user.id)
+                .length,
+            key: PositiveAffirmationsKeys.profileAffirmationsCount(
+                '${user.id}'),
+          );
+        });
+    final lettersCount = BlocBuilder<AffirmationsBloc, AffirmationsState>(
+        builder: (context, state) {
+          return _CountDisplay(
+            label: 'Letters',
+            value: state.affirmations
+                .where((element) => element.createdById == user.id)
+                .length,
+            key: PositiveAffirmationsKeys.profileLettersCount('${user.id}'),
+          );
+        });
+    final reaffirmationsCount =
+    BlocBuilder<AffirmationsBloc, AffirmationsState>(
+        builder: (context, state) {
+          return _CountDisplay(
+            label: 'Reaffirmations',
+            value: state.affirmations
+                .where((element) => element.createdById == user.id)
+                .length,
+            key: PositiveAffirmationsKeys.profileReaffirmationsCount(
+                '${user.id}'),
+          );
+        });
+
     return Wrap(
-      alignment: WrapAlignment.spaceEvenly,
+      spacing: 30,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: affirmationsCount,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: affirmationsCount,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: affirmationsCount,
-        ),
+        affirmationsCount,
+        lettersCount,
+        reaffirmationsCount,
       ],
     );
   }
@@ -146,19 +161,19 @@ class _ProfileImage extends StatelessWidget {
           CircleAvatar(
             key: PositiveAffirmationsKeys.profilePicture(user.id),
             child: user.pictureB64Enc.isEmpty ||
-                    user.pictureB64Enc == User.empty.pictureB64Enc
+                user.pictureB64Enc == User.empty.pictureB64Enc
                 ? Text(
-                    user.nameInitials().toUpperCase(),
-                    key: PositiveAffirmationsKeys.profilePictureEmptyLabel(
-                        user.id),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  )
+              user.nameInitials().toUpperCase(),
+              key: PositiveAffirmationsKeys.profilePictureEmptyLabel(
+                  user.id),
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+              ),
+            )
                 : Image.memory(
-                    Base64Decoder().convert(user.pictureB64Enc),
-                    key: PositiveAffirmationsKeys.profilePictureImage(user.id),
-                  ),
+              Base64Decoder().convert(user.pictureB64Enc),
+              key: PositiveAffirmationsKeys.profilePictureImage(user.id),
+            ),
             radius: 36,
           ),
           Positioned(
