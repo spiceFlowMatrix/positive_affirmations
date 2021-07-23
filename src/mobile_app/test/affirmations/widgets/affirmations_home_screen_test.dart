@@ -5,19 +5,25 @@ import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
+import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:repository/src/models/affirmation.dart';
 
 import '../../mocks/affirmations_bloc_mock.dart';
 import '../../mocks/apptab_bloc_mock.dart';
 import '../../mocks/authentication_bloc_mock.dart';
+import '../../mocks/profile_bloc_mock.dart';
 import '../fixtures/affirmations_home_screen_fixture.dart';
 
 void main() {
   late AffirmationsBloc affirmationsBloc;
   late AuthenticationBloc authBloc;
   late ApptabBloc apptabBloc;
+  late ProfileBloc profileBloc;
   // late PositiveAffirmationsNavigatorObserver navigatorObserver;
+
+  const mockUser = PositiveAffirmationsConsts.seedUser;
+  const mockUserWithPicture = PositiveAffirmationsConsts.seedUserWithPicture;
 
   final List<Affirmation> seedAffirmations = <Affirmation>[
     ...PositiveAffirmationsConsts.seedAffirmations,
@@ -29,6 +35,8 @@ void main() {
     registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
     registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
     registerFallbackValue<ApptabEvent>(FakeApptabEvent());
+    registerFallbackValue<ProfileState>(FakeProfileState());
+    registerFallbackValue<ProfileEvent>(FakeProfileEvent());
     registerFallbackValue<AppTab>(AppTab.affirmations);
   });
 
@@ -36,6 +44,7 @@ void main() {
     apptabBloc = MockApptabBloc();
     authBloc = MockAuthenticationBloc();
     affirmationsBloc = MockAffirmationsBloc();
+    profileBloc = MockProfileBloc();
     // navigatorObserver = PositiveAffirmationsNavigatorObserver();
     when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
       affirmations: seedAffirmations,
@@ -49,6 +58,7 @@ void main() {
       apptabBloc: apptabBloc,
       authBloc: authBloc,
       affirmationsBloc: affirmationsBloc,
+      profileBloc: profileBloc,
     );
   }
 
@@ -87,9 +97,11 @@ void main() {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
         when(() => authBloc.state)
             .thenReturn(AuthenticationState.authenticated());
+        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,
+          profileBloc: profileBloc,
         ));
 
         final widget = tester.widget<Text>(
@@ -115,9 +127,11 @@ void main() {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
         when(() => authBloc.state)
             .thenReturn(AuthenticationState.authenticated());
+        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,
+          profileBloc: profileBloc,
         ));
 
         expect(
@@ -143,9 +157,11 @@ void main() {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
         when(() => authBloc.state)
             .thenReturn(AuthenticationState.authenticated());
+        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,
+          profileBloc: profileBloc,
         ));
 
         expect(

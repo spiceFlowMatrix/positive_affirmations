@@ -3,11 +3,13 @@ import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dar
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
+import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mobile_app/profile/blocs/profile_tab/profile_tab_bloc.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/affirmations_bloc_mock.dart';
 import '../../mocks/authentication_bloc_mock.dart';
+import '../../mocks/profile_bloc_mock.dart';
 import '../../mocks/profile_tab_bloc_mock.dart';
 import '../fixtures/profile_details_body_fixture.dart';
 
@@ -19,6 +21,7 @@ void main() {
   late AffirmationsBloc affirmationsBloc;
   late AuthenticationBloc authBloc;
   late ProfileTabBloc profileTabBloc;
+  late ProfileBloc profileBloc;
 
   group('[ProfileDetailsBody]', () {
     setUpAll(() {
@@ -27,6 +30,8 @@ void main() {
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<ProfileTabEvent>(FakeProfileTabEvent());
+      registerFallbackValue<ProfileEvent>(FakeProfileEvent());
+      registerFallbackValue<ProfileState>(FakeProfileState());
       registerFallbackValue<ProfileTab>(ProfileTab.affirmations);
     });
 
@@ -34,6 +39,7 @@ void main() {
       affirmationsBloc = MockAffirmationsBloc();
       authBloc = MockAuthenticationBloc();
       profileTabBloc = MockProfileTabBloc();
+      profileBloc = MockProfileBloc();
     });
 
     group('[PictureAvatar]', () {
@@ -42,10 +48,12 @@ void main() {
         when(() => authBloc.state)
             .thenReturn(AuthenticationState.authenticated());
         when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
+        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
 
         await tester.pumpWidget(ProfileDetailsBodyFixture(
           affirmationsBloc: affirmationsBloc,
           authBloc: authBloc,
+          profileBloc: profileBloc,
         ));
 
         expect(
@@ -65,10 +73,13 @@ void main() {
             .thenReturn(AuthenticationState.authenticated());
         when(() => affirmationsBloc.authenticatedUser)
             .thenReturn(mockUserWithPicture);
+        when(() => profileBloc.state)
+            .thenReturn(ProfileState(user: mockUserWithPicture));
 
         await tester.pumpWidget(ProfileDetailsBodyFixture(
           affirmationsBloc: affirmationsBloc,
           authBloc: authBloc,
+          profileBloc: profileBloc,
         ));
 
         expect(
@@ -91,10 +102,13 @@ void main() {
 
         when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
       });
+
       testWidgets('base widgets are composed', (tester) async {
+        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
         await tester.pumpWidget(ProfileDetailsBodyFixture(
           affirmationsBloc: affirmationsBloc,
           authBloc: authBloc,
+          profileBloc: profileBloc,
         ));
 
         expect(
@@ -143,10 +157,12 @@ void main() {
           'affirmations tab body is rendered when affirmations tab is selected',
           (tester) async {
         when(() => profileTabBloc.state).thenReturn(ProfileTab.affirmations);
+        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
         await tester.pumpWidget(ProfileDetailsBodyFixture(
           affirmationsBloc: affirmationsBloc,
           authBloc: authBloc,
           profileTabBloc: profileTabBloc,
+          profileBloc: profileBloc,
         ));
 
         expect(
@@ -159,10 +175,12 @@ void main() {
       testWidgets('letters tab body is rendered when letters tab is selected',
           (tester) async {
         when(() => profileTabBloc.state).thenReturn(ProfileTab.letters);
+        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
         await tester.pumpWidget(ProfileDetailsBodyFixture(
           affirmationsBloc: affirmationsBloc,
           authBloc: authBloc,
           profileTabBloc: profileTabBloc,
+          profileBloc: profileBloc,
         ));
 
         expect(

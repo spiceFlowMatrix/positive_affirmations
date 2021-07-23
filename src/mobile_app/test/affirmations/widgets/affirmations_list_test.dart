@@ -7,17 +7,20 @@ import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/nav_observer.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
+import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/affirmations_bloc_mock.dart';
 import '../../mocks/apptab_bloc_mock.dart';
 import '../../mocks/authentication_bloc_mock.dart';
+import '../../mocks/profile_bloc_mock.dart';
 import '../fixtures/affirmations_home_screen_fixture.dart';
 
 void main() {
   late AffirmationsBloc affirmationsBloc;
   late AuthenticationBloc authBloc;
   late ApptabBloc apptabBloc;
+  late ProfileBloc profileBloc;
   late PositiveAffirmationsNavigatorObserver navigatorObserver;
 
   final mockAffirmations = [...PositiveAffirmationsConsts.seedAffirmations];
@@ -28,6 +31,8 @@ void main() {
     registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
     registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
     registerFallbackValue<ApptabEvent>(FakeApptabEvent());
+    registerFallbackValue<ProfileEvent>(FakeProfileEvent());
+    registerFallbackValue<ProfileState>(FakeProfileState());
     registerFallbackValue<AppTab>(AppTab.affirmations);
   });
 
@@ -35,6 +40,7 @@ void main() {
     return AffirmationsHomeScreenFixture(
       apptabBloc: apptabBloc,
       authBloc: authBloc,
+      profileBloc: profileBloc,
       affirmationsBloc: affirmationsBloc,
       navigatorObserver: navigatorObserver,
     );
@@ -44,6 +50,7 @@ void main() {
     setUp(() {
       apptabBloc = MockApptabBloc();
       authBloc = MockAuthenticationBloc();
+      profileBloc = MockProfileBloc();
       affirmationsBloc = MockAffirmationsBloc();
       navigatorObserver = PositiveAffirmationsNavigatorObserver();
       when(() => apptabBloc.state).thenReturn(AppTab.affirmations);

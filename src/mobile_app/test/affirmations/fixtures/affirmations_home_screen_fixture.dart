@@ -5,17 +5,20 @@ import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:mobile_app/affirmations/widgets/affirmations_home_screen.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/positive_affirmations_routes.dart';
+import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 
 class AffirmationsHomeScreenFixture extends StatelessWidget {
   AffirmationsHomeScreenFixture({
     required this.apptabBloc,
     required this.authBloc,
+    required this.profileBloc,
     this.affirmationsBloc,
     this.navigatorObserver,
   });
 
   final ApptabBloc apptabBloc;
   final AuthenticationBloc authBloc;
+  final ProfileBloc profileBloc;
   final AffirmationsBloc? affirmationsBloc;
   final NavigatorObserver? navigatorObserver;
 
@@ -23,6 +26,7 @@ class AffirmationsHomeScreenFixture extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<ProfileBloc>.value(value: profileBloc),
         BlocProvider<AuthenticationBloc>.value(value: authBloc),
         BlocProvider<ApptabBloc>.value(value: apptabBloc),
       ],
