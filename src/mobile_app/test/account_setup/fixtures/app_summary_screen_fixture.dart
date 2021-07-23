@@ -3,14 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/account_setup/widgets/app_summary_screen.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
+import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 
 class AppSummaryScreenFixture extends StatelessWidget {
   const AppSummaryScreenFixture(
     this.bloc, {
     this.authBloc,
+    required this.profileBloc,
   });
 
   final SignUpBloc bloc;
+  final ProfileBloc profileBloc;
   final AuthenticationBloc? authBloc;
 
   @override
@@ -39,8 +42,11 @@ class AppSummaryScreenFixture extends StatelessWidget {
     );
     if (authBloc == null) return app;
 
-    return BlocProvider<AuthenticationBloc>.value(
-      value: authBloc!,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticationBloc>.value(value: authBloc!),
+        BlocProvider<ProfileBloc>.value(value: profileBloc),
+      ],
       child: app,
     );
   }

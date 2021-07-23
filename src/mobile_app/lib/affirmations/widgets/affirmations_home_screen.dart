@@ -6,8 +6,8 @@ import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/affirmations/widgets/affirmations_list.dart';
 import 'package:mobile_app/affirmations/widgets/app_navigator.dart';
-import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
+import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mobile_app/profile/widgets/profile_details_body.dart';
 
 class AffirmationsHomeScreen extends StatelessWidget {
@@ -79,7 +79,7 @@ class AffirmationsHomeScreen extends StatelessWidget {
         child: scaffold,
       );
 
-    final authUser = context.read<AuthenticationBloc>().state.user;
+    final authUser = context.read<ProfileBloc>().state.user;
 
     return BlocProvider<AffirmationsBloc>(
       create: (context) {

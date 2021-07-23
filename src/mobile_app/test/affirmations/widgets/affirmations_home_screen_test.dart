@@ -4,9 +4,9 @@ import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dar
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/consts.dart';
-import 'package:repository/src/models/affirmation.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repository/src/models/affirmation.dart';
 
 import '../../mocks/affirmations_bloc_mock.dart';
 import '../../mocks/apptab_bloc_mock.dart';
@@ -85,8 +85,8 @@ void main() {
       testWidgets('profile appbar title is rendered profile tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
-        when(() => authBloc.state).thenReturn(AuthenticationState.authenticated(
-            PositiveAffirmationsConsts.seedUser));
+        when(() => authBloc.state)
+            .thenReturn(AuthenticationState.authenticated());
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,
@@ -113,8 +113,8 @@ void main() {
       testWidgets('profile appbar edit action is rendered profile tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
-        when(() => authBloc.state).thenReturn(AuthenticationState.authenticated(
-            PositiveAffirmationsConsts.seedUser));
+        when(() => authBloc.state)
+            .thenReturn(AuthenticationState.authenticated());
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,
@@ -141,8 +141,8 @@ void main() {
       testWidgets('profile details body is rendered when profile tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
-        when(() => authBloc.state).thenReturn(AuthenticationState.authenticated(
-            PositiveAffirmationsConsts.seedUser));
+        when(() => authBloc.state)
+            .thenReturn(AuthenticationState.authenticated());
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,

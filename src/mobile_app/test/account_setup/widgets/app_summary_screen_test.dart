@@ -8,10 +8,12 @@ import 'package:mobile_app/account_setup/widgets/nick_name_form_screen.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/nav_observer.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
+import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:repository/repository.dart';
 
 import '../../mocks/authentication_bloc_mock.dart';
+import '../../mocks/profile_bloc_mock.dart';
 import '../../mocks/user_repository_mock.dart';
 import '../fixtures/app_summary_screen_fixture.dart';
 import '../fixtures/fixtures.dart';
@@ -38,6 +40,7 @@ void main() {
   group('[AppSummaryScreen]', () {
     late SignUpBloc signUpBloc;
     late AuthenticationBloc authBloc;
+    late ProfileBloc profileBloc;
     late PositiveAffirmationsNavigatorObserver navigatorObserver;
     late UserRepository userRepository;
 
@@ -46,12 +49,15 @@ void main() {
       registerFallbackValue<SignUpState>(FakeSignUpState());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
+      registerFallbackValue<ProfileEvent>(FakeProfileEvent());
+      registerFallbackValue<ProfileState>(FakeProfileState());
     });
 
     setUp(() {
       userRepository = MockUserRepository();
       signUpBloc = MockSignUpBloc();
       authBloc = MockAuthenticationBloc();
+      profileBloc = MockProfileBloc();
       navigatorObserver = PositiveAffirmationsNavigatorObserver();
     });
 
@@ -62,6 +68,7 @@ void main() {
       await tester.pumpWidget(AppSummaryScreenFixture(
         signUpBloc,
         authBloc: authBloc,
+        profileBloc: profileBloc,
       ));
 
       expect(
@@ -218,6 +225,7 @@ void main() {
       await tester.pumpWidget(AppSummaryScreenFixture(
         signUpBloc,
         authBloc: authBloc,
+        profileBloc: profileBloc,
       ));
 
       await tester
@@ -228,15 +236,16 @@ void main() {
 
     testWidgets('when new user is created, authentication status is changed',
         (tester) async {
-      when(() => authBloc.state)
-          .thenReturn(const AuthenticationState.unknown());
-      // when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
-
-      final createdUser = User(
+      final User createdUser = User(
         id: '23fe3r',
         name: mockValidSignUpState.name.value,
         nickName: mockValidSignUpState.nickName.value,
       );
+      when(() => authBloc.state)
+          .thenReturn(const AuthenticationState.unknown());
+      when(() => signUpBloc.state)
+          .thenReturn(mockValidSignUpState.copyWith(createdUser: createdUser));
+      when(() => profileBloc.state).thenReturn(ProfileState(user: createdUser));
 
       final expectedStates = [
         mockValidSignUpState.copyWith(
@@ -255,12 +264,12 @@ void main() {
       await tester.pumpWidget(AppSummaryScreenFixture(
         signUpBloc,
         authBloc: authBloc,
+        profileBloc: profileBloc,
       ));
 
       // TODO: This test is valid but I need to learn why in tests the auth status changed event is called twice.
       verify(() => authBloc.add(AuthenticationStatusChanged(
             status: AuthenticationStatus.authenticated,
-            user: createdUser,
           ))).called(2);
     });
   });

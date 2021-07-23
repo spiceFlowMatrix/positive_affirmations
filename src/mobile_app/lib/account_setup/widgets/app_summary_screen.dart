@@ -7,6 +7,7 @@ import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
+import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 
 class AppSummaryScreenArguments {
   AppSummaryScreenArguments(this.bloc);
@@ -84,10 +85,11 @@ class _ScreenControls extends StatelessWidget {
           previous.submissionStatus != current.submissionStatus,
       listener: (context, state) {
         if (state.submissionStatus == FormzStatus.submissionSuccess) {
+          BlocProvider.of<ProfileBloc>(context)
+              .add(UserCreated(user: state.createdUser));
           BlocProvider.of<AuthenticationBloc>(context)
               .add(AuthenticationStatusChanged(
             status: AuthenticationStatus.authenticated,
-            user: state.createdUser,
           ));
         }
       },

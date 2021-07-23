@@ -16,9 +16,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> mapEventToState(
     ProfileEvent event,
   ) async* {
-    if (event is ProfileEdited) {
+    if (event is UserCreated) {
+      yield _mapUserCreatedToSate(event, state);
+    } else if (event is ProfileEdited) {
       yield _mapUserUpdatedToState(event, state);
     }
+  }
+
+  ProfileState _mapUserCreatedToSate(UserCreated event, ProfileState state) {
+    return state.copyWith(user: event.user);
   }
 
   ProfileState _mapUserUpdatedToState(ProfileEdited event, ProfileState state) {

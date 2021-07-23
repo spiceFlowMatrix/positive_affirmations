@@ -40,7 +40,7 @@ void main() {
       testWidgets('initials are rendered as label when no picture',
           (tester) async {
         when(() => authBloc.state)
-            .thenReturn(AuthenticationState.authenticated(mockUser));
+            .thenReturn(AuthenticationState.authenticated());
         when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
 
         await tester.pumpWidget(ProfileDetailsBodyFixture(
@@ -62,7 +62,7 @@ void main() {
       testWidgets('initials are rendered as label when there is a picture',
           (tester) async {
         when(() => authBloc.state)
-            .thenReturn(AuthenticationState.authenticated(mockUserWithPicture));
+            .thenReturn(AuthenticationState.authenticated());
         when(() => affirmationsBloc.authenticatedUser)
             .thenReturn(mockUserWithPicture);
 
@@ -87,7 +87,7 @@ void main() {
     group('all widgets are composed', () {
       setUp(() {
         when(() => authBloc.state)
-            .thenReturn(AuthenticationState.authenticated(mockUser));
+            .thenReturn(AuthenticationState.authenticated());
 
         when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
       });
