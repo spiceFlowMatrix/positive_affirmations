@@ -8,6 +8,7 @@ import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dar
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mobile_app/profile/blocs/profile_tab/profile_tab_bloc.dart';
+import 'package:mobile_app/profile/widgets/profile_navigator.dart';
 import 'package:repository/repository.dart';
 
 class ProfileDetailsTabBody extends StatelessWidget {
@@ -18,9 +19,10 @@ class ProfileDetailsTabBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content = ListView(
+    final content = Column(
       children: [
         _DetailsContent(),
+        Expanded(child: _TabsContainer()),
       ],
     );
 
@@ -40,42 +42,40 @@ class ProfileDetailsTabBody extends StatelessWidget {
 
 class _DetailsContent extends StatelessWidget {
   static const Padding _contentPadding =
-  const Padding(padding: EdgeInsets.only(top: 10));
+      const Padding(padding: EdgeInsets.only(top: 10));
 
   Widget _buildCountsRow(BuildContext context, User user) {
     final affirmationsCount = BlocBuilder<AffirmationsBloc, AffirmationsState>(
         builder: (context, state) {
-          return _CountDisplay(
-            label: 'Affirmations',
-            value: state.affirmations
-                .where((element) => element.createdById == user.id)
-                .length,
-            key: PositiveAffirmationsKeys.profileAffirmationsCount(
-                '${user.id}'),
-          );
-        });
+      return _CountDisplay(
+        label: 'Affirmations',
+        value: state.affirmations
+            .where((element) => element.createdById == user.id)
+            .length,
+        key: PositiveAffirmationsKeys.profileAffirmationsCount('${user.id}'),
+      );
+    });
     final lettersCount = BlocBuilder<AffirmationsBloc, AffirmationsState>(
         builder: (context, state) {
-          return _CountDisplay(
-            label: 'Letters',
-            value: state.affirmations
-                .where((element) => element.createdById == user.id)
-                .length,
-            key: PositiveAffirmationsKeys.profileLettersCount('${user.id}'),
-          );
-        });
+      return _CountDisplay(
+        label: 'Letters',
+        value: state.affirmations
+            .where((element) => element.createdById == user.id)
+            .length,
+        key: PositiveAffirmationsKeys.profileLettersCount('${user.id}'),
+      );
+    });
     final reaffirmationsCount =
-    BlocBuilder<AffirmationsBloc, AffirmationsState>(
-        builder: (context, state) {
-          return _CountDisplay(
-            label: 'Reaffirmations',
-            value: state.affirmations
-                .where((element) => element.createdById == user.id)
-                .length,
-            key: PositiveAffirmationsKeys.profileReaffirmationsCount(
-                '${user.id}'),
-          );
-        });
+        BlocBuilder<AffirmationsBloc, AffirmationsState>(
+            builder: (context, state) {
+      return _CountDisplay(
+        label: 'Reaffirmations',
+        value: state.affirmations
+            .where((element) => element.createdById == user.id)
+            .length,
+        key: PositiveAffirmationsKeys.profileReaffirmationsCount('${user.id}'),
+      );
+    });
 
     return Wrap(
       spacing: 30,
@@ -111,6 +111,7 @@ class _DetailsContent extends StatelessWidget {
             ),
             _contentPadding,
             _buildCountsRow(context, state.user),
+            _contentPadding,
           ],
         );
       },
@@ -161,19 +162,19 @@ class _ProfileImage extends StatelessWidget {
           CircleAvatar(
             key: PositiveAffirmationsKeys.profilePicture(user.id),
             child: user.pictureB64Enc.isEmpty ||
-                user.pictureB64Enc == User.empty.pictureB64Enc
+                    user.pictureB64Enc == User.empty.pictureB64Enc
                 ? Text(
-              user.nameInitials().toUpperCase(),
-              key: PositiveAffirmationsKeys.profilePictureEmptyLabel(
-                  user.id),
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-              ),
-            )
+                    user.nameInitials().toUpperCase(),
+                    key: PositiveAffirmationsKeys.profilePictureEmptyLabel(
+                        user.id),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  )
                 : Image.memory(
-              Base64Decoder().convert(user.pictureB64Enc),
-              key: PositiveAffirmationsKeys.profilePictureImage(user.id),
-            ),
+                    Base64Decoder().convert(user.pictureB64Enc),
+                    key: PositiveAffirmationsKeys.profilePictureImage(user.id),
+                  ),
             radius: 36,
           ),
           Positioned(
@@ -187,6 +188,57 @@ class _ProfileImage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _TabsContainer extends StatelessWidget {
+  Widget _mapBody(ProfileTab tab) {
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        switch (tab) {
+          case ProfileTab.affirmations:
+            return Center(
+              key: PositiveAffirmationsKeys.profileAffirmationsSubtabBody(
+                  state.user.id),
+              child: Text('Affirmations'),
+            );
+          case ProfileTab.letters:
+            return Center(
+              key: PositiveAffirmationsKeys.profileLettersSubtabBody(
+                  state.user.id),
+              child: Text('Letters'),
+            );
+          default:
+            return Center(
+              key: PositiveAffirmationsKeys.profileAffirmationsSubtabBody(
+                  state.user.id),
+              child: Text('Affirmations'),
+            );
+        }
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProfileTabBloc, ProfileTab>(
+      builder: (context, tab) {
+        return Container(
+          height: 500,
+          child: Column(
+            children: [
+              ProfileNavigator(
+                activeTab: tab,
+                onTabSelected: (tab) {
+                  BlocProvider.of<ProfileTabBloc>(context).add(TabUpdated(tab));
+                },
+              ),
+              _mapBody(tab),
+            ],
+          ),
+        );
+      },
     );
   }
 }

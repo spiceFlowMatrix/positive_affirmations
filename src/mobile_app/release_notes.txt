@@ -25,3 +25,5 @@ Render profile picture if available.
 Add camera indicator to profile picture.
 
 Add profile details in profile tab.
+
+Add profile subtabs.
