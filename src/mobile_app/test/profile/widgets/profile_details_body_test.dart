@@ -190,7 +190,7 @@ void main() {
         ));
 
         expect(
-          find.byKey(PositiveAffirmationsKeys.profileAffirmationsSubtabBody(
+          find.byKey(PositiveAffirmationsKeys.profileLettersSubtabBody(
               mockUser.id)),
           findsOneWidget,
         );
