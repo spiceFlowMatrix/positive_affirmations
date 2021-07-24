@@ -111,7 +111,9 @@ class _FormContent extends StatelessWidget {
 
   Widget _buildNickNameField() {
     return BlocBuilder<ProfileEditBloc, ProfileEditState>(
-      buildWhen: (previous, current) => previous.nickName != current.nickName,
+      buildWhen: (previous, current) =>
+          previous.nickName != current.nickName ||
+          previous.status != current.status,
       builder: (context, state) {
         return _FormField(
           fieldLabel: PositiveAffirmationsConsts.profileEditNickNameFieldLabel,
@@ -123,6 +125,12 @@ class _FormContent extends StatelessWidget {
           onChanged: (nickName) {
             BlocProvider.of<ProfileEditBloc>(context)
                 .add(NickNameUpdated(nickName));
+          },
+          onSubmitted: (nickName) {
+            if (state.status.isValid) {
+              BlocProvider.of<ProfileEditBloc>(context)
+                  .add(ProfileEditSubmitted());
+            }
           },
           errorText: state.nickName.error != null
               ? _generateNickNameError(state.nickName.error!)
