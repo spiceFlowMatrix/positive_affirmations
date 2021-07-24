@@ -6,9 +6,9 @@ import 'package:repository/repository.dart';
 
 void main() {
   const validName = 'mockName';
-  const invalidName = 'mock-name.invalid';
+  // const invalidName = 'mock-name.invalid';
   const validNickName = 'mockNickName';
-  const invalidNickName = 'mock-invalid.nickname';
+  // const invalidNickName = 'mock-invalid.nickname';
 
   late ProfileBloc profileBloc;
 
