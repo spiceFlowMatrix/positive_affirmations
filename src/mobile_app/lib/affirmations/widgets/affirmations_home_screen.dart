@@ -64,8 +64,11 @@ class AffirmationsHomeScreen extends StatelessWidget {
                       );
                       break;
                     case AppTab.profile:
-                      Navigator.of(context)
-                          .pushNamed(ProfileEditForm.routeName);
+                      final bloc = BlocProvider.of<ProfileBloc>(context);
+                      Navigator.of(context).pushNamed(
+                        ProfileEditForm.routeName,
+                        arguments: ProfileEditFormArgs(profileBloc: bloc),
+                      );
                       break;
                   }
                 },
