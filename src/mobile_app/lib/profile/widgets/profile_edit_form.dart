@@ -95,6 +95,8 @@ class _FormContent extends StatelessWidget {
                   userInitial.id),
               initialName: userInitial.nickName,
             ),
+            const Padding(padding: EdgeInsets.only(top: 20)),
+            _SaveButton(user: userInitial),
           ],
         ),
       ),
@@ -152,9 +154,21 @@ class _FormField extends StatelessWidget {
 }
 
 class _SaveButton extends StatelessWidget {
+  const _SaveButton({required this.user});
+
+  final User user;
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return ElevatedButton(
+      key: PositiveAffirmationsKeys.profileEditSaveButton(user.id),
+      onPressed: () {},
+      child: Text(
+        'Save',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
 }
