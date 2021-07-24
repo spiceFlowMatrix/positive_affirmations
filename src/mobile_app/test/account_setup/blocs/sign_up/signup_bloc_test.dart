@@ -2,7 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
-import 'package:mobile_app/account_setup/models/models.dart';
+import 'package:mobile_app/models/models.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:repository/repository.dart';
 
