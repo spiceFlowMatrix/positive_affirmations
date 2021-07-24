@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/models/models.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
@@ -211,15 +212,25 @@ class _SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      key: PositiveAffirmationsKeys.profileEditSaveButton(user.id),
-      onPressed: () {},
-      child: Text(
-        'Save',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+    return BlocBuilder<ProfileEditBloc, ProfileEditState>(
+      buildWhen: (previous, current) => previous.status != current.status,
+      builder: (context, state) {
+        return ElevatedButton(
+          key: PositiveAffirmationsKeys.profileEditSaveButton(user.id),
+          onPressed: state.status.isValid
+              ? () {
+                  BlocProvider.of<ProfileEditBloc>(context)
+                      .add(ProfileEditSubmitted());
+                }
+              : null,
+          child: Text(
+            'Save',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        );
+      },
     );
   }
 }
