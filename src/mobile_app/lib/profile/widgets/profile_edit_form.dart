@@ -61,8 +61,12 @@ class _FormContent extends StatelessWidget {
 
   final User userInitial;
 
+  final FocusNode _nameFocusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
+    _nameFocusNode.requestFocus();
+
     return Center(
       child: Form(
         key: _editProfileFormKey,
@@ -77,6 +81,8 @@ class _FormContent extends StatelessWidget {
               fieldKey:
                   PositiveAffirmationsKeys.profileEditNameField(userInitial.id),
               initialName: userInitial.name,
+              focusNode: _nameFocusNode,
+              textInputAction: TextInputAction.next,
             ),
             const Padding(padding: EdgeInsets.only(top: 20)),
             _FormField(
@@ -103,6 +109,8 @@ class _FormField extends StatelessWidget {
     required this.fieldKey,
     required this.fieldInputLabel,
     required this.initialName,
+    this.focusNode,
+    this.textInputAction,
   }) : _textEditingController = TextEditingController(text: initialName);
 
   final String fieldLabel;
@@ -111,6 +119,8 @@ class _FormField extends StatelessWidget {
   final String fieldInputLabel;
   final String initialName;
   final TextEditingController _textEditingController;
+  final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +139,8 @@ class _FormField extends StatelessWidget {
         TextField(
           key: fieldKey,
           controller: _textEditingController,
+          focusNode: focusNode,
+          textInputAction: textInputAction,
           onChanged: (value) {},
           decoration: InputDecoration(
             labelText: fieldInputLabel,
@@ -136,5 +148,13 @@ class _FormField extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class _SaveButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
   }
 }
