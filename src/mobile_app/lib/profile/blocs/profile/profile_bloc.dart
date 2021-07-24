@@ -26,13 +26,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   ProfileState _mapUserCreatedToSate(UserCreated event, ProfileState state) {
-    return state.copyWith(user: event.user);
+    return state.copyWith(
+      user: event.user.copyWith(
+        name: event.user.name.trim(),
+        nickName: event.user.nickName.trim(),
+      ),
+    );
   }
 
   ProfileState _mapUserUpdatedToState(ProfileEdited event, ProfileState state) {
     final updatedUser = state.user.copyWith(
-      name: event.name,
-      nickName: event.nickName,
+      name: event.name.trim(),
+      nickName: event.nickName.trim(),
     );
 
     return state.copyWith(user: updatedUser);
