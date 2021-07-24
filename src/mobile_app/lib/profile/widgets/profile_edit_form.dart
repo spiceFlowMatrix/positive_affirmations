@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:repository/repository.dart';
 
 class ProfileEditFormArgs {
   const ProfileEditFormArgs({
-    required this.userInitial,
+    required this.profileBloc,
   });
 
-  final User userInitial;
+  final ProfileBloc profileBloc;
 }
 
 class ProfileEditForm extends StatelessWidget {
