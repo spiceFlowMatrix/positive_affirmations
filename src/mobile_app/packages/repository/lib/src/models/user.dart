@@ -82,8 +82,8 @@ class User extends Equatable {
 
   static const empty = User(
     id: '-',
-    name: '-',
-    nickName: '-',
+    name: 'name',
+    nickName: 'nickName',
     email: '-',
     pictureB64Enc: '-',
   );
