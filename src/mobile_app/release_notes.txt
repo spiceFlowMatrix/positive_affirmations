@@ -24,6 +24,10 @@ Render profile picture if available.
 
 Add camera indicator to profile picture.
 
+Allow user to take profile pictures.
+
 Add profile details in profile tab.
 
 Add profile subtabs.
+
+Add profile edit form.

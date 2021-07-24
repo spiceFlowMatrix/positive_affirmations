@@ -133,12 +133,11 @@ class PositiveAffirmationsKeys {
   static final profileEditForm = (String id) => Key('ProfileEditForm__$id');
   static final profileEditNameField =
       (String id) => Key('ProfileEditNameField__$id');
-  static final profileEditNameFieldLabel =
-      (String id) => Key('ProfileEditNameFieldLabel__$id');
+  static const profileEditNameFieldLabel = Key('__profileEditNameFieldLabel__');
   static final profileEditNickNameField =
       (String id) => Key('ProfileEditNickNameField__$id');
-  static final profileEditNickNameFieldLabel =
-      (String id) => Key('ProfileEditNickNameFieldLabel__$id');
+  static const profileEditNickNameFieldLabel =
+      Key('__profileEditNickNameFieldLabel__');
   static final profileEditSaveButton =
       (String id) => Key('ProfileEditSaveButton__$id');
 
