@@ -16,6 +16,7 @@ import '../fixtures/profile_details_body_fixture.dart';
 void main() {
   final mockUser = PositiveAffirmationsConsts.seedUser;
   final mockUserWithPicture = PositiveAffirmationsConsts.seedUserWithPicture;
+  final mockAffirmations = PositiveAffirmationsConsts.seedAffirmations;
   // final mockAffirmations = PositiveAffirmationsConsts.seedAffirmations;
 
   late AffirmationsBloc affirmationsBloc;
@@ -105,8 +106,8 @@ void main() {
             .thenReturn(AuthenticationState.authenticated());
 
         when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
-        when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
-            affirmations: PositiveAffirmationsConsts.seedAffirmations));
+        when(() => affirmationsBloc.state)
+            .thenReturn(AffirmationsState(affirmations: mockAffirmations));
       });
 
       testWidgets('base widgets are composed', (tester) async {
@@ -176,6 +177,24 @@ void main() {
               mockUser.id)),
           findsOneWidget,
         );
+
+        for (int i = 0; i < mockAffirmations.length; i++) {
+          expect(
+            find.byKey(PositiveAffirmationsKeys.profileAffirmationItem(
+                '${mockAffirmations[i].id}')),
+            findsOneWidget,
+          );
+          expect(
+            find.byKey(PositiveAffirmationsKeys.profileAffirmationItemTitle(
+                '${mockAffirmations[i].id}')),
+            findsOneWidget,
+          );
+          expect(
+            find.byKey(PositiveAffirmationsKeys.profileAffirmationItemTrailing(
+                '${mockAffirmations[i].id}')),
+            findsOneWidget,
+          );
+        }
       });
 
       testWidgets('letters tab body is rendered when letters tab is selected',
