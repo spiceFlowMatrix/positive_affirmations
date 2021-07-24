@@ -18,89 +18,180 @@ void main() {
 
   const mockUser = PositiveAffirmationsConsts.seedUser;
 
+  const validName = 'mockName';
+  const invalidName = 'mock-name.invalid';
+  const validNickName = 'mockNickName';
+  const invalidNickName = 'mock-invalid.nickname';
+
   group('[ProfileEditForm]', () {
-    setUpAll(() {
-      registerFallbackValue<ProfileEditEvent>(FakeProfileEditEvent());
-      registerFallbackValue<ProfileEditState>(FakeProfileEditState());
-      registerFallbackValue<ProfileEvent>(FakeProfileEvent());
-      registerFallbackValue<ProfileState>(FakeProfileState());
-    });
+    group('widget composition', () {
+      setUpAll(() {
+        registerFallbackValue<ProfileEditEvent>(FakeProfileEditEvent());
+        registerFallbackValue<ProfileEditState>(FakeProfileEditState());
+        registerFallbackValue<ProfileEvent>(FakeProfileEvent());
+        registerFallbackValue<ProfileState>(FakeProfileState());
+      });
 
-    setUp(() {
-      profileBloc = MockProfileBloc();
-      when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
-      profileEditBloc = MockProfileEditBloc();
-      when(() => profileEditBloc.profileBloc).thenReturn(profileBloc);
-      when(() => profileEditBloc.state).thenReturn(ProfileEditState(
-        name: NameField.dirty(mockUser.name),
-        nickName: NickNameField.dirty(mockUser.nickName),
-        status: FormzStatus.pure,
-      ));
-    });
+      setUp(() {
+        profileBloc = MockProfileBloc();
+        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
+        profileEditBloc = MockProfileEditBloc();
+        when(() => profileEditBloc.profileBloc).thenReturn(profileBloc);
+        when(() => profileEditBloc.state).thenReturn(ProfileEditState(
+          name: NameField.dirty(mockUser.name),
+          nickName: NickNameField.dirty(mockUser.nickName),
+          status: FormzStatus.pure,
+        ));
+      });
 
-    testWidgets('all components are composed', (tester) async {
-      await tester.pumpWidget(ProfileEditFormFixture(
-        profileBloc: profileBloc,
-        profileEditBloc: profileEditBloc,
-      ));
+      testWidgets('all components are composed', (tester) async {
+        await tester.pumpWidget(ProfileEditFormFixture(
+          profileBloc: profileBloc,
+          profileEditBloc: profileEditBloc,
+        ));
 
-      expect(
-        find.byKey(PositiveAffirmationsKeys.profileEditScreen),
-        findsOneWidget,
-      );
-      expect(
-        find.byKey(PositiveAffirmationsKeys.profileEditScreenTitle),
-        findsOneWidget,
-      );
-      expect(
-        find.byKey(PositiveAffirmationsKeys.profileEditForm(mockUser.id)),
-        findsOneWidget,
-      );
+        expect(
+          find.byKey(PositiveAffirmationsKeys.profileEditScreen),
+          findsOneWidget,
+        );
+        expect(
+          find.byKey(PositiveAffirmationsKeys.profileEditScreenTitle),
+          findsOneWidget,
+        );
+        expect(
+          find.byKey(PositiveAffirmationsKeys.profileEditForm(mockUser.id)),
+          findsOneWidget,
+        );
 
-      // Reference https://stackoverflow.com/a/41153547/5472560
-      expect(
-        find.byWidgetPredicate((widget) =>
-            widget is Text &&
-            widget.key == PositiveAffirmationsKeys.profileEditNameFieldLabel &&
-            widget.data ==
-                PositiveAffirmationsConsts.profileEditNameFieldLabel),
-        findsOneWidget,
-      );
-      expect(
-        find.byWidgetPredicate((widget) =>
-            widget is TextField &&
-            widget.key ==
-                PositiveAffirmationsKeys.profileEditNameField(mockUser.id) &&
-            widget.controller!.value.text == mockUser.name),
-        findsOneWidget,
-      );
-      expect(
-        find.byWidgetPredicate((widget) =>
-            widget is Text &&
-            widget.key ==
-                PositiveAffirmationsKeys.profileEditNickNameFieldLabel &&
-            widget.data ==
-                PositiveAffirmationsConsts.profileEditNickNameFieldLabel),
-        findsOneWidget,
-      );
-      expect(
-        find.byWidgetPredicate((widget) =>
-            widget is TextField &&
-            widget.key ==
-                PositiveAffirmationsKeys.profileEditNickNameField(
-                    mockUser.id) &&
-            widget.controller!.value.text == mockUser.nickName),
-        findsOneWidget,
-      );
-      expect(
-        find.byWidgetPredicate(
-          (widget) =>
-              widget is ElevatedButton &&
+        // Reference https://stackoverflow.com/a/41153547/5472560
+        expect(
+          find.byWidgetPredicate((widget) =>
+              widget is Text &&
               widget.key ==
-                  PositiveAffirmationsKeys.profileEditSaveButton(mockUser.id),
-        ),
-        findsOneWidget,
-      );
+                  PositiveAffirmationsKeys.profileEditNameFieldLabel &&
+              widget.data ==
+                  PositiveAffirmationsConsts.profileEditNameFieldLabel),
+          findsOneWidget,
+        );
+        expect(
+          find.byWidgetPredicate((widget) =>
+              widget is TextField &&
+              widget.key ==
+                  PositiveAffirmationsKeys.profileEditNameField(mockUser.id) &&
+              widget.controller!.value.text == mockUser.name),
+          findsOneWidget,
+        );
+        expect(
+          find.byWidgetPredicate((widget) =>
+              widget is Text &&
+              widget.key ==
+                  PositiveAffirmationsKeys.profileEditNickNameFieldLabel &&
+              widget.data ==
+                  PositiveAffirmationsConsts.profileEditNickNameFieldLabel),
+          findsOneWidget,
+        );
+        expect(
+          find.byWidgetPredicate((widget) =>
+              widget is TextField &&
+              widget.key ==
+                  PositiveAffirmationsKeys.profileEditNickNameField(
+                      mockUser.id) &&
+              widget.controller!.value.text == mockUser.nickName),
+          findsOneWidget,
+        );
+        expect(
+          find.byWidgetPredicate(
+            (widget) =>
+                widget is ElevatedButton &&
+                widget.key ==
+                    PositiveAffirmationsKeys.profileEditSaveButton(mockUser.id),
+          ),
+          findsOneWidget,
+        );
+      });
+    });
+
+    group('[form wired to bloc]', () {
+      setUpAll(() {
+        registerFallbackValue<ProfileEditEvent>(FakeProfileEditEvent());
+        registerFallbackValue<ProfileEditState>(FakeProfileEditState());
+        registerFallbackValue<ProfileEvent>(FakeProfileEvent());
+        registerFallbackValue<ProfileState>(FakeProfileState());
+      });
+
+      setUp(() {
+        profileBloc = MockProfileBloc();
+        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
+        profileEditBloc = MockProfileEditBloc();
+        when(() => profileEditBloc.profileBloc).thenReturn(profileBloc);
+      });
+
+      testWidgets('save button is disabled when form is pure', (tester) async {
+        when(() => profileEditBloc.state).thenReturn(ProfileEditState(
+          name: NameField.dirty(mockUser.name),
+          nickName: NickNameField.dirty(mockUser.nickName),
+          status: FormzStatus.pure,
+        ));
+
+        await tester.pumpWidget(ProfileEditFormFixture(
+          profileBloc: profileBloc,
+          profileEditBloc: profileEditBloc,
+        ));
+
+        expect(
+          tester
+              .widget<ElevatedButton>(find.byKey(
+                  PositiveAffirmationsKeys.profileEditSaveButton(mockUser.id)))
+              .enabled,
+          isFalse,
+        );
+      });
+      testWidgets('save button is disabled when form is invalid',
+          (tester) async {
+        when(() => profileEditBloc.state).thenReturn(ProfileEditState(
+          name: NameField.dirty(invalidNickName),
+          nickName: NickNameField.dirty(mockUser.nickName),
+          status: FormzStatus.invalid,
+        ));
+
+        await tester.pumpWidget(ProfileEditFormFixture(
+          profileBloc: profileBloc,
+          profileEditBloc: profileEditBloc,
+        ));
+
+        expect(
+          tester
+              .widget<ElevatedButton>(find.byKey(
+                  PositiveAffirmationsKeys.profileEditSaveButton(mockUser.id)))
+              .enabled,
+          isFalse,
+        );
+      });
+      testWidgets('save button works when form is valid', (tester) async {
+        when(() => profileEditBloc.state).thenReturn(ProfileEditState(
+          name: NameField.dirty(mockUser.nickName + ' edited'),
+          nickName: NickNameField.dirty(mockUser.nickName),
+          status: FormzStatus.valid,
+        ));
+
+        await tester.pumpWidget(ProfileEditFormFixture(
+          profileBloc: profileBloc,
+          profileEditBloc: profileEditBloc,
+        ));
+
+        expect(
+          tester
+              .widget<ElevatedButton>(find.byKey(
+                  PositiveAffirmationsKeys.profileEditSaveButton(mockUser.id)))
+              .enabled,
+          true,
+        );
+
+        await tester.tap(find.byKey(
+            PositiveAffirmationsKeys.profileEditSaveButton(mockUser.id)));
+
+        verify(() => profileEditBloc.add(ProfileEditSubmitted())).called(1);
+      });
     });
   });
 }
