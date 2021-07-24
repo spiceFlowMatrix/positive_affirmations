@@ -126,6 +126,37 @@ void main() {
         when(() => profileEditBloc.profileBloc).thenReturn(profileBloc);
       });
 
+      testWidgets('updating name and nickname triggers state events',
+          (tester) async {
+        when(() => profileEditBloc.state).thenReturn(ProfileEditState(
+          name: NameField.dirty(mockUser.name),
+          nickName: NickNameField.dirty(mockUser.nickName),
+          status: FormzStatus.pure,
+        ));
+
+        await tester.pumpWidget(ProfileEditFormFixture(
+          profileBloc: profileBloc,
+          profileEditBloc: profileEditBloc,
+        ));
+
+        await tester.enterText(
+          find.byKey(
+              PositiveAffirmationsKeys.profileEditNameField(mockUser.id)),
+          validName,
+        );
+
+        verify(() => profileEditBloc.add(NameUpdated(validName))).called(1);
+
+        await tester.enterText(
+          find.byKey(
+              PositiveAffirmationsKeys.profileEditNickNameField(mockUser.id)),
+          validNickName,
+        );
+
+        verify(() => profileEditBloc.add(NickNameUpdated(validNickName)))
+            .called(1);
+      });
+
       testWidgets('save button is disabled when form is pure', (tester) async {
         when(() => profileEditBloc.state).thenReturn(ProfileEditState(
           name: NameField.dirty(mockUser.name),
