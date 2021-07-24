@@ -9,6 +9,7 @@ import 'package:mobile_app/affirmations/widgets/app_navigator.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mobile_app/profile/widgets/profile_details_body.dart';
+import 'package:mobile_app/profile/widgets/profile_edit_form.dart';
 
 class AffirmationsHomeScreen extends StatelessWidget {
   const AffirmationsHomeScreen({this.affirmationsBloc});
@@ -53,12 +54,20 @@ class AffirmationsHomeScreen extends StatelessWidget {
                     ? PositiveAffirmationsKeys.affirmationsAppBarAddButton
                     : PositiveAffirmationsKeys.profileAppbarEditButton,
                 onPressed: () {
-                  final bloc = BlocProvider.of<AffirmationsBloc>(context);
-                  Navigator.of(context).pushNamed(
-                    AffirmationFormScreen.routeName,
-                    arguments:
-                        AffirmationFormScreenArguments(affirmationsBloc: bloc),
-                  );
+                  switch (state) {
+                    case AppTab.affirmations:
+                      final bloc = BlocProvider.of<AffirmationsBloc>(context);
+                      Navigator.of(context).pushNamed(
+                        AffirmationFormScreen.routeName,
+                        arguments: AffirmationFormScreenArguments(
+                            affirmationsBloc: bloc),
+                      );
+                      break;
+                    case AppTab.profile:
+                      Navigator.of(context)
+                          .pushNamed(ProfileEditForm.routeName);
+                      break;
+                  }
                 },
               )
             ],
