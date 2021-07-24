@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -217,10 +218,10 @@ class _TabsContainer extends StatelessWidget {
       builder: (context, state) {
         switch (tab) {
           case ProfileTab.affirmations:
-            return Center(
+            return _AffirmationsTabBody(
               key: PositiveAffirmationsKeys.profileAffirmationsSubtabBody(
                   state.user.id),
-              child: Text('Affirmations'),
+              user: state.user,
             );
           case ProfileTab.letters:
             return Center(
@@ -229,10 +230,10 @@ class _TabsContainer extends StatelessWidget {
               child: Text('Letters'),
             );
           default:
-            return Center(
+            return _AffirmationsTabBody(
               key: PositiveAffirmationsKeys.profileAffirmationsSubtabBody(
                   state.user.id),
-              child: Text('Affirmations'),
+              user: state.user,
             );
         }
       },
@@ -256,6 +257,61 @@ class _TabsContainer extends StatelessWidget {
               _mapBody(tab),
             ],
           ),
+        );
+      },
+    );
+  }
+}
+
+class _AffirmationsTabBody extends StatelessWidget {
+  _AffirmationsTabBody({
+    required this.key,
+    required this.user,
+  }) : super(key: key);
+
+  final Key key;
+  final User user;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AffirmationsBloc, AffirmationsState>(
+      builder: (context, state) {
+        final toRenderAffirmations = state.affirmations
+            .where((element) => element.createdById == user.id)
+            .toList();
+        return ListView.builder(
+          itemCount: toRenderAffirmations.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                ListTile(
+                  key: PositiveAffirmationsKeys.profileAffirmationItem(
+                      '${toRenderAffirmations[index].id}'),
+                  title: Text(
+                    toRenderAffirmations[index].title,
+                    key: PositiveAffirmationsKeys.profileAffirmationItemTitle(
+                        '${toRenderAffirmations[index].id}'),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  trailing: FaIcon(
+                    FontAwesomeIcons.chevronRight,
+                    key:
+                        PositiveAffirmationsKeys.profileAffirmationItemTrailing(
+                            '${toRenderAffirmations[index].id}'),
+                    size: 15,
+                    color: Colors.black,
+                  ),
+                ),
+                Divider(
+                  height: 0,
+                  thickness: 1.5,
+                ),
+              ],
+            );
+          },
         );
       },
     );
