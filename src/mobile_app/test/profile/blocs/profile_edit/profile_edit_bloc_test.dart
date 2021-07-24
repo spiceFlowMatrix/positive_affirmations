@@ -20,6 +20,7 @@ void main() {
   late ProfileEditBloc profileEditBloc;
 
   final User mockUser = PositiveAffirmationsConsts.seedUser;
+
   group('[ProfileEditBloc]', () {
     setUpAll(() {
       registerFallbackValue<ProfileState>(FakeProfileState());
@@ -45,12 +46,18 @@ void main() {
       blocTest<ProfileEditBloc, ProfileEditState>(
         'supplying valid name emits valid status',
         build: () => profileEditBloc,
+        seed: () => ProfileEditState(
+          name: NameField.dirty(mockUser.name),
+          nickName: NickNameField.dirty(mockUser.nickName),
+          status: FormzStatus.pure,
+        ),
         act: (bloc) {
           bloc..add(NameUpdated(validName));
         },
         expect: () => <ProfileEditState>[
-          const ProfileEditState(
+          const ProfileEditState().copyWith(
             name: NameField.dirty(validName),
+            nickName: NickNameField.dirty(mockUser.nickName),
             status: FormzStatus.valid,
           ),
         ],
@@ -58,12 +65,18 @@ void main() {
       blocTest<ProfileEditBloc, ProfileEditState>(
         'supplying invalid name emits invalid status',
         build: () => profileEditBloc,
+        seed: () => ProfileEditState(
+          name: NameField.dirty(mockUser.name),
+          nickName: NickNameField.dirty(mockUser.nickName),
+          status: FormzStatus.pure,
+        ),
         act: (bloc) {
           bloc..add(NameUpdated(invalidName));
         },
         expect: () => <ProfileEditState>[
-          const ProfileEditState(
+          ProfileEditState(
             name: NameField.dirty(invalidName),
+            nickName: NickNameField.dirty(mockUser.nickName),
             status: FormzStatus.invalid,
           ),
         ],
@@ -74,11 +87,17 @@ void main() {
       blocTest<ProfileEditBloc, ProfileEditState>(
         'supplying valid nickname emits valid status',
         build: () => profileEditBloc,
+        seed: () => ProfileEditState(
+          name: NameField.dirty(mockUser.name),
+          nickName: NickNameField.dirty(mockUser.nickName),
+          status: FormzStatus.pure,
+        ),
         act: (bloc) {
           bloc..add(NickNameUpdated(validNickName));
         },
         expect: () => <ProfileEditState>[
-          const ProfileEditState(
+          ProfileEditState(
+            name: NameField.dirty(mockUser.name),
             nickName: NickNameField.dirty(validNickName),
             status: FormzStatus.valid,
           ),
@@ -88,11 +107,17 @@ void main() {
       blocTest<ProfileEditBloc, ProfileEditState>(
         'supplying invalid nickname emits invalid status',
         build: () => profileEditBloc,
+        seed: () => ProfileEditState(
+          name: NameField.dirty(mockUser.name),
+          nickName: NickNameField.dirty(mockUser.nickName),
+          status: FormzStatus.pure,
+        ),
         act: (bloc) {
           bloc..add(NickNameUpdated(invalidNickName));
         },
         expect: () => <ProfileEditState>[
-          const ProfileEditState(
+          ProfileEditState(
+            name: NameField.dirty(mockUser.name),
             nickName: NickNameField.dirty(invalidNickName),
             status: FormzStatus.invalid,
           ),
