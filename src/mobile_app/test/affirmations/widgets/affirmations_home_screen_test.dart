@@ -52,8 +52,6 @@ void main() {
   });
 
   AffirmationsHomeScreenFixture _setupFixture() {
-    when(() => affirmationsBloc.authenticatedUser)
-        .thenReturn(PositiveAffirmationsConsts.seedUser);
     return AffirmationsHomeScreenFixture(
       apptabBloc: apptabBloc,
       authBloc: authBloc,
@@ -97,11 +95,13 @@ void main() {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
         when(() => authBloc.state)
             .thenReturn(AuthenticationState.authenticated());
+        when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
         when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,
           profileBloc: profileBloc,
+          affirmationsBloc: affirmationsBloc,
         ));
 
         final widget = tester.widget<Text>(
@@ -111,9 +111,10 @@ void main() {
       });
 
       testWidgets(
-          'affirmations appbar add action is rendered affirmations tab selected',
+          'affirmations appbar add action is rendered when affirmations tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
+        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
         await tester.pumpWidget(_setupFixture());
 
         expect(
@@ -122,16 +123,18 @@ void main() {
         );
       });
 
-      testWidgets('profile appbar edit action is rendered profile tab selected',
+      testWidgets('profile appbar edit action is rendered when profile tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
         when(() => authBloc.state)
             .thenReturn(AuthenticationState.authenticated());
+        when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
         when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,
           profileBloc: profileBloc,
+          affirmationsBloc: affirmationsBloc,
         ));
 
         expect(
@@ -144,6 +147,8 @@ void main() {
           'affirmations list body is rendered when affirmations tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
+        when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
+        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
         await tester.pumpWidget(_setupFixture());
 
         expect(
@@ -157,11 +162,13 @@ void main() {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
         when(() => authBloc.state)
             .thenReturn(AuthenticationState.authenticated());
+        when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
         when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,
           profileBloc: profileBloc,
+          affirmationsBloc: affirmationsBloc,
         ));
 
         expect(
