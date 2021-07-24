@@ -45,4 +45,7 @@ class PositiveAffirmationsConsts {
   static const String subtitleFieldInvalidError = 'Invalid subtitle';
 
   static const String underConstructionSnackbarText = 'UNDER CONSTRUCTION';
+
+  static const String profileEditNameFieldLabel = 'Your name';
+  static const String profileEditNickNameFieldLabel = 'What would you like me to call you?';
 }

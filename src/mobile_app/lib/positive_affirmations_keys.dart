@@ -127,6 +127,8 @@ class PositiveAffirmationsKeys {
   static final affirmationDetailsReaffirmButton =
       (String id) => Key('__affirmationDetailsReaffirmButton__$id');
 
+  static const profileEditScreen = Key('__profileEditScreen__');
+
   // Tabs
   static const homeTab = Key('__homeTab__');
   static const homeTabLabel = Key('__homeTabLabel__');
