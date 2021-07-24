@@ -13,10 +13,13 @@ import 'package:mobile_app/profile/widgets/profile_navigator.dart';
 import 'package:repository/repository.dart';
 
 class ProfileDetailsTabBody extends StatelessWidget {
-  const ProfileDetailsTabBody({this.profileTabBloc})
-      : super(key: PositiveAffirmationsKeys.profileDetails);
+  const ProfileDetailsTabBody({
+    this.profileTabBloc,
+    this.affirmationsBloc,
+  }) : super(key: PositiveAffirmationsKeys.profileDetails);
 
   final ProfileTabBloc? profileTabBloc;
+  final AffirmationsBloc? affirmationsBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +30,21 @@ class ProfileDetailsTabBody extends StatelessWidget {
       ],
     );
 
-    if (profileTabBloc != null) {
-      return BlocProvider<ProfileTabBloc>.value(
-        value: profileTabBloc!,
-        child: content,
-      );
-    }
-
-    return BlocProvider<ProfileTabBloc>(
-      create: (_) => ProfileTabBloc(),
+    return MultiBlocProvider(
+      providers: [
+        if (profileTabBloc != null)
+          BlocProvider<ProfileTabBloc>.value(
+            value: profileTabBloc!,
+            child: content,
+          )
+        else
+          BlocProvider<ProfileTabBloc>(
+            create: (_) => ProfileTabBloc(),
+            child: content,
+          ),
+        if (affirmationsBloc != null)
+          BlocProvider<AffirmationsBloc>.value(value: affirmationsBloc!),
+      ],
       child: content,
     );
   }
