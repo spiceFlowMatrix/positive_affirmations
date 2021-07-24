@@ -174,6 +174,30 @@ void main() {
               )));
         },
       );
+      blocTest<ProfileEditBloc, ProfileEditState>(
+        'whitespaces are sanitized',
+        build: () => profileEditBloc,
+        seed: () => ProfileEditState(
+          name: NameField.dirty('  $validName  '),
+          nickName: NickNameField.dirty('  $validNickName  '),
+          status: FormzStatus.valid,
+        ),
+        act: (bloc) {
+          bloc..add(ProfileEditSubmitted());
+        },
+        expect: () => <ProfileEditState>[
+          ProfileEditState(
+            name: NameField.dirty('  $validName  '),
+            nickName: NickNameField.dirty('  $validNickName  '),
+            status: FormzStatus.submissionInProgress,
+          ),
+          ProfileEditState(
+            name: NameField.dirty(validName),
+            nickName: NickNameField.dirty(validNickName),
+            status: FormzStatus.submissionSuccess,
+          ),
+        ],
+      );
     });
   });
 }
