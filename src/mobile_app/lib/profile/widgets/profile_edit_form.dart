@@ -144,19 +144,27 @@ class _FormContent extends StatelessWidget {
   Widget build(BuildContext context) {
     _nameFocusNode.requestFocus();
 
-    return Center(
-      child: Form(
-        key: _editProfileFormKey,
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 35),
-          shrinkWrap: true,
-          children: [
-            _buildNameField(),
-            const Padding(padding: EdgeInsets.only(top: 20)),
-            _buildNickNameField(),
-            const Padding(padding: EdgeInsets.only(top: 20)),
-            _SaveButton(user: userInitial),
-          ],
+    return BlocListener<ProfileEditBloc, ProfileEditState>(
+      listenWhen: (previous, current) => previous.status != current.status,
+      listener: (context, state) {
+        if (state.status.isSubmissionSuccess) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: Center(
+        child: Form(
+          key: _editProfileFormKey,
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 35),
+            shrinkWrap: true,
+            children: [
+              _buildNameField(),
+              const Padding(padding: EdgeInsets.only(top: 20)),
+              _buildNickNameField(),
+              const Padding(padding: EdgeInsets.only(top: 20)),
+              _SaveButton(user: userInitial),
+            ],
+          ),
         ),
       ),
     );
