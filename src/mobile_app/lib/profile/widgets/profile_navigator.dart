@@ -69,7 +69,6 @@ class _ProfileNavigatorState extends State<ProfileNavigator>
                 ),
               ),
             );
-            break;
           default:
             return Tab(
               icon: Text(

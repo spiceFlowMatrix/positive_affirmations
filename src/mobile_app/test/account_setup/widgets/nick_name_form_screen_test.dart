@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
-import 'package:mobile_app/account_setup/models/models.dart';
+import 'package:mobile_app/models/models.dart';
 import 'package:mobile_app/models/name_field.dart';
 import 'package:mobile_app/account_setup/widgets/nick_name_form_screen.dart';
 import 'package:mobile_app/nav_observer.dart';

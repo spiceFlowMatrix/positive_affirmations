@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_app/account_setup/models/models.dart';
+import 'package:mobile_app/models/models.dart';
 
 void main() {
   const invalidNameString = 'mock-name';
