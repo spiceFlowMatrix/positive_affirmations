@@ -86,6 +86,12 @@ class PositiveAffirmationsKeys {
       (String id) => Key('ProfileAffirmationsSubtabBody__$id');
   static final profileLettersSubtabBody =
       (String id) => Key('ProfileLettersSubtabBody__$id');
+  static final profileAffirmationItem =
+      (String id) => Key('ProfileAffirmationItem__$id');
+  static final profileAffirmationItemTitle =
+      (String id) => Key('ProfileAffirmationItemTitle__$id');
+  static final profileAffirmationItemTrailing =
+      (String id) => Key('ProfileAffirmationItemTrailing__$id');
 
   // Add/Edit affirmation form
   static final affirmationFormBackButton = Key('__affirmationFormBackButton__');
