@@ -31,3 +31,5 @@ Add profile details in profile tab.
 Add profile subtabs.
 
 Add profile edit form.
+
+Whitespace sanitization on user add and edit forms.

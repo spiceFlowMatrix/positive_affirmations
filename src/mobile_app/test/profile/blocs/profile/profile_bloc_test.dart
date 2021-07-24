@@ -31,6 +31,22 @@ void main() {
           ProfileState(user: mockUser),
         ],
       );
+      blocTest<ProfileBloc, ProfileState>(
+        'whitespaces are sanitized for name and nickname',
+        build: () => profileBloc,
+        act: (bloc) {
+          bloc
+            ..add(UserCreated(
+              user: mockUser.copyWith(
+                name: '  ${mockUser.name}  ',
+                nickName: '  ${mockUser.nickName}  ',
+              ),
+            ));
+        },
+        expect: () => <ProfileState>[
+          ProfileState(user: mockUser),
+        ],
+      );
     });
 
     group('[ProfileEdited]', () {
