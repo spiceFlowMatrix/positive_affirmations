@@ -10,11 +10,11 @@ import 'package:repository/repository.dart';
 
 class ProfileEditFormArgs {
   const ProfileEditFormArgs({
-    required this.profileBloc,
+    this.profileBloc,
     this.profileEditBloc,
   });
 
-  final ProfileBloc profileBloc;
+  final ProfileBloc? profileBloc;
   final ProfileEditBloc? profileEditBloc;
 }
 
@@ -31,14 +31,17 @@ class ProfileEditForm extends StatelessWidget {
     final profileEditBloc = args.profileEditBloc == null
         ? BlocProvider(
             create: (_) => ProfileEditBloc(
-              profileBloc: args.profileBloc,
+              profileBloc: args.profileBloc != null
+                  ? args.profileBloc!
+                  : BlocProvider.of<ProfileBloc>(context),
             ),
           )
         : BlocProvider<ProfileEditBloc>.value(value: args.profileEditBloc!);
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider<ProfileBloc>.value(value: args.profileBloc),
+        if (args.profileBloc != null)
+          BlocProvider<ProfileBloc>.value(value: args.profileBloc!),
         profileEditBloc,
       ],
       child: Scaffold(
@@ -49,7 +52,11 @@ class ProfileEditForm extends StatelessWidget {
             key: PositiveAffirmationsKeys.profileEditScreenTitle,
           ),
         ),
-        body: _FormContent(userInitial: args.profileBloc.state.user),
+        body: BlocBuilder<ProfileBloc, ProfileState>(
+          builder: (context, state) {
+            return _FormContent(userInitial: state.user);
+          },
+        ),
       ),
     );
   }
