@@ -62,7 +62,7 @@ void main() {
         find.byWidgetPredicate((widget) =>
             widget is Text &&
             widget.key == PositiveAffirmationsKeys.profileEditNameFieldLabel &&
-            widget.toString() ==
+            widget.data ==
                 PositiveAffirmationsConsts.profileEditNameFieldLabel),
         findsOneWidget,
       );
@@ -79,7 +79,7 @@ void main() {
             widget is Text &&
             widget.key ==
                 PositiveAffirmationsKeys.profileEditNickNameFieldLabel &&
-            widget.toString() ==
+            widget.data ==
                 PositiveAffirmationsConsts.profileEditNickNameFieldLabel),
         findsOneWidget,
       );
