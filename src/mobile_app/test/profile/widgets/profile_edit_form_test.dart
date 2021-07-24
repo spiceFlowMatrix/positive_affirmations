@@ -157,6 +157,73 @@ void main() {
             .called(1);
       });
 
+      testWidgets('invalid name shows error', (tester) async {
+        when(() => profileEditBloc.state).thenReturn(ProfileEditState(
+          name: NameField.dirty(invalidName),
+          nickName: NickNameField.dirty(mockUser.nickName),
+          status: FormzStatus.invalid,
+        ));
+
+        await tester.pumpWidget(ProfileEditFormFixture(
+          profileBloc: profileBloc,
+          profileEditBloc: profileEditBloc,
+        ));
+
+        expect(
+          tester
+              .widget<TextField>(find.byKey(
+                  PositiveAffirmationsKeys.profileEditNameField(mockUser.id)))
+              .decoration!
+              .errorText,
+          PositiveAffirmationsConsts.nameFieldInvalidError,
+        );
+      });
+
+      testWidgets('empty name shows error', (tester) async {
+        when(() => profileEditBloc.state).thenReturn(ProfileEditState(
+          name: NameField.dirty(''),
+          nickName: NickNameField.dirty(mockUser.nickName),
+          status: FormzStatus.invalid,
+        ));
+
+        await tester.pumpWidget(ProfileEditFormFixture(
+          profileBloc: profileBloc,
+          profileEditBloc: profileEditBloc,
+        ));
+
+        expect(
+          tester
+              .widget<TextField>(find.byKey(
+                  PositiveAffirmationsKeys.profileEditNameField(mockUser.id)))
+              .decoration!
+              .errorText,
+          PositiveAffirmationsConsts.nameFieldEmptyError,
+        );
+      });
+
+      testWidgets('invalid nickname shows error', (tester) async {
+        when(() => profileEditBloc.state).thenReturn(ProfileEditState(
+          name: NameField.dirty(mockUser.name),
+          nickName: NickNameField.dirty(invalidNickName),
+          status: FormzStatus.invalid,
+        ));
+
+        await tester.pumpWidget(ProfileEditFormFixture(
+          profileBloc: profileBloc,
+          profileEditBloc: profileEditBloc,
+        ));
+
+        expect(
+          tester
+              .widget<TextField>(find.byKey(
+                  PositiveAffirmationsKeys.profileEditNickNameField(
+                      mockUser.id)))
+              .decoration!
+              .errorText,
+          PositiveAffirmationsConsts.nickNameFieldInvalidError,
+        );
+      });
+
       testWidgets('save button is disabled when form is pure', (tester) async {
         when(() => profileEditBloc.state).thenReturn(ProfileEditState(
           name: NameField.dirty(mockUser.name),
