@@ -89,6 +89,24 @@ void main() {
       );
 
       blocTest<SignUpBloc, SignUpState>(
+        'sanitizes spaces',
+        build: () => signUpBloc,
+        seed: () => SignUpState(
+          name: NameField.dirty('  $validName  '),
+          nameStatus: FormzStatus.valid,
+        ),
+        act: (bloc) {
+          bloc..add(NameSubmitted());
+        },
+        expect: () => const <SignUpState>[
+          const SignUpState(
+            name: const NameField.dirty(validName),
+            nameStatus: FormzStatus.submissionSuccess,
+          ),
+        ],
+      );
+
+      blocTest<SignUpBloc, SignUpState>(
         'emits same state when invalid name is submitted',
         build: () => signUpBloc,
         act: (bloc) {
@@ -177,6 +195,28 @@ void main() {
         },
         expect: () => const <SignUpState>[
           const SignUpState(),
+        ],
+      );
+
+      blocTest<SignUpBloc, SignUpState>(
+        'sanitizes spaces',
+        build: () => signUpBloc,
+        seed: () => SignUpState(
+          name: NameField.dirty(validName),
+          nameStatus: FormzStatus.submissionSuccess,
+          nickName: NickNameField.dirty('  $validNickName  '),
+          nickNameStatus: FormzStatus.valid,
+        ),
+        act: (bloc) {
+          bloc..add(NickNameSubmitted());
+        },
+        expect: () => <SignUpState>[
+          SignUpState(
+            name: NameField.dirty(validName),
+            nameStatus: FormzStatus.submissionSuccess,
+            nickName: NickNameField.dirty(validNickName),
+            nickNameStatus: FormzStatus.valid,
+          ),
         ],
       );
 
