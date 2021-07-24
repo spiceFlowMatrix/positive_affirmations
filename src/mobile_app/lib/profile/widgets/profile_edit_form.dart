@@ -57,13 +57,17 @@ class ProfileEditForm extends StatelessWidget {
 
 class _FormContent extends StatelessWidget {
   _FormContent({required this.userInitial})
-      : super(key: PositiveAffirmationsKeys.profileEditForm(userInitial.id));
+      : _nameController = TextEditingController(text: userInitial.name),
+        _nickNameController = TextEditingController(text: userInitial.nickName),
+        super(key: PositiveAffirmationsKeys.profileEditForm(userInitial.id));
 
   final GlobalKey<FormState> _editProfileFormKey = GlobalKey<FormState>();
 
   final User userInitial;
 
   final FocusNode _nameFocusNode = FocusNode();
+  final TextEditingController _nameController;
+  final TextEditingController _nickNameController;
 
   String _generateNameError(NameFieldValidationError error) {
     switch (error) {
@@ -91,7 +95,7 @@ class _FormContent extends StatelessWidget {
           fieldInputLabel: 'Name',
           fieldKey:
               PositiveAffirmationsKeys.profileEditNameField(userInitial.id),
-          initialName: userInitial.name,
+          textEditingController: _nameController,
           focusNode: _nameFocusNode,
           textInputAction: TextInputAction.next,
           onChanged: (name) {
@@ -115,7 +119,7 @@ class _FormContent extends StatelessWidget {
           fieldInputLabel: 'Nickname',
           fieldKey:
               PositiveAffirmationsKeys.profileEditNickNameField(userInitial.id),
-          initialName: userInitial.nickName,
+          textEditingController: _nickNameController,
           onChanged: (nickName) {
             BlocProvider.of<ProfileEditBloc>(context)
                 .add(NickNameUpdated(nickName));
@@ -153,26 +157,27 @@ class _FormContent extends StatelessWidget {
 
 class _FormField extends StatelessWidget {
   _FormField({
+    required this.textEditingController,
     required this.fieldLabel,
     required this.fieldLabelKey,
     required this.fieldKey,
     required this.fieldInputLabel,
-    required this.initialName,
     required this.onChanged,
+    this.onSubmitted,
     this.focusNode,
     this.textInputAction,
     this.errorText,
-  }) : _textEditingController = TextEditingController(text: initialName);
+  });
 
   final String fieldLabel;
   final Key fieldLabelKey;
   final Key fieldKey;
   final String fieldInputLabel;
-  final String initialName;
-  final TextEditingController _textEditingController;
+  final TextEditingController textEditingController;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final Function(String value) onChanged;
+  final Function(String value)? onSubmitted;
   final String? errorText;
 
   @override
@@ -191,10 +196,11 @@ class _FormField extends StatelessWidget {
         const Padding(padding: EdgeInsets.only(top: 10)),
         TextField(
           key: fieldKey,
-          controller: _textEditingController,
+          controller: textEditingController,
           focusNode: focusNode,
           textInputAction: textInputAction,
           onChanged: onChanged,
+          onSubmitted: onSubmitted,
           decoration: InputDecoration(
             labelText: fieldInputLabel,
             errorText: errorText,
