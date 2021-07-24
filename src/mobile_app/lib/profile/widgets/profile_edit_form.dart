@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_app/consts.dart';
+import 'package:mobile_app/models/models.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mobile_app/profile/blocs/profile_edit/profile_edit_bloc.dart';
@@ -63,6 +64,69 @@ class _FormContent extends StatelessWidget {
 
   final FocusNode _nameFocusNode = FocusNode();
 
+  String _generateNameError(NameFieldValidationError error) {
+    switch (error) {
+      case NameFieldValidationError.empty:
+        return PositiveAffirmationsConsts.nameFieldEmptyError;
+      case NameFieldValidationError.invalid:
+        return PositiveAffirmationsConsts.nameFieldInvalidError;
+    }
+  }
+
+  String _generateNickNameError(NickNameFieldValidationError error) {
+    switch (error) {
+      case NickNameFieldValidationError.invalid:
+        return PositiveAffirmationsConsts.nickNameFieldInvalidError;
+    }
+  }
+
+  Widget _buildNameField() {
+    return BlocBuilder<ProfileEditBloc, ProfileEditState>(
+      buildWhen: (previous, current) => previous.name != current.name,
+      builder: (context, state) {
+        return _FormField(
+          fieldLabel: PositiveAffirmationsConsts.profileEditNameFieldLabel,
+          fieldLabelKey: PositiveAffirmationsKeys.profileEditNameFieldLabel,
+          fieldInputLabel: 'Name',
+          fieldKey:
+              PositiveAffirmationsKeys.profileEditNameField(userInitial.id),
+          initialName: userInitial.name,
+          focusNode: _nameFocusNode,
+          textInputAction: TextInputAction.next,
+          onChanged: (name) {
+            BlocProvider.of<ProfileEditBloc>(context).add(NameUpdated(name));
+          },
+          errorText: state.name.error != null
+              ? _generateNameError(state.name.error!)
+              : null,
+        );
+      },
+    );
+  }
+
+  Widget _buildNickNameField() {
+    return BlocBuilder<ProfileEditBloc, ProfileEditState>(
+      buildWhen: (previous, current) => previous.nickName != current.nickName,
+      builder: (context, state) {
+        return _FormField(
+          fieldLabel: PositiveAffirmationsConsts.profileEditNickNameFieldLabel,
+          fieldLabelKey: PositiveAffirmationsKeys.profileEditNickNameFieldLabel,
+          fieldInputLabel: 'Nickname',
+          fieldKey:
+              PositiveAffirmationsKeys.profileEditNickNameField(userInitial.id),
+          initialName: userInitial.nickName,
+          onChanged: (nickName) {
+            BlocProvider.of<ProfileEditBloc>(context)
+                .add(NickNameUpdated(nickName));
+          },
+          errorText: state.nickName.error != null
+              ? _generateNickNameError(state.nickName.error!)
+              : null,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     _nameFocusNode.requestFocus();
@@ -74,27 +138,9 @@ class _FormContent extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 35),
           shrinkWrap: true,
           children: [
-            _FormField(
-              fieldLabel: PositiveAffirmationsConsts.profileEditNameFieldLabel,
-              fieldLabelKey: PositiveAffirmationsKeys.profileEditNameFieldLabel,
-              fieldInputLabel: 'Name',
-              fieldKey:
-                  PositiveAffirmationsKeys.profileEditNameField(userInitial.id),
-              initialName: userInitial.name,
-              focusNode: _nameFocusNode,
-              textInputAction: TextInputAction.next,
-            ),
+            _buildNameField(),
             const Padding(padding: EdgeInsets.only(top: 20)),
-            _FormField(
-              fieldLabel:
-                  PositiveAffirmationsConsts.profileEditNickNameFieldLabel,
-              fieldLabelKey:
-                  PositiveAffirmationsKeys.profileEditNickNameFieldLabel,
-              fieldInputLabel: 'Nickname',
-              fieldKey: PositiveAffirmationsKeys.profileEditNickNameField(
-                  userInitial.id),
-              initialName: userInitial.nickName,
-            ),
+            _buildNickNameField(),
             const Padding(padding: EdgeInsets.only(top: 20)),
             _SaveButton(user: userInitial),
           ],
@@ -111,8 +157,10 @@ class _FormField extends StatelessWidget {
     required this.fieldKey,
     required this.fieldInputLabel,
     required this.initialName,
+    required this.onChanged,
     this.focusNode,
     this.textInputAction,
+    this.errorText,
   }) : _textEditingController = TextEditingController(text: initialName);
 
   final String fieldLabel;
@@ -123,6 +171,8 @@ class _FormField extends StatelessWidget {
   final TextEditingController _textEditingController;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
+  final Function(String value) onChanged;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -143,9 +193,10 @@ class _FormField extends StatelessWidget {
           controller: _textEditingController,
           focusNode: focusNode,
           textInputAction: textInputAction,
-          onChanged: (value) {},
+          onChanged: onChanged,
           decoration: InputDecoration(
             labelText: fieldInputLabel,
+            errorText: errorText,
           ),
         ),
       ],
