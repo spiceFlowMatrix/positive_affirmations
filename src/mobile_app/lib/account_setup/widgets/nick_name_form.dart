@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/account_setup/widgets/app_summary_screen.dart';
+import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/models/models.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
@@ -80,7 +81,7 @@ class _NickNameField extends StatelessWidget {
   String _generateErrorText(NickNameFieldValidationError error) {
     switch (error) {
       case NickNameFieldValidationError.invalid:
-        return 'Apologies, my rule-set cannot allow names like that.\nPlease let the devs know if you\'d like it otherwise.';
+        return PositiveAffirmationsConsts.nickNameFieldInvalidError;
     }
   }
 

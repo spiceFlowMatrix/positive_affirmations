@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:mobile_app/account_setup/widgets/nick_name_form_screen.dart';
+import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/models/models.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
@@ -75,9 +76,9 @@ class _NameField extends StatelessWidget {
   String _generateErrorText(NameFieldValidationError error) {
     switch (error) {
       case NameFieldValidationError.empty:
-        return 'Come on, I\'d like to know your name';
+        return PositiveAffirmationsConsts.nameFieldEmptyError;
       case NameFieldValidationError.invalid:
-        return 'Apologies, my rule-set cannot allow names like that.\nPlease let the devs know if you\'d like it otherwise.';
+        return PositiveAffirmationsConsts.nameFieldInvalidError;
     }
   }
 
