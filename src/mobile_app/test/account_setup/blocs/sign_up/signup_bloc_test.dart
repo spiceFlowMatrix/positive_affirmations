@@ -215,7 +215,7 @@ void main() {
             name: NameField.dirty(validName),
             nameStatus: FormzStatus.submissionSuccess,
             nickName: NickNameField.dirty(validNickName),
-            nickNameStatus: FormzStatus.valid,
+            nickNameStatus: FormzStatus.submissionSuccess,
           ),
         ],
       );
