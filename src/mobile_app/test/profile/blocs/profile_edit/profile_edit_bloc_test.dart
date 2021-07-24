@@ -187,8 +187,8 @@ void main() {
         },
         expect: () => <ProfileEditState>[
           ProfileEditState(
-            name: NameField.dirty('  $validName  '),
-            nickName: NickNameField.dirty('  $validNickName  '),
+            name: NameField.dirty(validName),
+            nickName: NickNameField.dirty(validNickName),
             status: FormzStatus.submissionInProgress,
           ),
           ProfileEditState(
