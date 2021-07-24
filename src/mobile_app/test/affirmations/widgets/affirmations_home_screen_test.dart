@@ -23,7 +23,7 @@ void main() {
   // late PositiveAffirmationsNavigatorObserver navigatorObserver;
 
   const mockUser = PositiveAffirmationsConsts.seedUser;
-  const mockUserWithPicture = PositiveAffirmationsConsts.seedUserWithPicture;
+  // const mockUserWithPicture = PositiveAffirmationsConsts.seedUserWithPicture;
 
   final List<Affirmation> seedAffirmations = <Affirmation>[
     ...PositiveAffirmationsConsts.seedAffirmations,
@@ -123,7 +123,8 @@ void main() {
         );
       });
 
-      testWidgets('profile appbar edit action is rendered when profile tab selected',
+      testWidgets(
+          'profile appbar edit action is rendered when profile tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
         when(() => authBloc.state)

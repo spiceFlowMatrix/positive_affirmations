@@ -31,7 +31,6 @@ class App extends StatelessWidget {
             BlocProvider<ProfileBloc>(create: (_) => profileBloc!)
           else
             BlocProvider<ProfileBloc>(create: (_) => HydratedProfileBloc()),
-
           BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()),
           BlocProvider<ApptabBloc>(create: (_) => ApptabBloc()),
         ],

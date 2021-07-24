@@ -279,9 +279,9 @@ void main() {
         'valid submission workflow takes place upon repository exception',
         build: () {
           when(() => userRepository.createUser(
-            mockCreatableState.name.value,
-            mockCreatableState.nickName.value,
-          )).thenThrow(Exception('oops!'));
+                mockCreatableState.name.value,
+                mockCreatableState.nickName.value,
+              )).thenThrow(Exception('oops!'));
 
           return signUpBloc;
         },
@@ -291,9 +291,9 @@ void main() {
         },
         verify: (_) {
           verify(() => userRepository.createUser(
-            mockCreatableState.name.value,
-            mockCreatableState.nickName.value,
-          )).called(1);
+                mockCreatableState.name.value,
+                mockCreatableState.nickName.value,
+              )).called(1);
         },
         expect: () => <SignUpState>[
           mockCreatableState.copyWith(

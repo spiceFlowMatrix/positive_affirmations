@@ -190,8 +190,8 @@ void main() {
         ));
 
         expect(
-          find.byKey(PositiveAffirmationsKeys.profileLettersSubtabBody(
-              mockUser.id)),
+          find.byKey(
+              PositiveAffirmationsKeys.profileLettersSubtabBody(mockUser.id)),
           findsOneWidget,
         );
       });
