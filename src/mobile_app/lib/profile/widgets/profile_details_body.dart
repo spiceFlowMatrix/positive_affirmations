@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
+import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mobile_app/profile/blocs/profile_tab/profile_tab_bloc.dart';
@@ -296,6 +297,16 @@ class _AffirmationsTabBody extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
+                  onTap: () {
+                    final bloc = BlocProvider.of<AffirmationsBloc>(context);
+                    Navigator.of(context).pushNamed(
+                      AffirmationFormScreen.routeName,
+                      arguments: AffirmationFormScreenArguments(
+                        affirmationsBloc: bloc,
+                        toUpdateAffirmation: toRenderAffirmations[index],
+                      ),
+                    );
+                  },
                   trailing: FaIcon(
                     FontAwesomeIcons.chevronRight,
                     key:
