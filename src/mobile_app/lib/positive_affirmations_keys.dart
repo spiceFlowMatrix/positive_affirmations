@@ -127,7 +127,20 @@ class PositiveAffirmationsKeys {
   static final affirmationDetailsReaffirmButton =
       (String id) => Key('__affirmationDetailsReaffirmButton__$id');
 
+  // Profile edit screen
   static const profileEditScreen = Key('__profileEditScreen__');
+  static const profileEditScreenTitle = Key('__profileEditScreenTitle__');
+  static final profileEditForm = (String id) => Key('ProfileEditForm__$id');
+  static final profileEditNameField =
+      (String id) => Key('ProfileEditNameField__$id');
+  static final profileEditNameFieldLabel =
+      (String id) => Key('ProfileEditNameFieldLabel__$id');
+  static final profileEditNickNameField =
+      (String id) => Key('ProfileEditNickNameField__$id');
+  static final profileEditNickNameFieldLabel =
+      (String id) => Key('ProfileEditNickNameFieldLabel__$id');
+  static final profileEditSaveButton =
+      (String id) => Key('ProfileEditSaveButton__$id');
 
   // Tabs
   static const homeTab = Key('__homeTab__');
