@@ -5,6 +5,11 @@ import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:repository/repository.dart';
 
 void main() {
+  const validName = 'mockName';
+  const invalidName = 'mock-name.invalid';
+  const validNickName = 'mockNickName';
+  const invalidNickName = 'mock-invalid.nickname';
+
   late ProfileBloc profileBloc;
 
   const mockUser = PositiveAffirmationsConsts.seedUser;
@@ -42,6 +47,26 @@ void main() {
             user: User.empty.copyWith(
               name: mockUser.name,
               nickName: mockUser.nickName,
+            ),
+          ),
+        ],
+      );
+      blocTest<ProfileBloc, ProfileState>(
+        'whitespaces are sanitized',
+        build: () => profileBloc,
+        seed: () => ProfileState(user: mockUser),
+        act: (bloc) {
+          bloc
+            ..add(ProfileEdited(
+              name: '  $validName  ',
+              nickName: '  $validNickName  ',
+            ));
+        },
+        expect: () => <ProfileState>[
+          ProfileState(
+            user: mockUser.copyWith(
+              name: validName,
+              nickName: validNickName,
             ),
           ),
         ],
