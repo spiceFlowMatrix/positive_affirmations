@@ -41,6 +41,18 @@ class Reaffirmation extends Equatable {
     );
   }
 
+  Reaffirmation copyWith({
+    int? id,
+    ReaffirmationValue? value,
+    ReaffirmationGraphic? graphic,
+  }) {
+    return new Reaffirmation(
+      id: id ?? this.id,
+      value: value ?? this.value,
+      graphic: graphic ?? this.graphic,
+    );
+  }
+
   @override
   List<Object> get props => [id, value, graphic];
 }

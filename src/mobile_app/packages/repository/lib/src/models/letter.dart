@@ -58,6 +58,21 @@ class Letter extends Equatable {
         opened: json[Letter.fieldOpened] ?? empty.opened);
   }
 
+  Letter copyWith({
+    int? id,
+    Affirmation? affirmation,
+    List<Reaffirmation>? reaffirmations,
+    DateTime? createdOn,
+    bool? opened,
+  }) {
+    return Letter(
+      id: id ?? this.id,
+      affirmation: affirmation ?? this.affirmation,
+      reaffirmations: reaffirmations ?? this.reaffirmations,
+      createdOn: createdOn ?? this.createdOn,
+    );
+  }
+
   @override
   List<Object> get props =>
       [id, affirmation, reaffirmations, createdOn, opened];
