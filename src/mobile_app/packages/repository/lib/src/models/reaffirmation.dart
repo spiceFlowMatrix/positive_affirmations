@@ -43,12 +43,12 @@ class Reaffirmation extends Equatable {
     return Reaffirmation(
       id: json[Reaffirmation.fieldId] ?? empty.id,
       affirmationId: json[Reaffirmation.fieldAffirmationId] ?? empty.id,
-      createdOn: DateTime.tryParse(json[Reaffirmation.fieldCreatedOn]) ??
+      createdOn: DateTime.tryParse('${json[Reaffirmation.fieldCreatedOn]}') ??
           empty.createdOn,
-      value: json[Reaffirmation.fieldValue]
+      value: json[Reaffirmation.fieldValue] != null
           ? ReaffirmationValue.values[json[Reaffirmation.fieldValue]]
           : empty.value,
-      graphic: json[Reaffirmation.fieldGraphic]
+      graphic: json[Reaffirmation.fieldGraphic] != null
           ? ReaffirmationGraphic.values[json[Reaffirmation.fieldGraphic]]
           : empty.graphic,
     );
