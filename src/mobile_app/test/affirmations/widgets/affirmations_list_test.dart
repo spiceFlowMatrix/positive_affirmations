@@ -9,6 +9,7 @@ import 'package:mobile_app/nav_observer.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repository/repository.dart';
 
 import '../../mocks/affirmations_bloc_mock.dart';
 import '../../mocks/apptab_bloc_mock.dart';
@@ -23,7 +24,9 @@ void main() {
   late ProfileBloc profileBloc;
   late PositiveAffirmationsNavigatorObserver navigatorObserver;
 
-  final mockAffirmations = [...PositiveAffirmationsConsts.seedAffirmations];
+  final mockAffirmations = [
+    ...PositiveAffirmationsRepositoryConsts.seedAffirmations
+  ];
 
   setUpAll(() {
     registerFallbackValue<AffirmationsEvent>(FakeAffirmationsEvent());

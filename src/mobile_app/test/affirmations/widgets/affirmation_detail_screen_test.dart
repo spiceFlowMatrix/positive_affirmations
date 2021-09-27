@@ -1,17 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/consts.dart';
-import 'package:repository/src/models/affirmation.dart';
 import 'package:mobile_app/nav_observer.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repository/repository.dart';
+import 'package:repository/src/models/affirmation.dart';
 
 import '../../mocks/affirmations_bloc_mock.dart';
 import '../fixtures/affirmation_detail_screen_fixture.dart';
 
 void main() {
   final Affirmation mockAffirmation =
-      PositiveAffirmationsConsts.seedAffirmations[1];
+      PositiveAffirmationsRepositoryConsts.seedAffirmations[1];
   late AffirmationsBloc affirmationsBloc;
   late PositiveAffirmationsNavigatorObserver navigatorObserver;
 
@@ -24,7 +25,7 @@ void main() {
     affirmationsBloc = MockAffirmationsBloc();
     navigatorObserver = PositiveAffirmationsNavigatorObserver();
     when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
-        affirmations: PositiveAffirmationsConsts.seedAffirmations));
+        affirmations: PositiveAffirmationsRepositoryConsts.seedAffirmations));
   });
 
   group('[AffirmationDetailScreen]', () {

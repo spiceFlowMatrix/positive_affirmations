@@ -1,6 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:repository/repository.dart';
 
@@ -12,8 +11,9 @@ void main() {
 
   late ProfileBloc profileBloc;
 
-  const mockUser = PositiveAffirmationsConsts.seedUser;
-  const mockUserWithPicture = PositiveAffirmationsConsts.seedUserWithPicture;
+  const mockUser = PositiveAffirmationsRepositoryConsts.seedUser;
+  const mockUserWithPicture =
+      PositiveAffirmationsRepositoryConsts.seedUserWithPicture;
 
   group('[ProfileBloc]', () {
     setUp(() {

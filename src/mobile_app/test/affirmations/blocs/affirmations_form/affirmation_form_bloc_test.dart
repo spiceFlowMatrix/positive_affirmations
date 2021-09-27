@@ -5,8 +5,8 @@ import 'package:mobile_app/affirmations/blocs/affirmation_form/affirmation_form_
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/models/subtitle_field.dart';
 import 'package:mobile_app/affirmations/models/title_field.dart';
-import 'package:mobile_app/consts.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repository/repository.dart';
 
 import '../../../mocks/affirmations_bloc_mock.dart';
 
@@ -23,7 +23,8 @@ void main() {
   late AffirmationFormBloc initializedBloc;
   // late AffirmationFormBloc subtitleInitFormBloc;
 
-  final toUpdateAffirmation = PositiveAffirmationsConsts.seedAffirmations[1];
+  final toUpdateAffirmation =
+      PositiveAffirmationsRepositoryConsts.seedAffirmations[1];
 
   setUpAll(() {
     registerFallbackValue<AffirmationsState>(FakeAffirmationsState());

@@ -3,10 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
-import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repository/repository.dart';
 import 'package:repository/src/models/affirmation.dart';
 
 import '../../mocks/affirmations_bloc_mock.dart';
@@ -22,11 +22,11 @@ void main() {
   late ProfileBloc profileBloc;
   // late PositiveAffirmationsNavigatorObserver navigatorObserver;
 
-  const mockUser = PositiveAffirmationsConsts.seedUser;
+  const mockUser = PositiveAffirmationsRepositoryConsts.seedUser;
   // const mockUserWithPicture = PositiveAffirmationsConsts.seedUserWithPicture;
 
   final List<Affirmation> seedAffirmations = <Affirmation>[
-    ...PositiveAffirmationsConsts.seedAffirmations,
+    ...PositiveAffirmationsRepositoryConsts.seedAffirmations,
   ];
 
   setUpAll(() {

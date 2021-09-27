@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
+import 'package:repository/repository.dart';
 
 void main() {
-  const mockUser = PositiveAffirmationsConsts.seedUser;
+  const mockUser = PositiveAffirmationsRepositoryConsts.seedUser;
   group('[ProfileEvent]', () {
     group('supports value comparisons', () {
       test('[UserCreated]', () {

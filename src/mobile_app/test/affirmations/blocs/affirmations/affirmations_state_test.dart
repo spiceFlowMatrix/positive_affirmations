@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
-import 'package:mobile_app/consts.dart';
+import 'package:repository/repository.dart';
 
 void main() {
   group('[AffirmationsState]', () {
@@ -18,9 +18,11 @@ void main() {
           () {
         expect(
           AffirmationsState().copyWith(
-              affirmations: PositiveAffirmationsConsts.seedAffirmations),
+              affirmations:
+                  PositiveAffirmationsRepositoryConsts.seedAffirmations),
           AffirmationsState(
-              affirmations: PositiveAffirmationsConsts.seedAffirmations),
+              affirmations:
+                  PositiveAffirmationsRepositoryConsts.seedAffirmations),
         );
       });
     });

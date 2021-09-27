@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/account_setup/blocs/sign_up/sign_up_bloc.dart';
-import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/models/models.dart';
+import 'package:repository/repository.dart';
 
 void main() {
   const name = NameField.dirty('mockName');
@@ -53,9 +53,10 @@ void main() {
       test('returns object with updated createdUser when createdUser is passed',
           () {
         expect(
-          SignUpState()
-              .copyWith(createdUser: PositiveAffirmationsConsts.seedUser),
-          SignUpState(createdUser: PositiveAffirmationsConsts.seedUser),
+          SignUpState().copyWith(
+              createdUser: PositiveAffirmationsRepositoryConsts.seedUser),
+          SignUpState(
+              createdUser: PositiveAffirmationsRepositoryConsts.seedUser),
         );
       });
 

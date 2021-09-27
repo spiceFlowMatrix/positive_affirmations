@@ -7,6 +7,7 @@ import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mobile_app/profile/blocs/profile_edit/profile_edit_bloc.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repository/repository.dart';
 
 import '../../mocks/profile_bloc_mock.dart';
 import '../../mocks/profile_edit_bloc_mock.dart';
@@ -16,7 +17,7 @@ void main() {
   late ProfileEditBloc profileEditBloc;
   late ProfileBloc profileBloc;
 
-  const mockUser = PositiveAffirmationsConsts.seedUser;
+  const mockUser = PositiveAffirmationsRepositoryConsts.seedUser;
 
   const validName = 'mockName';
   const invalidName = 'mock-name.invalid';

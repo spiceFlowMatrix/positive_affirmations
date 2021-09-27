@@ -1,7 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
-import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/models/models.dart';
 import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mobile_app/profile/blocs/profile_edit/profile_edit_bloc.dart';
@@ -19,7 +18,7 @@ void main() {
   late ProfileBloc profileBloc;
   late ProfileEditBloc profileEditBloc;
 
-  final User mockUser = PositiveAffirmationsConsts.seedUser;
+  final User mockUser = PositiveAffirmationsRepositoryConsts.seedUser;
 
   group('[ProfileEditBloc]', () {
     setUpAll(() {

@@ -6,9 +6,10 @@ import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dar
 import 'package:mobile_app/affirmations/models/subtitle_field.dart';
 import 'package:mobile_app/affirmations/models/title_field.dart';
 import 'package:mobile_app/consts.dart';
-import 'package:repository/src/models/affirmation.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repository/repository.dart';
+import 'package:repository/src/models/affirmation.dart';
 
 import '../../mocks/affirmation_form_bloc_mock.dart';
 import '../../mocks/affirmations_bloc_mock.dart';
@@ -18,7 +19,7 @@ void main() {
   late AffirmationsBloc affirmationsBloc;
   late AffirmationFormBloc affirmationFormBloc;
   final Affirmation toUpdateAffirmation =
-      PositiveAffirmationsConsts.seedAffirmations[1];
+      PositiveAffirmationsRepositoryConsts.seedAffirmations[1];
 
   const String validTitleInput = 'valid title';
   const String invalidTitleInput = '!nv@l%dTitle';

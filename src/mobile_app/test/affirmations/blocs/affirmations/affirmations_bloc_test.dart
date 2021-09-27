@@ -1,10 +1,10 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
-import 'package:mobile_app/consts.dart';
-import 'package:repository/src/models/affirmation.dart';
 import 'package:mobile_app/models/machine_date_time.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repository/repository.dart';
+import 'package:repository/src/models/affirmation.dart';
 
 class MockMachineDateTime extends Mock implements MachineDateTime {}
 
@@ -22,11 +22,13 @@ void main() {
   final String updatedSubtitle = 'updatedSubtitle';
 
   setUp(() {
-    seedAffirmations = [...PositiveAffirmationsConsts.seedAffirmations];
+    seedAffirmations = [
+      ...PositiveAffirmationsRepositoryConsts.seedAffirmations
+    ];
     mockMachineTime = MockMachineDateTime();
     affirmationsBloc = AffirmationsBloc(
       time: mockMachineTime,
-      authenticatedUser: PositiveAffirmationsConsts.seedUser,
+      authenticatedUser: PositiveAffirmationsRepositoryConsts.seedUser,
     );
     mockAffirmationsLength = affirmationsBloc.state.affirmations.length;
     when(() => mockMachineTime.now).thenReturn(mockTime);
@@ -50,7 +52,7 @@ void main() {
                   id: mockAffirmationsLength + 1,
                   title: validTitle,
                   subtitle: validSubtitle,
-                  createdById: PositiveAffirmationsConsts.seedUser.id,
+                  createdById: PositiveAffirmationsRepositoryConsts.seedUser.id,
                   createdOn: mockTime,
                 ),
               ],
@@ -61,14 +63,14 @@ void main() {
                   id: mockAffirmationsLength + 1,
                   title: validTitle,
                   subtitle: validSubtitle,
-                  createdById: PositiveAffirmationsConsts.seedUser.id,
+                  createdById: PositiveAffirmationsRepositoryConsts.seedUser.id,
                   createdOn: mockTime,
                 ),
                 Affirmation(
                   id: mockAffirmationsLength + 2,
                   title: '$validTitle 2',
                   subtitle: '$validSubtitle 2',
-                  createdById: PositiveAffirmationsConsts.seedUser.id,
+                  createdById: PositiveAffirmationsRepositoryConsts.seedUser.id,
                   createdOn: mockTime,
                 ),
               ],

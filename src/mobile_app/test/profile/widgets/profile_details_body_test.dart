@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
-import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mobile_app/profile/blocs/profile_tab/profile_tab_bloc.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repository/repository.dart';
 
 import '../../mocks/affirmations_bloc_mock.dart';
 import '../../mocks/authentication_bloc_mock.dart';
@@ -14,10 +14,12 @@ import '../../mocks/profile_tab_bloc_mock.dart';
 import '../fixtures/profile_details_body_fixture.dart';
 
 void main() {
-  final mockUser = PositiveAffirmationsConsts.seedUser;
-  final mockUserWithPicture = PositiveAffirmationsConsts.seedUserWithPicture;
-  final mockAffirmations = PositiveAffirmationsConsts.seedAffirmations;
-  // final mockAffirmations = PositiveAffirmationsConsts.seedAffirmations;
+  final mockUser = PositiveAffirmationsRepositoryConsts.seedUser;
+  final mockUserWithPicture =
+      PositiveAffirmationsRepositoryConsts.seedUserWithPicture;
+  final mockAffirmations =
+      PositiveAffirmationsRepositoryConsts.seedAffirmations;
+  // final mockAffirmations = PositiveAffirmationsRepositoryConsts.seedAffirmations;
 
   late AffirmationsBloc affirmationsBloc;
   late AuthenticationBloc authBloc;
@@ -46,11 +48,12 @@ void main() {
     group('[PictureAvatar]', () {
       testWidgets('initials are rendered as label when no picture',
           (tester) async {
-        when(() => authBloc.state)
+            when(() => authBloc.state)
             .thenReturn(AuthenticationState.authenticated());
         when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
         when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
-            affirmations: PositiveAffirmationsConsts.seedAffirmations));
+            affirmations:
+                PositiveAffirmationsRepositoryConsts.seedAffirmations));
         when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
 
         await tester.pumpWidget(ProfileDetailsBodyFixture(
@@ -72,12 +75,13 @@ void main() {
       });
       testWidgets('initials are rendered as label when there is a picture',
           (tester) async {
-        when(() => authBloc.state)
+            when(() => authBloc.state)
             .thenReturn(AuthenticationState.authenticated());
         when(() => affirmationsBloc.authenticatedUser)
             .thenReturn(mockUserWithPicture);
         when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
-            affirmations: PositiveAffirmationsConsts.seedAffirmations));
+            affirmations:
+                PositiveAffirmationsRepositoryConsts.seedAffirmations));
         when(() => profileBloc.state)
             .thenReturn(ProfileState(user: mockUserWithPicture));
 

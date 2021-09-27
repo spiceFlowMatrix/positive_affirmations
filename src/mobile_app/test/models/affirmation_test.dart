@@ -1,13 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_app/consts.dart';
-import 'package:repository/src/models/affirmation.dart';
+import 'package:repository/repository.dart';
 
 void main() {
   Affirmation mockValidAffirmation = Affirmation(
     id: 0,
     title: 'testTitle',
     subtitle: 'testSubtitle',
-    createdById: PositiveAffirmationsConsts.seedUser.id,
+    createdById: PositiveAffirmationsRepositoryConsts.seedUser.id,
     createdOn: DateTime.now(),
     totalReaffirmations: 12,
     likes: 8,
