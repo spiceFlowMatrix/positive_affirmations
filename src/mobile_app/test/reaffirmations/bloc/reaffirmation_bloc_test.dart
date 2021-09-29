@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:formz/formz.dart';
 import 'package:mobile_app/reaffirmation/bloc/reaffirmation_bloc.dart';
 import 'package:mobile_app/reaffirmation/models/reaffirmation_graphic_field.dart';
 import 'package:mobile_app/reaffirmation/models/reaffirmation_value_field.dart';
@@ -25,12 +26,17 @@ void main() {
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
-              value:
-                  ReaffirmationValueField.dirty(ReaffirmationValue.goodWork)),
+            value: ReaffirmationValueField.dirty(ReaffirmationValue.goodWork),
+            submissionStatus: FormzStatus.invalid,
+          ),
           ReaffirmationState(
-              value: ReaffirmationValueField.dirty(ReaffirmationValue.empty)),
+            value: ReaffirmationValueField.dirty(ReaffirmationValue.empty),
+            submissionStatus: FormzStatus.invalid,
+          ),
           ReaffirmationState(
-              value: ReaffirmationValueField.dirty(ReaffirmationValue.braveOn))
+            value: ReaffirmationValueField.dirty(ReaffirmationValue.braveOn),
+            submissionStatus: FormzStatus.invalid,
+          )
         ],
       );
     });
@@ -46,14 +52,20 @@ void main() {
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
-              graphic:
-                  ReaffirmationGraphicField.dirty(ReaffirmationGraphic.medal)),
+            graphic:
+                ReaffirmationGraphicField.dirty(ReaffirmationGraphic.medal),
+            submissionStatus: FormzStatus.invalid,
+          ),
           ReaffirmationState(
-              graphic:
-                  ReaffirmationGraphicField.dirty(ReaffirmationGraphic.empty)),
+            graphic:
+                ReaffirmationGraphicField.dirty(ReaffirmationGraphic.empty),
+            submissionStatus: FormzStatus.invalid,
+          ),
           ReaffirmationState(
-              graphic:
-                  ReaffirmationGraphicField.dirty(ReaffirmationGraphic.takeOff))
+            graphic:
+                ReaffirmationGraphicField.dirty(ReaffirmationGraphic.takeOff),
+            submissionStatus: FormzStatus.invalid,
+          )
         ],
       );
     });
