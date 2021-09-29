@@ -23,6 +23,7 @@ void main() {
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(value: ReaffirmationValue.goodWork),
+          ReaffirmationState(value: ReaffirmationValue.empty),
           ReaffirmationState(value: ReaffirmationValue.braveOn)
         ],
       );
@@ -37,8 +38,10 @@ void main() {
             ..add(new GraphicSelected(graphic: ReaffirmationGraphic.medal))
             ..add(new GraphicSelected(graphic: ReaffirmationGraphic.takeOff));
         },
-        expect: () => <ReaffirmationState>[
+        expect: () =>
+        <ReaffirmationState>[
           ReaffirmationState(graphic: ReaffirmationGraphic.medal),
+          ReaffirmationState(graphic: ReaffirmationGraphic.empty),
           ReaffirmationState(graphic: ReaffirmationGraphic.takeOff)
         ],
       );
