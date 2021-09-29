@@ -2,18 +2,18 @@ part of 'reaffirmation_bloc.dart';
 
 class ReaffirmationState extends Equatable {
   const ReaffirmationState({
-    this.value = ReaffirmationValue.empty,
-    this.graphic = ReaffirmationGraphic.empty,
+    this.value = const ReaffirmationValueField.pure(),
+    this.graphic = const ReaffirmationGraphicField.pure(),
     this.submissionStatus = FormzStatus.pure,
   });
 
-  final ReaffirmationValue value;
-  final ReaffirmationGraphic graphic;
+  final ReaffirmationValueField value;
+  final ReaffirmationGraphicField graphic;
   final FormzStatus submissionStatus;
 
   ReaffirmationState copyWith({
-    ReaffirmationValue? value,
-    ReaffirmationGraphic? graphic,
+    ReaffirmationValueField? value,
+    ReaffirmationGraphicField? graphic,
     FormzStatus? submissionStatus,
   }) {
     return ReaffirmationState(

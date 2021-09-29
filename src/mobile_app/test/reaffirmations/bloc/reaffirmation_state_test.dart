@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mobile_app/reaffirmation/bloc/reaffirmation_bloc.dart';
+import 'package:mobile_app/reaffirmation/models/reaffirmation_graphic_field.dart';
+import 'package:mobile_app/reaffirmation/models/reaffirmation_value_field.dart';
 import 'package:repository/repository.dart';
 
 void main() {
@@ -16,15 +18,23 @@ void main() {
 
       test('returns object with updated value when [value] is passed', () {
         expect(
-          ReaffirmationState().copyWith(value: ReaffirmationValue.goodWork),
-          equals(ReaffirmationState(value: ReaffirmationValue.goodWork)),
+          ReaffirmationState().copyWith(
+              value:
+                  ReaffirmationValueField.dirty(ReaffirmationValue.goodWork)),
+          equals(ReaffirmationState(
+              value:
+                  ReaffirmationValueField.dirty(ReaffirmationValue.goodWork))),
         );
       });
 
       test('returns object with updated graphic when [graphic] is passed', () {
         expect(
-          ReaffirmationState().copyWith(graphic: ReaffirmationGraphic.thumbsUp),
-          equals(ReaffirmationState(graphic: ReaffirmationGraphic.thumbsUp)),
+          ReaffirmationState().copyWith(
+              graphic: ReaffirmationGraphicField.dirty(
+                  ReaffirmationGraphic.thumbsUp)),
+          equals(ReaffirmationState(
+              graphic: ReaffirmationGraphicField.dirty(
+                  ReaffirmationGraphic.thumbsUp))),
         );
       });
 

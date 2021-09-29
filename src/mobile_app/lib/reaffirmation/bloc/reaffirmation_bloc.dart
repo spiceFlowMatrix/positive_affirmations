@@ -1,9 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:mobile_app/reaffirmation/models/reaffirmation_graphic_field.dart';
+import 'package:mobile_app/reaffirmation/models/reaffirmation_value_field.dart';
 import 'package:repository/repository.dart';
 
 part 'reaffirmation_event.dart';
+
 part 'reaffirmation_state.dart';
 
 class ReaffirmationBloc extends Bloc<ReaffirmationEvent, ReaffirmationState> {
@@ -16,21 +19,29 @@ class ReaffirmationBloc extends Bloc<ReaffirmationEvent, ReaffirmationState> {
     ValueSelected event,
     Emitter<ReaffirmationState> emit,
   ) {
-    if (state.value == event.value) {
-      emit(state.copyWith(value: ReaffirmationValue.empty));
+    if (state.value.value == event.value) {
+      emit(state.copyWith(
+        value: ReaffirmationValueField.dirty(ReaffirmationValue.empty),
+      ));
       return;
     }
-    emit(state.copyWith(value: event.value));
+    emit(state.copyWith(
+      value: ReaffirmationValueField.dirty(event.value),
+    ));
   }
 
   void _onGraphicSelected(
     GraphicSelected event,
     Emitter<ReaffirmationState> emit,
   ) {
-    if (state.graphic == event.graphic) {
-      emit(state.copyWith(graphic: ReaffirmationGraphic.empty));
+    if (state.graphic.value == event.graphic) {
+      emit(state.copyWith(
+        graphic: ReaffirmationGraphicField.dirty(ReaffirmationGraphic.empty),
+      ));
       return;
     }
-    emit(state.copyWith(graphic: event.graphic));
+    emit(state.copyWith(
+      graphic: ReaffirmationGraphicField.dirty(event.graphic),
+    ));
   }
 }
