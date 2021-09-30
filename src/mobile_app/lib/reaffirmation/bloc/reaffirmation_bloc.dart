@@ -12,6 +12,7 @@ part 'reaffirmation_state.dart';
 class ReaffirmationBloc extends Bloc<ReaffirmationEvent, ReaffirmationState> {
   ReaffirmationBloc() : super(ReaffirmationState()) {
     on<ValueSelected>(_onValueSelected);
+    on<FontSelected>(_onFontSelected);
     on<StampSelected>(_onGraphicSelected);
   }
 
@@ -24,14 +25,33 @@ class ReaffirmationBloc extends Bloc<ReaffirmationEvent, ReaffirmationState> {
           const ReaffirmationValueField.dirty(ReaffirmationValue.empty);
       emit(state.copyWith(
         value: value,
-        submissionStatus: Formz.validate([value, state.stamp]),
+        submissionStatus: Formz.validate([value, state.font, state.stamp]),
       ));
       return;
     }
     final value = ReaffirmationValueField.dirty(event.value);
     emit(state.copyWith(
       value: value,
-      submissionStatus: Formz.validate([value, state.stamp]),
+      submissionStatus: Formz.validate([value, state.font, state.stamp]),
+    ));
+  }
+
+  void _onFontSelected(
+    FontSelected event,
+    Emitter<ReaffirmationState> emit,
+  ) {
+    if (state.font.value == event.font) {
+      final font = ReaffirmationFontField.dirty(ReaffirmationFont.none);
+      emit(state.copyWith(
+        font: font,
+        submissionStatus: Formz.validate([state.value, font, state.stamp]),
+      ));
+      return;
+    }
+    final font = ReaffirmationFontField.dirty(event.font);
+    emit(state.copyWith(
+      font: font,
+      submissionStatus: Formz.validate([state.value, font, state.stamp]),
     ));
   }
 
@@ -40,17 +60,17 @@ class ReaffirmationBloc extends Bloc<ReaffirmationEvent, ReaffirmationState> {
     Emitter<ReaffirmationState> emit,
   ) {
     if (state.stamp.value == event.stamp) {
-      final graphic = ReaffirmationStampField.dirty(ReaffirmationStamp.empty);
+      final stamp = ReaffirmationStampField.dirty(ReaffirmationStamp.empty);
       emit(state.copyWith(
-        stamp: graphic,
-        submissionStatus: Formz.validate([state.value, graphic]),
+        stamp: stamp,
+        submissionStatus: Formz.validate([state.value, state.font, stamp]),
       ));
       return;
     }
-    final graphic = ReaffirmationStampField.dirty(event.stamp);
+    final stamp = ReaffirmationStampField.dirty(event.stamp);
     emit(state.copyWith(
-      stamp: graphic,
-      submissionStatus: Formz.validate([state.value, graphic]),
+      stamp: stamp,
+      submissionStatus: Formz.validate([state.value, state.font, stamp]),
     ));
   }
 }
