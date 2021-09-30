@@ -23,7 +23,7 @@ class User extends Equatable {
   String nameInitials() {
     List<String> names = name.split(' ');
     String initials = '';
-    int numWords = 2;
+    int numWords = names.length;
 
     if (numWords < names.length) {
       numWords = names.length;
