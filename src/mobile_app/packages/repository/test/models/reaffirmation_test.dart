@@ -2,11 +2,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:repository/repository.dart';
 
 void main() {
+  final createdOn = DateTime.now();
+  createdOn.add(Duration(days: 5));
   Reaffirmation mockValidReaffirmation = Reaffirmation(
     id: 1,
     affirmationId: 1,
-    createdOn: DateTime.now(),
+    createdOn: createdOn,
     value: ReaffirmationValue.goodWork,
+    font: ReaffirmationFont.roboto,
     stamp: ReaffirmationStamp.medal,
   );
 
@@ -15,10 +18,9 @@ void main() {
     Reaffirmation.fieldAffirmationId: mockValidReaffirmation.affirmationId,
     Reaffirmation.fieldCreatedOn:
         mockValidReaffirmation.createdOn.toIso8601String(),
-    Reaffirmation.fieldValue:
-        ReaffirmationValue.values[mockValidReaffirmation.value.index].index,
-    Reaffirmation.fieldStamp:
-        ReaffirmationStamp.values[mockValidReaffirmation.stamp.index].index
+    Reaffirmation.fieldValue: mockValidReaffirmation.value.index,
+    Reaffirmation.fieldFont: mockValidReaffirmation.font.index,
+    Reaffirmation.fieldStamp: mockValidReaffirmation.stamp.index
   };
 
   group('[ReaffirmationModel]', () {
@@ -47,7 +49,7 @@ void main() {
         expect(
           Reaffirmation.fromJson({
             Reaffirmation.fieldAffirmationId:
-                mockValidReaffirmation.affirmationId
+            mockValidReaffirmation.affirmationId
           }),
           Reaffirmation.empty
               .copyWith(affirmationId: mockValidReaffirmation.affirmationId),
@@ -68,8 +70,105 @@ void main() {
 
         expect(
           Reaffirmation.fromJson(
+              {Reaffirmation.fieldFont: mockValidReaffirmation.font.index}),
+          Reaffirmation.empty.copyWith(font: mockValidReaffirmation.font),
+        );
+
+        expect(
+          Reaffirmation.fromJson(
               {Reaffirmation.fieldStamp: mockValidReaffirmation.stamp.index}),
           Reaffirmation.empty.copyWith(stamp: mockValidReaffirmation.stamp),
+        );
+      });
+    });
+
+    group('[copyWith]', () {
+      test('returns same object if no params passed', () {
+        expect(
+          Reaffirmation.empty.copyWith(),
+          equals(Reaffirmation.empty),
+        );
+      });
+      test('returns object with updated id if id is passed', () {
+        expect(
+          Reaffirmation.empty.copyWith(id: mockValidReaffirmation.id),
+          equals(Reaffirmation(
+            id: mockValidReaffirmation.id,
+            affirmationId: Reaffirmation.empty.affirmationId,
+            value: Reaffirmation.empty.value,
+            createdOn: Reaffirmation.empty.createdOn,
+            font: Reaffirmation.empty.font,
+            stamp: Reaffirmation.empty.stamp,
+          )),
+        );
+      });
+      test(
+          'returns object with updated affirmationId if affirmationId is passed',
+          () {
+        expect(
+          Reaffirmation.empty
+              .copyWith(affirmationId: mockValidReaffirmation.affirmationId),
+          equals(Reaffirmation(
+            id: Reaffirmation.empty.id,
+            affirmationId: mockValidReaffirmation.affirmationId,
+            value: Reaffirmation.empty.value,
+            createdOn: Reaffirmation.empty.createdOn,
+            font: Reaffirmation.empty.font,
+            stamp: Reaffirmation.empty.stamp,
+          )),
+        );
+      });
+      test('returns object with updated value if value is passed', () {
+        expect(
+          Reaffirmation.empty.copyWith(value: mockValidReaffirmation.value),
+          equals(Reaffirmation(
+            id: Reaffirmation.empty.id,
+            affirmationId: Reaffirmation.empty.affirmationId,
+            value: mockValidReaffirmation.value,
+            createdOn: Reaffirmation.empty.createdOn,
+            font: Reaffirmation.empty.font,
+            stamp: Reaffirmation.empty.stamp,
+          )),
+        );
+      });
+      test('returns object with updated createdOn if createdOn is passed', () {
+        expect(
+          Reaffirmation.empty
+              .copyWith(createdOn: mockValidReaffirmation.createdOn),
+          equals(Reaffirmation(
+            id: Reaffirmation.empty.id,
+            affirmationId: Reaffirmation.empty.affirmationId,
+            value: Reaffirmation.empty.value,
+            createdOn: mockValidReaffirmation.createdOn,
+            font: Reaffirmation.empty.font,
+            stamp: Reaffirmation.empty.stamp,
+          )),
+        );
+      });
+      test('returns object with updated font if font is passed', () {
+        expect(
+          Reaffirmation.empty.copyWith(font: mockValidReaffirmation.font),
+          equals(Reaffirmation(
+            id: Reaffirmation.empty.id,
+            affirmationId: Reaffirmation.empty.affirmationId,
+            value: Reaffirmation.empty.value,
+            createdOn: Reaffirmation.empty.createdOn,
+            font: mockValidReaffirmation.font,
+            stamp: Reaffirmation.empty.stamp,
+          )),
+        );
+      });
+      test('returns object with updated stamp if stamp is passed', () {
+        expect(
+          Reaffirmation.empty.copyWith(stamp: mockValidReaffirmation.stamp),
+          equals(Reaffirmation(
+            id: Reaffirmation.empty.id,
+            affirmationId: Reaffirmation.empty.affirmationId,
+            value: Reaffirmation.empty.value,
+            createdOn: Reaffirmation.empty.createdOn,
+            font: Reaffirmation.empty.font,
+            stamp: mockValidReaffirmation.stamp,
+          )),
         );
       });
     });
