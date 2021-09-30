@@ -22,7 +22,6 @@ void main() {
         act: (bloc) {
           bloc
             ..add(new ValueSelected(value: ReaffirmationValue.goodWork))
-            ..add(new ValueSelected(value: ReaffirmationValue.goodWork))
             ..add(new ValueSelected(value: ReaffirmationValue.braveOn));
         },
         expect: () => <ReaffirmationState>[
@@ -31,11 +30,26 @@ void main() {
             submissionStatus: FormzStatus.invalid,
           ),
           ReaffirmationState(
-            value: ReaffirmationValueField.dirty(ReaffirmationValue.empty),
+            value: ReaffirmationValueField.dirty(ReaffirmationValue.braveOn),
+            submissionStatus: FormzStatus.invalid,
+          )
+        ],
+      );
+      blocTest<ReaffirmationBloc, ReaffirmationState>(
+        'emits [empty] value when same value submitted',
+        build: () => reaffirmationBloc,
+        act: (bloc) {
+          bloc
+            ..add(new ValueSelected(value: ReaffirmationValue.goodWork))
+            ..add(new ValueSelected(value: ReaffirmationValue.goodWork));
+        },
+        expect: () => <ReaffirmationState>[
+          ReaffirmationState(
+            value: ReaffirmationValueField.dirty(ReaffirmationValue.goodWork),
             submissionStatus: FormzStatus.invalid,
           ),
           ReaffirmationState(
-            value: ReaffirmationValueField.dirty(ReaffirmationValue.braveOn),
+            value: ReaffirmationValueField.dirty(ReaffirmationValue.empty),
             submissionStatus: FormzStatus.invalid,
           )
         ],
@@ -88,7 +102,6 @@ void main() {
         act: (bloc) {
           bloc
             ..add(new StampSelected(stamp: ReaffirmationStamp.medal))
-            ..add(new StampSelected(stamp: ReaffirmationStamp.medal))
             ..add(new StampSelected(stamp: ReaffirmationStamp.takeOff));
         },
         expect: () => <ReaffirmationState>[
@@ -97,11 +110,26 @@ void main() {
             submissionStatus: FormzStatus.invalid,
           ),
           ReaffirmationState(
-            stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.empty),
+            stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.takeOff),
+            submissionStatus: FormzStatus.invalid,
+          )
+        ],
+      );
+      blocTest<ReaffirmationBloc, ReaffirmationState>(
+        'emits [empty] stamp when same stamp submitted',
+        build: () => reaffirmationBloc,
+        act: (bloc) {
+          bloc
+            ..add(new StampSelected(stamp: ReaffirmationStamp.medal))
+            ..add(new StampSelected(stamp: ReaffirmationStamp.medal));
+        },
+        expect: () => <ReaffirmationState>[
+          ReaffirmationState(
+            stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.medal),
             submissionStatus: FormzStatus.invalid,
           ),
           ReaffirmationState(
-            stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.takeOff),
+            stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.empty),
             submissionStatus: FormzStatus.invalid,
           )
         ],
