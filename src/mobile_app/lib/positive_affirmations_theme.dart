@@ -14,7 +14,6 @@ class PositiveAffirmationsTheme {
 
     return themeData.copyWith(
       highlightColor: highlightColor,
-      accentColor: Colors.red,
       primaryColor: highlightColor,
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(),
@@ -49,8 +48,8 @@ class PositiveAffirmationsTheme {
         backgroundColor: Colors.white,
         titleTextStyle: TextStyle(
           color: Colors.black,
-          backgroundColor: Colors.black,
-          fontSize: 60,
+          fontWeight: FontWeight.w500,
+          fontSize: 23,
         ),
         iconTheme: IconThemeData(color: Colors.black),
       ),
