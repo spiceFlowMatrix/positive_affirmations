@@ -69,5 +69,56 @@ void main() {
         ],
       );
     });
+    group('[Validation]', () {
+      blocTest<ReaffirmationBloc, ReaffirmationState>(
+        'submission status is invalid if only value is selected',
+        build: () => reaffirmationBloc,
+        act: (bloc) {
+          bloc..add(new ValueSelected(value: ReaffirmationValue.goodWork));
+        },
+        expect: () => <ReaffirmationState>[
+          ReaffirmationState(
+            value: ReaffirmationValueField.dirty(ReaffirmationValue.goodWork),
+            submissionStatus: FormzStatus.invalid,
+          )
+        ],
+      );
+      blocTest<ReaffirmationBloc, ReaffirmationState>(
+        'submission status is invalid if only graphic is selected',
+        build: () => reaffirmationBloc,
+        act: (bloc) {
+          bloc..add(new GraphicSelected(graphic: ReaffirmationGraphic.medal));
+        },
+        expect: () => <ReaffirmationState>[
+          ReaffirmationState(
+            graphic:
+                ReaffirmationGraphicField.dirty(ReaffirmationGraphic.medal),
+            submissionStatus: FormzStatus.invalid,
+          )
+        ],
+      );
+      blocTest<ReaffirmationBloc, ReaffirmationState>(
+        'submission status is valid if graphic and value are selected',
+        build: () => reaffirmationBloc,
+        act: (bloc) {
+          bloc
+            ..add(new GraphicSelected(graphic: ReaffirmationGraphic.medal))
+            ..add(new ValueSelected(value: ReaffirmationValue.goodWork));
+        },
+        expect: () => <ReaffirmationState>[
+          ReaffirmationState(
+            graphic:
+                ReaffirmationGraphicField.dirty(ReaffirmationGraphic.medal),
+            submissionStatus: FormzStatus.invalid,
+          ),
+          ReaffirmationState(
+            graphic:
+                ReaffirmationGraphicField.dirty(ReaffirmationGraphic.medal),
+            value: ReaffirmationValueField.dirty(ReaffirmationValue.goodWork),
+            submissionStatus: FormzStatus.valid,
+          )
+        ],
+      );
+    });
   });
 }
