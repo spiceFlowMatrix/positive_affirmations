@@ -5,7 +5,7 @@ abstract class ReaffirmationEvent extends Equatable {
 }
 
 class ValueSelected extends ReaffirmationEvent {
-  ValueSelected({required this.value});
+  const ValueSelected({required this.value});
 
   final ReaffirmationValue value;
 
@@ -14,7 +14,7 @@ class ValueSelected extends ReaffirmationEvent {
 }
 
 class GraphicSelected extends ReaffirmationEvent {
-  GraphicSelected({required this.graphic});
+  const GraphicSelected({required this.graphic});
 
   final ReaffirmationGraphic graphic;
 

@@ -6,7 +6,6 @@ import 'package:mobile_app/reaffirmation/models/reaffirmation_value_field.dart';
 import 'package:repository/repository.dart';
 
 part 'reaffirmation_event.dart';
-
 part 'reaffirmation_state.dart';
 
 class ReaffirmationBloc extends Bloc<ReaffirmationEvent, ReaffirmationState> {
@@ -20,13 +19,18 @@ class ReaffirmationBloc extends Bloc<ReaffirmationEvent, ReaffirmationState> {
     Emitter<ReaffirmationState> emit,
   ) {
     if (state.value.value == event.value) {
+      const value =
+          const ReaffirmationValueField.dirty(ReaffirmationValue.empty);
       emit(state.copyWith(
-        value: ReaffirmationValueField.dirty(ReaffirmationValue.empty),
+        value: value,
+        submissionStatus: Formz.validate([value, state.graphic]),
       ));
       return;
     }
+    final value = ReaffirmationValueField.dirty(event.value);
     emit(state.copyWith(
-      value: ReaffirmationValueField.dirty(event.value),
+      value: value,
+      submissionStatus: Formz.validate([value, state.graphic]),
     ));
   }
 
@@ -35,13 +39,18 @@ class ReaffirmationBloc extends Bloc<ReaffirmationEvent, ReaffirmationState> {
     Emitter<ReaffirmationState> emit,
   ) {
     if (state.graphic.value == event.graphic) {
+      final graphic =
+          ReaffirmationGraphicField.dirty(ReaffirmationGraphic.empty);
       emit(state.copyWith(
-        graphic: ReaffirmationGraphicField.dirty(ReaffirmationGraphic.empty),
+        graphic: graphic,
+        submissionStatus: Formz.validate([state.value, graphic]),
       ));
       return;
     }
+    final graphic = ReaffirmationGraphicField.dirty(event.graphic);
     emit(state.copyWith(
-      graphic: ReaffirmationGraphicField.dirty(event.graphic),
+      graphic: graphic,
+      submissionStatus: Formz.validate([state.value, graphic]),
     ));
   }
 }
