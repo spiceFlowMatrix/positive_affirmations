@@ -147,6 +147,47 @@ class PositiveAffirmationsKeys {
   static final profileEditSaveButton =
       (String id) => Key('ProfileEditSaveButton__$id');
 
+  // Affirmation form screen
+  static const reaffirmationFormScreen = Key('__reaffirmationFormScreen__');
+  static const reaffirmationFormScreenTitle =
+      Key('__reaffirmationFormScreenTitle__');
+  static const reaffirmationFormScreenBackButton =
+      Key('__reaffirmationFormScreenBackButton__');
+  static const reaffirmationFormPreviewPanel =
+      Key('__reaffirmationFormPreviewPanel__');
+  static const reaffirmationFormPreviewPanelEmptyLabel =
+      Key('__reaffirmationFormPreviewPanelEmptyLabel__');
+  static const reaffirmationFormPreviewPanelSubmitButton =
+      Key('__reaffirmationFormPreviewPanelSubmitButton__');
+  static const reaffirmationFormPreviewPanelSelectedNote =
+      Key('__reaffirmationFormPreviewPanelSelectedNote__');
+  static const reaffirmationFormPreviewPanelSelectedStamp =
+      Key('__reaffirmationFormPreviewPanelSelectedStamp__');
+  static const reaffirmationFormNoteTab =
+      const Key('__reaffirmationFormNoteTab__');
+  static const reaffirmationFormFontTab =
+      const Key('__reaffirmationFormFontTab__');
+  static const reaffirmationFormStampTab =
+      const Key('__reaffirmationFormStampTab__');
+  static const reaffirmationFormNoteTabBody =
+      const Key('__reaffirmationFormNoteTabBody__');
+  static const reaffirmationFormFontTabBody =
+      const Key('__reaffirmationFormFontTabBody__');
+  static const reaffirmationFormStampTabBody =
+      const Key('reaffirmationFormStampTabBody__');
+  static const reaffirmationFormNoteTabBodyList =
+      const Key('__reaffirmationFormNoteTabBodyList__');
+  static final reaffirmationFormNoteTabBodyListItem =
+      (int id) => Key('__reaffirmationFormNoteTabBodyListItem__$id');
+  static const reaffirmationFormFontTabBodyList =
+      const Key('__reaffirmationFormFontTabBodyList__');
+  static final reaffirmationFormFontTabBodyListItem =
+      (int id) => Key('__reaffirmationFormFontTabBodyListItem__$id');
+  static const reaffirmationFormStampTabBodyList =
+      const Key('__reaffirmationFormStampTabBodyList__');
+  static final reaffirmationFormStampTabBodyListItem =
+      (int id) => Key('__reaffirmationFormStampTabBodyListItem__$id');
+
   // Tabs
   static const homeTab = Key('__homeTab__');
   static const homeTabLabel = Key('__homeTabLabel__');
