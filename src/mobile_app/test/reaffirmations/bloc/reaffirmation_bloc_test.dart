@@ -15,6 +15,33 @@ void main() {
   });
 
   group('[ReaffirmationBloc]', () {
+    group('[TabUpdated]', () {
+      blocTest<ReaffirmationBloc, ReaffirmationState>(
+        'emits new tab when new tab is submitted',
+        build: () => reaffirmationBloc,
+        act: (bloc) {
+          bloc
+            ..add(const TabUpdated(tab: ReaffirmationFormTab.stamp))
+            ..add(const TabUpdated(tab: ReaffirmationFormTab.font));
+        },
+        expect: () => <ReaffirmationState>[
+          const ReaffirmationState(tab: ReaffirmationFormTab.stamp),
+          const ReaffirmationState(tab: ReaffirmationFormTab.font),
+        ],
+      );
+      blocTest<ReaffirmationBloc, ReaffirmationState>(
+        'does not emit when same tab is submitted',
+        build: () => reaffirmationBloc,
+        act: (bloc) {
+          bloc
+            ..add(const TabUpdated(tab: ReaffirmationFormTab.stamp))
+            ..add(const TabUpdated(tab: ReaffirmationFormTab.stamp));
+        },
+        expect: () => <ReaffirmationState>[
+          const ReaffirmationState(tab: ReaffirmationFormTab.stamp),
+        ],
+      );
+    });
     group('[ValueSelected]', () {
       blocTest<ReaffirmationBloc, ReaffirmationState>(
         'emits updated value when new value submitted',
@@ -39,9 +66,7 @@ void main() {
         'emits [empty] value when same value submitted',
         build: () => reaffirmationBloc,
         act: (bloc) {
-          bloc
-            ..add(new ValueSelected(value: ReaffirmationValue.goodWork))
-            ..add(new ValueSelected(value: ReaffirmationValue.goodWork));
+          bloc..add(new ValueSelected(value: ReaffirmationValue.goodWork))..add(new ValueSelected(value: ReaffirmationValue.goodWork));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
@@ -60,9 +85,7 @@ void main() {
         'emits updated font when new font submitted',
         build: () => reaffirmationBloc,
         act: (bloc) {
-          bloc
-            ..add(new FontSelected(font: ReaffirmationFont.bonheurRoyale))
-            ..add(new FontSelected(font: ReaffirmationFont.birthstone));
+          bloc..add(new FontSelected(font: ReaffirmationFont.bonheurRoyale))..add(new FontSelected(font: ReaffirmationFont.birthstone));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
@@ -79,9 +102,7 @@ void main() {
         'emits [none] font when same font submitted',
         build: () => reaffirmationBloc,
         act: (bloc) {
-          bloc
-            ..add(new FontSelected(font: ReaffirmationFont.bonheurRoyale))
-            ..add(new FontSelected(font: ReaffirmationFont.bonheurRoyale));
+          bloc..add(new FontSelected(font: ReaffirmationFont.bonheurRoyale))..add(new FontSelected(font: ReaffirmationFont.bonheurRoyale));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
@@ -100,9 +121,7 @@ void main() {
         'emits updated stamp when new stamp submitted',
         build: () => reaffirmationBloc,
         act: (bloc) {
-          bloc
-            ..add(new StampSelected(stamp: ReaffirmationStamp.medal))
-            ..add(new StampSelected(stamp: ReaffirmationStamp.takeOff));
+          bloc..add(new StampSelected(stamp: ReaffirmationStamp.medal))..add(new StampSelected(stamp: ReaffirmationStamp.takeOff));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
@@ -119,9 +138,7 @@ void main() {
         'emits [empty] stamp when same stamp submitted',
         build: () => reaffirmationBloc,
         act: (bloc) {
-          bloc
-            ..add(new StampSelected(stamp: ReaffirmationStamp.medal))
-            ..add(new StampSelected(stamp: ReaffirmationStamp.medal));
+          bloc..add(new StampSelected(stamp: ReaffirmationStamp.medal))..add(new StampSelected(stamp: ReaffirmationStamp.medal));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
@@ -179,10 +196,7 @@ void main() {
         'submission status is valid if stamp, font, and value are selected',
         build: () => reaffirmationBloc,
         act: (bloc) {
-          bloc
-            ..add(new StampSelected(stamp: ReaffirmationStamp.medal))
-            ..add(new FontSelected(font: ReaffirmationFont.bonheurRoyale))
-            ..add(new ValueSelected(value: ReaffirmationValue.goodWork));
+          bloc..add(new StampSelected(stamp: ReaffirmationStamp.medal))..add(new FontSelected(font: ReaffirmationFont.bonheurRoyale))..add(new ValueSelected(value: ReaffirmationValue.goodWork));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
