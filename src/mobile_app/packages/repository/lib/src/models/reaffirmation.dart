@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 enum ReaffirmationValue { empty, braveOn, loveIt, goodWork }
-enum ReaffirmationGraphic { empty, takeOff, medal, thumbsUp }
+enum ReaffirmationStamp { empty, takeOff, medal, thumbsUp }
 
 class Reaffirmation extends Equatable {
   Reaffirmation({
@@ -9,26 +9,26 @@ class Reaffirmation extends Equatable {
     required this.affirmationId,
     required this.createdOn,
     required this.value,
-    required this.graphic,
+    required this.stamp,
   });
 
   final int id;
   final int affirmationId;
   final DateTime createdOn;
   final ReaffirmationValue value;
-  final ReaffirmationGraphic graphic;
+  final ReaffirmationStamp stamp;
   static const String fieldId = 'id';
   static const String fieldAffirmationId = 'affirmationId';
   static const String fieldCreatedOn = 'createdOn';
   static const String fieldValue = 'value';
-  static const String fieldGraphic = 'graphic';
+  static const String fieldStamp = 'stamp';
 
   static final empty = Reaffirmation(
     id: 0,
     affirmationId: 0,
     createdOn: DateTime(0),
     value: ReaffirmationValue.empty,
-    graphic: ReaffirmationGraphic.empty,
+    stamp: ReaffirmationStamp.empty,
   );
 
   Map<String, dynamic> get fieldValues => {
@@ -36,7 +36,7 @@ class Reaffirmation extends Equatable {
         fieldAffirmationId: this.affirmationId,
         fieldCreatedOn: this.createdOn.toIso8601String(),
         fieldValue: this.value.index,
-        fieldGraphic: this.graphic.index,
+        fieldStamp: this.stamp.index,
       };
 
   static Reaffirmation fromJson(Map<String, dynamic> json) {
@@ -48,9 +48,9 @@ class Reaffirmation extends Equatable {
       value: json[Reaffirmation.fieldValue] != null
           ? ReaffirmationValue.values[json[Reaffirmation.fieldValue]]
           : empty.value,
-      graphic: json[Reaffirmation.fieldGraphic] != null
-          ? ReaffirmationGraphic.values[json[Reaffirmation.fieldGraphic]]
-          : empty.graphic,
+      stamp: json[Reaffirmation.fieldStamp] != null
+          ? ReaffirmationStamp.values[json[Reaffirmation.fieldStamp]]
+          : empty.stamp,
     );
   }
 
@@ -59,17 +59,17 @@ class Reaffirmation extends Equatable {
     int? affirmationId,
     DateTime? createdOn,
     ReaffirmationValue? value,
-    ReaffirmationGraphic? graphic,
+    ReaffirmationStamp? stamp,
   }) {
     return new Reaffirmation(
       id: id ?? this.id,
       affirmationId: affirmationId ?? this.affirmationId,
       createdOn: createdOn ?? this.createdOn,
       value: value ?? this.value,
-      graphic: graphic ?? this.graphic,
+      stamp: stamp ?? this.stamp,
     );
   }
 
   @override
-  List<Object> get props => [id, affirmationId, createdOn, value, graphic];
+  List<Object> get props => [id, affirmationId, createdOn, value, stamp];
 }

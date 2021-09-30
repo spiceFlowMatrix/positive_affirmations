@@ -1,21 +1,19 @@
 import 'package:formz/formz.dart';
 import 'package:repository/repository.dart';
 
-enum ReaffirmationGraphicFieldValidationError { empty, invalid }
+enum ReaffirmationStampFieldValidationError { empty, invalid }
 
-class ReaffirmationGraphicField extends FormzInput<ReaffirmationGraphic,
-    ReaffirmationGraphicFieldValidationError> {
-  const ReaffirmationGraphicField.pure()
-      : super.pure(ReaffirmationGraphic.empty);
+class ReaffirmationStampField extends FormzInput<ReaffirmationStamp,
+    ReaffirmationStampFieldValidationError> {
+  const ReaffirmationStampField.pure() : super.pure(ReaffirmationStamp.empty);
 
-  const ReaffirmationGraphicField.dirty(
-      [ReaffirmationGraphic value = ReaffirmationGraphic.empty])
+  const ReaffirmationStampField.dirty(
+      [ReaffirmationStamp value = ReaffirmationStamp.empty])
       : super.dirty(value);
 
   @override
-  ReaffirmationGraphicFieldValidationError? validator(
-      ReaffirmationGraphic value) {
-    if (value == ReaffirmationGraphic.empty)
-      return ReaffirmationGraphicFieldValidationError.empty;
+  ReaffirmationStampFieldValidationError? validator(ReaffirmationStamp value) {
+    if (value == ReaffirmationStamp.empty)
+      return ReaffirmationStampFieldValidationError.empty;
   }
 }

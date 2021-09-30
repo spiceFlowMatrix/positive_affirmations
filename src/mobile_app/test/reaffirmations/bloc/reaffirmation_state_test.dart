@@ -30,11 +30,11 @@ void main() {
       test('returns object with updated graphic when [graphic] is passed', () {
         expect(
           ReaffirmationState().copyWith(
-              graphic: ReaffirmationGraphicField.dirty(
-                  ReaffirmationGraphic.thumbsUp)),
+              stamp:
+                  ReaffirmationStampField.dirty(ReaffirmationStamp.thumbsUp)),
           equals(ReaffirmationState(
-              graphic: ReaffirmationGraphicField.dirty(
-                  ReaffirmationGraphic.thumbsUp))),
+              stamp:
+                  ReaffirmationStampField.dirty(ReaffirmationStamp.thumbsUp))),
         );
       });
 

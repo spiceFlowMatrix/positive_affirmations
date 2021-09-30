@@ -11,7 +11,7 @@ part 'reaffirmation_state.dart';
 class ReaffirmationBloc extends Bloc<ReaffirmationEvent, ReaffirmationState> {
   ReaffirmationBloc() : super(ReaffirmationState()) {
     on<ValueSelected>(_onValueSelected);
-    on<GraphicSelected>(_onGraphicSelected);
+    on<StampSelected>(_onGraphicSelected);
   }
 
   void _onValueSelected(
@@ -23,33 +23,32 @@ class ReaffirmationBloc extends Bloc<ReaffirmationEvent, ReaffirmationState> {
           const ReaffirmationValueField.dirty(ReaffirmationValue.empty);
       emit(state.copyWith(
         value: value,
-        submissionStatus: Formz.validate([value, state.graphic]),
+        submissionStatus: Formz.validate([value, state.stamp]),
       ));
       return;
     }
     final value = ReaffirmationValueField.dirty(event.value);
     emit(state.copyWith(
       value: value,
-      submissionStatus: Formz.validate([value, state.graphic]),
+      submissionStatus: Formz.validate([value, state.stamp]),
     ));
   }
 
   void _onGraphicSelected(
-    GraphicSelected event,
+    StampSelected event,
     Emitter<ReaffirmationState> emit,
   ) {
-    if (state.graphic.value == event.graphic) {
-      final graphic =
-          ReaffirmationGraphicField.dirty(ReaffirmationGraphic.empty);
+    if (state.stamp.value == event.stamp) {
+      final graphic = ReaffirmationStampField.dirty(ReaffirmationStamp.empty);
       emit(state.copyWith(
-        graphic: graphic,
+        stamp: graphic,
         submissionStatus: Formz.validate([state.value, graphic]),
       ));
       return;
     }
-    final graphic = ReaffirmationGraphicField.dirty(event.graphic);
+    final graphic = ReaffirmationStampField.dirty(event.stamp);
     emit(state.copyWith(
-      graphic: graphic,
+      stamp: graphic,
       submissionStatus: Formz.validate([state.value, graphic]),
     ));
   }

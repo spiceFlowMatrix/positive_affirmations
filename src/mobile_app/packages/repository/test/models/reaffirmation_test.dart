@@ -7,7 +7,7 @@ void main() {
     affirmationId: 1,
     createdOn: DateTime.now(),
     value: ReaffirmationValue.goodWork,
-    graphic: ReaffirmationGraphic.medal,
+    stamp: ReaffirmationStamp.medal,
   );
 
   Map<String, dynamic> mockValidReaffirmationsJson = {
@@ -17,8 +17,8 @@ void main() {
         mockValidReaffirmation.createdOn.toIso8601String(),
     Reaffirmation.fieldValue:
         ReaffirmationValue.values[mockValidReaffirmation.value.index].index,
-    Reaffirmation.fieldGraphic:
-        ReaffirmationGraphic.values[mockValidReaffirmation.graphic.index].index
+    Reaffirmation.fieldStamp:
+        ReaffirmationStamp.values[mockValidReaffirmation.stamp.index].index
   };
 
   group('[ReaffirmationModel]', () {
@@ -67,10 +67,9 @@ void main() {
         );
 
         expect(
-          Reaffirmation.fromJson({
-            Reaffirmation.fieldGraphic: mockValidReaffirmation.graphic.index
-          }),
-          Reaffirmation.empty.copyWith(graphic: mockValidReaffirmation.graphic),
+          Reaffirmation.fromJson(
+              {Reaffirmation.fieldStamp: mockValidReaffirmation.stamp.index}),
+          Reaffirmation.empty.copyWith(stamp: mockValidReaffirmation.stamp),
         );
       });
     });

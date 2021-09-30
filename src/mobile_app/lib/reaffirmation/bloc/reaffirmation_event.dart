@@ -13,13 +13,13 @@ class ValueSelected extends ReaffirmationEvent {
   List<Object> get props => [value];
 }
 
-class GraphicSelected extends ReaffirmationEvent {
-  const GraphicSelected({required this.graphic});
+class StampSelected extends ReaffirmationEvent {
+  const StampSelected({required this.stamp});
 
-  final ReaffirmationGraphic graphic;
+  final ReaffirmationStamp stamp;
 
   @override
-  List<Object> get props => [graphic];
+  List<Object> get props => [stamp];
 }
 
 class ReaffirmationSubmitted extends ReaffirmationEvent {

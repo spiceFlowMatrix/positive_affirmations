@@ -40,30 +40,27 @@ void main() {
         ],
       );
     });
-    group('[GraphicSelected]', () {
+    group('[StampSelected]', () {
       blocTest<ReaffirmationBloc, ReaffirmationState>(
-        'emits updated graphic when new graphic submitted',
+        'emits updated stamp when new stamp submitted',
         build: () => reaffirmationBloc,
         act: (bloc) {
           bloc
-            ..add(new GraphicSelected(graphic: ReaffirmationGraphic.medal))
-            ..add(new GraphicSelected(graphic: ReaffirmationGraphic.medal))
-            ..add(new GraphicSelected(graphic: ReaffirmationGraphic.takeOff));
+            ..add(new StampSelected(stamp: ReaffirmationStamp.medal))
+            ..add(new StampSelected(stamp: ReaffirmationStamp.medal))
+            ..add(new StampSelected(stamp: ReaffirmationStamp.takeOff));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
-            graphic:
-                ReaffirmationGraphicField.dirty(ReaffirmationGraphic.medal),
+            stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.medal),
             submissionStatus: FormzStatus.invalid,
           ),
           ReaffirmationState(
-            graphic:
-                ReaffirmationGraphicField.dirty(ReaffirmationGraphic.empty),
+            stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.empty),
             submissionStatus: FormzStatus.invalid,
           ),
           ReaffirmationState(
-            graphic:
-                ReaffirmationGraphicField.dirty(ReaffirmationGraphic.takeOff),
+            stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.takeOff),
             submissionStatus: FormzStatus.invalid,
           )
         ],
@@ -84,36 +81,33 @@ void main() {
         ],
       );
       blocTest<ReaffirmationBloc, ReaffirmationState>(
-        'submission status is invalid if only graphic is selected',
+        'submission status is invalid if only stamp is selected',
         build: () => reaffirmationBloc,
         act: (bloc) {
-          bloc..add(new GraphicSelected(graphic: ReaffirmationGraphic.medal));
+          bloc..add(new StampSelected(stamp: ReaffirmationStamp.medal));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
-            graphic:
-                ReaffirmationGraphicField.dirty(ReaffirmationGraphic.medal),
+            stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.medal),
             submissionStatus: FormzStatus.invalid,
           )
         ],
       );
       blocTest<ReaffirmationBloc, ReaffirmationState>(
-        'submission status is valid if graphic and value are selected',
+        'submission status is valid if stamp and value are selected',
         build: () => reaffirmationBloc,
         act: (bloc) {
           bloc
-            ..add(new GraphicSelected(graphic: ReaffirmationGraphic.medal))
+            ..add(new StampSelected(stamp: ReaffirmationStamp.medal))
             ..add(new ValueSelected(value: ReaffirmationValue.goodWork));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
-            graphic:
-                ReaffirmationGraphicField.dirty(ReaffirmationGraphic.medal),
+            stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.medal),
             submissionStatus: FormzStatus.invalid,
           ),
           ReaffirmationState(
-            graphic:
-                ReaffirmationGraphicField.dirty(ReaffirmationGraphic.medal),
+            stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.medal),
             value: ReaffirmationValueField.dirty(ReaffirmationValue.goodWork),
             submissionStatus: FormzStatus.valid,
           )

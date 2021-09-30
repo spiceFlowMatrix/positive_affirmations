@@ -15,8 +15,8 @@ void main() {
     group('[GraphicSelected]', () {
       test('supports value comparisons', () {
         expect(
-          GraphicSelected(graphic: ReaffirmationGraphic.medal),
-          equals(GraphicSelected(graphic: ReaffirmationGraphic.medal)),
+          StampSelected(stamp: ReaffirmationStamp.medal),
+          equals(StampSelected(stamp: ReaffirmationStamp.medal)),
         );
       });
     });
