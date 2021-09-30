@@ -4,6 +4,14 @@ import 'package:repository/repository.dart';
 
 void main() {
   group('[ReaffirmationEvent]', () {
+    group('[TabUpdated]', () {
+      test('supports value comparisons', () {
+        expect(
+          TabUpdated(tab: ReaffirmationFormTab.note),
+          equals(TabUpdated(tab: ReaffirmationFormTab.note)),
+        );
+      });
+    });
     group('[ValueSelected]', () {
       test('supports value comparisons', () {
         expect(
@@ -12,7 +20,15 @@ void main() {
         );
       });
     });
-    group('[GraphicSelected]', () {
+    group('[FontSelected]', () {
+      test('supports value comparisons', () {
+        expect(
+          FontSelected(font: ReaffirmationFont.birthstone),
+          equals(FontSelected(font: ReaffirmationFont.birthstone)),
+        );
+      });
+    });
+    group('[StampSelected]', () {
       test('supports value comparisons', () {
         expect(
           StampSelected(stamp: ReaffirmationStamp.medal),
