@@ -5,10 +5,6 @@ enum ReaffirmationStamp { empty, takeOff, medal, thumbsUp }
 enum ReaffirmationFont {
   none,
   birthstone,
-  explora,
-  bonheurRoyale,
-  ephesis,
-  roboto,
   gemunuLibre,
   montserrat
 }

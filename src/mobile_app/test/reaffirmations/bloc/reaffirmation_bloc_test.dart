@@ -66,7 +66,9 @@ void main() {
         'emits [empty] value when same value submitted',
         build: () => reaffirmationBloc,
         act: (bloc) {
-          bloc..add(new ValueSelected(value: ReaffirmationValue.goodWork))..add(new ValueSelected(value: ReaffirmationValue.goodWork));
+          bloc
+            ..add(new ValueSelected(value: ReaffirmationValue.goodWork))
+            ..add(new ValueSelected(value: ReaffirmationValue.goodWork));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
@@ -85,11 +87,13 @@ void main() {
         'emits updated font when new font submitted',
         build: () => reaffirmationBloc,
         act: (bloc) {
-          bloc..add(new FontSelected(font: ReaffirmationFont.bonheurRoyale))..add(new FontSelected(font: ReaffirmationFont.birthstone));
+          bloc
+            ..add(new FontSelected(font: ReaffirmationFont.montserrat))
+            ..add(new FontSelected(font: ReaffirmationFont.birthstone));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
-            font: ReaffirmationFontField.dirty(ReaffirmationFont.bonheurRoyale),
+            font: ReaffirmationFontField.dirty(ReaffirmationFont.montserrat),
             submissionStatus: FormzStatus.invalid,
           ),
           ReaffirmationState(
@@ -102,11 +106,13 @@ void main() {
         'emits [none] font when same font submitted',
         build: () => reaffirmationBloc,
         act: (bloc) {
-          bloc..add(new FontSelected(font: ReaffirmationFont.bonheurRoyale))..add(new FontSelected(font: ReaffirmationFont.bonheurRoyale));
+          bloc
+            ..add(new FontSelected(font: ReaffirmationFont.montserrat))
+            ..add(new FontSelected(font: ReaffirmationFont.montserrat));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
-            font: ReaffirmationFontField.dirty(ReaffirmationFont.bonheurRoyale),
+            font: ReaffirmationFontField.dirty(ReaffirmationFont.montserrat),
             submissionStatus: FormzStatus.invalid,
           ),
           ReaffirmationState(
@@ -121,7 +127,9 @@ void main() {
         'emits updated stamp when new stamp submitted',
         build: () => reaffirmationBloc,
         act: (bloc) {
-          bloc..add(new StampSelected(stamp: ReaffirmationStamp.medal))..add(new StampSelected(stamp: ReaffirmationStamp.takeOff));
+          bloc
+            ..add(new StampSelected(stamp: ReaffirmationStamp.medal))
+            ..add(new StampSelected(stamp: ReaffirmationStamp.takeOff));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
@@ -138,7 +146,9 @@ void main() {
         'emits [empty] stamp when same stamp submitted',
         build: () => reaffirmationBloc,
         act: (bloc) {
-          bloc..add(new StampSelected(stamp: ReaffirmationStamp.medal))..add(new StampSelected(stamp: ReaffirmationStamp.medal));
+          bloc
+            ..add(new StampSelected(stamp: ReaffirmationStamp.medal))
+            ..add(new StampSelected(stamp: ReaffirmationStamp.medal));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
@@ -170,11 +180,11 @@ void main() {
         'submission status is invalid if only font is selected',
         build: () => reaffirmationBloc,
         act: (bloc) {
-          bloc..add(new FontSelected(font: ReaffirmationFont.bonheurRoyale));
+          bloc..add(new FontSelected(font: ReaffirmationFont.montserrat));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
-            font: ReaffirmationFontField.dirty(ReaffirmationFont.bonheurRoyale),
+            font: ReaffirmationFontField.dirty(ReaffirmationFont.montserrat),
             submissionStatus: FormzStatus.invalid,
           )
         ],
@@ -196,7 +206,10 @@ void main() {
         'submission status is valid if stamp, font, and value are selected',
         build: () => reaffirmationBloc,
         act: (bloc) {
-          bloc..add(new StampSelected(stamp: ReaffirmationStamp.medal))..add(new FontSelected(font: ReaffirmationFont.bonheurRoyale))..add(new ValueSelected(value: ReaffirmationValue.goodWork));
+          bloc
+            ..add(new StampSelected(stamp: ReaffirmationStamp.medal))
+            ..add(new FontSelected(font: ReaffirmationFont.montserrat))
+            ..add(new ValueSelected(value: ReaffirmationValue.goodWork));
         },
         expect: () => <ReaffirmationState>[
           ReaffirmationState(
@@ -205,12 +218,12 @@ void main() {
           ),
           ReaffirmationState(
             stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.medal),
-            font: ReaffirmationFontField.dirty(ReaffirmationFont.bonheurRoyale),
+            font: ReaffirmationFontField.dirty(ReaffirmationFont.montserrat),
             submissionStatus: FormzStatus.invalid,
           ),
           ReaffirmationState(
             stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.medal),
-            font: ReaffirmationFontField.dirty(ReaffirmationFont.bonheurRoyale),
+            font: ReaffirmationFontField.dirty(ReaffirmationFont.montserrat),
             value: ReaffirmationValueField.dirty(ReaffirmationValue.goodWork),
             submissionStatus: FormzStatus.valid,
           )

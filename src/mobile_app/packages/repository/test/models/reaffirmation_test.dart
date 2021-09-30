@@ -9,7 +9,7 @@ void main() {
     affirmationId: 1,
     createdOn: createdOn,
     value: ReaffirmationValue.goodWork,
-    font: ReaffirmationFont.roboto,
+    font: ReaffirmationFont.montserrat,
     stamp: ReaffirmationStamp.medal,
   );
 
