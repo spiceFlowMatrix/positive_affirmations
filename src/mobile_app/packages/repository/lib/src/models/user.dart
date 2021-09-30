@@ -23,9 +23,9 @@ class User extends Equatable {
   String nameInitials() {
     List<String> names = name.split(' ');
     String initials = '';
-    int numWords = names.length;
+    int numWords = 2;
 
-    if (numWords < names.length) {
+    if (numWords >= names.length) {
       numWords = names.length;
     }
     for (var i = 0; i < numWords; i++) {
@@ -40,7 +40,7 @@ class User extends Equatable {
     String initials = '';
     int numWords = 2;
 
-    if (numWords < names.length) {
+    if (numWords >= names.length) {
       numWords = names.length;
     }
     for (var i = 0; i < numWords; i++) {
