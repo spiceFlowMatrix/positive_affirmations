@@ -4,6 +4,15 @@ abstract class ReaffirmationEvent extends Equatable {
   const ReaffirmationEvent();
 }
 
+class TabUpdated extends ReaffirmationEvent {
+  const TabUpdated({required this.tab});
+
+  final ReaffirmationFormTab tab;
+
+  @override
+  List<Object?> get props => [tab];
+}
+
 class ValueSelected extends ReaffirmationEvent {
   const ValueSelected({required this.value});
 
@@ -11,6 +20,15 @@ class ValueSelected extends ReaffirmationEvent {
 
   @override
   List<Object> get props => [value];
+}
+
+class FontSelected extends ReaffirmationEvent {
+  const FontSelected({required this.font});
+
+  final ReaffirmationFont font;
+
+  @override
+  List<Object?> get props => [font];
 }
 
 class StampSelected extends ReaffirmationEvent {
