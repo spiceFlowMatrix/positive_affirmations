@@ -6,6 +6,7 @@ import 'package:mobile_app/affirmations/widgets/affirmation_detail_screen.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/affirmations/widgets/affirmations_home_screen.dart';
 import 'package:mobile_app/profile/widgets/profile_edit_form.dart';
+import 'package:mobile_app/reaffirmation/widgets/reaffirmation_form_screen.dart';
 
 class PositiveAffirmationsRoutes {
   Map<String, Widget Function(BuildContext context)> routes(
@@ -18,6 +19,7 @@ class PositiveAffirmationsRoutes {
       AffirmationFormScreen.routeName: (context) => AffirmationFormScreen(),
       AffirmationDetailScreen.routeName: (context) => AffirmationDetailScreen(),
       ProfileEditForm.routeName: (context) => ProfileEditForm(),
+      ReaffirmationFormScreen.routeName: (context) => ReaffirmationFormScreen(),
     };
   }
 }

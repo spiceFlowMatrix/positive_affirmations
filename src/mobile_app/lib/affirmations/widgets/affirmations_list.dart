@@ -5,9 +5,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/affirmations/widgets/likes_span.dart';
-import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
+import 'package:mobile_app/reaffirmation/bloc/reaffirmation_bloc.dart';
+import 'package:mobile_app/reaffirmation/widgets/reaffirmation_form_screen.dart';
 import 'package:repository/repository.dart';
 
 class AffirmationsList extends StatelessWidget {
@@ -159,10 +160,11 @@ class _ReaffirmButton extends StatelessWidget {
   _ReaffirmButton(this.affirmation);
 
   final Affirmation affirmation;
-  final _underConstructionSnackbar = SnackBar(
-    key: PositiveAffirmationsKeys.underConstructionSnackbar,
-    content: Text(PositiveAffirmationsConsts.underConstructionSnackbarText),
-  );
+
+  // final _underConstructionSnackbar = SnackBar(
+  //   key: PositiveAffirmationsKeys.underConstructionSnackbar,
+  //   content: Text(PositiveAffirmationsConsts.underConstructionSnackbarText),
+  // );
 
   @override
   Widget build(BuildContext context) {
@@ -172,8 +174,15 @@ class _ReaffirmButton extends StatelessWidget {
           key: PositiveAffirmationsKeys.affirmationItemReaffirmButton(
               '${affirmation.id}'),
           onTap: () {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(_underConstructionSnackbar);
+            // ScaffoldMessenger.of(context)
+            //     .showSnackBar(_underConstructionSnackbar);
+            Navigator.pushNamed(
+              context,
+              ReaffirmationFormScreen.routeName,
+              arguments: ReaffirmationFormScreenArguments(
+                reaffirmationBloc: new ReaffirmationBloc(),
+              ),
+            );
           },
           title: Text(
             'Reaffirm',
