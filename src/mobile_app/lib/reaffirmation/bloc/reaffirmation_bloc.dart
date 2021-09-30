@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:mobile_app/reaffirmation/models/reaffirmation_font_field.dart';
 import 'package:mobile_app/reaffirmation/models/reaffirmation_graphic_field.dart';
 import 'package:mobile_app/reaffirmation/models/reaffirmation_value_field.dart';
 import 'package:repository/repository.dart';
