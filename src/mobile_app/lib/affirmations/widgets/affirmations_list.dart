@@ -176,11 +176,14 @@ class _ReaffirmButton extends StatelessWidget {
           onTap: () {
             // ScaffoldMessenger.of(context)
             //     .showSnackBar(_underConstructionSnackbar);
+            final affirmationsBloc = BlocProvider.of<AffirmationsBloc>(context);
             Navigator.pushNamed(
               context,
               ReaffirmationFormScreen.routeName,
               arguments: ReaffirmationFormScreenArguments(
                 reaffirmationBloc: new ReaffirmationBloc(),
+                affirmationsBloc: affirmationsBloc,
+                forAffirmation: affirmation,
               ),
             );
           },

@@ -2,16 +2,25 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/reaffirmation/bloc/reaffirmation_bloc.dart';
+import 'package:repository/repository.dart';
 
 class ReaffirmationFormScreenArguments extends Equatable {
-  const ReaffirmationFormScreenArguments({required this.reaffirmationBloc});
+  const ReaffirmationFormScreenArguments({
+    required this.reaffirmationBloc,
+    required this.affirmationsBloc,
+    required this.forAffirmation,
+  });
 
   final ReaffirmationBloc reaffirmationBloc;
+  final AffirmationsBloc affirmationsBloc;
+  final Affirmation forAffirmation;
 
   @override
-  List<Object?> get props => [reaffirmationBloc];
+  List<Object?> get props =>
+      [reaffirmationBloc, affirmationsBloc, forAffirmation];
 }
 
 class ReaffirmationFormScreen extends StatelessWidget {
@@ -41,7 +50,8 @@ class ReaffirmationFormScreen extends StatelessWidget {
           ),
         ),
         body: Center(
-          child: Text('Reaffirmation Form Screen'),
+          child: Text(
+              'Reaffirmation Form Screen for ${args.forAffirmation.title}'),
         ),
       ),
     );

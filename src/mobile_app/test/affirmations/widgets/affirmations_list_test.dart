@@ -4,7 +4,6 @@ import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dar
 import 'package:mobile_app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/blocs/authentication/authentication_bloc.dart';
-import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/nav_observer.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
@@ -179,33 +178,33 @@ void main() {
           .called(1);
     });
 
-    testWidgets('pressing reaffirm button shows under construction snackbar ',
-        (tester) async {
-      await tester.pumpWidget(_buildFixture());
-
-      // Reference for solution https://stackoverflow.com/a/65067950
-      expect(
-        find.byKey(PositiveAffirmationsKeys.underConstructionSnackbar),
-        findsNothing,
-      );
-      expect(
-        find.text(PositiveAffirmationsConsts.underConstructionSnackbarText),
-        findsNothing,
-      );
-      await tester.tap(
-        find.byKey(PositiveAffirmationsKeys.affirmationItemReaffirmButton(
-            '${mockAffirmations[0].id}')),
-      );
-      await tester.pump();
-      expect(
-        find.byKey(PositiveAffirmationsKeys.underConstructionSnackbar),
-        findsOneWidget,
-      );
-      expect(
-        find.text(PositiveAffirmationsConsts.underConstructionSnackbarText),
-        findsOneWidget,
-      );
-    });
+    // testWidgets('pressing reaffirm button shows under construction snackbar ',
+    //     (tester) async {
+    //   await tester.pumpWidget(_buildFixture());
+    //
+    //   // Reference for solution https://stackoverflow.com/a/65067950
+    //   expect(
+    //     find.byKey(PositiveAffirmationsKeys.underConstructionSnackbar),
+    //     findsNothing,
+    //   );
+    //   expect(
+    //     find.text(PositiveAffirmationsConsts.underConstructionSnackbarText),
+    //     findsNothing,
+    //   );
+    //   await tester.tap(
+    //     find.byKey(PositiveAffirmationsKeys.affirmationItemReaffirmButton(
+    //         '${mockAffirmations[0].id}')),
+    //   );
+    //   await tester.pump();
+    //   expect(
+    //     find.byKey(PositiveAffirmationsKeys.underConstructionSnackbar),
+    //     findsOneWidget,
+    //   );
+    //   expect(
+    //     find.text(PositiveAffirmationsConsts.underConstructionSnackbarText),
+    //     findsOneWidget,
+    //   );
+    // });
 
     // testWidgets('[Navigation] tapping an affirmation navigates details screen',
     //     (tester) async {
