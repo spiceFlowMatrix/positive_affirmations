@@ -11,9 +11,17 @@ part 'reaffirmation_state.dart';
 
 class ReaffirmationBloc extends Bloc<ReaffirmationEvent, ReaffirmationState> {
   ReaffirmationBloc() : super(ReaffirmationState()) {
+    on<TabUpdated>(_onTabUpdated);
     on<ValueSelected>(_onValueSelected);
     on<FontSelected>(_onFontSelected);
     on<StampSelected>(_onGraphicSelected);
+  }
+
+  void _onTabUpdated(
+    TabUpdated event,
+    Emitter<ReaffirmationState> emit,
+  ) {
+    emit(state.copyWith(tab: event.tab));
   }
 
   void _onValueSelected(
