@@ -9,12 +9,12 @@ import 'package:repository/repository.dart';
 
 class ReaffirmationFormScreenArguments extends Equatable {
   const ReaffirmationFormScreenArguments({
-    required this.reaffirmationBloc,
+    this.reaffirmationBloc,
     required this.affirmationsBloc,
     required this.forAffirmation,
   });
 
-  final ReaffirmationBloc reaffirmationBloc;
+  final ReaffirmationBloc? reaffirmationBloc;
   final AffirmationsBloc affirmationsBloc;
   final Affirmation forAffirmation;
 
@@ -32,8 +32,12 @@ class ReaffirmationFormScreen extends StatelessWidget {
     // settings and cast them as ScreenArguments.
     final args = ModalRoute.of(context)!.settings.arguments
         as ReaffirmationFormScreenArguments;
-    return BlocProvider<ReaffirmationBloc>.value(
-      value: args.reaffirmationBloc,
+    final reaffirmationBloc = args.reaffirmationBloc ?? new ReaffirmationBloc();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ReaffirmationBloc>.value(value: reaffirmationBloc),
+        BlocProvider<AffirmationsBloc>.value(value: args.affirmationsBloc),
+      ],
       child: Scaffold(
         key: PositiveAffirmationsKeys.reaffirmationFormScreen,
         appBar: AppBar(

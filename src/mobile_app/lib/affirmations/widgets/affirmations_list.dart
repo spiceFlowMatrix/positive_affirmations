@@ -7,7 +7,6 @@ import 'package:mobile_app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:mobile_app/affirmations/widgets/likes_span.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/positive_affirmations_theme.dart';
-import 'package:mobile_app/reaffirmation/bloc/reaffirmation_bloc.dart';
 import 'package:mobile_app/reaffirmation/widgets/reaffirmation_form_screen.dart';
 import 'package:repository/repository.dart';
 
@@ -181,7 +180,6 @@ class _ReaffirmButton extends StatelessWidget {
               context,
               ReaffirmationFormScreen.routeName,
               arguments: ReaffirmationFormScreenArguments(
-                reaffirmationBloc: new ReaffirmationBloc(),
                 affirmationsBloc: affirmationsBloc,
                 forAffirmation: affirmation,
               ),
