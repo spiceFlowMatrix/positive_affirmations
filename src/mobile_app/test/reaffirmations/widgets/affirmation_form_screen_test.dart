@@ -32,6 +32,7 @@ void main() {
     group('widget composition', () {
       testWidgets('top-level layout widgets are composed', (tester) async {
         forAffirmation = Affirmation.empty;
+        when(() => reaffirmationBloc.state).thenReturn(ReaffirmationState());
         await tester.pumpWidget(ReaffirmationFormScreenFixture(
           reaffirmationBloc: reaffirmationBloc,
           affirmationsBloc: affirmationsBloc,
@@ -66,6 +67,7 @@ void main() {
 
       testWidgets('top-level layout widgets are composed', (tester) async {
         forAffirmation = Affirmation.empty;
+        when(() => reaffirmationBloc.state).thenReturn(ReaffirmationState());
         await tester.pumpWidget(ReaffirmationFormScreenFixture(
           reaffirmationBloc: reaffirmationBloc,
           affirmationsBloc: affirmationsBloc,
