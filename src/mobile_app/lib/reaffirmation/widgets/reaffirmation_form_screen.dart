@@ -69,9 +69,9 @@ class _ScreenContent extends StatelessWidget {
           case ReaffirmationFormTab.note:
             return _NotesMenu(currentValue: state.value.value);
           case ReaffirmationFormTab.font:
-            return _NotesMenu(currentValue: state.value.value);
+            return _FontsMenu(currentFont: state.font.value);
           case ReaffirmationFormTab.stamp:
-            return _NotesMenu(currentValue: state.value.value);
+            return _StampsMenu(currentStamp: state.stamp.value);
         }
       },
     );
@@ -196,6 +196,69 @@ class _NotesMenu extends StatelessWidget {
 
     return ListView(
       key: PositiveAffirmationsKeys.reaffirmationFormNoteTabBodyList,
+      children: [...listItems],
+    );
+  }
+}
+
+class _FontsMenu extends StatelessWidget {
+  _FontsMenu({
+    Key? key = PositiveAffirmationsKeys.reaffirmationFormFontTabBody,
+    required this.currentFont,
+  }) : super(key: key);
+
+  final ReaffirmationFont currentFont;
+
+  @override
+  Widget build(BuildContext context) {
+    final listItems = ReaffirmationFont.values.map((value) {
+      return ListTile(
+        key: PositiveAffirmationsKeys.reaffirmationFormFontTabBodyListItem(
+            value.index),
+        onTap: null,
+        leading: Radio(
+          value: value,
+          groupValue: currentFont,
+          onChanged: (val) {},
+        ),
+        title: Text(PositiveAffirmationsConsts.reaffirmationFontValue(value)),
+      );
+    }).toList();
+
+    return ListView(
+      key: PositiveAffirmationsKeys.reaffirmationFormFontTabBodyList,
+      children: [...listItems],
+    );
+  }
+}
+
+class _StampsMenu extends StatelessWidget {
+  _StampsMenu({
+    Key? key = PositiveAffirmationsKeys.reaffirmationFormStampTabBody,
+    required this.currentStamp,
+  }) : super(key: key);
+
+  final ReaffirmationStamp currentStamp;
+
+  @override
+  Widget build(BuildContext context) {
+    final listItems = ReaffirmationStamp.values.map((value) {
+      return ListTile(
+        key: PositiveAffirmationsKeys.reaffirmationFormStampTabBodyListItem(
+            value.index),
+        onTap: null,
+        leading: Radio(
+          value: value,
+          groupValue: currentStamp,
+          onChanged: (val) {},
+        ),
+        title: Text(
+            '${PositiveAffirmationsConsts.reaffirmationStampValue(value).keys.toList()[0]} ${PositiveAffirmationsConsts.reaffirmationStampValue(value).values.toList()[0]}'),
+      );
+    }).toList();
+
+    return ListView(
+      key: PositiveAffirmationsKeys.reaffirmationFormStampTabBodyList,
       children: [...listItems],
     );
   }
