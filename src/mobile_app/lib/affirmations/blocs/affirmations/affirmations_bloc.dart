@@ -29,6 +29,8 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
       yield _mapAffirmationActivationToggledToState(event, state);
     } else if (event is AffirmationUpdated) {
       yield _mapAffirmationUpdatedToState(event, state);
+    } else if (event is ReaffirmationCreated) {
+      yield _mapReaffirmationCreatedToState(event, state);
     }
   }
 
@@ -85,6 +87,29 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
 
     return state.copyWith(affirmations: [...updatedAffirmations]);
   }
+
+  AffirmationsState _mapReaffirmationCreatedToState(
+      ReaffirmationCreated event, AffirmationsState state) {
+    final updatedAffirmations = state.affirmations.map((affirmation) {
+      return affirmation.id == event.affirmationId
+          ? affirmation.copyWith(
+              totalReaffirmations: affirmation.totalReaffirmations + 1)
+          : affirmation;
+    });
+    final newReaffirmation = new Reaffirmation(
+      id: state.reaffirmations.length + 1,
+      affirmationId: event.affirmationId,
+      createdOn: time?.now ?? DateTime.now(),
+      value: event.value,
+      font: event.font,
+      stamp: event.stamp,
+    );
+
+    return state.copyWith(
+      affirmations: [...updatedAffirmations],
+      reaffirmations: [...state.reaffirmations, newReaffirmation],
+    );
+  }
 }
 
 class HydratedAffirmationsBloc extends AffirmationsBloc with HydratedMixin {
@@ -115,8 +140,7 @@ class HydratedAffirmationsBloc extends AffirmationsBloc with HydratedMixin {
   }
 
   @override
-  Map<String, dynamic>? toJson(AffirmationsState state) =>
-      {
+  Map<String, dynamic>? toJson(AffirmationsState state) => {
         AffirmationsState.fieldAffirmations: [
           ...state.affirmations.map((e) => e.fieldValues),
         ],
