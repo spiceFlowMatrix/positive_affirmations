@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
+import 'package:repository/repository.dart';
 
 void main() {
   group('[AffirmationsEvent]', () {
@@ -23,6 +24,24 @@ void main() {
     group('[AffirmationLiked]', () {
       test('supports value comparisons', () {
         expect(AffirmationLiked(1), AffirmationLiked(1));
+      });
+    });
+    group('[ReaffirmationCreated]', () {
+      test('supports value comparisons', () {
+        expect(
+          ReaffirmationCreated(
+            affirmationId: 1,
+            value: ReaffirmationValue.goodWork,
+            font: ReaffirmationFont.montserrat,
+            stamp: ReaffirmationStamp.medal,
+          ),
+          ReaffirmationCreated(
+            affirmationId: 1,
+            value: ReaffirmationValue.goodWork,
+            font: ReaffirmationFont.montserrat,
+            stamp: ReaffirmationStamp.medal,
+          ),
+        );
       });
     });
   });

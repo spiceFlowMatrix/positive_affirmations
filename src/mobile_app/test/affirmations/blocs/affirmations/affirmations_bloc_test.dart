@@ -166,5 +166,46 @@ void main() {
         expect: () => <AffirmationsState>[],
       );
     });
+
+    group('[ReaffirmationCreated]', () {
+      blocTest<AffirmationsBloc, AffirmationsState>(
+        'reaffirmation is added to state list',
+        build: () => affirmationsBloc,
+        seed: () => AffirmationsState(affirmations: seedAffirmations),
+        act: (bloc) {
+          bloc
+            ..add(ReaffirmationCreated(
+              affirmationId: seedAffirmations[1].id,
+              value: ReaffirmationValue.loveIt,
+              font: ReaffirmationFont.montserrat,
+              stamp: ReaffirmationStamp.takeOff,
+            ));
+        },
+        expect: () {
+          final updatedAffirmations = seedAffirmations.map((e) {
+            if (e.id == seedAffirmations[1].id) {
+              return e.copyWith(totalReaffirmations: e.totalReaffirmations + 1);
+            }
+            return e;
+          }).toList();
+
+          return <AffirmationsState>[
+            AffirmationsState(
+              affirmations: updatedAffirmations,
+              reaffirmations: [
+                Reaffirmation(
+                  id: 1,
+                  affirmationId: seedAffirmations[1].id,
+                  createdOn: mockTime,
+                  value: ReaffirmationValue.loveIt,
+                  font: ReaffirmationFont.montserrat,
+                  stamp: ReaffirmationStamp.takeOff,
+                ),
+              ],
+            ),
+          ];
+        },
+      );
+    });
   });
 }
