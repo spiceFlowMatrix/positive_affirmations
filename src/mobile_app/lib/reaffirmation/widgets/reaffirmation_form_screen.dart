@@ -180,23 +180,28 @@ class _NotesMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final listItems = ReaffirmationValue.values.map((value) {
-      return ListTile(
+    final List<Widget> items = [];
+    ReaffirmationValue.values.forEach((value) {
+      items.add(ListTile(
         key: PositiveAffirmationsKeys.reaffirmationFormNoteTabBodyListItem(
             value.index),
-        onTap: null,
+        onTap: () {
+          BlocProvider.of<ReaffirmationBloc>(context)
+              .add(ValueSelected(value: value));
+        },
         leading: Radio(
           value: value,
           groupValue: currentValue,
           onChanged: (val) {},
         ),
         title: Text(PositiveAffirmationsConsts.reaffirmationNoteValue(value)),
-      );
-    }).toList();
+      ));
+      items.add(const Divider(height: 1));
+    });
 
     return ListView(
       key: PositiveAffirmationsKeys.reaffirmationFormNoteTabBodyList,
-      children: [...listItems],
+      children: items,
     );
   }
 }
