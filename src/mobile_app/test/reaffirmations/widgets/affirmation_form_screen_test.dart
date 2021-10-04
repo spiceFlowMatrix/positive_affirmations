@@ -146,6 +146,98 @@ void main() {
               .reaffirmationFormPreviewPanelSubmitButtonValue),
         );
       });
+
+      testWidgets('note options are displayed when [note] tab is selected',
+          (tester) async {
+        forAffirmation = Affirmation.empty;
+        when(() => reaffirmationBloc.state).thenReturn(ReaffirmationState(
+          tab: ReaffirmationFormTab.note,
+        ));
+        await tester.pumpWidget(ReaffirmationFormScreenFixture(
+          reaffirmationBloc: reaffirmationBloc,
+          affirmationsBloc: affirmationsBloc,
+          forAffirmation: forAffirmation,
+        ));
+
+        expect(
+          find.byKey(PositiveAffirmationsKeys.reaffirmationFormNoteTabBody),
+          findsOneWidget,
+        );
+        expect(
+          find.byKey(PositiveAffirmationsKeys.reaffirmationFormNoteTabBodyList),
+          findsOneWidget,
+        );
+
+        ReaffirmationValue.values.forEach((value) {
+          expect(
+            find.byKey(
+                PositiveAffirmationsKeys.reaffirmationFormNoteTabBodyListItem(
+                    value.index)),
+            findsOneWidget,
+          );
+        });
+      });
+      testWidgets('font options are displayed when [font] tab is selected',
+          (tester) async {
+        forAffirmation = Affirmation.empty;
+        when(() => reaffirmationBloc.state).thenReturn(ReaffirmationState(
+          tab: ReaffirmationFormTab.font,
+        ));
+        await tester.pumpWidget(ReaffirmationFormScreenFixture(
+          reaffirmationBloc: reaffirmationBloc,
+          affirmationsBloc: affirmationsBloc,
+          forAffirmation: forAffirmation,
+        ));
+
+        expect(
+          find.byKey(PositiveAffirmationsKeys.reaffirmationFormFontTabBody),
+          findsOneWidget,
+        );
+        expect(
+          find.byKey(PositiveAffirmationsKeys.reaffirmationFormFontTabBodyList),
+          findsOneWidget,
+        );
+
+        ReaffirmationValue.values.forEach((value) {
+          expect(
+            find.byKey(
+                PositiveAffirmationsKeys.reaffirmationFormFontTabBodyListItem(
+                    value.index)),
+            findsOneWidget,
+          );
+        });
+      });
+      testWidgets('stamp options are displayed when [stamp] tab is selected',
+          (tester) async {
+        forAffirmation = Affirmation.empty;
+        when(() => reaffirmationBloc.state).thenReturn(ReaffirmationState(
+          tab: ReaffirmationFormTab.stamp,
+        ));
+        await tester.pumpWidget(ReaffirmationFormScreenFixture(
+          reaffirmationBloc: reaffirmationBloc,
+          affirmationsBloc: affirmationsBloc,
+          forAffirmation: forAffirmation,
+        ));
+
+        expect(
+          find.byKey(PositiveAffirmationsKeys.reaffirmationFormStampTabBody),
+          findsOneWidget,
+        );
+        expect(
+          find.byKey(
+              PositiveAffirmationsKeys.reaffirmationFormStampTabBodyList),
+          findsOneWidget,
+        );
+
+        ReaffirmationValue.values.forEach((value) {
+          expect(
+            find.byKey(
+                PositiveAffirmationsKeys.reaffirmationFormStampTabBodyListItem(
+                    value.index)),
+            findsOneWidget,
+          );
+        });
+      });
     });
   });
 }
