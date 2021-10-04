@@ -62,6 +62,21 @@ class ReaffirmationFormScreen extends StatelessWidget {
 }
 
 class _ScreenContent extends StatelessWidget {
+  Widget _mapBody() {
+    return BlocBuilder<ReaffirmationBloc, ReaffirmationState>(
+      builder: (context, state) {
+        switch (state.tab) {
+          case ReaffirmationFormTab.note:
+            return _NotesMenu(currentValue: state.value.value);
+          case ReaffirmationFormTab.font:
+            return _NotesMenu(currentValue: state.value.value);
+          case ReaffirmationFormTab.stamp:
+            return _NotesMenu(currentValue: state.value.value);
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ReaffirmationBloc, ReaffirmationState>(
@@ -73,7 +88,8 @@ class _ScreenContent extends StatelessWidget {
               font: state.font.value,
               stamp: state.stamp.value,
             ),
-            _TabsContainer(),
+            ReaffirmationFormNavigator(),
+            Expanded(child: _mapBody()),
           ],
         );
       },
@@ -154,45 +170,33 @@ class _PreviewPanel extends StatelessWidget {
   }
 }
 
-class _TabsContainer extends StatelessWidget {
-  Widget _mapBody(ReaffirmationFormTab tab) {
-    return BlocBuilder<ReaffirmationBloc, ReaffirmationState>(
-      builder: (context, state) {
-        switch (tab) {
-          case ReaffirmationFormTab.note:
-            return Center(
-              child: Text('Notes tab'),
-            );
-          case ReaffirmationFormTab.font:
-            return Center(
-              child: Text('Font tab'),
-            );
-          case ReaffirmationFormTab.stamp:
-            return Center(
-              child: Text('Stamp tab'),
-            );
-        }
-      },
-    );
-  }
+class _NotesMenu extends StatelessWidget {
+  _NotesMenu({
+    Key? key = PositiveAffirmationsKeys.reaffirmationFormNoteTabBody,
+    required this.currentValue,
+  }) : super(key: key);
+
+  final ReaffirmationValue currentValue;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ReaffirmationBloc, ReaffirmationState>(
-      builder: (context, state) {
-        return Column(
-          children: [
-            ReaffirmationFormNavigator(
-              activeTab: state.tab,
-              onTabSelected: (tab) {
-                BlocProvider.of<ReaffirmationBloc>(context)
-                    .add(TabUpdated(tab: tab));
-              },
-            ),
-            _mapBody(state.tab),
-          ],
-        );
-      },
+    final listItems = ReaffirmationValue.values.map((value) {
+      return ListTile(
+        key: PositiveAffirmationsKeys.reaffirmationFormNoteTabBodyListItem(
+            value.index),
+        onTap: null,
+        leading: Radio(
+          value: value,
+          groupValue: currentValue,
+          onChanged: (val) {},
+        ),
+        title: Text(PositiveAffirmationsConsts.reaffirmationNoteValue(value)),
+      );
+    }).toList();
+
+    return ListView(
+      key: PositiveAffirmationsKeys.reaffirmationFormNoteTabBodyList,
+      children: [...listItems],
     );
   }
 }
