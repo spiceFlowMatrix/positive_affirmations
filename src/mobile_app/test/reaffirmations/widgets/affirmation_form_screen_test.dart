@@ -363,7 +363,9 @@ void main() {
         expect(
             selectedStamp.data,
             PositiveAffirmationsConsts.reaffirmationStampValue(
-                ReaffirmationStamp.medal));
+                    ReaffirmationStamp.medal)
+                .values
+                .toList()[0]);
         expect(reaffirmButton.enabled, equals(true));
       });
     });
