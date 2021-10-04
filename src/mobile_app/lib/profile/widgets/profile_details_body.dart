@@ -245,20 +245,31 @@ class _TabsContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileTabBloc, ProfileTab>(
       builder: (context, tab) {
-        return Container(
-          height: 500,
-          child: Column(
-            children: [
-              ProfileNavigator(
-                activeTab: tab,
-                onTabSelected: (tab) {
-                  BlocProvider.of<ProfileTabBloc>(context).add(TabUpdated(tab));
-                },
-              ),
-              _mapBody(tab),
-            ],
-          ),
+        return Column(
+          children: [
+            ProfileNavigator(
+              activeTab: tab,
+              onTabSelected: (tab) {
+                BlocProvider.of<ProfileTabBloc>(context).add(TabUpdated(tab));
+              },
+            ),
+            _mapBody(tab),
+          ],
         );
+        // return Container(
+        //   // height: 500,
+        //   child: Column(
+        //     children: [
+        //       ProfileNavigator(
+        //         activeTab: tab,
+        //         onTabSelected: (tab) {
+        //           BlocProvider.of<ProfileTabBloc>(context).add(TabUpdated(tab));
+        //         },
+        //       ),
+        //       _mapBody(tab),
+        //     ],
+        //   ),
+        // );
       },
     );
   }
