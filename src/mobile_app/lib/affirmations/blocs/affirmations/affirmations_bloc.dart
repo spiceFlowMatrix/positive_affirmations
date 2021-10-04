@@ -6,7 +6,6 @@ import 'package:mobile_app/models/machine_date_time.dart';
 import 'package:repository/repository.dart';
 
 part 'affirmations_event.dart';
-
 part 'affirmations_state.dart';
 
 class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
@@ -101,14 +100,28 @@ class HydratedAffirmationsBloc extends AffirmationsBloc with HydratedMixin {
         return Affirmation.fromJson(affirmationJson);
       }),
     ];
+    List<Reaffirmation> reaffirmations = [
+      ...(json[AffirmationsState.fieldReaffirmations] as List<dynamic>)
+          .map((reaffirmation) {
+        final reaffirmationJson = reaffirmation as Map<String, dynamic>;
+        return Reaffirmation.fromJson(reaffirmationJson);
+      }),
+    ];
 
-    return AffirmationsState(affirmations: affirmations);
+    return AffirmationsState(
+      affirmations: affirmations,
+      reaffirmations: reaffirmations,
+    );
   }
 
   @override
-  Map<String, dynamic>? toJson(AffirmationsState state) => {
+  Map<String, dynamic>? toJson(AffirmationsState state) =>
+      {
         AffirmationsState.fieldAffirmations: [
           ...state.affirmations.map((e) => e.fieldValues),
+        ],
+        AffirmationsState.fieldReaffirmations: [
+          ...state.reaffirmations.map((e) => e.fieldValues),
         ],
       };
 }

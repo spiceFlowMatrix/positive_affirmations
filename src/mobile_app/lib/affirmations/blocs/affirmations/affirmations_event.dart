@@ -27,6 +27,7 @@ class AffirmationUpdated extends AffirmationsEvent {
 
 class AffirmationActivationToggled extends AffirmationsEvent {
   const AffirmationActivationToggled(this.id);
+
   final int id;
 
   @override
@@ -35,8 +36,26 @@ class AffirmationActivationToggled extends AffirmationsEvent {
 
 class AffirmationLiked extends AffirmationsEvent {
   const AffirmationLiked(this.id);
+
   final int id;
 
   @override
   List<Object> get props => [id];
+}
+
+class ReaffirmationCreated extends AffirmationsEvent {
+  const ReaffirmationCreated({
+    required this.affirmationId,
+    required this.value,
+    required this.font,
+    required this.stamp,
+  });
+
+  final int affirmationId;
+  final ReaffirmationValue value;
+  final ReaffirmationFont font;
+  final ReaffirmationStamp stamp;
+
+  @override
+  List<Object> get props => [affirmationId, value, font, stamp];
 }
