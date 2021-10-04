@@ -222,7 +222,10 @@ class _FontsMenu extends StatelessWidget {
         ListTile(
           key: PositiveAffirmationsKeys.reaffirmationFormFontTabBodyListItem(
               value.index),
-          onTap: null,
+          onTap: () {
+            BlocProvider.of<ReaffirmationBloc>(context)
+                .add(FontSelected(font: value));
+          },
           leading: Radio(
             value: value,
             groupValue: currentFont,
@@ -257,7 +260,10 @@ class _StampsMenu extends StatelessWidget {
         ListTile(
           key: PositiveAffirmationsKeys.reaffirmationFormStampTabBodyListItem(
               value.index),
-          onTap: null,
+          onTap: () {
+            BlocProvider.of<ReaffirmationBloc>(context)
+                .add(StampSelected(stamp: value));
+          },
           leading: Radio(
             value: value,
             groupValue: currentStamp,
