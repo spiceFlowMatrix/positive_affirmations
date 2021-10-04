@@ -6,30 +6,19 @@ import 'package:mobile_app/profile/blocs/profile/profile_bloc.dart';
 import 'package:mobile_app/profile/blocs/profile_tab/profile_tab_bloc.dart';
 
 class ProfileNavigator extends StatefulWidget {
-  final ProfileTab activeTab;
-  final Function(ProfileTab) onTabSelected;
-
   ProfileNavigator({
     Key? key,
-    required this.activeTab,
-    required this.onTabSelected,
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _ProfileNavigatorState(
-      activeTab: activeTab, onTabSelected: onTabSelected);
+  State<StatefulWidget> createState() => _ProfileNavigatorState();
 }
 
 class _ProfileNavigatorState extends State<ProfileNavigator>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
-  final ProfileTab activeTab;
-  final Function(ProfileTab) onTabSelected;
 
-  _ProfileNavigatorState({
-    required this.activeTab,
-    required this.onTabSelected,
-  });
+  _ProfileNavigatorState();
 
   @override
   void initState() {
@@ -98,7 +87,9 @@ class _ProfileNavigatorState extends State<ProfileNavigator>
           child: TabBar(
             controller: _tabController,
             onTap: (index) {
-              onTabSelected(ProfileTab.values[index]);
+              BlocProvider.of<ProfileTabBloc>(context)
+                  .add(new TabUpdated(ProfileTab.values[index]));
+              // onTabSelected(ProfileTab.values[index]);
             },
             isScrollable: false,
             tabs: ProfileTab.values.map((tab) {

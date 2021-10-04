@@ -23,12 +23,44 @@ class ProfileDetailsTabBody extends StatelessWidget {
   final ProfileTabBloc? profileTabBloc;
   final AffirmationsBloc? affirmationsBloc;
 
+  Widget _mapBody() {
+    return BlocBuilder<ProfileTabBloc, ProfileTab>(
+      builder: (context, tab) {
+        return BlocBuilder<ProfileBloc, ProfileState>(
+          builder: (context, state) {
+            switch (tab) {
+              case ProfileTab.affirmations:
+                return _AffirmationsTabBody(
+                  key: PositiveAffirmationsKeys.profileAffirmationsSubtabBody(
+                      state.user.id),
+                  user: state.user,
+                );
+              case ProfileTab.letters:
+                return Center(
+                  key: PositiveAffirmationsKeys.profileLettersSubtabBody(
+                      state.user.id),
+                  child: Text('Letters'),
+                );
+              default:
+                return _AffirmationsTabBody(
+                  key: PositiveAffirmationsKeys.profileAffirmationsSubtabBody(
+                      state.user.id),
+                  user: state.user,
+                );
+            }
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final content = Column(
       children: [
         _DetailsContent(),
-        Expanded(child: _TabsContainer()),
+        ProfileNavigator(),
+        Expanded(child: _mapBody()),
       ],
     );
 
@@ -209,68 +241,6 @@ class _ProfileImage extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _TabsContainer extends StatelessWidget {
-  Widget _mapBody(ProfileTab tab) {
-    return BlocBuilder<ProfileBloc, ProfileState>(
-      builder: (context, state) {
-        switch (tab) {
-          case ProfileTab.affirmations:
-            return _AffirmationsTabBody(
-              key: PositiveAffirmationsKeys.profileAffirmationsSubtabBody(
-                  state.user.id),
-              user: state.user,
-            );
-          case ProfileTab.letters:
-            return Center(
-              key: PositiveAffirmationsKeys.profileLettersSubtabBody(
-                  state.user.id),
-              child: Text('Letters'),
-            );
-          default:
-            return _AffirmationsTabBody(
-              key: PositiveAffirmationsKeys.profileAffirmationsSubtabBody(
-                  state.user.id),
-              user: state.user,
-            );
-        }
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<ProfileTabBloc, ProfileTab>(
-      builder: (context, tab) {
-        return Column(
-          children: [
-            ProfileNavigator(
-              activeTab: tab,
-              onTabSelected: (tab) {
-                BlocProvider.of<ProfileTabBloc>(context).add(TabUpdated(tab));
-              },
-            ),
-            _mapBody(tab),
-          ],
-        );
-        // return Container(
-        //   // height: 500,
-        //   child: Column(
-        //     children: [
-        //       ProfileNavigator(
-        //         activeTab: tab,
-        //         onTabSelected: (tab) {
-        //           BlocProvider.of<ProfileTabBloc>(context).add(TabUpdated(tab));
-        //         },
-        //       ),
-        //       _mapBody(tab),
-        //     ],
-        //   ),
-        // );
-      },
     );
   }
 }
