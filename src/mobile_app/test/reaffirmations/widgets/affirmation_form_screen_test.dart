@@ -368,6 +368,32 @@ void main() {
                 .toList()[0]);
         expect(reaffirmButton.enabled, equals(true));
       });
+
+      testWidgets(
+          'verify that submit button triggers reaffirmation creation event',
+          (tester) async {
+        forAffirmation = Affirmation.empty;
+        when(() => reaffirmationBloc.state).thenReturn(ReaffirmationState(
+          submissionStatus: FormzStatus.valid,
+          value: ReaffirmationValueField.dirty(ReaffirmationValue.goodWork),
+          stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.medal),
+        ));
+        await tester.pumpWidget(ReaffirmationFormScreenFixture(
+          reaffirmationBloc: reaffirmationBloc,
+          affirmationsBloc: affirmationsBloc,
+          forAffirmation: forAffirmation,
+        ));
+
+        await tester.tap(find.byKey(PositiveAffirmationsKeys
+            .reaffirmationFormPreviewPanelSubmitButton));
+
+        verify(() => affirmationsBloc.add(ReaffirmationCreated(
+              affirmationId: forAffirmation.id,
+              value: reaffirmationBloc.state.value.value,
+              font: reaffirmationBloc.state.font.value,
+              stamp: reaffirmationBloc.state.stamp.value,
+            ))).called(1);
+      });
     });
   });
 }

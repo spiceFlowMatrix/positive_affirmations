@@ -55,13 +55,17 @@ class ReaffirmationFormScreen extends StatelessWidget {
             icon: FaIcon(FontAwesomeIcons.arrowLeft),
           ),
         ),
-        body: _ScreenContent(),
+        body: _ScreenContent(forAffirmation: args.forAffirmation),
       ),
     );
   }
 }
 
 class _ScreenContent extends StatelessWidget {
+  _ScreenContent({required this.forAffirmation});
+
+  final Affirmation forAffirmation;
+
   Widget _mapBody() {
     return BlocBuilder<ReaffirmationBloc, ReaffirmationState>(
       builder: (context, state) {
@@ -84,6 +88,7 @@ class _ScreenContent extends StatelessWidget {
         return Column(
           children: [
             _PreviewPanel(
+              affirmationId: this.forAffirmation.id,
               value: state.value.value,
               font: state.font.value,
               stamp: state.stamp.value,
@@ -99,11 +104,13 @@ class _ScreenContent extends StatelessWidget {
 
 class _PreviewPanel extends StatelessWidget {
   _PreviewPanel({
+    required this.affirmationId,
     required this.value,
     required this.font,
     required this.stamp,
   });
 
+  final int affirmationId;
   final ReaffirmationValue value;
   final ReaffirmationFont font;
   final ReaffirmationStamp stamp;
@@ -186,7 +193,18 @@ class _PreviewPanel extends StatelessWidget {
           child: ElevatedButton(
             key: PositiveAffirmationsKeys
                 .reaffirmationFormPreviewPanelSubmitButton,
-            onPressed: _canSubmit ? () {} : null,
+            onPressed: _canSubmit
+                ? () {
+                    BlocProvider.of<AffirmationsBloc>(context)
+                        .add(ReaffirmationCreated(
+                      affirmationId: affirmationId,
+                      value: value,
+                      font: font,
+                      stamp: stamp,
+                    ));
+                    Navigator.of(context).pop();
+                  }
+                : null,
             child: Text(
               PositiveAffirmationsConsts
                   .reaffirmationFormPreviewPanelSubmitButtonValue,

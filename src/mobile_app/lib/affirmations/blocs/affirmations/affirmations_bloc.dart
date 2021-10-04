@@ -125,13 +125,16 @@ class HydratedAffirmationsBloc extends AffirmationsBloc with HydratedMixin {
         return Affirmation.fromJson(affirmationJson);
       }),
     ];
-    List<Reaffirmation> reaffirmations = [
-      ...(json[AffirmationsState.fieldReaffirmations] as List<dynamic>)
-          .map((reaffirmation) {
-        final reaffirmationJson = reaffirmation as Map<String, dynamic>;
-        return Reaffirmation.fromJson(reaffirmationJson);
-      }),
-    ];
+    List<Reaffirmation> reaffirmations = [];
+    if (json[AffirmationsState.fieldReaffirmations] != null) {
+      reaffirmations = [
+        ...(json[AffirmationsState.fieldReaffirmations] as List<dynamic>)
+            .map((reaffirmation) {
+          final reaffirmationJson = reaffirmation as Map<String, dynamic>;
+          return Reaffirmation.fromJson(reaffirmationJson);
+        })
+      ];
+    }
 
     return AffirmationsState(
       affirmations: affirmations,
