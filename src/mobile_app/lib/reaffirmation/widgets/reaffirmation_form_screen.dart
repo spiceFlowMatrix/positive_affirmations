@@ -216,23 +216,27 @@ class _FontsMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final listItems = ReaffirmationFont.values.map((value) {
-      return ListTile(
-        key: PositiveAffirmationsKeys.reaffirmationFormFontTabBodyListItem(
-            value.index),
-        onTap: null,
-        leading: Radio(
-          value: value,
-          groupValue: currentFont,
-          onChanged: (val) {},
+    final List<Widget> listItems = [];
+    ReaffirmationFont.values.forEach((value) {
+      listItems.add(
+        ListTile(
+          key: PositiveAffirmationsKeys.reaffirmationFormFontTabBodyListItem(
+              value.index),
+          onTap: null,
+          leading: Radio(
+            value: value,
+            groupValue: currentFont,
+            onChanged: (val) {},
+          ),
+          title: Text(PositiveAffirmationsConsts.reaffirmationFontValue(value)),
         ),
-        title: Text(PositiveAffirmationsConsts.reaffirmationFontValue(value)),
       );
-    }).toList();
+      listItems.add(const Divider(height: 1));
+    });
 
     return ListView(
       key: PositiveAffirmationsKeys.reaffirmationFormFontTabBodyList,
-      children: [...listItems],
+      children: listItems,
     );
   }
 }
@@ -247,24 +251,28 @@ class _StampsMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final listItems = ReaffirmationStamp.values.map((value) {
-      return ListTile(
-        key: PositiveAffirmationsKeys.reaffirmationFormStampTabBodyListItem(
-            value.index),
-        onTap: null,
-        leading: Radio(
-          value: value,
-          groupValue: currentStamp,
-          onChanged: (val) {},
+    final List<Widget> listItems = [];
+    ReaffirmationStamp.values.forEach((value) {
+      listItems.add(
+        ListTile(
+          key: PositiveAffirmationsKeys.reaffirmationFormStampTabBodyListItem(
+              value.index),
+          onTap: null,
+          leading: Radio(
+            value: value,
+            groupValue: currentStamp,
+            onChanged: (val) {},
+          ),
+          title: Text(
+              '${PositiveAffirmationsConsts.reaffirmationStampValue(value).keys.toList()[0]} ${PositiveAffirmationsConsts.reaffirmationStampValue(value).values.toList()[0]}'),
         ),
-        title: Text(
-            '${PositiveAffirmationsConsts.reaffirmationStampValue(value).keys.toList()[0]} ${PositiveAffirmationsConsts.reaffirmationStampValue(value).values.toList()[0]}'),
       );
-    }).toList();
+      listItems.add(const Divider(height: 1));
+    });
 
     return ListView(
       key: PositiveAffirmationsKeys.reaffirmationFormStampTabBodyList,
-      children: [...listItems],
+      children: listItems,
     );
   }
 }
