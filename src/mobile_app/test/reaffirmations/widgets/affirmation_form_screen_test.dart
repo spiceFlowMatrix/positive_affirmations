@@ -260,5 +260,47 @@ void main() {
           ..add(ValueSelected(value: ReaffirmationValue.loveIt))).called(1);
       });
     });
+
+    group('[FONT tab]', () {
+      testWidgets('tapping font option triggers state event', (tester) async {
+        forAffirmation = Affirmation.empty;
+        when(() => reaffirmationBloc.state).thenReturn(ReaffirmationState(
+          tab: ReaffirmationFormTab.font,
+        ));
+        await tester.pumpWidget(ReaffirmationFormScreenFixture(
+          reaffirmationBloc: reaffirmationBloc,
+          affirmationsBloc: affirmationsBloc,
+          forAffirmation: forAffirmation,
+        ));
+
+        await tester.tap(find.byKey(
+            PositiveAffirmationsKeys.reaffirmationFormFontTabBodyListItem(
+                ReaffirmationFont.birthstone.index)));
+
+        verify(() => reaffirmationBloc
+          ..add(FontSelected(font: ReaffirmationFont.birthstone))).called(1);
+      });
+    });
+
+    group('[STAMP tab]', () {
+      testWidgets('tapping stamp option triggers state event', (tester) async {
+        forAffirmation = Affirmation.empty;
+        when(() => reaffirmationBloc.state).thenReturn(ReaffirmationState(
+          tab: ReaffirmationFormTab.stamp,
+        ));
+        await tester.pumpWidget(ReaffirmationFormScreenFixture(
+          reaffirmationBloc: reaffirmationBloc,
+          affirmationsBloc: affirmationsBloc,
+          forAffirmation: forAffirmation,
+        ));
+
+        await tester.tap(find.byKey(
+            PositiveAffirmationsKeys.reaffirmationFormStampTabBodyListItem(
+                ReaffirmationStamp.takeOff.index)));
+
+        verify(() => reaffirmationBloc
+          ..add(StampSelected(stamp: ReaffirmationStamp.takeOff))).called(1);
+      });
+    });
   });
 }
