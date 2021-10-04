@@ -21,7 +21,7 @@ class PositiveAffirmationsConsts {
 
   static const String reaffirmationFormScreenTitleValue = 'Reaffirmation';
   static const String reaffirmationFormPreviewPanelEmptyLabel =
-      'Please select a Note, Font, and Font below';
+      'Please select a Note and Font below';
   static const String reaffirmationFormPreviewPanelSubmitButtonValue =
       'Reaffirm';
   static const String reaffirmationFormNoteTabTitle = 'NOTE';

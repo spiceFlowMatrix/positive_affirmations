@@ -109,9 +109,8 @@ class _PreviewPanel extends StatelessWidget {
   final ReaffirmationStamp stamp;
 
   bool get _canSubmit {
-    if (value != ReaffirmationValue.empty &&
-        font != ReaffirmationFont.none &&
-        stamp != ReaffirmationStamp.empty) return true;
+    if (value != ReaffirmationValue.empty && stamp != ReaffirmationStamp.empty)
+      return true;
     return false;
   }
 
@@ -121,14 +120,44 @@ class _PreviewPanel extends StatelessWidget {
         .values
         .toList()[0];
     final font = PositiveAffirmationsConsts.reaffirmationFontValue(this.font);
-    return Text(
-      '$value $stamp',
-      style: TextStyle(
-        fontFamily: font,
-        fontSize: 30,
-        fontWeight: FontWeight.bold,
+    return Container(
+      height: 40,
+      child: FittedBox(
+        fit: BoxFit.fitHeight,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '$value',
+              key: PositiveAffirmationsKeys
+                  .reaffirmationFormPreviewPanelSelectedNote,
+              style: TextStyle(
+                fontFamily: font,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Padding(padding: EdgeInsets.only(left: 10)),
+            Text(
+              '$stamp',
+              key: PositiveAffirmationsKeys
+                  .reaffirmationFormPreviewPanelSelectedStamp,
+              style: TextStyle(
+                fontFamily: font,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
+    // return Text(
+    //   '$value $stamp',
+    //   style: TextStyle(
+    //     fontFamily: font,
+    //     fontSize: 30,
+    //     fontWeight: FontWeight.bold,
+    //   ),
+    // );
   }
 
   @override
