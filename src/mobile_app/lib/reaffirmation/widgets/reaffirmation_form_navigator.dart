@@ -6,32 +6,17 @@ import 'package:mobile_app/positive_affirmations_theme.dart';
 import 'package:mobile_app/reaffirmation/bloc/reaffirmation_bloc.dart';
 
 class ReaffirmationFormNavigator extends StatefulWidget {
-  ReaffirmationFormNavigator({
-    Key? key,
-    required this.activeTab,
-    required this.onTabSelected,
-  });
-
-  final ReaffirmationFormTab activeTab;
-  final Function(ReaffirmationFormTab) onTabSelected;
+  ReaffirmationFormNavigator();
 
   @override
-  State<StatefulWidget> createState() => _ReaffirmationFormNavigatorState(
-        activeTab: activeTab,
-        onTabSelected: onTabSelected,
-      );
+  State<StatefulWidget> createState() => _ReaffirmationFormNavigatorState();
 }
 
 class _ReaffirmationFormNavigatorState extends State<ReaffirmationFormNavigator>
     with SingleTickerProviderStateMixin {
-  _ReaffirmationFormNavigatorState({
-    required this.activeTab,
-    required this.onTabSelected,
-  });
+  _ReaffirmationFormNavigatorState();
 
   TabController? _tabController;
-  final ReaffirmationFormTab activeTab;
-  final Function(ReaffirmationFormTab) onTabSelected;
 
   @override
   void initState() {
@@ -102,7 +87,9 @@ class _ReaffirmationFormNavigatorState extends State<ReaffirmationFormNavigator>
           child: TabBar(
             controller: _tabController,
             onTap: (index) {
-              onTabSelected(ReaffirmationFormTab.values[index]);
+              BlocProvider.of<ReaffirmationBloc>(context)
+                  .add(TabUpdated(tab: ReaffirmationFormTab.values[index]));
+              // onTabSelected(ReaffirmationFormTab.values[index]);
             },
             isScrollable: false,
             tabs: ReaffirmationFormTab.values.map((tab) {
