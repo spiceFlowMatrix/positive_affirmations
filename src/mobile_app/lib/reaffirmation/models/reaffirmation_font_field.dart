@@ -13,7 +13,7 @@ class ReaffirmationFontField extends FormzInput<ReaffirmationFont,
 
   @override
   ReaffirmationFontFieldValidationError? validator(ReaffirmationFont value) {
-    if (value == ReaffirmationFont.none)
-      return ReaffirmationFontFieldValidationError.empty;
+    // if (value == ReaffirmationFont.none)
+    //   return ReaffirmationFontFieldValidationError.empty;
   }
 }
