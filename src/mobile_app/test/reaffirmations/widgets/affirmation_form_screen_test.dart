@@ -239,5 +239,26 @@ void main() {
         });
       });
     });
+
+    group('[NOTE tab]', () {
+      testWidgets('tapping note option triggers state event', (tester) async {
+        forAffirmation = Affirmation.empty;
+        when(() => reaffirmationBloc.state).thenReturn(ReaffirmationState(
+          tab: ReaffirmationFormTab.note,
+        ));
+        await tester.pumpWidget(ReaffirmationFormScreenFixture(
+          reaffirmationBloc: reaffirmationBloc,
+          affirmationsBloc: affirmationsBloc,
+          forAffirmation: forAffirmation,
+        ));
+
+        await tester.tap(find.byKey(
+            PositiveAffirmationsKeys.reaffirmationFormNoteTabBodyListItem(
+                ReaffirmationValue.loveIt.index)));
+
+        verify(() => reaffirmationBloc
+          ..add(ValueSelected(value: ReaffirmationValue.loveIt))).called(1);
+      });
+    });
   });
 }
