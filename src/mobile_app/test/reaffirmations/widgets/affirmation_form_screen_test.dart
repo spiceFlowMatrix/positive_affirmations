@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:formz/formz.dart';
 import 'package:mobile_app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:mobile_app/consts.dart';
 import 'package:mobile_app/positive_affirmations_keys.dart';
 import 'package:mobile_app/reaffirmation/bloc/reaffirmation_bloc.dart';
+import 'package:mobile_app/reaffirmation/models/reaffirmation_graphic_field.dart';
+import 'package:mobile_app/reaffirmation/models/reaffirmation_value_field.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:repository/repository.dart';
 
@@ -98,7 +101,8 @@ void main() {
         );
       });
 
-      testWidgets('preview panel shows no selection label', (tester) async {
+      testWidgets('preview panel shows no selection label when state is fresh',
+          (tester) async {
         forAffirmation = Affirmation.empty;
         when(() => reaffirmationBloc.state).thenReturn(ReaffirmationState());
         await tester.pumpWidget(ReaffirmationFormScreenFixture(
@@ -120,7 +124,9 @@ void main() {
               .reaffirmationFormPreviewPanelEmptyLabel),
         );
       });
-      testWidgets('preview panel shows disabled submit button', (tester) async {
+      testWidgets(
+          'preview panel shows disabled submit button when state is fresh',
+          (tester) async {
         forAffirmation = Affirmation.empty;
         when(() => reaffirmationBloc.state).thenReturn(ReaffirmationState());
         await tester.pumpWidget(ReaffirmationFormScreenFixture(
@@ -300,6 +306,65 @@ void main() {
 
         verify(() => reaffirmationBloc
           ..add(StampSelected(stamp: ReaffirmationStamp.takeOff))).called(1);
+      });
+    });
+
+    group('[Preview Panel]', () {
+      testWidgets('preview text is displayed when note and stamp are selected',
+          (tester) async {
+        forAffirmation = Affirmation.empty;
+        when(() => reaffirmationBloc.state).thenReturn(ReaffirmationState(
+          submissionStatus: FormzStatus.valid,
+          value: ReaffirmationValueField.dirty(ReaffirmationValue.goodWork),
+          stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.medal),
+        ));
+        await tester.pumpWidget(ReaffirmationFormScreenFixture(
+          reaffirmationBloc: reaffirmationBloc,
+          affirmationsBloc: affirmationsBloc,
+          forAffirmation: forAffirmation,
+        ));
+
+        expect(
+          find.byKey(PositiveAffirmationsKeys
+              .reaffirmationFormPreviewPanelSelectedNote),
+          findsOneWidget,
+        );
+        expect(
+          find.byKey(PositiveAffirmationsKeys
+              .reaffirmationFormPreviewPanelSelectedStamp),
+          findsOneWidget,
+        );
+        expect(
+          find.byKey(
+              PositiveAffirmationsKeys.reaffirmationFormPreviewPanelEmptyLabel),
+          findsNothing,
+        );
+
+        final selectedNote = tester.widget<Text>(find.byKey(
+            PositiveAffirmationsKeys
+                .reaffirmationFormPreviewPanelSelectedNote));
+        final selectedStamp = tester.widget<Text>(find.byKey(
+            PositiveAffirmationsKeys
+                .reaffirmationFormPreviewPanelSelectedStamp));
+        final reaffirmButton = tester.widget<ElevatedButton>(find.byKey(
+            PositiveAffirmationsKeys
+                .reaffirmationFormPreviewPanelSubmitButton));
+
+        expect(
+          selectedNote.data,
+          equals(PositiveAffirmationsConsts.reaffirmationNoteValue(
+              ReaffirmationValue.goodWork)),
+        );
+        expect(
+          selectedNote.style?.fontFamily,
+          equals(PositiveAffirmationsConsts.reaffirmationFontValue(
+              reaffirmationBloc.state.font.value)),
+        );
+        expect(
+            selectedStamp.data,
+            PositiveAffirmationsConsts.reaffirmationStampValue(
+                ReaffirmationStamp.medal));
+        expect(reaffirmButton.enabled, equals(true));
       });
     });
   });
