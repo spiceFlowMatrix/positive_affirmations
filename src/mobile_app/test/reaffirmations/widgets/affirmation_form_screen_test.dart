@@ -373,11 +373,13 @@ void main() {
           'verify that submit button triggers reaffirmation creation event',
           (tester) async {
         forAffirmation = Affirmation.empty;
-        when(() => reaffirmationBloc.state).thenReturn(ReaffirmationState(
+        final reaffirmationState = ReaffirmationState(
           submissionStatus: FormzStatus.valid,
           value: ReaffirmationValueField.dirty(ReaffirmationValue.goodWork),
           stamp: ReaffirmationStampField.dirty(ReaffirmationStamp.medal),
-        ));
+        );
+        when(() => reaffirmationBloc.state).thenReturn(reaffirmationState);
+        when(() => affirmationsBloc.state).thenReturn(AffirmationsState());
         await tester.pumpWidget(ReaffirmationFormScreenFixture(
           reaffirmationBloc: reaffirmationBloc,
           affirmationsBloc: affirmationsBloc,
@@ -387,12 +389,14 @@ void main() {
         await tester.tap(find.byKey(PositiveAffirmationsKeys
             .reaffirmationFormPreviewPanelSubmitButton));
 
-        verify(() => affirmationsBloc.add(ReaffirmationCreated(
-              affirmationId: forAffirmation.id,
-              value: reaffirmationBloc.state.value.value,
-              font: reaffirmationBloc.state.font.value,
-              stamp: reaffirmationBloc.state.stamp.value,
-            ))).called(1);
+        verify(
+          () => affirmationsBloc.add(ReaffirmationCreated(
+            affirmationId: forAffirmation.id,
+            value: reaffirmationState.value.value,
+            font: reaffirmationState.font.value,
+            stamp: reaffirmationState.stamp.value,
+          )),
+        ).called(1);
       });
     });
   });
