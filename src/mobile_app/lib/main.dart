@@ -5,12 +5,6 @@ import 'package:mobile_app/notification_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:repository/repository.dart';
 
-void selectNotification(String? payload) async {
-  if (payload != null) {
-    debugPrint('notification payload: $payload');
-  }
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
