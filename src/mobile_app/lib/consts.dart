@@ -1,5 +1,7 @@
 import 'package:repository/repository.dart';
 
+const String applicationName = 'Positive Affirmations';
+
 class PositiveAffirmationsConsts {
   static const String titleFieldEmptyError = 'Title is required';
   static const String titleFieldInvalidError = 'Invalid title';
