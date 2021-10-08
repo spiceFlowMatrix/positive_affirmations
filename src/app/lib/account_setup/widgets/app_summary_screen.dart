@@ -1,13 +1,13 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:formz/formz.dart';
 import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:app/blocs/authentication/authentication_bloc.dart';
 import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/positive_affirmations_theme.dart';
 import 'package:app/profile/blocs/profile/profile_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:formz/formz.dart';
 
 class AppSummaryScreenArguments {
   AppSummaryScreenArguments(this.bloc);
@@ -59,11 +59,11 @@ class _AppSummary extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              Text(
+              const Text(
                 'You can skip this at any time if you\'re getting bored though.',
                 key: PositiveAffirmationsKeys.appSummarySubheader,
               ),
-              Divider(
+              const Divider(
                 thickness: 2,
               ),
               _AnimatedBody(
@@ -88,7 +88,7 @@ class _ScreenControls extends StatelessWidget {
           BlocProvider.of<ProfileBloc>(context)
               .add(UserCreated(user: state.createdUser));
           BlocProvider.of<AuthenticationBloc>(context)
-              .add(AuthenticationStatusChanged(
+              .add(const AuthenticationStatusChanged(
             status: AuthenticationStatus.authenticated,
           ));
         }
@@ -166,7 +166,7 @@ class _AnimatedBody extends StatefulWidget {
 class _AnimatedBodyState extends State<_AnimatedBody> {
   final List<SequencedAnimatedTextItem> _buildQueue = [
     const SequencedAnimatedTextItem(
-      key: PositiveAffirmationsKeys.cheerleaderBody,
+      key: PositiveAffirmationsKeys.cheerleaderTitle,
       type: AnimatedTextItemType.title,
       text: 'I\'m your very own cheerleader',
     ),
