@@ -3,15 +3,16 @@
 ### Todo (Backlog)
 
 - [ ] Test to ensure blocs never create model objects that are equal to their empty definitions.
-- [ ] ~~Letters feature~~
-    - [ ] ~~Letter generation settings~~
+- [ ] Letters feature
+    - [ ] Letter generation settings
     - [ ] Letters view
 - [ ] Controls to set up and manage public account
+- [ ] Notifications service
+- [ ] Workmanager service
 
 ### In Progress
 
-- [ ] Letters feature
-  - [ ] Letter generation settings
+- [ ] Migrate mobile app project architecture to latest version of `flutter create`
 
 ### Done ✓
 
