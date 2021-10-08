@@ -65,7 +65,7 @@ class PositiveAffirmationsConsts {
       case ReaffirmationStamp.medal:
         return {'Medal': '🏅'};
       case ReaffirmationStamp.thumbsUp:
-        return {'None': '👍'};
+        return {'Thumbs-up': '👍'};
     }
   };
 }
