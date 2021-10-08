@@ -39,6 +39,7 @@ dependencies:
     path: packages/repository
   image_picker: ^0.8.4+2
   flutter_local_notifications: ^9.0.0
+  workmanager: ^0.4.1
 
 dev_dependencies:
   bloc_test: ^8.2.0
