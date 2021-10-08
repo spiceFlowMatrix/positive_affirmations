@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/account_setup/widgets/name_form_screen.dart';
 import 'package:app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:app/affirmations/widgets/affirmations_home_screen.dart';
@@ -7,6 +5,9 @@ import 'package:app/blocs/authentication/authentication_bloc.dart';
 import 'package:app/positive_affirmations_routes.dart';
 import 'package:app/positive_affirmations_theme.dart';
 import 'package:app/profile/blocs/profile/profile_bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repository/repository.dart';
 
 class App extends StatelessWidget {
@@ -50,8 +51,9 @@ class _AppViewState extends State<AppView> {
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
-  @override
-  Widget build(BuildContext context) {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
+  Widget _buildMainApp() {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         return MaterialApp(
@@ -107,6 +109,44 @@ class _AppViewState extends State<AppView> {
               : NameFormScreen.routeName,
           routes: PositiveAffirmationsRoutes().routes(context),
         );
+      },
+    );
+  }
+
+  Widget _buildError() {
+    return MaterialApp(
+      theme: PositiveAffirmationsTheme.theme,
+      home: const Scaffold(
+        body: Center(
+          child: Text('Something went wrong'),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoading() {
+    return MaterialApp(
+      theme: PositiveAffirmationsTheme.theme,
+      home: const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return _buildError();
+        }
+        if (snapshot.connectionState == ConnectionState.done) {
+          return _buildMainApp();
+        }
+        return _buildLoading();
       },
     );
   }

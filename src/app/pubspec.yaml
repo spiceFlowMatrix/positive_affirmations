@@ -46,6 +46,7 @@ dependencies:
   workmanager: ^0.4.1
   repository:
     path: packages/repository
+  firebase_core: ^1.7.0
 
 dev_dependencies:
   flutter_test:
