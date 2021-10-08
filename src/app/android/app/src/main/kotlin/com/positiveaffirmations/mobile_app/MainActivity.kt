@@ -1,4 +1,4 @@
-package com.example.app
+package com.positiveaffirmations.mobile_app
 
 import io.flutter.embedding.android.FlutterActivity
 
