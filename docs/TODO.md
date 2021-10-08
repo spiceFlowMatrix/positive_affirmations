@@ -7,13 +7,13 @@
     - [ ] Letter generation settings
     - [ ] Letters view
 - [ ] Controls to set up and manage public account
-- [ ] Notifications service
-- [ ] Workmanager service
 
 ### In Progress
 
-- [ ] Migrate mobile app project architecture to latest version of `flutter create`
+- [ ] Notifications service
+- [ ] Workmanager service
 
 ### Done ✓
 
 - [x] Reaffirmations feature
+- [x] Migrate mobile app project architecture to latest version of `flutter create`
