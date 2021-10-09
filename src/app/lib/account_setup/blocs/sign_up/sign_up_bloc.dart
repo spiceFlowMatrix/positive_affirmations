@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:app/models/models.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:app/models/models.dart';
 import 'package:repository/repository.dart';
 
 part 'sign_up_event.dart';
