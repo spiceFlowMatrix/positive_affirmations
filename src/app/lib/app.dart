@@ -34,13 +34,15 @@ class App extends StatelessWidget {
           BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()),
           BlocProvider<ApptabBloc>(create: (_) => ApptabBloc()),
         ],
-        child: AppView(),
+        child: const AppView(),
       ),
     );
   }
 }
 
 class AppView extends StatefulWidget {
+  const AppView({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _AppViewState();
 }
@@ -61,47 +63,30 @@ class _AppViewState extends State<AppView> {
             return BlocListener<AuthenticationBloc, AuthenticationState>(
               listenWhen: (previous, current) => previous != current,
               listener: (context, state) {
-                print(state.status.toString());
                 switch (state.status) {
                   case AuthenticationStatus.unknown:
                     _navigator.pushNamedAndRemoveUntil(
                       NameFormScreen.routeName,
                       (route) => false,
                     );
-                    // _navigator.pushAndRemoveUntil(
-                    //   NameFormScreen.route(),
-                    //   (route) => false,
-                    // );
                     break;
                   case AuthenticationStatus.authenticated:
                     _navigator.pushNamedAndRemoveUntil(
                       AffirmationsHomeScreen.routeName,
                       (route) => false,
                     );
-                    // _navigator.pushAndRemoveUntil(
-                    //   NameFormScreen.route(),
-                    //   (route) => false,
-                    // );
                     break;
                   case AuthenticationStatus.unauthenticated:
                     _navigator.pushNamedAndRemoveUntil(
                       NameFormScreen.routeName,
                       (route) => false,
                     );
-                    // _navigator.pushAndRemoveUntil(
-                    //   NameFormScreen.route(),
-                    //   (route) => false,
-                    // );
                     break;
                 }
               },
               child: child,
             );
           },
-          // onGenerateRoute: (_) => NameFormScreen.route(),
-          // routes: {
-          //   NickNameFormScreen.routeName: (context) => NickNameFormScreen(),
-          // },
           initialRoute: state.status == AuthenticationStatus.authenticated
               ? AffirmationsHomeScreen.routeName
               : NameFormScreen.routeName,
