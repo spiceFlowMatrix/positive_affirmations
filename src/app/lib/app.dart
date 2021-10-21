@@ -1,4 +1,4 @@
-import 'package:app/account_setup/widgets/name_form_screen.dart';
+import 'package:app/account_setup/widgets/sign_up_flow.dart';
 import 'package:app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:app/affirmations/widgets/affirmations_home_screen.dart';
 import 'package:app/blocs/authentication/authentication_bloc.dart';
@@ -66,7 +66,7 @@ class _AppViewState extends State<AppView> {
                 switch (state.status) {
                   case AuthenticationStatus.unknown:
                     _navigator.pushNamedAndRemoveUntil(
-                      NameFormScreen.routeName,
+                      SignUpFlow.routeName,
                       (route) => false,
                     );
                     break;
@@ -78,7 +78,7 @@ class _AppViewState extends State<AppView> {
                     break;
                   case AuthenticationStatus.unauthenticated:
                     _navigator.pushNamedAndRemoveUntil(
-                      NameFormScreen.routeName,
+                      SignUpFlow.routeName,
                       (route) => false,
                     );
                     break;
@@ -89,7 +89,7 @@ class _AppViewState extends State<AppView> {
           },
           initialRoute: state.status == AuthenticationStatus.authenticated
               ? AffirmationsHomeScreen.routeName
-              : NameFormScreen.routeName,
+              : SignUpFlow.routeName,
           routes: PositiveAffirmationsRoutes().routes(context),
         );
       },
