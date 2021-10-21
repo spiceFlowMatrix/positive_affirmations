@@ -1,9 +1,7 @@
 import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
-import 'package:app/account_setup/widgets/name_form_screen.dart';
 import 'package:app/models/models.dart';
 import 'package:app/positive_affirmations_keys.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
@@ -32,9 +30,9 @@ void main() {
     });
 
     testWidgets('Components exist by key', (tester) async {
-      await tester.pumpWidget(RepositoryProvider.value(
-        value: userRepository,
-        child: MaterialApp(home: NameFormScreen()),
+      await tester.pumpWidget(NameFormFixture(
+        signUpBloc,
+        userRepository: userRepository,
       ));
 
       expect(find.byKey(PositiveAffirmationsKeys.nameField), findsOneWidget);
