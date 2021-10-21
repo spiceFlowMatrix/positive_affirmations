@@ -30,6 +30,7 @@ void main() {
     });
 
     testWidgets('Components exist by key', (tester) async {
+      when(() => signUpBloc.state).thenReturn(const SignUpState());
       await tester.pumpWidget(NameFormFixture(
         signUpBloc,
         userRepository: userRepository,

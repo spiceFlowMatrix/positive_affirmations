@@ -21,7 +21,7 @@ class NameFormScreen extends StatelessWidget {
 }
 
 class _NameForm extends StatelessWidget {
-  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
