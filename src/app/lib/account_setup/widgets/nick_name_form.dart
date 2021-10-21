@@ -1,20 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
-import 'package:app/account_setup/widgets/app_summary_screen.dart';
 import 'package:app/consts.dart';
 import 'package:app/models/models.dart';
 import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/positive_affirmations_theme.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 
 class NickNameForm extends StatelessWidget {
+  const NickNameForm({Key? key}) : super(key: key);
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 35),
+      padding: const EdgeInsets.symmetric(horizontal: 35),
       child: Form(
         key: _formKey,
         child: Align(
@@ -52,7 +52,7 @@ class _Label extends StatelessWidget {
               color: Colors.grey,
             ),
             children: [
-              TextSpan(
+              const TextSpan(
                 text: 'Nice to meet you ',
               ),
               TextSpan(
@@ -115,16 +115,10 @@ class _SubmitButton extends StatelessWidget {
           onPressed:
               state.nickNameStatus.isValidated || state.nickNameStatus.isPure
                   ? () {
-                      context.read<SignUpBloc>().add(NickNameSubmitted());
-                      final bloc = BlocProvider.of<SignUpBloc>(context);
-                      Navigator.pushNamed(
-                        context,
-                        AppSummaryScreen.routeName,
-                        arguments: AppSummaryScreenArguments(bloc),
-                      );
+                      context.read<SignUpBloc>().add(const NickNameSubmitted());
                     }
                   : null,
-          child: Text('NEXT'),
+          child: const Text('NEXT'),
         );
       },
     );
@@ -137,7 +131,7 @@ class _ChangeNameButton extends StatelessWidget {
     return OutlinedButton(
       key: PositiveAffirmationsKeys.changeNameButton,
       onPressed: () => Navigator.of(context).pop(),
-      child: Text('BACK'),
+      child: const Text('BACK'),
     );
   }
 }
