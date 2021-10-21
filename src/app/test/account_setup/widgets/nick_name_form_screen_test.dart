@@ -86,51 +86,52 @@ void main() {
       );
     });
 
-    testWidgets('pressing back button pops back to name form', (tester) async {
-      // Reference https://medium.com/@harsha973/widget-testing-pushing-a-new-page-13cd6a0bb055
-      var isNickNameFormPushed = false;
-      var isNickNameFormPopped = false;
-
-      when(() => signUpBloc.state).thenReturn(const SignUpState(
-        name: const NameField.dirty(mockValidName),
-        nameStatus: FormzStatus.submissionSuccess,
-      ));
-
-      await tester.pumpWidget(NameFormFixture(
-        signUpBloc,
-        userRepository: userRepository,
-        navigatorObserver: navigatorObserver,
-      ));
-      navigatorObserver.attachPushRouteObserver(
-        NickNameFormScreen.routeName,
-        () {
-          isNickNameFormPushed = true;
-        },
-      );
-      navigatorObserver.attachPopRouteObserver(
-        NickNameFormScreen.routeName,
-        () {
-          isNickNameFormPopped = true;
-        },
-      );
-
-      await tester.enterText(
-        find.byKey(PositiveAffirmationsKeys.nameField),
-        mockValidName,
-      );
-
-      await tester.tap(find.byKey(PositiveAffirmationsKeys.nameSubmitButton));
-
-      await tester.pumpAndSettle();
-
-      expect(isNickNameFormPushed, true);
-
-      await tester.tap(find.byKey(PositiveAffirmationsKeys.changeNameButton));
-
-      await tester.pumpAndSettle();
-
-      expect(isNickNameFormPopped, true);
-    });
+    // TODO: Reimplement this test once new signup flow is implemented
+    // testWidgets('pressing back button pops back to name form', (tester) async {
+    //   // Reference https://medium.com/@harsha973/widget-testing-pushing-a-new-page-13cd6a0bb055
+    //   var isNickNameFormPushed = false;
+    //   var isNickNameFormPopped = false;
+    //
+    //   when(() => signUpBloc.state).thenReturn(const SignUpState(
+    //     name: const NameField.dirty(mockValidName),
+    //     nameStatus: FormzStatus.submissionSuccess,
+    //   ));
+    //
+    //   await tester.pumpWidget(NameFormFixture(
+    //     signUpBloc,
+    //     userRepository: userRepository,
+    //     navigatorObserver: navigatorObserver,
+    //   ));
+    //   navigatorObserver.attachPushRouteObserver(
+    //     NickNameFormScreen.routeName,
+    //     () {
+    //       isNickNameFormPushed = true;
+    //     },
+    //   );
+    //   navigatorObserver.attachPopRouteObserver(
+    //     NickNameFormScreen.routeName,
+    //     () {
+    //       isNickNameFormPopped = true;
+    //     },
+    //   );
+    //
+    //   await tester.enterText(
+    //     find.byKey(PositiveAffirmationsKeys.nameField),
+    //     mockValidName,
+    //   );
+    //
+    //   await tester.tap(find.byKey(PositiveAffirmationsKeys.nameSubmitButton));
+    //
+    //   await tester.pumpAndSettle();
+    //
+    //   expect(isNickNameFormPushed, true);
+    //
+    //   await tester.tap(find.byKey(PositiveAffirmationsKeys.changeNameButton));
+    //
+    //   await tester.pumpAndSettle();
+    //
+    //   expect(isNickNameFormPopped, true);
+    // });
 
     group('[FormWiredToBloc]', () {
       testWidgets('entering nickname updates state', (tester) async {

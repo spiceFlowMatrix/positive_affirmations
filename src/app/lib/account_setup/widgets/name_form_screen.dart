@@ -114,13 +114,7 @@ class _SubmitButton extends StatelessWidget {
           key: PositiveAffirmationsKeys.nameSubmitButton,
           onPressed: state.nameStatus.isValidated
               ? () {
-                  // context.read<SignUpBloc>().add(const NameSubmitted());
-                  // final bloc = BlocProvider.of<SignUpBloc>(context);
-                  // Navigator.pushNamed(
-                  //   context,
-                  //   NickNameFormScreen.routeName,
-                  //   arguments: NickNameFormScreenArguments(bloc),
-                  // );
+                  context.read<SignUpBloc>().add(const NameSubmitted());
                 }
               : null,
           child: const Text('NEXT'),

@@ -169,13 +169,13 @@ void main() {
 
         await tester.tap(find.byKey(PositiveAffirmationsKeys.nameSubmitButton));
 
-        verify(() => signUpBloc.add(NameSubmitted())).called(1);
+        verify(() => signUpBloc.add(const NameSubmitted())).called(1);
       });
 
       testWidgets('submit button is disabled when form is invalid',
           (tester) async {
         when(() => signUpBloc.state).thenReturn(const SignUpState(
-          name: const NameField.dirty(mockInvalidName),
+          name: NameField.dirty(mockInvalidName),
           nameStatus: FormzStatus.invalid,
         ));
 
