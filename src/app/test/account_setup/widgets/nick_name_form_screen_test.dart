@@ -1,5 +1,4 @@
 import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
-import 'package:app/account_setup/widgets/nick_name_form_screen.dart';
 import 'package:app/models/models.dart';
 import 'package:app/models/name_field.dart';
 import 'package:app/nav_observer.dart';
@@ -23,14 +22,14 @@ void main() {
   const mockValidNickName = 'validNickName';
   const mockInvalidNickName = '35.n\'fwe342-';
   const mockValidSignUpState = SignUpState(
-    name: const NameField.dirty(mockValidName),
+    name: NameField.dirty(mockValidName),
     nameStatus: FormzStatus.submissionSuccess,
   );
 
   group('[NickNameForm]', () {
     late UserRepository userRepository;
     late SignUpBloc signUpBloc;
-    late PositiveAffirmationsNavigatorObserver navigatorObserver;
+    // late PositiveAffirmationsNavigatorObserver navigatorObserver;
 
     setUpAll(() {
       registerFallbackValue<SignUpEvent>(FakeSignUpEvent());
@@ -47,7 +46,10 @@ void main() {
     testWidgets('components are rendered', (tester) async {
       // Setup
       when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
-      await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+      await tester.pumpWidget(NickNameFormFixture(
+        signUpBloc,
+        userRepository: userRepository,
+      ));
 
       // Assert
       expect(
@@ -74,7 +76,10 @@ void main() {
         nickNameStatus: FormzStatus.pure,
       ));
 
-      await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+      await tester.pumpWidget(NickNameFormFixture(
+        signUpBloc,
+        userRepository: userRepository,
+      ));
 
       expect(
         tester
@@ -137,7 +142,10 @@ void main() {
       testWidgets('entering nickname updates state', (tester) async {
         /// Setup
         when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
-        await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+        await tester.pumpWidget(NickNameFormFixture(
+          signUpBloc,
+          userRepository: userRepository,
+        ));
 
         /// Act
         await tester.enterText(
@@ -146,17 +154,20 @@ void main() {
         );
 
         /// Assert
-        verify(() => signUpBloc.add(NickNameUpdated(mockValidNickName)))
+        verify(() => signUpBloc.add(const NickNameUpdated(mockValidNickName)))
             .called(1);
       });
 
       testWidgets('error shows when nickname field is invalid', (tester) async {
         when(() => signUpBloc.state).thenReturn(mockValidSignUpState.copyWith(
-          nickName: NickNameField.dirty(mockInvalidNickName),
+          nickName: const NickNameField.dirty(mockInvalidNickName),
           nickNameStatus: FormzStatus.invalid,
         ));
 
-        await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+        await tester.pumpWidget(NickNameFormFixture(
+          signUpBloc,
+          userRepository: userRepository,
+        ));
 
         expect(
           tester
@@ -171,7 +182,10 @@ void main() {
       testWidgets('valid label text is rendered', (tester) async {
         when(() => signUpBloc.state).thenReturn(mockValidSignUpState);
 
-        await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+        await tester.pumpWidget(NickNameFormFixture(
+          signUpBloc,
+          userRepository: userRepository,
+        ));
 
         // Reference https://stackoverflow.com/a/41153547/5472560
         expect(
@@ -190,7 +204,10 @@ void main() {
             nickName: const NickNameField.dirty(mockInvalidNickName),
             nickNameStatus: FormzStatus.invalid));
 
-        await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+        await tester.pumpWidget(NickNameFormFixture(
+          signUpBloc,
+          userRepository: userRepository,
+        ));
 
         expect(
           tester
@@ -207,7 +224,10 @@ void main() {
           nickNameStatus: FormzStatus.pure,
         ));
 
-        await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+        await tester.pumpWidget(NickNameFormFixture(
+          signUpBloc,
+          userRepository: userRepository,
+        ));
 
         expect(
           tester
@@ -225,7 +245,10 @@ void main() {
           nickNameStatus: FormzStatus.valid,
         ));
 
-        await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+        await tester.pumpWidget(NickNameFormFixture(
+          signUpBloc,
+          userRepository: userRepository,
+        ));
 
         expect(
           tester
@@ -243,12 +266,15 @@ void main() {
           nickNameStatus: FormzStatus.valid,
         ));
 
-        await tester.pumpWidget(NickNameFormFixture(signUpBloc));
+        await tester.pumpWidget(NickNameFormFixture(
+          signUpBloc,
+          userRepository: userRepository,
+        ));
 
         await tester
             .tap(find.byKey(PositiveAffirmationsKeys.nickNameSubmitButton));
 
-        verify(() => signUpBloc.add(NickNameSubmitted())).called(1);
+        verify(() => signUpBloc.add(const NickNameSubmitted())).called(1);
       });
     });
   });
