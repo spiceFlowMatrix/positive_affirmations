@@ -41,6 +41,14 @@ void main() {
         find.byKey(PositiveAffirmationsKeys.nameSubmitButton),
         findsOneWidget,
       );
+      expect(
+        find.byKey(PositiveAffirmationsKeys.alreadyHaveAccountLabel),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(PositiveAffirmationsKeys.alreadyHaveAccountSignInButton),
+        findsOneWidget,
+      );
     });
   });
 }
