@@ -7,19 +7,24 @@ import 'package:repository/repository.dart';
 
 class NameScreenFixture extends StatelessWidget {
   const NameScreenFixture({
-    required this.signUpBloc,
+    this.signUpBloc,
     required this.userRepository,
   });
 
-  final SignUpBloc signUpBloc;
+  final SignUpBloc? signUpBloc;
   final UserRepository userRepository;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: userRepository,
-      child: BlocProvider.value(
-        value: signUpBloc,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: userRepository),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          if (signUpBloc != null)
+            BlocProvider<SignUpBloc>.value(value: signUpBloc!),
+        ],
         child: MaterialApp(
           initialRoute: SignUpFlow.routeName,
           routes: PositiveAffirmationsRoutes().routes(context),

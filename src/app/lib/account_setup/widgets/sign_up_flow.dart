@@ -5,6 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repository/repository.dart';
 
+class SignUpFlowArgs {
+  const SignUpFlowArgs({this.signUpBloc});
+
+  final SignUpBloc? signUpBloc;
+}
+
 class SignUpFlow extends StatelessWidget {
   const SignUpFlow({Key? key}) : super(key: key);
   static const String routeName = '/signUpFlow';
@@ -13,10 +19,22 @@ class SignUpFlow extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserRepository userRepository =
         RepositoryProvider.of<UserRepository>(context);
-    return BlocProvider(
-      create: (_) => SignUpBloc(userRepository: userRepository),
-      child: _Flow(),
-    );
+
+    // Extract the arguments from the current ModalRoute
+    // settings and cast them as ScreenArguments.
+    final args = ModalRoute.of(context)!.settings.arguments as SignUpFlowArgs?;
+
+    if (args != null && args.signUpBloc != null) {
+      return BlocProvider<SignUpBloc>.value(
+        value: args.signUpBloc!,
+        child: _Flow(),
+      );
+    } else {
+      return BlocProvider(
+        create: (_) => SignUpBloc(userRepository: userRepository),
+        child: _Flow(),
+      );
+    }
   }
 }
 

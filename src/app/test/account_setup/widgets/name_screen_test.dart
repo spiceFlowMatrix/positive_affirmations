@@ -1,4 +1,5 @@
 import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
+import 'package:app/positive_affirmations_keys.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:repository/repository.dart';
@@ -27,6 +28,19 @@ void main() {
         signUpBloc: signUpBloc,
         userRepository: userRepository,
       ));
+
+      expect(
+        find.byKey(PositiveAffirmationsKeys.nameFieldLabel),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(PositiveAffirmationsKeys.nameField),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(PositiveAffirmationsKeys.nameSubmitButton),
+        findsOneWidget,
+      );
     });
   });
 }

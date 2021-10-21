@@ -20,6 +20,9 @@ class PositiveAffirmationsKeys {
   static const appSummaryAnimatedBody = Key('__appSummaryAnimatedBody__');
   static const changeNickNameButton = Key('__changeNickNameButton__');
   static const skipAppSummaryButton = Key('__skipAppSummaryButton__');
+  static const alreadyHaveAccountLabel = Key('__alreadyHaveAccountLabel__');
+  static const alreadyHaveAccountSignInButton =
+      Key('__alreadyHaveAccountSignInButton__');
 
   // App summary animated text bodies
   static const cheerleaderTitle = Key('__cheerleaderTitle__');
