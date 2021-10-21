@@ -40,7 +40,7 @@ void main() {
     setUp(() {
       userRepository = MockUserRepository();
       signUpBloc = MockSignUpBloc();
-      navigatorObserver = PositiveAffirmationsNavigatorObserver();
+      // navigatorObserver = PositiveAffirmationsNavigatorObserver();
     });
 
     testWidgets('components are rendered', (tester) async {
