@@ -42,12 +42,20 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   SignUpState _mapNameSubmittedToState(NameSubmitted event, SignUpState state) {
-    if (!state.nameStatus.isValidated) return state;
-
     return state.copyWith(
       name: NameField.dirty(state.name.value.trim()),
       nameStatus: FormzStatus.submissionSuccess,
     );
+    // debugPrint('NameSubmitted.State: ${state.toString()}');
+    // if (!state.nameStatus.isValidated) {
+    //   yield state;
+    // } else {
+    //   yield state.copyWith(
+    //     nameStatus: FormzStatus.submissionInProgress,
+    //   );
+    //
+    //
+    // }
   }
 
   SignUpState _mapNickNameUpdatedToState(

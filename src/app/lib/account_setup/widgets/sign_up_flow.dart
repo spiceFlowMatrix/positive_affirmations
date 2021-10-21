@@ -1,8 +1,10 @@
 import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:app/account_setup/widgets/name_form_screen.dart';
+import 'package:app/account_setup/widgets/nick_name_form_screen.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:repository/repository.dart';
 
 class SignUpFlowArgs {
@@ -46,6 +48,8 @@ class _Flow extends StatelessWidget {
       onGeneratePages: (state, pages) {
         return [
           const MaterialPage(child: NameFormScreen()),
+          if (state.nameStatus == FormzStatus.submissionSuccess)
+            const MaterialPage(child: NickNameFormScreen()),
         ];
       },
     );
