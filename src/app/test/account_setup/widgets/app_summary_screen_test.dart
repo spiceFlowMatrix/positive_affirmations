@@ -26,9 +26,9 @@ void main() {
   const mockValidNickName = 'validNickName';
   // const mockInvalidNickName = '35.n\'fwe342-';
   const mockValidSignUpState = SignUpState(
-    name: const NameField.dirty(mockValidName),
+    name: NameField.dirty(mockValidName),
     nameStatus: FormzStatus.submissionSuccess,
-    nickName: const NickNameField.dirty(mockValidNickName),
+    nickName: NickNameField.dirty(mockValidNickName),
     nickNameStatus: FormzStatus.submissionSuccess,
   );
   group('[AppSummaryScreen]', () {
