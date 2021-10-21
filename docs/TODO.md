@@ -6,12 +6,15 @@
 - [ ] Letters feature
     - [ ] Letter generation settings
     - [ ] Letters view
-- [ ] Controls to set up and manage public account
+- [ ] Controls to set up and manage public account for existing accounts
 
 ### In Progress
 
-- [ ] Notifications service
-- [ ] Workmanager service
+- [ ] Updated on-boarding process and screens
+    - Create update UI mockups
+    - Deprecate tests for current account_setup screens
+    - Bloc and state management for new screens
+    - UI screens and navigation flow implementation for new screens
 
 ### Done ✓
 
