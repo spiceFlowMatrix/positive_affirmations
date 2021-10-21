@@ -33,7 +33,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   SignUpState _mapNameUpdatedToState(NameUpdated event, SignUpState state) {
-    print('NameUpdated: ${event.name}');
     final name = NameField.dirty(event.name);
 
     return state.copyWith(
@@ -43,7 +42,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   SignUpState _mapNameSubmittedToState(NameSubmitted event, SignUpState state) {
-    print('NameSubmitted');
     if (!state.nameStatus.isValidated) return state;
 
     return state.copyWith(
@@ -54,7 +52,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   SignUpState _mapNickNameUpdatedToState(
       NickNameUpdated event, SignUpState state) {
-    print('NickNameUpdated: ${event.nickName}');
     if (state.name.pure ||
         state.name.invalid ||
         !state.nameStatus.isSubmissionSuccess) return state;
@@ -69,7 +66,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   SignUpState _mapNickNameSubmittedToState(
       NickNameSubmitted event, SignUpState state) {
-    print('NickNameSubmitted');
     if (!state.nickNameStatus.isValidated) return state;
 
     return state.copyWith(
@@ -80,7 +76,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   Stream<SignUpState> _mapUserSubmittedToState(
       UserSubmitted event, SignUpState state) async* {
-    print('${state.toString()}');
     yield state.copyWith(submissionStatus: FormzStatus.submissionInProgress);
 
     try {
