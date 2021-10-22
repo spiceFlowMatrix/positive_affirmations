@@ -1,5 +1,5 @@
 import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
-import 'package:app/account_setup/widgets/nick_name_form_screen.dart';
+import 'package:app/account_setup/widgets/already_have_account_content.dart';
 import 'package:app/consts.dart';
 import 'package:app/models/models.dart';
 import 'package:app/positive_affirmations_keys.dart';
@@ -39,6 +39,13 @@ class _NameForm extends StatelessWidget {
               _NameField(),
               Padding(padding: EdgeInsets.only(top: 10)),
               _SubmitButton(),
+              Divider(
+                height: 30,
+                thickness: 1.5,
+              ),
+              AlreadyHaveAccountLabel(),
+              Padding(padding: EdgeInsets.only(top: 10)),
+              AlreadyHaveAccountSignInButton(),
             ],
           ),
         ),

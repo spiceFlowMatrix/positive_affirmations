@@ -1,4 +1,5 @@
 import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
+import 'package:app/account_setup/widgets/already_have_account_content.dart';
 import 'package:app/consts.dart';
 import 'package:app/models/nick_name_field.dart';
 import 'package:app/positive_affirmations_keys.dart';
@@ -49,6 +50,13 @@ class _NickNameForm extends StatelessWidget {
               _SubmitButton(),
               const Padding(padding: EdgeInsets.only(top: 10)),
               _ChangeNameButton(),
+              const Divider(
+                height: 30,
+                thickness: 1.5,
+              ),
+              const AlreadyHaveAccountLabel(),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              const AlreadyHaveAccountSignInButton(),
             ],
           ),
         ),
