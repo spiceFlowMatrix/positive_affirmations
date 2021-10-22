@@ -39,8 +39,18 @@ void main() {
       expect(find.byKey(PositiveAffirmationsKeys.nameField), findsOneWidget);
       expect(
           find.byKey(PositiveAffirmationsKeys.nameFieldLabel), findsOneWidget);
-      expect(find.byKey(PositiveAffirmationsKeys.nameSubmitButton),
-          findsOneWidget);
+      expect(
+        find.byKey(PositiveAffirmationsKeys.nameSubmitButton),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(PositiveAffirmationsKeys.alreadyHaveAccountLabel),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(PositiveAffirmationsKeys.alreadyHaveAccountSignInButton),
+        findsOneWidget,
+      );
     });
 
     testWidgets('Empty form cannot be submitted', (tester) async {
