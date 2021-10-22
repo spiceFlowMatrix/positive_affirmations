@@ -1,9 +1,11 @@
 import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:app/account_setup/widgets/already_have_account_content.dart';
+import 'package:app/blocs/authentication/authentication_bloc.dart';
 import 'package:app/consts.dart';
 import 'package:app/models/email_field.dart';
 import 'package:app/models/password_field.dart';
 import 'package:app/positive_affirmations_keys.dart';
+import 'package:app/profile/blocs/profile/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -177,21 +179,32 @@ class _SubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignUpBloc, SignUpState>(
-      builder: (context, state) {
-        return ElevatedButton(
-          key: PositiveAffirmationsKeys.nameSubmitButton,
-          onPressed: state.emailStatus.isValidated &&
-                  state.emailStatus != FormzStatus.pure &&
-                  state.passwordStatus.isValidated &&
-                  state.confirmPasswordStatus.isValidated
-              ? () {
-                  context.read<SignUpBloc>().add(AccountDetailsSubmitted());
-                }
-              : null,
-          child: const Text('Done'),
-        );
+    return BlocListener<SignUpBloc, SignUpState>(
+      listenWhen: (previous, current) =>
+          current.submissionStatus == FormzStatus.submissionSuccess,
+      listener: (context, state) {
+        context.read<ProfileBloc>().add(UserCreated(user: state.createdUser));
+        context.read<AuthenticationBloc>().add(
+              const AuthenticationStatusChanged(
+                  status: AuthenticationStatus.authenticated),
+            );
       },
+      child: BlocBuilder<SignUpBloc, SignUpState>(
+        builder: (context, state) {
+          return ElevatedButton(
+            key: PositiveAffirmationsKeys.nameSubmitButton,
+            onPressed: state.emailStatus.isValidated &&
+                    state.emailStatus != FormzStatus.pure &&
+                    state.passwordStatus.isValidated &&
+                    state.confirmPasswordStatus.isValidated
+                ? () {
+                    context.read<SignUpBloc>().add(AccountDetailsSubmitted());
+                  }
+                : null,
+            child: const Text('Done'),
+          );
+        },
+      ),
     );
   }
 }

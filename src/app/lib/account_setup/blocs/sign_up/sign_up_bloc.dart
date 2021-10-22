@@ -36,9 +36,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     } else if (event is ConfirmPasswordUpdated) {
       yield _mapConfirmPasswordUpdatedToState(event, state);
     } else if (event is AccountDetailsSubmitted) {
-      yield _mapAccountDetailsSubmittedToState(event, state);
-    } else if (event is UserSubmitted) {
-      yield* _mapUserSubmittedToState(event, state);
+      yield* _mapAccountDetailsSubmittedToState(event, state);
     }
   }
 
@@ -119,18 +117,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     );
   }
 
-  SignUpState _mapAccountDetailsSubmittedToState(
-      AccountDetailsSubmitted event, SignUpState state) {
-    if (!state.nickNameStatus.isValidated) return state;
-
-    return state.copyWith(
-      email: EmailField.dirty(state.nickName.value.trim()),
-      emailStatus: FormzStatus.submissionSuccess,
-    );
-  }
-
-  Stream<SignUpState> _mapUserSubmittedToState(
-      UserSubmitted event, SignUpState state) async* {
+  Stream<SignUpState> _mapAccountDetailsSubmittedToState(
+      AccountDetailsSubmitted event, SignUpState state) async* {
     yield state.copyWith(submissionStatus: FormzStatus.submissionInProgress);
 
     try {
