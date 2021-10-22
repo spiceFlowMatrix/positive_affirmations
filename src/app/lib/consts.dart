@@ -68,4 +68,7 @@ class PositiveAffirmationsConsts {
         return {'Thumbs-up': '👍'};
     }
   };
+
+  static const String alreadyHaveAccountLabelText = 'Already have an account?';
+  static const String alreadyHaveAccountSignInButtonText = 'Sign In';
 }
