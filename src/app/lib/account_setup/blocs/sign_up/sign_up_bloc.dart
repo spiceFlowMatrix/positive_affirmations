@@ -31,6 +31,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield _mapNickNameSubmittedToState(event, state);
     } else if (event is EmailUpdated) {
       yield _mapEmailUpdatedToState(event, state);
+    } else if (event is PasswordUpdated) {
+      yield _mapPasswordUpdatedToState(event, state);
+    } else if (event is ConfirmPasswordUpdated) {
+      yield _mapConfirmPasswordUpdatedToState(event, state);
     } else if (event is AccountDetailsSubmitted) {
       yield _mapAccountDetailsSubmittedToState(event, state);
     } else if (event is UserSubmitted) {
@@ -90,6 +94,28 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     return state.copyWith(
       email: email,
       emailStatus: Formz.validate([email]),
+    );
+  }
+
+  SignUpState _mapPasswordUpdatedToState(
+      PasswordUpdated event, SignUpState state) {
+    final password = PasswordField.dirty(event.password);
+
+    return state.copyWith(
+      password: password,
+      passwordStatus: Formz.validate([password]),
+    );
+  }
+
+  SignUpState _mapConfirmPasswordUpdatedToState(
+      ConfirmPasswordUpdated event, SignUpState state) {
+    final confirmPassword = PasswordField.dirty(event.confirmPassword);
+
+    return state.copyWith(
+      confirmPassword: confirmPassword,
+      confirmPasswordStatus: state.password.value == confirmPassword.value
+          ? FormzStatus.valid
+          : FormzStatus.invalid,
     );
   }
 

@@ -11,6 +11,7 @@ class SignUpState extends Equatable {
     this.nickNameStatus = FormzStatus.pure,
     this.emailStatus = FormzStatus.pure,
     this.passwordStatus = FormzStatus.pure,
+    this.confirmPasswordStatus = FormzStatus.pure,
     this.createdUser = User.empty,
     this.submissionStatus = FormzStatus.pure,
   });
@@ -24,6 +25,7 @@ class SignUpState extends Equatable {
   final FormzStatus nickNameStatus;
   final FormzStatus emailStatus;
   final FormzStatus passwordStatus;
+  final FormzStatus confirmPasswordStatus;
   final User createdUser;
   final FormzStatus submissionStatus;
 
@@ -37,6 +39,7 @@ class SignUpState extends Equatable {
     FormzStatus? nickNameStatus,
     FormzStatus? emailStatus,
     FormzStatus? passwordStatus,
+    FormzStatus? confirmPasswordStatus,
     User? createdUser,
     FormzStatus? submissionStatus,
   }) {
@@ -50,6 +53,8 @@ class SignUpState extends Equatable {
       nickNameStatus: nickNameStatus ?? this.nickNameStatus,
       emailStatus: emailStatus ?? this.emailStatus,
       passwordStatus: passwordStatus ?? this.passwordStatus,
+      confirmPasswordStatus:
+          confirmPasswordStatus ?? this.confirmPasswordStatus,
       createdUser: createdUser ?? this.createdUser,
       submissionStatus: submissionStatus ?? this.submissionStatus,
     );

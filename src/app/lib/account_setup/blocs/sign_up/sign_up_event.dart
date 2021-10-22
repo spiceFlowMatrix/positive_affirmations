@@ -42,6 +42,28 @@ class EmailUpdated extends SignUpEvent {
   List<Object> get props => [email];
 }
 
+class PasswordUpdated extends SignUpEvent {
+  const PasswordUpdated({
+    required this.password,
+  });
+
+  final String password;
+
+  @override
+  List<Object> get props => [password];
+}
+
+class ConfirmPasswordUpdated extends SignUpEvent {
+  const ConfirmPasswordUpdated({
+    required this.confirmPassword,
+  });
+
+  final String confirmPassword;
+
+  @override
+  List<Object> get props => [confirmPassword];
+}
+
 class AccountDetailsSubmitted extends SignUpEvent {}
 
 class UserSubmitted extends SignUpEvent {}
