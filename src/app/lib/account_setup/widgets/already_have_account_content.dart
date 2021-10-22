@@ -3,6 +3,26 @@ import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/positive_affirmations_theme.dart';
 import 'package:flutter/material.dart';
 
+class AlreadyHaveAccountPanel extends StatelessWidget {
+  const AlreadyHaveAccountPanel({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Divider(
+          height: 30,
+          thickness: 1.5,
+        ),
+        AlreadyHaveAccountLabel(),
+        Padding(padding: EdgeInsets.only(top: 10)),
+        AlreadyHaveAccountSignInButton(),
+      ],
+    );
+  }
+}
+
 class AlreadyHaveAccountLabel extends StatelessWidget {
   const AlreadyHaveAccountLabel({Key? key}) : super(key: key);
 
