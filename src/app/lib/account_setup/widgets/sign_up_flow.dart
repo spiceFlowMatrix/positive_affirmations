@@ -1,4 +1,5 @@
 import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
+import 'package:app/account_setup/widgets/account_details_form.dart';
 import 'package:app/account_setup/widgets/name_form_screen.dart';
 import 'package:app/account_setup/widgets/nick_name_form_screen.dart';
 import 'package:flow_builder/flow_builder.dart';
@@ -50,6 +51,9 @@ class _Flow extends StatelessWidget {
           const MaterialPage(child: NameFormScreen()),
           if (state.nameStatus == FormzStatus.submissionSuccess)
             const MaterialPage(child: NickNameFormScreen()),
+          if (state.nameStatus == FormzStatus.submissionSuccess &&
+              state.nickNameStatus == FormzStatus.submissionSuccess)
+            const MaterialPage(child: AccountDetailsForm())
         ];
       },
     );

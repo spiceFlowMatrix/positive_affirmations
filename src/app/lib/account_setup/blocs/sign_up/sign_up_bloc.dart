@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/models/email_field.dart';
 import 'package:app/models/models.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
