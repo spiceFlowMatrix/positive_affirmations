@@ -28,6 +28,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield _mapNickNameUpdatedToState(event, state);
     } else if (event is NickNameSubmitted) {
       yield _mapNickNameSubmittedToState(event, state);
+    } else if (event is EmailUpdated) {
+      yield _mapEmailUpdatedToState(event, state);
+    } else if (event is AccountDetailsSubmitted) {
+      yield _mapAccountDetailsSubmittedToState(event, state);
     } else if (event is UserSubmitted) {
       yield* _mapUserSubmittedToState(event, state);
     }
@@ -72,6 +76,29 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     return state.copyWith(
       nickName: NickNameField.dirty(state.nickName.value.trim()),
       nickNameStatus: FormzStatus.submissionSuccess,
+    );
+  }
+
+  SignUpState _mapEmailUpdatedToState(EmailUpdated event, SignUpState state) {
+    // if (state.email.pure ||
+    //     state.email.invalid ||
+    //     !state.emailStatus.isSubmissionSuccess) return state;
+
+    final email = EmailField.dirty(event.email);
+
+    return state.copyWith(
+      email: email,
+      emailStatus: Formz.validate([email]),
+    );
+  }
+
+  SignUpState _mapAccountDetailsSubmittedToState(
+      AccountDetailsSubmitted event, SignUpState state) {
+    if (!state.nickNameStatus.isValidated) return state;
+
+    return state.copyWith(
+      email: EmailField.dirty(state.nickName.value.trim()),
+      emailStatus: FormzStatus.submissionSuccess,
     );
   }
 

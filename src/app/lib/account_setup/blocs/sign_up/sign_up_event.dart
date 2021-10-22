@@ -33,4 +33,15 @@ class NickNameSubmitted extends SignUpEvent {
   const NickNameSubmitted();
 }
 
+class EmailUpdated extends SignUpEvent {
+  const EmailUpdated({required this.email});
+
+  final String email;
+
+  @override
+  List<Object> get props => [email];
+}
+
+class AccountDetailsSubmitted extends SignUpEvent {}
+
 class UserSubmitted extends SignUpEvent {}

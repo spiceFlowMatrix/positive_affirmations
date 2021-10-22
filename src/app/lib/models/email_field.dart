@@ -10,7 +10,7 @@ class EmailField extends FormzInput<String, EmailFieldValidationError> {
   @override
   EmailFieldValidationError? validator(String value) {
     if (value.isEmpty) return EmailFieldValidationError.empty;
-    if (value.contains(RegExp(
+    if (!value.contains(RegExp(
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))) {
       return EmailFieldValidationError.invalid_email;
     }

@@ -1,7 +1,7 @@
 import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 import 'package:app/account_setup/widgets/already_have_account_content.dart';
 import 'package:app/consts.dart';
-import 'package:app/models/models.dart';
+import 'package:app/models/email_field.dart';
 import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/positive_affirmations_theme.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +39,8 @@ class _Form extends StatelessWidget {
               _EmailField(),
               Padding(padding: EdgeInsets.only(top: 10)),
               _SubmitButton(),
+              Padding(padding: EdgeInsets.only(top: 10)),
+              _BackButton(),
               AlreadyHaveAccountPanel(),
             ],
           ),
@@ -75,12 +77,12 @@ class _Label extends StatelessWidget {
 class _EmailField extends StatelessWidget {
   const _EmailField();
 
-  String _generateErrorText(NameFieldValidationError error) {
+  String _generateErrorText(EmailFieldValidationError error) {
     switch (error) {
-      case NameFieldValidationError.empty:
-        return PositiveAffirmationsConsts.nameFieldEmptyError;
-      case NameFieldValidationError.invalid:
-        return PositiveAffirmationsConsts.nameFieldInvalidError;
+      case EmailFieldValidationError.empty:
+        return PositiveAffirmationsConsts.invalidEmailErrorText;
+      case EmailFieldValidationError.invalid_email:
+        return PositiveAffirmationsConsts.invalidEmailErrorText;
     }
   }
 
@@ -90,12 +92,13 @@ class _EmailField extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: PositiveAffirmationsKeys.nameField,
-          onChanged: (name) =>
-              context.read<SignUpBloc>().add(NameUpdated(name)),
+          onChanged: (email) =>
+              context.read<SignUpBloc>().add(EmailUpdated(email: email)),
+          keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            labelText: 'Name',
-            errorText: state.name.invalid
-                ? _generateErrorText(state.name.error!)
+            labelText: 'Email',
+            helperText: state.email.invalid
+                ? _generateErrorText(state.email.error!)
                 : null,
           ),
         );
@@ -113,14 +116,27 @@ class _SubmitButton extends StatelessWidget {
       builder: (context, state) {
         return ElevatedButton(
           key: PositiveAffirmationsKeys.nameSubmitButton,
-          onPressed: state.nameStatus.isValidated
+          onPressed: state.emailStatus.isValid && state.emailStatus != FormzStatus.pure
               ? () {
-                  context.read<SignUpBloc>().add(const NameSubmitted());
+                  context.read<SignUpBloc>().add(AccountDetailsSubmitted());
                 }
               : null,
-          child: const Text('NEXT'),
+          child: const Text('Done'),
         );
       },
+    );
+  }
+}
+
+class _BackButton extends StatelessWidget {
+  const _BackButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      key: PositiveAffirmationsKeys.changeNameButton,
+      onPressed: () => Navigator.of(context).pop(),
+      child: const Text('BACK'),
     );
   }
 }

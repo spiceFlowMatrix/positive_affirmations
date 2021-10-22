@@ -71,4 +71,6 @@ class PositiveAffirmationsConsts {
 
   static const String alreadyHaveAccountLabelText = 'Already have an account?';
   static const String alreadyHaveAccountSignInButtonText = 'Sign In';
+
+  static const String invalidEmailErrorText = 'E.g., "sample@email.com".';
 }
