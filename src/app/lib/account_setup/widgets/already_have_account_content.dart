@@ -28,12 +28,12 @@ class AlreadyHaveAccountSignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
+      key: PositiveAffirmationsKeys.alreadyHaveAccountSignInButton,
       onPressed: () {
         ScaffoldMessenger.of(context).showSnackBar(_snackBar);
       },
       child: const Text(
         PositiveAffirmationsConsts.alreadyHaveAccountSignInButtonText,
-        key: PositiveAffirmationsKeys.alreadyHaveAccountSignInButton,
       ),
       style: OutlinedButton.styleFrom(
         primary: PositiveAffirmationsTheme.highlightColor,
