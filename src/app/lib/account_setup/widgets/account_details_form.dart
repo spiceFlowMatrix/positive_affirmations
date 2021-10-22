@@ -3,7 +3,6 @@ import 'package:app/account_setup/widgets/already_have_account_content.dart';
 import 'package:app/consts.dart';
 import 'package:app/models/email_field.dart';
 import 'package:app/positive_affirmations_keys.dart';
-import 'package:app/positive_affirmations_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -57,17 +56,18 @@ class _Label extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       key: PositiveAffirmationsKeys.nameFieldLabel,
-      text: TextSpan(
-        style: PositiveAffirmationsTheme.theme.textTheme.headline1?.copyWith(
-          fontSize: 23,
-          fontWeight: FontWeight.bold,
-        ),
-        children: const [
+      text: const TextSpan(
+        children: [
           TextSpan(
             text: 'And finally\n',
+            style: TextStyle(
+                fontSize: 23, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          TextSpan(
+            text:
+                'To give you access to all features, I\'d need your email address and for you to set a strong password to your public account.',
             style: TextStyle(color: Colors.grey),
           ),
-          // TextSpan(text: 'What\'s your name?'),
         ],
       ),
     );
@@ -116,11 +116,12 @@ class _SubmitButton extends StatelessWidget {
       builder: (context, state) {
         return ElevatedButton(
           key: PositiveAffirmationsKeys.nameSubmitButton,
-          onPressed: state.emailStatus.isValid && state.emailStatus != FormzStatus.pure
-              ? () {
-                  context.read<SignUpBloc>().add(AccountDetailsSubmitted());
-                }
-              : null,
+          onPressed:
+              state.emailStatus.isValid && state.emailStatus != FormzStatus.pure
+                  ? () {
+                      context.read<SignUpBloc>().add(AccountDetailsSubmitted());
+                    }
+                  : null,
           child: const Text('Done'),
         );
       },
