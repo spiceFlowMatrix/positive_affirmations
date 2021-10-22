@@ -20,7 +20,7 @@ class NickNameFormScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       key: PositiveAffirmationsKeys.nickNameFormScreen,
       body: _NickNameForm(),
     );
@@ -28,8 +28,8 @@ class NickNameFormScreen extends StatelessWidget {
 }
 
 class _NickNameForm extends StatelessWidget {
-  const _NickNameForm({Key? key}) : super(key: key);
-  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  _NickNameForm({Key? key}) : super(key: key);
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
