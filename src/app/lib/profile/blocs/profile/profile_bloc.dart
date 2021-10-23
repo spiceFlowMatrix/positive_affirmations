@@ -10,7 +10,16 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc() : super(const ProfileState());
+  ProfileBloc({required UserRepository userRepository})
+      : _userRepository = userRepository,
+        super(const ProfileState()) {
+    _appUserSubscription = _userRepository.user.listen((user) {
+      add(UserUpdated(user: user));
+    });
+  }
+
+  final UserRepository _userRepository;
+  late StreamSubscription<AppUser> _appUserSubscription;
 
   @override
   Stream<ProfileState> mapEventToState(
@@ -23,6 +32,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     } else if (event is PictureUpdated) {
       yield _mapPictureUpdatedToState(event, state);
     }
+  }
+
+  @override
+  Future<void> close() {
+    _appUserSubscription.cancel();
+    return super.close();
   }
 
   ProfileState _mapUserCreatedToSate(UserCreated event, ProfileState state) {
@@ -49,6 +64,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 }
 
 class HydratedProfileBloc extends ProfileBloc with HydratedMixin {
+  HydratedProfileBloc({required UserRepository userRepository})
+      : super(userRepository: userRepository);
+
   @override
   ProfileState? fromJson(Map<String, dynamic> json) {
     final AppUser? user = AppUser.fromJson(json[ProfileState.fieldUser]);

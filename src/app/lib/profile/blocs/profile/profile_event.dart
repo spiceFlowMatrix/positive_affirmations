@@ -13,6 +13,15 @@ class UserCreated extends ProfileEvent {
   List<Object?> get props => [user];
 }
 
+class UserUpdated extends ProfileEvent {
+  const UserUpdated({required this.user});
+
+  final AppUser user;
+
+  @override
+  List<Object?> get props => [user];
+}
+
 class ProfileEdited extends ProfileEvent {
   const ProfileEdited({
     required this.name,

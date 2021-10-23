@@ -30,8 +30,10 @@ class App extends StatelessWidget {
           if (profileBloc != null)
             BlocProvider<ProfileBloc>(create: (_) => profileBloc!)
           else
-            BlocProvider<ProfileBloc>(create: (_) => HydratedProfileBloc()),
-          BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc()),
+            BlocProvider<ProfileBloc>(
+                create: (_) =>
+                    HydratedProfileBloc(userRepository: userRepository)),
+          BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc(userRepository: userRepository)),
           BlocProvider<ApptabBloc>(create: (_) => ApptabBloc()),
         ],
         child: const AppView(),

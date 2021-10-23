@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:repository/repository.dart';
 
 part 'authentication_event.dart';
 
@@ -9,7 +10,28 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends HydratedBloc<AuthenticationEvent, AuthenticationState> {
-  AuthenticationBloc() : super(const AuthenticationState.unknown());
+  AuthenticationBloc({required UserRepository userRepository})
+      : _userRepository = userRepository,
+        super(const AuthenticationState.unauthenticated()) {
+    _appUserSubscription = _userRepository.user.listen((user) {
+      if (user != AppUser.empty) {
+        add(const AuthenticationStatusChanged(
+            status: AuthenticationStatus.authenticated));
+      } else {
+        add(const AuthenticationStatusChanged(
+            status: AuthenticationStatus.unauthenticated));
+      }
+    });
+  }
+
+  final UserRepository _userRepository;
+  late StreamSubscription<AppUser> _appUserSubscription;
+
+  @override
+  Future<void> close() {
+    _appUserSubscription.cancel();
+    return super.close();
+  }
 
   @override
   Stream<AuthenticationState> mapEventToState(

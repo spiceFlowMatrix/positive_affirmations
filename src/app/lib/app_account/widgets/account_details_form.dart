@@ -1,11 +1,9 @@
-import 'package:app/app_account/blocs/authentication/authentication_bloc.dart';
 import 'package:app/app_account/blocs/sign_up/sign_up_bloc.dart';
 import 'package:app/app_account/widgets/already_have_account_content.dart';
 import 'package:app/consts.dart';
 import 'package:app/models/email_field.dart';
 import 'package:app/models/password_field.dart';
 import 'package:app/positive_affirmations_keys.dart';
-import 'package:app/profile/blocs/profile/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -223,11 +221,11 @@ class _SubmitButton extends StatelessWidget {
           current.submissionStatus == FormzStatus.submissionSuccess &&
           previous.submissionStatus != current.submissionStatus,
       listener: (context, state) {
-        context.read<ProfileBloc>().add(UserCreated(user: state.createdUser));
-        context.read<AuthenticationBloc>().add(
-              const AuthenticationStatusChanged(
-                  status: AuthenticationStatus.authenticated),
-            );
+        // context.read<ProfileBloc>().add(UserCreated(user: state.createdUser));
+        // context.read<AuthenticationBloc>().add(
+        //       const AuthenticationStatusChanged(
+        //           status: AuthenticationStatus.authenticated),
+        //     );
       },
       child: BlocBuilder<SignUpBloc, SignUpState>(
         builder: (context, state) {
