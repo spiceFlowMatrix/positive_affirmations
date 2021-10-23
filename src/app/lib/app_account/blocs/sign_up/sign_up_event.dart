@@ -33,6 +33,10 @@ class NickNameSubmitted extends SignUpEvent {
   const NickNameSubmitted();
 }
 
+class NickNameBacked extends SignUpEvent {
+  const NickNameBacked();
+}
+
 class EmailUpdated extends SignUpEvent {
   const EmailUpdated({required this.email});
 
@@ -64,4 +68,10 @@ class ConfirmPasswordUpdated extends SignUpEvent {
   List<Object> get props => [confirmPassword];
 }
 
-class AccountDetailsSubmitted extends SignUpEvent {}
+class AccountDetailsBacked extends SignUpEvent {
+  const AccountDetailsBacked();
+}
+
+class AccountDetailsSubmitted extends SignUpEvent {
+  const AccountDetailsSubmitted();
+}

@@ -29,12 +29,16 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield _mapNickNameUpdatedToState(event, state);
     } else if (event is NickNameSubmitted) {
       yield _mapNickNameSubmittedToState(event, state);
+    } else if (event is NickNameBacked) {
+      yield _mapNickNameBackedToState(event, state);
     } else if (event is EmailUpdated) {
       yield _mapEmailUpdatedToState(event, state);
     } else if (event is PasswordUpdated) {
       yield _mapPasswordUpdatedToState(event, state);
     } else if (event is ConfirmPasswordUpdated) {
       yield _mapConfirmPasswordUpdatedToState(event, state);
+    } else if (event is AccountDetailsBacked) {
+      yield _mapAccountDetailsBackedToState(event, state);
     } else if (event is AccountDetailsSubmitted) {
       yield* _mapAccountDetailsSubmittedToState(event, state);
     }
@@ -50,7 +54,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   SignUpState _mapNameSubmittedToState(NameSubmitted event, SignUpState state) {
-    if (!state.nameStatus.isValidated) return state;
+    if (state.name.invalid) return state;
 
     return state.copyWith(
       name: NameField.dirty(state.name.value.trim()),
@@ -74,11 +78,18 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   SignUpState _mapNickNameSubmittedToState(
       NickNameSubmitted event, SignUpState state) {
-    if (!state.nickNameStatus.isValidated) return state;
+    if (state.nickName.invalid) return state;
 
     return state.copyWith(
       nickName: NickNameField.dirty(state.nickName.value.trim()),
       nickNameStatus: FormzStatus.submissionSuccess,
+    );
+  }
+
+  SignUpState _mapNickNameBackedToState(
+      NickNameBacked event, SignUpState state) {
+    return state.copyWith(
+      nameStatus: FormzStatus.pure,
     );
   }
 
@@ -115,6 +126,13 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       confirmPasswordStatus: state.password.value == confirmPassword.value
           ? FormzStatus.valid
           : FormzStatus.invalid,
+    );
+  }
+
+  SignUpState _mapAccountDetailsBackedToState(
+      AccountDetailsBacked event, SignUpState state) {
+    return state.copyWith(
+      nickNameStatus: FormzStatus.pure,
     );
   }
 

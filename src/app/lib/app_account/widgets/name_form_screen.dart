@@ -33,13 +33,13 @@ class _NameForm extends StatelessWidget {
           alignment: Alignment.center,
           child: ListView(
             shrinkWrap: true,
-            children: const [
-              _Label(),
-              Padding(padding: EdgeInsets.only(top: 10)),
+            children: [
+              const _Label(),
+              const Padding(padding: EdgeInsets.only(top: 10)),
               _NameField(),
-              Padding(padding: EdgeInsets.only(top: 10)),
-              _SubmitButton(),
-              AlreadyHaveAccountPanel(),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              const _SubmitButton(),
+              const AlreadyHaveAccountPanel(),
             ],
           ),
         ),
@@ -72,8 +72,13 @@ class _Label extends StatelessWidget {
   }
 }
 
-class _NameField extends StatelessWidget {
-  const _NameField();
+class _NameField extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _NameFieldState();
+}
+
+class _NameFieldState extends State<_NameField> {
+  TextEditingController _controller = TextEditingController();
 
   String _generateErrorText(NameFieldValidationError error) {
     switch (error) {
@@ -85,11 +90,20 @@ class _NameField extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    // _controller.text();
+    _controller = TextEditingController(
+        text: context.read<SignUpBloc>().state.name.value);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
       builder: (context, state) {
         return TextField(
           key: PositiveAffirmationsKeys.nameField,
+          controller: _controller,
           onChanged: (name) =>
               context.read<SignUpBloc>().add(NameUpdated(name)),
           decoration: InputDecoration(

@@ -99,12 +99,26 @@ class _Label extends StatelessWidget {
   }
 }
 
-class _NickNameField extends StatelessWidget {
+class _NickNameField extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _NickNameFieldState();
+}
+
+class _NickNameFieldState extends State<_NickNameField> {
+  TextEditingController _controller = TextEditingController();
+
   String _generateErrorText(NickNameFieldValidationError error) {
     switch (error) {
       case NickNameFieldValidationError.invalid:
         return PositiveAffirmationsConsts.nickNameFieldInvalidError;
     }
+  }
+
+  @override
+  void initState() {
+    _controller = TextEditingController(
+        text: context.read<SignUpBloc>().state.nickName.value);
+    super.initState();
   }
 
   @override
@@ -115,6 +129,7 @@ class _NickNameField extends StatelessWidget {
           key: PositiveAffirmationsKeys.nickNameField,
           onChanged: (nickName) =>
               context.read<SignUpBloc>().add(NickNameUpdated(nickName)),
+          controller: _controller,
           decoration: InputDecoration(
             labelText: 'Nickname',
             errorText: state.nickName.invalid
@@ -134,12 +149,13 @@ class _SubmitButton extends StatelessWidget {
       builder: (context, state) {
         return ElevatedButton(
           key: PositiveAffirmationsKeys.nickNameSubmitButton,
-          onPressed:
-              state.nickNameStatus.isValidated || state.nickNameStatus.isPure
-                  ? () {
-                      context.read<SignUpBloc>().add(const NickNameSubmitted());
-                    }
-                  : null,
+          onPressed: state.nickNameStatus.isPure ||
+                  (!state.nickNameStatus.isPure &&
+                      state.nickNameStatus.isValidated)
+              ? () {
+                  context.read<SignUpBloc>().add(const NickNameSubmitted());
+                }
+              : null,
           child: const Text('NEXT'),
         );
       },
@@ -152,7 +168,7 @@ class _ChangeNameButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       key: PositiveAffirmationsKeys.changeNameButton,
-      onPressed: () => Navigator.of(context).pop(),
+      onPressed: () => context.read<SignUpBloc>().add(const NickNameBacked()),
       child: const Text('BACK'),
     );
   }

@@ -35,11 +35,11 @@ class _Form extends StatelessWidget {
           alignment: Alignment.center,
           child: ListView(
             shrinkWrap: true,
-            children: const [
-              _Label(),
-              Padding(padding: EdgeInsets.only(top: 10)),
+            children: [
+              const _Label(),
+              const Padding(padding: EdgeInsets.only(top: 10)),
               _EmailField(),
-              Padding(padding: EdgeInsets.only(top: 10)),
+              const Padding(padding: EdgeInsets.only(top: 10)),
               _PasswordField(),
               Padding(padding: EdgeInsets.only(top: 10)),
               _ConfirmPasswordField(),
@@ -81,8 +81,13 @@ class _Label extends StatelessWidget {
   }
 }
 
-class _EmailField extends StatelessWidget {
-  const _EmailField();
+class _EmailField extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _EmailFieldState();
+}
+
+class _EmailFieldState extends State<_EmailField> {
+  TextEditingController _controller = TextEditingController();
 
   String _generateErrorText(EmailFieldValidationError error) {
     switch (error) {
@@ -94,6 +99,13 @@ class _EmailField extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    _controller = TextEditingController(
+        text: context.read<SignUpBloc>().state.email.value);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpBloc, SignUpState>(
       builder: (context, state) {
@@ -101,6 +113,7 @@ class _EmailField extends StatelessWidget {
           key: PositiveAffirmationsKeys.accountDetailsEmailField,
           onChanged: (email) =>
               context.read<SignUpBloc>().add(EmailUpdated(email: email)),
+          controller: _controller,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             labelText: 'Email',
@@ -114,8 +127,13 @@ class _EmailField extends StatelessWidget {
   }
 }
 
-class _PasswordField extends StatelessWidget {
-  const _PasswordField();
+class _PasswordField extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _PasswordFieldState();
+}
+
+class _PasswordFieldState extends State<_PasswordField> {
+  TextEditingController _controller = TextEditingController();
 
   String _generateErrorText(PasswordFieldValidationError error) {
     switch (error) {
@@ -124,6 +142,13 @@ class _PasswordField extends StatelessWidget {
       case PasswordFieldValidationError.invalid_password:
         return PositiveAffirmationsConsts.invalidEmailErrorText;
     }
+  }
+
+  @override
+  void initState() {
+    _controller = TextEditingController(
+        text: context.read<SignUpBloc>().state.password.value);
+    super.initState();
   }
 
   @override
@@ -136,6 +161,7 @@ class _PasswordField extends StatelessWidget {
               .read<SignUpBloc>()
               .add(PasswordUpdated(password: password)),
           keyboardType: TextInputType.visiblePassword,
+          controller: _controller,
           obscureText: true,
           decoration: InputDecoration(
             labelText: 'Password',
@@ -149,8 +175,20 @@ class _PasswordField extends StatelessWidget {
   }
 }
 
-class _ConfirmPasswordField extends StatelessWidget {
-  const _ConfirmPasswordField();
+class _ConfirmPasswordField extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _ConfirmPasswordFieldState();
+}
+
+class _ConfirmPasswordFieldState extends State<_ConfirmPasswordField> {
+  TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    _controller = TextEditingController(
+        text: context.read<SignUpBloc>().state.confirmPassword.value);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +200,7 @@ class _ConfirmPasswordField extends StatelessWidget {
               .read<SignUpBloc>()
               .add(ConfirmPasswordUpdated(confirmPassword: password)),
           keyboardType: TextInputType.visiblePassword,
+          controller: _controller,
           obscureText: true,
           decoration: InputDecoration(
             labelText: 'Confirm password',
@@ -217,7 +256,8 @@ class _BackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       key: PositiveAffirmationsKeys.accountDetailsBackButton,
-      onPressed: () => Navigator.of(context).pop(),
+      onPressed: () =>
+          context.read<SignUpBloc>().add(const AccountDetailsBacked()),
       child: const Text('BACK'),
     );
   }
