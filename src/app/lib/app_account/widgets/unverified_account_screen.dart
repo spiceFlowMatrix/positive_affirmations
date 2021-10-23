@@ -8,23 +8,34 @@ class UnverifiedAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const [
-          Align(
-            alignment: Alignment.center,
-            child: FaIcon(
-              PositiveAffirmationsConsts.verifyAccountMessageIcon,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: const [
+            Align(
+              alignment: Alignment.center,
+              child: FaIcon(
+                PositiveAffirmationsConsts.verifyAccountMessageIcon,
+              ),
             ),
-          ),
-          Text(
-            PositiveAffirmationsConsts.verifyAccountMessageTitle,
-          ),
-          Text(
-            PositiveAffirmationsConsts.verifyAccountMessageContent,
-          ),
-        ],
+            Text(
+              PositiveAffirmationsConsts.verifyAccountMessageTitle,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              PositiveAffirmationsConsts.verifyAccountMessageContent,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
