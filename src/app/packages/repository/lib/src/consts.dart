@@ -1,11 +1,11 @@
 import 'package:repository/src/models/models.dart';
 
 class PositiveAffirmationsRepositoryConsts {
-  static const User seedUser = User(
+  static const AppUser seedUser = AppUser(
     id: 'er34',
     name: 'test user',
   );
-  static const User seedUserWithPicture = User(
+  static const AppUser seedUserWithPicture = AppUser(
       id: 'wef345',
       name: 'pictured user',
       pictureB64Enc:

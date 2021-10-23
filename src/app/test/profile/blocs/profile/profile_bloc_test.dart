@@ -60,7 +60,7 @@ void main() {
         },
         expect: () => <ProfileState>[
           ProfileState(
-            user: User.empty.copyWith(
+            user: AppUser.empty.copyWith(
               name: mockUser.name,
               nickName: mockUser.nickName,
             ),
@@ -101,7 +101,7 @@ void main() {
         },
         expect: () => <ProfileState>[
           ProfileState(
-            user: User.empty.copyWith(
+            user: AppUser.empty.copyWith(
               pictureB64Enc: mockUserWithPicture.pictureB64Enc,
             ),
           ),

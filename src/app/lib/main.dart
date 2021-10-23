@@ -1,5 +1,6 @@
 import 'package:app/app.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -11,6 +12,7 @@ void main() async {
 
   await Firebase.initializeApp();
   FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+  FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   final documentsDirectory = await getApplicationDocumentsDirectory();
   HydratedBloc.storage =
       await HydratedStorage.build(storageDirectory: documentsDirectory);

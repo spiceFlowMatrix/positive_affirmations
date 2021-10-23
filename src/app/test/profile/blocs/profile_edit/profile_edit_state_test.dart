@@ -5,7 +5,7 @@ import 'package:app/profile/blocs/profile_edit/profile_edit_bloc.dart';
 import 'package:repository/repository.dart';
 
 void main() {
-  final User mockUser = PositiveAffirmationsRepositoryConsts.seedUser;
+  final AppUser mockUser = PositiveAffirmationsRepositoryConsts.seedUser;
 
   group('[ProfileEditState]', () {
     test('supports value comparisons', () {

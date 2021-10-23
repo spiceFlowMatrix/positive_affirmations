@@ -24,7 +24,7 @@ void main() {
     nickNameStatus: FormzStatus.submissionSuccess,
   );
 
-  final User mockCreatedUser = User(
+  final AppUser mockCreatedUser = AppUser(
     id: '23fe3r',
     name: mockCreatableState.name.value,
     nickName: mockCreatableState.nickName.value,

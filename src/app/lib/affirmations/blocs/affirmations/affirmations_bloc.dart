@@ -15,7 +15,7 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
   }) : super(AffirmationsState());
 
   final MachineDateTime? time;
-  final User authenticatedUser;
+  final AppUser authenticatedUser;
 
   @override
   Stream<AffirmationsState> mapEventToState(
@@ -113,7 +113,7 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
 }
 
 class HydratedAffirmationsBloc extends AffirmationsBloc with HydratedMixin {
-  HydratedAffirmationsBloc({required User authenticatedUser})
+  HydratedAffirmationsBloc({required AppUser authenticatedUser})
       : super(authenticatedUser: authenticatedUser);
 
   @override

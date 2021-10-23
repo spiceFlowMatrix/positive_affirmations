@@ -70,7 +70,7 @@ class _FormContent extends StatelessWidget {
 
   final GlobalKey<FormState> _editProfileFormKey = GlobalKey<FormState>();
 
-  final User userInitial;
+  final AppUser userInitial;
 
   final FocusNode _nameFocusNode = FocusNode();
   final TextEditingController _nameController;
@@ -237,7 +237,7 @@ class _FormField extends StatelessWidget {
 class _SaveButton extends StatelessWidget {
   const _SaveButton({required this.user});
 
-  final User user;
+  final AppUser user;
 
   @override
   Widget build(BuildContext context) {

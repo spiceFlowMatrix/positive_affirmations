@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class User extends Equatable {
-  const User({
+class AppUser extends Equatable {
+  const AppUser({
     required this.id,
     required this.name,
     this.nickName = '',
@@ -49,7 +49,7 @@ class User extends Equatable {
     return initials;
   }
 
-  User copyWith({
+  AppUser copyWith({
     String? id,
     String? name,
     String? nickName,
@@ -58,7 +58,7 @@ class User extends Equatable {
     bool? accountCreated,
     bool? emailVerified,
   }) {
-    return User(
+    return AppUser(
       id: id ?? this.id,
       name: name ?? this.name,
       nickName: nickName ?? this.nickName,
@@ -80,7 +80,7 @@ class User extends Equatable {
         emailVerified,
       ];
 
-  static const empty = User(
+  static const empty = AppUser(
     id: '-',
     name: 'name',
     nickName: 'nickName',
@@ -105,15 +105,15 @@ class User extends Equatable {
         fieldEmailVerified: this.emailVerified,
       };
 
-  static User fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json[User.fieldId],
-      name: json[User.fieldName],
-      nickName: json[User.fieldNickName] ?? '',
-      email: json[User.fieldEmail] ?? '',
-      pictureB64Enc: json[User.fieldPictureB64Enc] ?? '',
-      accountCreated: json[User.fieldAccountCreated] ?? false,
-      emailVerified: json[User.fieldEmailVerified] ?? false,
+  static AppUser fromJson(Map<String, dynamic> json) {
+    return AppUser(
+      id: json[AppUser.fieldId],
+      name: json[AppUser.fieldName],
+      nickName: json[AppUser.fieldNickName] ?? '',
+      email: json[AppUser.fieldEmail] ?? '',
+      pictureB64Enc: json[AppUser.fieldPictureB64Enc] ?? '',
+      accountCreated: json[AppUser.fieldAccountCreated] ?? false,
+      emailVerified: json[AppUser.fieldEmailVerified] ?? false,
     );
   }
 }

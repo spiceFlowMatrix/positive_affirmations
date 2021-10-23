@@ -88,7 +88,7 @@ class _DetailsContent extends StatelessWidget {
   static const Padding _contentPadding =
       const Padding(padding: EdgeInsets.only(top: 10));
 
-  Widget _buildCountsRow(BuildContext context, User user) {
+  Widget _buildCountsRow(BuildContext context, AppUser user) {
     final affirmationsCount = BlocBuilder<AffirmationsBloc, AffirmationsState>(
         builder: (context, state) {
       return _CountDisplay(
@@ -192,7 +192,7 @@ class _CountDisplay extends StatelessWidget {
 class _ProfileImage extends StatelessWidget {
   const _ProfileImage(this.user);
 
-  final User user;
+  final AppUser user;
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +210,7 @@ class _ProfileImage extends StatelessWidget {
       child: Stack(
         children: [
           if (user.pictureB64Enc.isEmpty ||
-              user.pictureB64Enc == User.empty.pictureB64Enc)
+              user.pictureB64Enc == AppUser.empty.pictureB64Enc)
             CircleAvatar(
               key: PositiveAffirmationsKeys.profilePicture(user.id),
               child: Text(
@@ -252,7 +252,7 @@ class _AffirmationsTabBody extends StatelessWidget {
   }) : super(key: key);
 
   final Key key;
-  final User user;
+  final AppUser user;
 
   @override
   Widget build(BuildContext context) {

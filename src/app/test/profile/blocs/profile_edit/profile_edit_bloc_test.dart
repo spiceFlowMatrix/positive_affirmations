@@ -18,7 +18,7 @@ void main() {
   late ProfileBloc profileBloc;
   late ProfileEditBloc profileEditBloc;
 
-  final User mockUser = PositiveAffirmationsRepositoryConsts.seedUser;
+  final AppUser mockUser = PositiveAffirmationsRepositoryConsts.seedUser;
 
   group('[ProfileEditBloc]', () {
     setUpAll(() {

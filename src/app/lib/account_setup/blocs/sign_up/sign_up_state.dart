@@ -12,7 +12,7 @@ class SignUpState extends Equatable {
     this.emailStatus = FormzStatus.pure,
     this.passwordStatus = FormzStatus.pure,
     this.confirmPasswordStatus = FormzStatus.pure,
-    this.createdUser = User.empty,
+    this.createdUser = AppUser.empty,
     this.submissionStatus = FormzStatus.pure,
   });
 
@@ -26,7 +26,7 @@ class SignUpState extends Equatable {
   final FormzStatus emailStatus;
   final FormzStatus passwordStatus;
   final FormzStatus confirmPasswordStatus;
-  final User createdUser;
+  final AppUser createdUser;
   final FormzStatus submissionStatus;
 
   SignUpState copyWith({
@@ -40,7 +40,7 @@ class SignUpState extends Equatable {
     FormzStatus? emailStatus,
     FormzStatus? passwordStatus,
     FormzStatus? confirmPasswordStatus,
-    User? createdUser,
+    AppUser? createdUser,
     FormzStatus? submissionStatus,
   }) {
     return SignUpState(

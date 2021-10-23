@@ -2,15 +2,15 @@ part of 'profile_bloc.dart';
 
 class ProfileState extends Equatable {
   const ProfileState({
-    this.user = User.empty,
+    this.user = AppUser.empty,
   });
 
-  final User user;
+  final AppUser user;
 
   static const String fieldUser = 'user';
 
   ProfileState copyWith({
-    User? user,
+    AppUser? user,
   }) {
     return ProfileState(
       user: user ?? this.user,
