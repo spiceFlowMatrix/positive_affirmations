@@ -20,6 +20,15 @@ class PositiveAffirmationsKeys {
   static const appSummaryAnimatedBody = Key('__appSummaryAnimatedBody__');
   static const changeNickNameButton = Key('__changeNickNameButton__');
   static const skipAppSummaryButton = Key('__skipAppSummaryButton__');
+  static const accountDetailsFormHeader = Key('__accountDetailsFormHeader__');
+  static const accountDetailsEmailField = Key('__accountDetailsEmailField__');
+  static const accountDetailsPasswordField =
+      Key('__accountDetailsPasswordField__');
+  static const accountDetailsConfirmPasswordField =
+      Key('__accountDetailsConfirmPasswordField__');
+  static const accountDetailsSubmitButton =
+      Key('__accountDetailsSubmitButton__');
+  static const accountDetailsBackButton = Key('__accountDetailsBackButton__');
   static const alreadyHaveAccountLabel = Key('__alreadyHaveAccountLabel__');
   static const alreadyHaveAccountSignInButton =
       Key('__alreadyHaveAccountSignInButton__');

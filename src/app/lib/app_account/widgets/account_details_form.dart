@@ -62,7 +62,7 @@ class _Label extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
-      key: PositiveAffirmationsKeys.nameFieldLabel,
+      key: PositiveAffirmationsKeys.accountDetailsFormHeader,
       text: const TextSpan(
         children: [
           TextSpan(
@@ -98,7 +98,7 @@ class _EmailField extends StatelessWidget {
     return BlocBuilder<SignUpBloc, SignUpState>(
       builder: (context, state) {
         return TextField(
-          key: PositiveAffirmationsKeys.nameField,
+          key: PositiveAffirmationsKeys.accountDetailsEmailField,
           onChanged: (email) =>
               context.read<SignUpBloc>().add(EmailUpdated(email: email)),
           keyboardType: TextInputType.emailAddress,
@@ -131,7 +131,7 @@ class _PasswordField extends StatelessWidget {
     return BlocBuilder<SignUpBloc, SignUpState>(
       builder: (context, state) {
         return TextField(
-          key: PositiveAffirmationsKeys.nameField,
+          key: PositiveAffirmationsKeys.accountDetailsPasswordField,
           onChanged: (password) => context
               .read<SignUpBloc>()
               .add(PasswordUpdated(password: password)),
@@ -157,7 +157,7 @@ class _ConfirmPasswordField extends StatelessWidget {
     return BlocBuilder<SignUpBloc, SignUpState>(
       builder: (context, state) {
         return TextField(
-          key: PositiveAffirmationsKeys.nameField,
+          key: PositiveAffirmationsKeys.accountDetailsConfirmPasswordField,
           onChanged: (password) => context
               .read<SignUpBloc>()
               .add(ConfirmPasswordUpdated(confirmPassword: password)),
@@ -193,7 +193,7 @@ class _SubmitButton extends StatelessWidget {
       child: BlocBuilder<SignUpBloc, SignUpState>(
         builder: (context, state) {
           return ElevatedButton(
-            key: PositiveAffirmationsKeys.nameSubmitButton,
+            key: PositiveAffirmationsKeys.accountDetailsSubmitButton,
             onPressed: state.emailStatus.isValidated &&
                     state.emailStatus != FormzStatus.pure &&
                     state.passwordStatus.isValidated &&
@@ -216,7 +216,7 @@ class _BackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      key: PositiveAffirmationsKeys.changeNameButton,
+      key: PositiveAffirmationsKeys.accountDetailsBackButton,
       onPressed: () => Navigator.of(context).pop(),
       child: const Text('BACK'),
     );
