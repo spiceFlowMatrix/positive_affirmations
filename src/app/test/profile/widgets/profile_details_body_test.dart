@@ -1,9 +1,9 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:app/affirmations/blocs/affirmations/affirmations_bloc.dart';
-import 'package:app/blocs/authentication/authentication_bloc.dart';
+import 'package:app/app_account/blocs/authentication/authentication_bloc.dart';
 import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/profile/blocs/profile/profile_bloc.dart';
 import 'package:app/profile/blocs/profile_tab/profile_tab_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:repository/repository.dart';
 
@@ -48,8 +48,8 @@ void main() {
     group('[PictureAvatar]', () {
       testWidgets('initials are rendered as label when no picture',
           (tester) async {
-            when(() => authBloc.state)
-            .thenReturn(AuthenticationState.authenticated());
+        when(() => authBloc.state)
+            .thenReturn(const AuthenticationState.authenticated());
         when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
         when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
             affirmations:
@@ -63,20 +63,19 @@ void main() {
         ));
 
         expect(
-          find.byKey(PositiveAffirmationsKeys.profilePictureEmptyLabel(
-              '${mockUser.id}')),
+          find.byKey(
+              PositiveAffirmationsKeys.profilePictureEmptyLabel(mockUser.id)),
           findsOneWidget,
         );
         expect(
-          find.byKey(
-              PositiveAffirmationsKeys.profilePictureImage('${mockUser.id}')),
+          find.byKey(PositiveAffirmationsKeys.profilePictureImage(mockUser.id)),
           findsNothing,
         );
       });
       testWidgets('initials are rendered as label when there is a picture',
           (tester) async {
-            when(() => authBloc.state)
-            .thenReturn(AuthenticationState.authenticated());
+        when(() => authBloc.state)
+            .thenReturn(const AuthenticationState.authenticated());
         when(() => affirmationsBloc.authenticatedUser)
             .thenReturn(mockUserWithPicture);
         when(() => affirmationsBloc.state).thenReturn(AffirmationsState(
@@ -93,12 +92,12 @@ void main() {
 
         expect(
           find.byKey(PositiveAffirmationsKeys.profilePictureEmptyLabel(
-              '${mockUserWithPicture.id}')),
+              mockUserWithPicture.id)),
           findsNothing,
         );
         expect(
           find.byKey(PositiveAffirmationsKeys.profilePictureImage(
-              '${mockUserWithPicture.id}')),
+              mockUserWithPicture.id)),
           findsOneWidget,
         );
       });
@@ -107,7 +106,7 @@ void main() {
     group('all widgets are composed', () {
       setUp(() {
         when(() => authBloc.state)
-            .thenReturn(AuthenticationState.authenticated());
+            .thenReturn(const AuthenticationState.authenticated());
 
         when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
         when(() => affirmationsBloc.state)

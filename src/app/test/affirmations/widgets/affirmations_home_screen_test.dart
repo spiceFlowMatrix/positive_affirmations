@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:app/affirmations/blocs/apptab/apptab_bloc.dart';
-import 'package:app/blocs/authentication/authentication_bloc.dart';
+import 'package:app/app_account/blocs/authentication/authentication_bloc.dart';
 import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/profile/blocs/profile/profile_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:repository/repository.dart';
 import 'package:repository/src/models/affirmation.dart';
@@ -94,9 +94,10 @@ void main() {
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
         when(() => authBloc.state)
-            .thenReturn(AuthenticationState.authenticated());
+            .thenReturn(const AuthenticationState.authenticated());
         when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
-        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
+        when(() => profileBloc.state)
+            .thenReturn(const ProfileState(user: mockUser));
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,
@@ -114,7 +115,8 @@ void main() {
           'affirmations appbar add action is rendered when affirmations tab selected',
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
-        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
+        when(() => profileBloc.state)
+            .thenReturn(const ProfileState(user: mockUser));
         await tester.pumpWidget(_setupFixture());
 
         expect(
@@ -128,9 +130,10 @@ void main() {
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
         when(() => authBloc.state)
-            .thenReturn(AuthenticationState.authenticated());
+            .thenReturn(const AuthenticationState.authenticated());
         when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
-        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
+        when(() => profileBloc.state)
+            .thenReturn(const ProfileState(user: mockUser));
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,
@@ -149,7 +152,8 @@ void main() {
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
         when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
-        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
+        when(() => profileBloc.state)
+            .thenReturn(const ProfileState(user: mockUser));
         await tester.pumpWidget(_setupFixture());
 
         expect(
@@ -162,9 +166,10 @@ void main() {
           (tester) async {
         when(() => apptabBloc.state).thenReturn(AppTab.profile);
         when(() => authBloc.state)
-            .thenReturn(AuthenticationState.authenticated());
+            .thenReturn(const AuthenticationState.authenticated());
         when(() => affirmationsBloc.authenticatedUser).thenReturn(mockUser);
-        when(() => profileBloc.state).thenReturn(ProfileState(user: mockUser));
+        when(() => profileBloc.state)
+            .thenReturn(const ProfileState(user: mockUser));
         await tester.pumpWidget(AffirmationsHomeScreenFixture(
           apptabBloc: apptabBloc,
           authBloc: authBloc,

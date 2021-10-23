@@ -1,9 +1,9 @@
+import 'package:app/app_account/blocs/authentication/authentication_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:app/affirmations/widgets/affirmations_home_screen.dart';
-import 'package:app/blocs/authentication/authentication_bloc.dart';
 import 'package:app/positive_affirmations_routes.dart';
 import 'package:app/profile/blocs/profile/profile_bloc.dart';
 

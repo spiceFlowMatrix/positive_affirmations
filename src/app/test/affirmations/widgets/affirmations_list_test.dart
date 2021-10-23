@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:app/affirmations/widgets/affirmation_form_screen.dart';
-import 'package:app/blocs/authentication/authentication_bloc.dart';
+import 'package:app/app_account/blocs/authentication/authentication_bloc.dart';
 import 'package:app/nav_observer.dart';
 import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/profile/blocs/profile/profile_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:repository/repository.dart';
 
@@ -56,7 +56,7 @@ void main() {
       affirmationsBloc = MockAffirmationsBloc();
       navigatorObserver = PositiveAffirmationsNavigatorObserver();
       when(() => apptabBloc.state).thenReturn(AppTab.affirmations);
-      when(() => affirmationsBloc.state).thenReturn(AffirmationsState());
+      when(() => affirmationsBloc.state).thenReturn(const AffirmationsState());
     });
 
     testWidgets('shows call to action when no affirmations exist',
@@ -141,10 +141,11 @@ void main() {
 
         expect(find.byKey(itemKey), findsOneWidget);
         expect(find.byKey(itemTitleKey), findsOneWidget);
-        if (mockAffirmations[i].subtitle.isEmpty)
+        if (mockAffirmations[i].subtitle.isEmpty) {
           expect(find.byKey(itemSubtitleKey), findsNothing);
-        else
+        } else {
           expect(find.byKey(itemSubtitleKey), findsOneWidget);
+        }
         expect(find.byKey(itemLikeButtonKey), findsOneWidget);
         expect(find.byKey(itemLikesKey), findsOneWidget);
         expect(find.byKey(itemReaffirmationsKey), findsOneWidget);

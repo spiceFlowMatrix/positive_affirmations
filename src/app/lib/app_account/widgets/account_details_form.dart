@@ -1,6 +1,6 @@
+import 'package:app/app_account/blocs/authentication/authentication_bloc.dart';
 import 'package:app/app_account/blocs/sign_up/sign_up_bloc.dart';
 import 'package:app/app_account/widgets/already_have_account_content.dart';
-import 'package:app/blocs/authentication/authentication_bloc.dart';
 import 'package:app/consts.dart';
 import 'package:app/models/email_field.dart';
 import 'package:app/models/password_field.dart';
