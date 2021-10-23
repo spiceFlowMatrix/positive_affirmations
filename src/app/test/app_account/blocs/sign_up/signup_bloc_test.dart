@@ -76,7 +76,7 @@ void main() {
         act: (bloc) {
           bloc
             ..add(const NameUpdated(validName))
-            ..add(NameSubmitted());
+            ..add(const NameSubmitted());
         },
         expect: () => const <SignUpState>[
           SignUpState(
@@ -302,7 +302,7 @@ void main() {
         },
         seed: () => mockCreatableState,
         act: (bloc) {
-          bloc.add(UserSubmitted());
+          bloc.add(AccountDetailsSubmitted());
         },
         verify: (_) {
           verify(() => userRepository.createUser(
@@ -337,7 +337,7 @@ void main() {
         },
         seed: () => mockCreatableState,
         act: (bloc) {
-          bloc.add(UserSubmitted());
+          bloc.add(AccountDetailsSubmitted());
         },
         verify: (_) {
           verify(() => userRepository.createUser(

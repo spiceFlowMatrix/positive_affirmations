@@ -65,5 +65,3 @@ class ConfirmPasswordUpdated extends SignUpEvent {
 }
 
 class AccountDetailsSubmitted extends SignUpEvent {}
-
-class UserSubmitted extends SignUpEvent {}
