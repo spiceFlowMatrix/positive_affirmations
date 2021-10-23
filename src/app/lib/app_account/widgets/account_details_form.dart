@@ -41,13 +41,13 @@ class _Form extends StatelessWidget {
               _EmailField(),
               const Padding(padding: EdgeInsets.only(top: 10)),
               _PasswordField(),
-              Padding(padding: EdgeInsets.only(top: 10)),
+              const Padding(padding: EdgeInsets.only(top: 10)),
               _ConfirmPasswordField(),
-              Padding(padding: EdgeInsets.only(top: 10)),
-              _SubmitButton(),
-              Padding(padding: EdgeInsets.only(top: 10)),
-              _BackButton(),
-              AlreadyHaveAccountPanel(),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              const _SubmitButton(),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              const _BackButton(),
+              const AlreadyHaveAccountPanel(),
             ],
           ),
         ),
@@ -238,7 +238,9 @@ class _SubmitButton extends StatelessWidget {
                     state.passwordStatus.isValidated &&
                     state.confirmPasswordStatus.isValidated
                 ? () {
-                    context.read<SignUpBloc>().add(AccountDetailsSubmitted());
+                    context
+                        .read<SignUpBloc>()
+                        .add(const AccountDetailsSubmitted());
                   }
                 : null,
             child: const Text('Done'),
