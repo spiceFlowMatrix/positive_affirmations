@@ -1,3 +1,4 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:repository/repository.dart';
 
 const String applicationName = 'Positive Affirmations';
@@ -73,4 +74,10 @@ class PositiveAffirmationsConsts {
   static const String alreadyHaveAccountSignInButtonText = 'Sign In';
 
   static const String invalidEmailErrorText = 'E.g., "sample@email.com".';
+
+  static const String verifyAccountMessageTitle = 'Account not verified';
+  static const String verifyAccountMessageContent =
+      'Please check your email for a verification link. Clicking it will complete your account creation process';
+  static const FaIcon verifyAccountMessageIcon =
+      FaIcon(FontAwesomeIcons.fingerprint);
 }
