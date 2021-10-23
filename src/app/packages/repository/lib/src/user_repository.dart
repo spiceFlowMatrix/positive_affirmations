@@ -36,7 +36,7 @@ class UserRepository {
       await users
           .add(newUser.fieldValues)
           .then((value) =>
-              debugPrint('User added successfully: ${value.toString()}'))
+              debugPrint('User added successfully: ${newUser.toString()}'))
           .catchError((error) => debugPrintStack());
 
       return newUser;
