@@ -11,11 +11,16 @@ class UserRepository {
     String? nickName,
   }) async {
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email.trim(),
-        password: password,
-      );
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: email.trim(), password: password)
+          .then((value) {
+        debugPrint(
+            'Successfully created user with email/password: ${value.toString()}');
+        return value;
+      }).catchError((error) {
+        debugPrint(error.toString());
+      });
 
       AppUser newUser = AppUser(
         id: userCredential.user?.uid ?? AppUser.empty.id,
@@ -30,8 +35,9 @@ class UserRepository {
           FirebaseFirestore.instance.collection('users');
       await users
           .add(newUser.fieldValues)
-          .then((value) => {})
-          .catchError((error) => {});
+          .then((value) =>
+              debugPrint('User added successfully: ${value.toString()}'))
+          .catchError((error) => debugPrintStack());
 
       return newUser;
     } on FirebaseAuthException catch (e) {
