@@ -8,13 +8,23 @@ class UnverifiedAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ListView(
-          shrinkWrap: true,
-          children: const [
-            FaIcon(PositiveAffirmationsConsts.verifyAccountMessageIcon),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: const [
+          Align(
+            alignment: Alignment.center,
+            child: FaIcon(
+              PositiveAffirmationsConsts.verifyAccountMessageIcon,
+            ),
+          ),
+          Text(
+            PositiveAffirmationsConsts.verifyAccountMessageTitle,
+          ),
+          Text(
+            PositiveAffirmationsConsts.verifyAccountMessageContent,
+          ),
+        ],
       ),
     );
   }
