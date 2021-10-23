@@ -30,14 +30,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Stream<ProfileState> _mapUserCreatedToSate(
       UserCreated event, ProfileState state) async* {
-    debugPrint(state.toString());
     try {
       CollectionReference users =
           FirebaseFirestore.instance.collection('users');
       await users
           .add(event.user.fieldValues)
-          .then((value) => debugPrint('user added'))
-          .catchError((error) => debugPrint("Failed to add user: $error"));
+          .then((value) => {})
+          .catchError((error) => {});
 
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
@@ -45,7 +44,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         password: event.password,
       )
           .then((value) {
-        debugPrint(value.toString());
         return value;
       });
       yield state.copyWith(

@@ -122,8 +122,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     yield state.copyWith(submissionStatus: FormzStatus.submissionInProgress);
 
     try {
-      final AppUser newUser = await userRepository.createUser(
+      AppUser newUser = await userRepository.createUser(
           state.name.value, state.nickName.value);
+
+      newUser = newUser.copyWith(email: state.email.value);
 
       yield state.copyWith(
         submissionStatus: FormzStatus.submissionSuccess,

@@ -96,13 +96,13 @@ class AppUser extends Equatable {
   static const String fieldEmailVerified = 'emailVerified';
 
   Map<String, dynamic> get fieldValues => {
-        fieldId: this.id,
-        fieldName: this.name,
-        fieldNickName: this.nickName,
-        fieldEmail: this.email,
-        fieldPictureB64Enc: this.pictureB64Enc,
-        fieldAccountCreated: this.accountCreated,
-        fieldEmailVerified: this.emailVerified,
+        fieldId: id,
+        fieldName: name,
+        fieldNickName: nickName,
+        fieldEmail: email,
+        fieldPictureB64Enc: pictureB64Enc,
+        fieldAccountCreated: accountCreated,
+        fieldEmailVerified: emailVerified,
       };
 
   static AppUser fromJson(Map<String, dynamic> json) {
