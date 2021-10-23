@@ -1,6 +1,6 @@
 import 'package:app/affirmations/blocs/apptab/apptab_bloc.dart';
-import 'package:app/affirmations/widgets/affirmations_home_screen.dart';
 import 'package:app/app_account/blocs/authentication/authentication_bloc.dart';
+import 'package:app/app_account/widgets/verification_flow.dart';
 import 'package:app/app_account/widgets/widgets.dart';
 import 'package:app/positive_affirmations_routes.dart';
 import 'package:app/positive_affirmations_theme.dart';
@@ -72,7 +72,7 @@ class _AppViewState extends State<AppView> {
                     break;
                   case AuthenticationStatus.authenticated:
                     _navigator.pushNamedAndRemoveUntil(
-                      AffirmationsHomeScreen.routeName,
+                      VerificationFlow.routeName,
                       (route) => false,
                     );
                     break;
@@ -88,7 +88,7 @@ class _AppViewState extends State<AppView> {
             );
           },
           initialRoute: state.status == AuthenticationStatus.authenticated
-              ? AffirmationsHomeScreen.routeName
+              ? VerificationFlow.routeName
               : SignUpFlow.routeName,
           routes: PositiveAffirmationsRoutes().routes(context),
         );

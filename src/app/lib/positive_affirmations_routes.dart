@@ -1,7 +1,7 @@
 import 'package:app/affirmations/widgets/affirmation_detail_screen.dart';
 import 'package:app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:app/affirmations/widgets/affirmations_home_screen.dart';
-import 'package:app/app_account/widgets/unverified_account_screen.dart';
+import 'package:app/app_account/widgets/verification_flow.dart';
 import 'package:app/app_account/widgets/widgets.dart';
 import 'package:app/profile/widgets/profile_edit_form.dart';
 import 'package:app/reaffirmation/widgets/reaffirmation_form_screen.dart';
@@ -18,8 +18,7 @@ class PositiveAffirmationsRoutes {
       ProfileEditForm.routeName: (context) => ProfileEditForm(),
       ReaffirmationFormScreen.routeName: (context) => ReaffirmationFormScreen(),
       SignUpFlow.routeName: (context) => const SignUpFlow(),
-      UnverifiedAccountScreen.routeName: (context) =>
-          const UnverifiedAccountScreen(),
+      VerificationFlow.routeName: (context) => const VerificationFlow(),
     };
   }
 }

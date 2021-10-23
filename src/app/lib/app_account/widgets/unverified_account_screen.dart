@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class UnverifiedAccountScreen extends StatelessWidget {
   const UnverifiedAccountScreen({Key? key}) : super(key: key);
-  static const String routeName = '/unverifiedAccountScreen';
 
   @override
   Widget build(BuildContext context) {
