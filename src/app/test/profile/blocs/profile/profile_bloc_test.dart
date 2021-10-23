@@ -1,6 +1,6 @@
+import 'package:app/profile/blocs/profile/profile_bloc.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:app/profile/blocs/profile/profile_bloc.dart';
 import 'package:repository/repository.dart';
 
 void main() {
@@ -25,26 +25,25 @@ void main() {
         'supplying user emits updated state',
         build: () => profileBloc,
         act: (bloc) {
-          bloc..add(UserCreated(user: mockUser));
+          bloc.add(const UserCreated(user: mockUser));
         },
         expect: () => <ProfileState>[
-          ProfileState(user: mockUser),
+          const ProfileState(user: mockUser),
         ],
       );
       blocTest<ProfileBloc, ProfileState>(
         'whitespaces are sanitized for name and nickname',
         build: () => profileBloc,
         act: (bloc) {
-          bloc
-            ..add(UserCreated(
-              user: mockUser.copyWith(
-                name: '  ${mockUser.name}  ',
-                nickName: '  ${mockUser.nickName}  ',
-              ),
-            ));
+          bloc.add(UserCreated(
+            user: mockUser.copyWith(
+              name: '  ${mockUser.name}  ',
+              nickName: '  ${mockUser.nickName}  ',
+            ),
+          ));
         },
         expect: () => <ProfileState>[
-          ProfileState(user: mockUser),
+          const ProfileState(user: mockUser),
         ],
       );
     });
@@ -54,9 +53,8 @@ void main() {
         'event updates user in state',
         build: () => profileBloc,
         act: (bloc) {
-          bloc
-            ..add(ProfileEdited(
-                name: mockUser.name, nickName: mockUser.nickName));
+          bloc.add(
+              ProfileEdited(name: mockUser.name, nickName: mockUser.nickName));
         },
         expect: () => <ProfileState>[
           ProfileState(
@@ -70,13 +68,12 @@ void main() {
       blocTest<ProfileBloc, ProfileState>(
         'whitespaces are sanitized',
         build: () => profileBloc,
-        seed: () => ProfileState(user: mockUser),
+        seed: () => const ProfileState(user: mockUser),
         act: (bloc) {
-          bloc
-            ..add(ProfileEdited(
-              name: '  $validName  ',
-              nickName: '  $validNickName  ',
-            ));
+          bloc.add(const ProfileEdited(
+            name: '  $validName  ',
+            nickName: '  $validNickName  ',
+          ));
         },
         expect: () => <ProfileState>[
           ProfileState(
@@ -94,10 +91,9 @@ void main() {
         'event updates user picture in state',
         build: () => profileBloc,
         act: (bloc) {
-          bloc
-            ..add(PictureUpdated(
-              pictureB64Enc: mockUserWithPicture.pictureB64Enc,
-            ));
+          bloc.add(PictureUpdated(
+            pictureB64Enc: mockUserWithPicture.pictureB64Enc,
+          ));
         },
         expect: () => <ProfileState>[
           ProfileState(

@@ -1,7 +1,7 @@
+import 'package:app/app_account/blocs/sign_up/sign_up_bloc.dart';
+import 'package:app/models/models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
-import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
-import 'package:app/models/models.dart';
 import 'package:repository/repository.dart';
 
 void main() {
@@ -10,32 +10,32 @@ void main() {
 
   group('[SignUpState]', () {
     test('supports value comparisons', () {
-      expect(SignUpState(), SignUpState());
+      expect(const SignUpState(), const SignUpState());
     });
 
     group('[CopyWith]', () {
       test('returns the same object when no values are passed', () {
-        expect(SignUpState().copyWith(), SignUpState());
+        expect(const SignUpState().copyWith(), const SignUpState());
       });
 
       test('returns object with updated nameStatus when nameStatus is passed',
           () {
         expect(
-          SignUpState().copyWith(nameStatus: FormzStatus.pure),
+          const SignUpState().copyWith(nameStatus: FormzStatus.pure),
           SignUpState(nameStatus: FormzStatus.pure),
         );
       });
 
       test('returns object with updated name when name is passed', () {
         expect(
-          SignUpState().copyWith(name: name),
+          const SignUpState().copyWith(name: name),
           SignUpState(name: name),
         );
       });
 
       test('returns object with updated nickName when nickName is passed', () {
         expect(
-          SignUpState().copyWith(nickName: nickName),
+          const SignUpState().copyWith(nickName: nickName),
           SignUpState(nickName: nickName),
         );
       });
@@ -44,7 +44,7 @@ void main() {
           'returns object with updated nickNameStatus when nickNameStatus is passed',
           () {
         expect(
-          SignUpState()
+          const SignUpState()
               .copyWith(nickNameStatus: FormzStatus.submissionInProgress),
           SignUpState(nickNameStatus: FormzStatus.submissionInProgress),
         );
@@ -53,7 +53,7 @@ void main() {
       test('returns object with updated createdUser when createdUser is passed',
           () {
         expect(
-          SignUpState().copyWith(
+          const SignUpState().copyWith(
               createdUser: PositiveAffirmationsRepositoryConsts.seedUser),
           SignUpState(
               createdUser: PositiveAffirmationsRepositoryConsts.seedUser),
@@ -64,7 +64,7 @@ void main() {
           'returns object with updated submissionStatus when submissionStatus is passed',
           () {
         expect(
-          SignUpState()
+          const SignUpState()
               .copyWith(submissionStatus: FormzStatus.submissionInProgress),
           SignUpState(submissionStatus: FormzStatus.submissionInProgress),
         );

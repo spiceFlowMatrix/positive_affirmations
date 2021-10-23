@@ -5,13 +5,12 @@ abstract class ProfileEvent extends Equatable {
 }
 
 class UserCreated extends ProfileEvent {
-  const UserCreated({required this.user, required this.password});
+  const UserCreated({required this.user});
 
   final AppUser user;
-  final String password;
 
   @override
-  List<Object?> get props => [user, password];
+  List<Object?> get props => [user];
 }
 
 class ProfileEdited extends ProfileEvent {

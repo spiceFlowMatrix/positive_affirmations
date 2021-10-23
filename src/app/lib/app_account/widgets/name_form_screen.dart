@@ -1,5 +1,5 @@
-import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
-import 'package:app/account_setup/widgets/already_have_account_content.dart';
+import 'package:app/app_account/blocs/sign_up/sign_up_bloc.dart';
+import 'package:app/app_account/widgets/widgets.dart';
 import 'package:app/consts.dart';
 import 'package:app/models/models.dart';
 import 'package:app/positive_affirmations_keys.dart';

@@ -1,4 +1,4 @@
-import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
+import 'package:app/app_account/blocs/sign_up/sign_up_bloc.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 

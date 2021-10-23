@@ -1,5 +1,5 @@
+import 'package:app/app_account/blocs/sign_up/sign_up_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
 
 void main() {
   const name = 'mockName';
@@ -7,22 +7,23 @@ void main() {
   group('[SignUpEvent]', () {
     group('[NameUpdated]', () {
       test('supports value comparisons', () {
-        expect(NameUpdated(name), NameUpdated(name));
+        expect(const NameUpdated(name), const NameUpdated(name));
       });
     });
     group('[NameSubmitted]', () {
       test('supports value comparisons', () {
-        expect(NameSubmitted(), NameSubmitted());
+        expect(const NameSubmitted(), const NameSubmitted());
       });
     });
     group('[NickNameUpdated]', () {
       test('supports value comparisons', () {
-        expect(NickNameUpdated(nickName), NickNameUpdated(nickName));
+        expect(
+            const NickNameUpdated(nickName), const NickNameUpdated(nickName));
       });
     });
     group('[NameSubmitted]', () {
       test('supports value comparisons', () {
-        expect(NickNameSubmitted(), NickNameSubmitted());
+        expect(const NickNameSubmitted(), const NickNameSubmitted());
       });
     });
   });

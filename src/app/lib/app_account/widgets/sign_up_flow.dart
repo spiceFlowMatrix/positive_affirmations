@@ -1,7 +1,5 @@
-import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
-import 'package:app/account_setup/widgets/account_details_form.dart';
-import 'package:app/account_setup/widgets/name_form_screen.dart';
-import 'package:app/account_setup/widgets/nick_name_form_screen.dart';
+import 'package:app/app_account/blocs/sign_up/sign_up_bloc.dart';
+import 'package:app/app_account/widgets/widgets.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

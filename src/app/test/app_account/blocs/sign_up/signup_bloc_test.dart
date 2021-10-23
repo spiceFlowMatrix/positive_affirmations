@@ -1,8 +1,8 @@
+import 'package:app/app_account/blocs/sign_up/sign_up_bloc.dart';
+import 'package:app/models/models.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
-import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
-import 'package:app/models/models.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:repository/repository.dart';
 
@@ -45,11 +45,11 @@ void main() {
         'emits [valid] when valid name is updated',
         build: () => signUpBloc,
         act: (bloc) {
-          bloc..add(const NameUpdated(validName));
+          bloc.add(const NameUpdated(validName));
         },
         expect: () => <SignUpState>[
           const SignUpState(
-            name: const NameField.dirty(validName),
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.valid,
           ),
         ],
@@ -58,11 +58,11 @@ void main() {
         'emits [invalid] when invalid name is updated',
         build: () => signUpBloc,
         act: (bloc) {
-          bloc..add(const NameUpdated(invalidName));
+          bloc.add(const NameUpdated(invalidName));
         },
         expect: () => <SignUpState>[
           const SignUpState(
-            name: const NameField.dirty(invalidName),
+            name: NameField.dirty(invalidName),
             nameStatus: FormzStatus.invalid,
           ),
         ],
@@ -74,15 +74,17 @@ void main() {
         'emits [submissionSuccess] when valid name is submitted',
         build: () => signUpBloc,
         act: (bloc) {
-          bloc..add(const NameUpdated(validName))..add(NameSubmitted());
+          bloc
+            ..add(const NameUpdated(validName))
+            ..add(NameSubmitted());
         },
         expect: () => const <SignUpState>[
-          const SignUpState(
-            name: const NameField.dirty(validName),
+          SignUpState(
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.valid,
           ),
-          const SignUpState(
-            name: const NameField.dirty(validName),
+          SignUpState(
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.submissionSuccess,
           ),
         ],
@@ -91,16 +93,16 @@ void main() {
       blocTest<SignUpBloc, SignUpState>(
         'sanitizes spaces',
         build: () => signUpBloc,
-        seed: () => SignUpState(
+        seed: () => const SignUpState(
           name: NameField.dirty('  $validName  '),
           nameStatus: FormzStatus.valid,
         ),
         act: (bloc) {
-          bloc..add(NameSubmitted());
+          bloc.add(const NameSubmitted());
         },
         expect: () => const <SignUpState>[
-          const SignUpState(
-            name: const NameField.dirty(validName),
+          SignUpState(
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.submissionSuccess,
           ),
         ],
@@ -110,11 +112,13 @@ void main() {
         'emits same state when invalid name is submitted',
         build: () => signUpBloc,
         act: (bloc) {
-          bloc..add(const NameUpdated(invalidName))..add(NameSubmitted());
+          bloc
+            ..add(const NameUpdated(invalidName))
+            ..add(const NameSubmitted());
         },
         expect: () => const <SignUpState>[
-          const SignUpState(
-            name: const NameField.dirty(invalidName),
+          SignUpState(
+            name: NameField.dirty(invalidName),
             nameStatus: FormzStatus.invalid,
           ),
         ],
@@ -126,10 +130,10 @@ void main() {
         'emits same state when nickName is updated before name is submitted',
         build: () => signUpBloc,
         act: (bloc) {
-          bloc..add(const NickNameUpdated(validNickName));
+          bloc.add(const NickNameUpdated(validNickName));
         },
         expect: () => const <SignUpState>[
-          const SignUpState(),
+          SignUpState(),
         ],
       );
       blocTest<SignUpBloc, SignUpState>(
@@ -143,17 +147,17 @@ void main() {
         },
         expect: () => <SignUpState>[
           const SignUpState(
-            name: const NameField.dirty(validName),
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.valid,
           ),
           const SignUpState(
-            name: const NameField.dirty(validName),
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.submissionSuccess,
           ),
           const SignUpState(
-            name: const NameField.dirty(validName),
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.submissionSuccess,
-            nickName: const NickNameField.dirty(validNickName),
+            nickName: NickNameField.dirty(validNickName),
             nickNameStatus: FormzStatus.valid,
           ),
         ],
@@ -169,17 +173,17 @@ void main() {
         },
         expect: () => <SignUpState>[
           const SignUpState(
-            name: const NameField.dirty(validName),
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.valid,
           ),
           const SignUpState(
-            name: const NameField.dirty(validName),
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.submissionSuccess,
           ),
           const SignUpState(
-            name: const NameField.dirty(validName),
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.submissionSuccess,
-            nickName: const NickNameField.dirty(invalidNickName),
+            nickName: NickNameField.dirty(invalidNickName),
             nickNameStatus: FormzStatus.invalid,
           ),
         ],
@@ -191,27 +195,27 @@ void main() {
         'emits same state when nickName is submitted before name is submitted',
         build: () => signUpBloc,
         act: (bloc) {
-          bloc..add(const NickNameSubmitted());
+          bloc.add(const NickNameSubmitted());
         },
         expect: () => const <SignUpState>[
-          const SignUpState(),
+          SignUpState(),
         ],
       );
 
       blocTest<SignUpBloc, SignUpState>(
         'sanitizes spaces',
         build: () => signUpBloc,
-        seed: () => SignUpState(
+        seed: () => const SignUpState(
           name: NameField.dirty(validName),
           nameStatus: FormzStatus.submissionSuccess,
           nickName: NickNameField.dirty('  $validNickName  '),
           nickNameStatus: FormzStatus.valid,
         ),
         act: (bloc) {
-          bloc..add(NickNameSubmitted());
+          bloc.add(const NickNameSubmitted());
         },
         expect: () => <SignUpState>[
-          SignUpState(
+          const SignUpState(
             name: NameField.dirty(validName),
             nameStatus: FormzStatus.submissionSuccess,
             nickName: NickNameField.dirty(validNickName),
@@ -226,29 +230,29 @@ void main() {
         act: (bloc) {
           bloc
             ..add(const NameUpdated(validName))
-            ..add(NameSubmitted())
-            ..add(NickNameUpdated(validNickName))
-            ..add(NickNameSubmitted());
+            ..add(const NameSubmitted())
+            ..add(const NickNameUpdated(validNickName))
+            ..add(const NickNameSubmitted());
         },
         expect: () => const <SignUpState>[
-          const SignUpState(
-            name: const NameField.dirty(validName),
+          SignUpState(
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.valid,
           ),
-          const SignUpState(
-            name: const NameField.dirty(validName),
+          SignUpState(
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.submissionSuccess,
           ),
-          const SignUpState(
-            name: const NameField.dirty(validName),
+          SignUpState(
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.submissionSuccess,
-            nickName: const NickNameField.dirty(validNickName),
+            nickName: NickNameField.dirty(validNickName),
             nickNameStatus: FormzStatus.valid,
           ),
-          const SignUpState(
-            name: const NameField.dirty(validName),
+          SignUpState(
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.submissionSuccess,
-            nickName: const NickNameField.dirty(validNickName),
+            nickName: NickNameField.dirty(validNickName),
             nickNameStatus: FormzStatus.submissionSuccess,
           ),
         ],
@@ -260,23 +264,23 @@ void main() {
         act: (bloc) {
           bloc
             ..add(const NameUpdated(validName))
-            ..add(NameSubmitted())
-            ..add(NickNameUpdated(invalidNickName))
-            ..add(NickNameSubmitted());
+            ..add(const NameSubmitted())
+            ..add(const NickNameUpdated(invalidNickName))
+            ..add(const NickNameSubmitted());
         },
         expect: () => const <SignUpState>[
-          const SignUpState(
-            name: const NameField.dirty(validName),
+          SignUpState(
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.valid,
           ),
-          const SignUpState(
-            name: const NameField.dirty(validName),
+          SignUpState(
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.submissionSuccess,
           ),
-          const SignUpState(
-            name: const NameField.dirty(validName),
+          SignUpState(
+            name: NameField.dirty(validName),
             nameStatus: FormzStatus.submissionSuccess,
-            nickName: const NickNameField.dirty(invalidNickName),
+            nickName: NickNameField.dirty(invalidNickName),
             nickNameStatus: FormzStatus.invalid,
           ),
         ],
@@ -288,20 +292,24 @@ void main() {
         'valid submission workflow takes place upon valid user submission',
         build: () {
           when(() => userRepository.createUser(
-                mockCreatableState.name.value,
-                mockCreatableState.nickName.value,
+                name: mockCreatableState.name.value,
+                email: mockCreatableState.email.value,
+                password: mockCreatableState.password.value,
+                nickName: mockCreatableState.nickName.value,
               )).thenAnswer((_) => Future.value(mockCreatedUser));
 
           return signUpBloc;
         },
         seed: () => mockCreatableState,
         act: (bloc) {
-          bloc..add(UserSubmitted());
+          bloc.add(UserSubmitted());
         },
         verify: (_) {
           verify(() => userRepository.createUser(
-                mockCreatableState.name.value,
-                mockCreatableState.nickName.value,
+                name: mockCreatableState.name.value,
+                email: mockCreatableState.email.value,
+                password: mockCreatableState.password.value,
+                nickName: mockCreatableState.nickName.value,
               )).called(1);
         },
         expect: () => <SignUpState>[
@@ -319,20 +327,24 @@ void main() {
         'valid submission workflow takes place upon repository exception',
         build: () {
           when(() => userRepository.createUser(
-                mockCreatableState.name.value,
-                mockCreatableState.nickName.value,
+                name: mockCreatableState.name.value,
+                email: mockCreatableState.email.value,
+                password: mockCreatableState.password.value,
+                nickName: mockCreatableState.nickName.value,
               )).thenThrow(Exception('oops!'));
 
           return signUpBloc;
         },
         seed: () => mockCreatableState,
         act: (bloc) {
-          bloc..add(UserSubmitted());
+          bloc.add(UserSubmitted());
         },
         verify: (_) {
           verify(() => userRepository.createUser(
-                mockCreatableState.name.value,
-                mockCreatableState.nickName.value,
+                name: mockCreatableState.name.value,
+                email: mockCreatableState.email.value,
+                password: mockCreatableState.password.value,
+                nickName: mockCreatableState.nickName.value,
               )).called(1);
         },
         expect: () => <SignUpState>[

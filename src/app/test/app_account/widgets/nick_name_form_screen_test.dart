@@ -1,4 +1,4 @@
-import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
+import 'package:app/app_account/blocs/sign_up/sign_up_bloc.dart';
 import 'package:app/models/models.dart';
 import 'package:app/models/name_field.dart';
 import 'package:app/positive_affirmations_keys.dart';

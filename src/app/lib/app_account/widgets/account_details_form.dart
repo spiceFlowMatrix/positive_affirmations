@@ -1,5 +1,5 @@
-import 'package:app/account_setup/blocs/sign_up/sign_up_bloc.dart';
-import 'package:app/account_setup/widgets/already_have_account_content.dart';
+import 'package:app/app_account/blocs/sign_up/sign_up_bloc.dart';
+import 'package:app/app_account/widgets/already_have_account_content.dart';
 import 'package:app/blocs/authentication/authentication_bloc.dart';
 import 'package:app/consts.dart';
 import 'package:app/models/email_field.dart';
@@ -184,10 +184,7 @@ class _SubmitButton extends StatelessWidget {
           current.submissionStatus == FormzStatus.submissionSuccess &&
           previous.submissionStatus != current.submissionStatus,
       listener: (context, state) {
-        context.read<ProfileBloc>().add(UserCreated(
-              user: state.createdUser,
-              password: state.password.value,
-            ));
+        context.read<ProfileBloc>().add(UserCreated(user: state.createdUser));
         context.read<AuthenticationBloc>().add(
               const AuthenticationStatusChanged(
                   status: AuthenticationStatus.authenticated),
