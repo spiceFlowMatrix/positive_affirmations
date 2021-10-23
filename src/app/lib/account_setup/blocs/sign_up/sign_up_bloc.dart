@@ -102,6 +102,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     return state.copyWith(
       password: password,
       passwordStatus: Formz.validate([password]),
+      confirmPasswordStatus: FormzStatus.invalid,
     );
   }
 
@@ -123,9 +124,11 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
     try {
       AppUser newUser = await userRepository.createUser(
-          state.name.value, state.nickName.value);
-
-      newUser = newUser.copyWith(email: state.email.value);
+        name: state.name.value,
+        email: state.email.value,
+        password: state.password.value,
+        nickName: state.nickName.value,
+      );
 
       yield state.copyWith(
         submissionStatus: FormzStatus.submissionSuccess,
