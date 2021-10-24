@@ -98,10 +98,10 @@ class AffirmationsHomeScreen extends StatelessWidget {
 
     return BlocProvider<AffirmationsBloc>(
       create: (context) {
-        return HydratedAffirmationsBloc(
+        return AffirmationsBloc(
           userRepository: context.read<UserRepository>(),
           affirmationsRepository: context.read<AffirmationsRepository>(),
-        );
+        )..add(const AffirmationsLoaded());
       },
       child: scaffold,
     );

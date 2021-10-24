@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/models/machine_date_time.dart';
 import 'package:equatable/equatable.dart';
+import 'package:formz/formz.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:repository/repository.dart';
 import 'package:uuid/uuid.dart';
@@ -15,31 +16,43 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
     required this.userRepository,
     required this.affirmationsRepository,
     this.time,
-  }) : super(const AffirmationsState());
+  }) : super(const AffirmationsState()) {
+    on<AffirmationCreated>(_mapAffirmationCreatedToState);
+    on<AffirmationLiked>(_mapAffirmationLikedToState);
+    on<AffirmationActivationToggled>(_mapAffirmationActivationToggledToState);
+    on<AffirmationUpdated>(_mapAffirmationUpdatedToState);
+    on<ReaffirmationCreated>(_mapReaffirmationCreatedToState);
+    on<AffirmationsLoaded>(_loadAffirmations);
+    on<AffirmationsUpdated>(_updateAffirmations);
+  }
 
   final MachineDateTime? time;
   final UserRepository userRepository;
   final AffirmationsRepository affirmationsRepository;
 
+  StreamSubscription? _affirmationsSubscription;
+
   @override
-  Stream<AffirmationsState> mapEventToState(
-    AffirmationsEvent event,
-  ) async* {
-    if (event is AffirmationCreated) {
-      yield* _mapAffirmationCreatedToState(event, state);
-    } else if (event is AffirmationLiked) {
-      yield _mapAffirmationLikedToState(event, state);
-    } else if (event is AffirmationActivationToggled) {
-      yield _mapAffirmationActivationToggledToState(event, state);
-    } else if (event is AffirmationUpdated) {
-      yield _mapAffirmationUpdatedToState(event, state);
-    } else if (event is ReaffirmationCreated) {
-      yield _mapReaffirmationCreatedToState(event, state);
-    }
+  Future<void> close() {
+    return super.close();
   }
 
-  Stream<AffirmationsState> _mapAffirmationCreatedToState(
-      AffirmationCreated event, AffirmationsState state) async* {
+  void _loadAffirmations(
+      AffirmationsLoaded event, Emitter<AffirmationsState> emit) {
+    _affirmationsSubscription?.cancel();
+    _affirmationsSubscription =
+        affirmationsRepository.getAffirmations().listen((affirmations) {
+      add(AffirmationsUpdated(affirmations: affirmations));
+    });
+  }
+
+  void _updateAffirmations(
+      AffirmationsUpdated event, Emitter<AffirmationsState> emit) {
+    emit(state.copyWith(affirmations: event.affirmations));
+  }
+
+  Future<void> _mapAffirmationCreatedToState(
+      AffirmationCreated event, Emitter<AffirmationsState> emit) async {
     final newAffirmation = Affirmation(
       id: const Uuid().v4(),
       title: event.title,
@@ -49,38 +62,38 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
     );
     await affirmationsRepository.saveAffirmation(newAffirmation);
 
-    final newAffirmations = [
-      ...state.affirmations,
-      newAffirmation,
-    ];
-
-    yield state.copyWith(affirmations: newAffirmations);
+    // final newAffirmations = [
+    //   ...state.affirmations,
+    //   newAffirmation,
+    // ];
+    //
+    // emit(state.copyWith(affirmations: newAffirmations));
   }
 
-  AffirmationsState _mapAffirmationLikedToState(
-      AffirmationLiked event, AffirmationsState state) {
+  void _mapAffirmationLikedToState(
+      AffirmationLiked event, Emitter<AffirmationsState> emit) {
     final updatedAffirmations = state.affirmations.map((affirmation) {
       return affirmation.id == event.id
           ? affirmation.copyWith(liked: !affirmation.liked)
           : affirmation;
     }).toList();
 
-    return state.copyWith(affirmations: [...updatedAffirmations]);
+    emit(state.copyWith(affirmations: [...updatedAffirmations]));
   }
 
-  AffirmationsState _mapAffirmationActivationToggledToState(
-      AffirmationActivationToggled event, AffirmationsState state) {
+  void _mapAffirmationActivationToggledToState(
+      AffirmationActivationToggled event, Emitter<AffirmationsState> emit) {
     final updatedAffirmations = state.affirmations.map((affirmation) {
       return affirmation.id == event.id
           ? affirmation.copyWith(active: !affirmation.active)
           : affirmation;
     }).toList();
 
-    return state.copyWith(affirmations: [...updatedAffirmations]);
+    emit(state.copyWith(affirmations: [...updatedAffirmations]));
   }
 
-  AffirmationsState _mapAffirmationUpdatedToState(
-      AffirmationUpdated event, AffirmationsState state) {
+  void _mapAffirmationUpdatedToState(
+      AffirmationUpdated event, Emitter<AffirmationsState> emit) {
     final updatedAffirmations = state.affirmations.map((affirmation) {
       return affirmation.id == event.id
           ? affirmation.copyWith(
@@ -90,18 +103,18 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
           : affirmation;
     }).toList();
 
-    return state.copyWith(affirmations: [...updatedAffirmations]);
+    emit(state.copyWith(affirmations: [...updatedAffirmations]));
   }
 
-  AffirmationsState _mapReaffirmationCreatedToState(
-      ReaffirmationCreated event, AffirmationsState state) {
+  void _mapReaffirmationCreatedToState(
+      ReaffirmationCreated event, Emitter<AffirmationsState> emit) {
     final updatedAffirmations = state.affirmations.map((affirmation) {
       return affirmation.id == event.affirmationId
           ? affirmation.copyWith(
               totalReaffirmations: affirmation.totalReaffirmations + 1)
           : affirmation;
     });
-    final newReaffirmation = new Reaffirmation(
+    final newReaffirmation = Reaffirmation(
       id: state.reaffirmations.length + 1,
       affirmationId: event.affirmationId,
       createdOn: time?.now ?? DateTime.now(),
@@ -110,10 +123,10 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
       stamp: event.stamp,
     );
 
-    return state.copyWith(
+    emit(state.copyWith(
       affirmations: [...updatedAffirmations],
       reaffirmations: [...state.reaffirmations, newReaffirmation],
-    );
+    ));
   }
 }
 

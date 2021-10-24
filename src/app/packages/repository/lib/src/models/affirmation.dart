@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class Affirmation extends Equatable {
@@ -78,6 +79,20 @@ class Affirmation extends Equatable {
           empty.totalReaffirmations,
       active: json[Affirmation.fieldActive] ?? empty.active,
       liked: json[Affirmation.fieldLiked] ?? empty.liked,
+    );
+  }
+
+  static Affirmation fromSnapshot(DocumentSnapshot snap) {
+    return Affirmation(
+      id: snap.get(fieldId),
+      title: snap.get(fieldTitle),
+      subtitle: snap.get(fieldSubtitle),
+      createdById: snap.get(fieldCreatedById),
+      createdOn: DateTime.parse(snap.get(fieldCreatedOn)),
+      likes: snap.get(fieldLikes),
+      totalReaffirmations: snap.get(fieldTotalReaffirmations),
+      active: snap.get(fieldActive),
+      liked: snap.get(fieldLiked),
     );
   }
 

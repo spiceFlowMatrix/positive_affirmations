@@ -4,6 +4,22 @@ abstract class AffirmationsEvent extends Equatable {
   const AffirmationsEvent();
 }
 
+class AffirmationsLoaded extends AffirmationsEvent {
+  const AffirmationsLoaded();
+
+  @override
+  List<Object> get props => [];
+}
+
+class AffirmationsUpdated extends AffirmationsEvent {
+  const AffirmationsUpdated({required this.affirmations});
+
+  final List<Affirmation> affirmations;
+
+  @override
+  List<Object> get props => [affirmations];
+}
+
 class AffirmationCreated extends AffirmationsEvent {
   const AffirmationCreated(this.title, this.subtitle);
 
