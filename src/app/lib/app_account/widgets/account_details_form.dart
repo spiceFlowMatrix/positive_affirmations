@@ -25,31 +25,40 @@ class _Form extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 35),
-      child: Form(
-        key: _formKey,
-        child: Align(
-          alignment: Alignment.center,
-          child: ListView(
-            shrinkWrap: true,
-            children: [
-              const _Label(),
-              const Padding(padding: EdgeInsets.only(top: 10)),
-              _EmailField(),
-              const Padding(padding: EdgeInsets.only(top: 10)),
-              _PasswordField(),
-              const Padding(padding: EdgeInsets.only(top: 10)),
-              _ConfirmPasswordField(),
-              const Padding(padding: EdgeInsets.only(top: 10)),
-              const _SubmitButton(),
-              const Padding(padding: EdgeInsets.only(top: 10)),
-              const _BackButton(),
-              const AlreadyHaveAccountPanel(),
-            ],
+    return BlocBuilder<SignUpBloc, SignUpState>(
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 35),
+          child: Form(
+            key: _formKey,
+            child: Align(
+              alignment: Alignment.center,
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  const _Label(),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
+                  _EmailField(),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
+                  _PasswordField(),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
+                  _ConfirmPasswordField(),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
+                  if (state.submissionStatus == FormzStatus.submissionFailure)
+                    Text(
+                      state.submissionError,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  const _SubmitButton(),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
+                  const _BackButton(),
+                  const AlreadyHaveAccountPanel(),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

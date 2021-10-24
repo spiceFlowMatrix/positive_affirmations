@@ -141,7 +141,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     yield state.copyWith(submissionStatus: FormzStatus.submissionInProgress);
 
     try {
-      AppUser newUser = await userRepository.createUser(
+      AppUser newUser = await userRepository.signUpWithEmailPassword(
         name: state.name.value,
         email: state.email.value,
         password: state.password.value,
@@ -152,8 +152,16 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         submissionStatus: FormzStatus.submissionSuccess,
         createdUser: newUser,
       );
+    } on SignUpWithEmailAndPasswordFailure catch (e) {
+      yield state.copyWith(
+        submissionStatus: FormzStatus.submissionFailure,
+        submissionError: e.message,
+      );
     } catch (_) {
-      yield state.copyWith(submissionStatus: FormzStatus.submissionFailure);
+      yield state.copyWith(
+        submissionStatus: FormzStatus.submissionFailure,
+        submissionError: 'Unrecognized error',
+      );
     }
   }
 }

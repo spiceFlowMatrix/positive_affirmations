@@ -34,7 +34,7 @@ class UserRepository {
     });
   }
 
-  Future<AppUser> createUser({
+  Future<AppUser> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
@@ -48,8 +48,6 @@ class UserRepository {
         debugPrint(
             'Successfully created user with email/password: ${value.toString()}');
         return value;
-      }).catchError((error) {
-        debugPrint(error.toString());
       });
 
       AppUser newUser = AppUser(

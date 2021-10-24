@@ -291,7 +291,7 @@ void main() {
       blocTest<SignUpBloc, SignUpState>(
         'valid submission workflow takes place upon valid user submission',
         build: () {
-          when(() => userRepository.createUser(
+          when(() => userRepository.signUpWithEmailPassword(
                 name: mockCreatableState.name.value,
                 email: mockCreatableState.email.value,
                 password: mockCreatableState.password.value,
@@ -305,7 +305,7 @@ void main() {
           bloc.add(AccountDetailsSubmitted());
         },
         verify: (_) {
-          verify(() => userRepository.createUser(
+          verify(() => userRepository.signUpWithEmailPassword(
                 name: mockCreatableState.name.value,
                 email: mockCreatableState.email.value,
                 password: mockCreatableState.password.value,
@@ -326,7 +326,7 @@ void main() {
       blocTest<SignUpBloc, SignUpState>(
         'valid submission workflow takes place upon repository exception',
         build: () {
-          when(() => userRepository.createUser(
+          when(() => userRepository.signUpWithEmailPassword(
                 name: mockCreatableState.name.value,
                 email: mockCreatableState.email.value,
                 password: mockCreatableState.password.value,
@@ -340,7 +340,7 @@ void main() {
           bloc.add(AccountDetailsSubmitted());
         },
         verify: (_) {
-          verify(() => userRepository.createUser(
+          verify(() => userRepository.signUpWithEmailPassword(
                 name: mockCreatableState.name.value,
                 email: mockCreatableState.email.value,
                 password: mockCreatableState.password.value,
