@@ -95,6 +95,24 @@ class UserRepository {
       throw const LogInWithEmailAndPasswordFailure();
     }
   }
+
+  Future<void> resendVerificationCode() async {
+    final User? currentFirebaseUser = _firebaseAuth.currentUser;
+
+    if (currentFirebaseUser != null && !currentFirebaseUser.emailVerified) {
+      final actionCodeSettings = ActionCodeSettings(
+        url:
+            'https://affirmations.hrahimy.com/?email=${currentFirebaseUser.email}',
+        dynamicLinkDomain: 'affirmations.hrahimy.com',
+        androidPackageName: 'com.positiveaffirmations.mobile_app',
+        androidInstallApp: true,
+        androidMinimumVersion: '12',
+        iOSBundleId: 'com.positiveaffirmations.mobile_app',
+        handleCodeInApp: true,
+      );
+      await currentFirebaseUser.sendEmailVerification(actionCodeSettings);
+    }
+  }
 }
 
 extension on User {
