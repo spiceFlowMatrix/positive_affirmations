@@ -76,8 +76,8 @@ class PositiveAffirmationsConsts {
 
   static const String invalidEmailErrorText = 'E.g., "sample@email.com".';
 
-  static const String verifyAccountMessageTitle = 'Account not verified';
+  static const String verifyAccountMessageTitle = 'Please verify your account';
   static const String verifyAccountMessageContent =
-      'Please check your email for a verification link. Clicking it will complete your account creation process';
+      'I\'ve sent you an email containing a verification link.\nYou\'re all set to go once you open that link.';
   static const IconData verifyAccountMessageIcon = FontAwesomeIcons.fingerprint;
 }
