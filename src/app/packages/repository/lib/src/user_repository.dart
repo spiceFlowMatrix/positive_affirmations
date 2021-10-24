@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:repository/src/cache_client.dart';
+import 'package:repository/src/exceptions/exceptions.dart';
 import 'package:repository/src/exceptions/sign_up_with_email_password_failure.dart';
 import 'package:repository/src/models/models.dart';
 
@@ -73,6 +74,25 @@ class UserRepository {
     } catch (_) {
       debugPrint(_.toString());
       throw const SignUpWithEmailAndPasswordFailure();
+    }
+  }
+
+  /// Signs in with the provided [email] and [password].
+  ///
+  /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs.
+  Future<void> logInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      throw LogInWithEmailAndPasswordFailure.fromCode(e.code);
+    } catch (_) {
+      throw const LogInWithEmailAndPasswordFailure();
     }
   }
 }
