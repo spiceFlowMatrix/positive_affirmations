@@ -110,7 +110,7 @@ class _PreviewPanel extends StatelessWidget {
     required this.stamp,
   });
 
-  final int affirmationId;
+  final String affirmationId;
   final ReaffirmationValue value;
   final ReaffirmationFont font;
   final ReaffirmationStamp stamp;
@@ -135,7 +135,7 @@ class _PreviewPanel extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '$value',
+              value,
               key: PositiveAffirmationsKeys
                   .reaffirmationFormPreviewPanelSelectedNote,
               style: TextStyle(
@@ -145,7 +145,7 @@ class _PreviewPanel extends StatelessWidget {
             ),
             const Padding(padding: EdgeInsets.only(left: 10)),
             Text(
-              '$stamp',
+              stamp,
               key: PositiveAffirmationsKeys
                   .reaffirmationFormPreviewPanelSelectedStamp,
               style: TextStyle(

@@ -19,5 +19,6 @@ void main() async {
 
   runApp(App(
     userRepository: UserRepository(),
+    affirmationsRepository: AffirmationsRepository(),
   ));
 }

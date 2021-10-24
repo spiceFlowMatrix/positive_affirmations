@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:formz/formz.dart';
 import 'package:app/affirmations/blocs/affirmation_form/affirmation_form_bloc.dart';
 import 'package:app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:app/affirmations/models/subtitle_field.dart';
 import 'package:app/affirmations/models/title_field.dart';
 import 'package:app/consts.dart';
 import 'package:app/positive_affirmations_keys.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:formz/formz.dart';
 import 'package:repository/repository.dart';
 
 class AffirmationFormScreenArguments {
@@ -279,13 +279,13 @@ class _SaveButton extends StatelessWidget {
 class _ActivateDeactivateButton extends StatelessWidget {
   _ActivateDeactivateButton(this.id);
 
-  final int id;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
       key: PositiveAffirmationsKeys.affirmationFormDeactivateDeactivateButton(
-          '$id'),
+          id),
       onPressed: null,
       child: Text(
         'DEACTIVATE',
@@ -298,16 +298,16 @@ class _ActivateDeactivateButton extends StatelessWidget {
 }
 
 class _DeleteButton extends StatelessWidget {
-  _DeleteButton(this.id);
+  const _DeleteButton(this.id);
 
-  final int id;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      key: PositiveAffirmationsKeys.affirmationFormDeleteButton('$id'),
+      key: PositiveAffirmationsKeys.affirmationFormDeleteButton(id),
       onPressed: null,
-      child: Text(
+      child: const Text(
         'DELETE',
         style: TextStyle(
           color: Colors.grey,

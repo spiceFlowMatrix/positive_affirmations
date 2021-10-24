@@ -1,18 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:app/affirmations/widgets/affirmations_list.dart';
 import 'package:app/affirmations/widgets/app_navigator.dart';
 import 'package:app/positive_affirmations_keys.dart';
-import 'package:app/profile/blocs/profile/profile_bloc.dart';
 import 'package:app/profile/widgets/profile_details_body.dart';
 import 'package:app/profile/widgets/profile_edit_form.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:repository/repository.dart';
 
 class AffirmationsHomeScreen extends StatelessWidget {
-  const AffirmationsHomeScreen({this.affirmationsBloc});
+  const AffirmationsHomeScreen({
+    this.affirmationsBloc,
+    Key? key,
+  }) : super(key: key);
 
   static const routeName = '/homeScreen';
 
@@ -25,7 +28,7 @@ class AffirmationsHomeScreen extends StatelessWidget {
           key: PositiveAffirmationsKeys.affirmationsList,
         );
       case AppTab.profile:
-        return ProfileDetailsTabBody();
+        return const ProfileDetailsTabBody();
       default:
         return AffirmationsList(
           key: PositiveAffirmationsKeys.affirmationsList,
@@ -66,7 +69,7 @@ class AffirmationsHomeScreen extends StatelessWidget {
                     case AppTab.profile:
                       Navigator.of(context).pushNamed(
                         ProfileEditForm.routeName,
-                        arguments: ProfileEditFormArgs(),
+                        arguments: const ProfileEditFormArgs(),
                       );
                       break;
                   }
@@ -84,17 +87,21 @@ class AffirmationsHomeScreen extends StatelessWidget {
       },
     );
 
-    if (affirmationsBloc != null)
+    if (affirmationsBloc != null) {
       return BlocProvider<AffirmationsBloc>.value(
         value: affirmationsBloc!,
         child: scaffold,
       );
+    }
 
-    final authUser = context.read<ProfileBloc>().state.user;
+    // final authUser = context.read<ProfileBloc>().state.user;
 
     return BlocProvider<AffirmationsBloc>(
       create: (context) {
-        return new HydratedAffirmationsBloc(authenticatedUser: authUser);
+        return HydratedAffirmationsBloc(
+          userRepository: context.read<UserRepository>(),
+          affirmationsRepository: context.read<AffirmationsRepository>(),
+        );
       },
       child: scaffold,
     );

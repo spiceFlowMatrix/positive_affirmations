@@ -20,7 +20,7 @@ class Reaffirmation extends Equatable {
   });
 
   final int id;
-  final int affirmationId;
+  final String affirmationId;
   final DateTime createdOn;
   final ReaffirmationValue value;
   final ReaffirmationFont font;
@@ -34,7 +34,7 @@ class Reaffirmation extends Equatable {
 
   static final empty = Reaffirmation(
     id: 0,
-    affirmationId: 0,
+    affirmationId: '-',
     createdOn: DateTime(0),
     value: ReaffirmationValue.empty,
     font: ReaffirmationFont.none,
@@ -71,7 +71,7 @@ class Reaffirmation extends Equatable {
 
   Reaffirmation copyWith({
     int? id,
-    int? affirmationId,
+    String? affirmationId,
     DateTime? createdOn,
     ReaffirmationValue? value,
     ReaffirmationFont? font,

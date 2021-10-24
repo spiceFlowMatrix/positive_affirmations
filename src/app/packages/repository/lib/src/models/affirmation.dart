@@ -13,7 +13,7 @@ class Affirmation extends Equatable {
     this.liked = false,
   });
 
-  final int id;
+  final String id;
   final String title;
   final String subtitle;
   final String createdById;
@@ -37,7 +37,7 @@ class Affirmation extends Equatable {
       ];
 
   static final empty = Affirmation(
-    id: 0,
+    id: '-',
     title: '-',
     subtitle: '-',
     createdById: '-',
@@ -54,15 +54,15 @@ class Affirmation extends Equatable {
   static const String fieldLiked = 'liked';
 
   Map<String, dynamic> get fieldValues => {
-        fieldId: this.id,
-        fieldTitle: this.title,
-        fieldSubtitle: this.subtitle,
-        fieldCreatedById: this.createdById,
-        fieldCreatedOn: this.createdOn.toIso8601String(),
-        fieldLikes: this.likes,
-        fieldTotalReaffirmations: this.totalReaffirmations,
-        fieldActive: this.active,
-        fieldLiked: this.liked,
+        fieldId: id,
+        fieldTitle: title,
+        fieldSubtitle: subtitle,
+        fieldCreatedById: createdById,
+        fieldCreatedOn: createdOn.toIso8601String(),
+        fieldLikes: likes,
+        fieldTotalReaffirmations: totalReaffirmations,
+        fieldActive: active,
+        fieldLiked: liked,
       };
 
   static Affirmation fromJson(Map<String, dynamic> json) {
@@ -82,7 +82,7 @@ class Affirmation extends Equatable {
   }
 
   Affirmation copyWith({
-    int? id,
+    String? id,
     String? title,
     String? subtitle,
     String? createdById,

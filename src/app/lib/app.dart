@@ -1,7 +1,7 @@
 import 'package:app/affirmations/blocs/apptab/apptab_bloc.dart';
+import 'package:app/affirmations/widgets/affirmations_home_screen.dart';
 import 'package:app/app_account/blocs/authentication/authentication_bloc.dart';
 import 'package:app/app_account/widgets/sign_in_screen.dart';
-import 'package:app/app_account/widgets/verification_flow.dart';
 import 'package:app/app_account/widgets/widgets.dart';
 import 'package:app/positive_affirmations_routes.dart';
 import 'package:app/positive_affirmations_theme.dart';
@@ -14,10 +14,12 @@ class App extends StatelessWidget {
   const App({
     Key? key,
     required this.userRepository,
+    required this.affirmationsRepository,
     this.profileBloc,
   }) : super(key: key);
 
   final UserRepository userRepository;
+  final AffirmationsRepository affirmationsRepository;
   final ProfileBloc? profileBloc;
 
   @override
@@ -25,6 +27,8 @@ class App extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<UserRepository>.value(value: userRepository),
+        RepositoryProvider<AffirmationsRepository>.value(
+            value: affirmationsRepository),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -78,7 +82,7 @@ class _AppViewState extends State<AppView> {
                     break;
                   case AuthenticationStatus.authenticated:
                     _navigator.pushNamedAndRemoveUntil(
-                      VerificationFlow.routeName,
+                      AffirmationsHomeScreen.routeName,
                       (route) => false,
                     );
                     break;
@@ -94,7 +98,7 @@ class _AppViewState extends State<AppView> {
             );
           },
           initialRoute: state.status == AuthenticationStatus.authenticated
-              ? VerificationFlow.routeName
+              ? AffirmationsHomeScreen.routeName
               : SignUpFlow.routeName,
           routes: PositiveAffirmationsRoutes().routes(context),
         );

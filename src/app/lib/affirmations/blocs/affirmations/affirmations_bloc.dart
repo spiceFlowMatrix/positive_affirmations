@@ -1,28 +1,32 @@
 import 'dart:async';
 
+import 'package:app/models/machine_date_time.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:app/models/machine_date_time.dart';
 import 'package:repository/repository.dart';
+import 'package:uuid/uuid.dart';
 
 part 'affirmations_event.dart';
+
 part 'affirmations_state.dart';
 
 class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
   AffirmationsBloc({
-    required this.authenticatedUser,
+    required this.userRepository,
+    required this.affirmationsRepository,
     this.time,
-  }) : super(AffirmationsState());
+  }) : super(const AffirmationsState());
 
   final MachineDateTime? time;
-  final AppUser authenticatedUser;
+  final UserRepository userRepository;
+  final AffirmationsRepository affirmationsRepository;
 
   @override
   Stream<AffirmationsState> mapEventToState(
     AffirmationsEvent event,
   ) async* {
     if (event is AffirmationCreated) {
-      yield _mapAffirmationCreatedToState(event, state);
+      yield* _mapAffirmationCreatedToState(event, state);
     } else if (event is AffirmationLiked) {
       yield _mapAffirmationLikedToState(event, state);
     } else if (event is AffirmationActivationToggled) {
@@ -34,22 +38,23 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
     }
   }
 
-  AffirmationsState _mapAffirmationCreatedToState(
-      AffirmationCreated event, AffirmationsState state) {
+  Stream<AffirmationsState> _mapAffirmationCreatedToState(
+      AffirmationCreated event, AffirmationsState state) async* {
     final newAffirmation = Affirmation(
-      id: state.affirmations.length + 1,
+      id: const Uuid().v4(),
       title: event.title,
       subtitle: event.subtitle,
-      createdById: authenticatedUser.id,
+      createdById: userRepository.currentUser.id,
       createdOn: time?.now ?? DateTime.now(),
     );
+    await affirmationsRepository.saveAffirmation(newAffirmation);
 
     final newAffirmations = [
       ...state.affirmations,
       newAffirmation,
     ];
 
-    return state.copyWith(affirmations: newAffirmations);
+    yield state.copyWith(affirmations: newAffirmations);
   }
 
   AffirmationsState _mapAffirmationLikedToState(
@@ -113,8 +118,13 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
 }
 
 class HydratedAffirmationsBloc extends AffirmationsBloc with HydratedMixin {
-  HydratedAffirmationsBloc({required AppUser authenticatedUser})
-      : super(authenticatedUser: authenticatedUser);
+  HydratedAffirmationsBloc({
+    required UserRepository userRepository,
+    required AffirmationsRepository affirmationsRepository,
+  }) : super(
+          userRepository: userRepository,
+          affirmationsRepository: affirmationsRepository,
+        );
 
   @override
   AffirmationsState? fromJson(Map<String, dynamic> json) {

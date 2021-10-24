@@ -28,6 +28,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is UserCreated) {
       yield _mapUserCreatedToSate(event, state);
     } else if (event is ProfileEdited) {
+      yield _mapProfileEditedToState(event, state);
+    } else if (event is UserUpdated) {
       yield _mapUserUpdatedToState(event, state);
     } else if (event is PictureUpdated) {
       yield _mapPictureUpdatedToState(event, state);
@@ -44,7 +46,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     return state.copyWith(user: event.user);
   }
 
-  ProfileState _mapUserUpdatedToState(ProfileEdited event, ProfileState state) {
+  ProfileState _mapUserUpdatedToState(UserUpdated event, ProfileState state) {
+    return state.copyWith(user: event.user);
+  }
+
+  ProfileState _mapProfileEditedToState(
+      ProfileEdited event, ProfileState state) {
     final updatedUser = state.user.copyWith(
       name: event.name.trim(),
       nickName: event.nickName.trim(),
