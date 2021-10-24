@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:repository/repository.dart';
 
@@ -19,7 +20,7 @@ class AuthenticationBloc
             status: AuthenticationStatus.authenticated));
       } else {
         add(const AuthenticationStatusChanged(
-            status: AuthenticationStatus.unauthenticated));
+            status: AuthenticationStatus.unknown));
       }
     });
   }
@@ -40,19 +41,20 @@ class AuthenticationBloc
     if (event is AuthenticationStatusChanged) {
       yield _mapAuthenticationStatusChangedToState(event, state);
     } else if (event is AuthenticationLogoutRequested) {
-      yield AuthenticationState.unauthenticated();
+      yield const AuthenticationState.unauthenticated();
     }
   }
 
   AuthenticationState _mapAuthenticationStatusChangedToState(
       AuthenticationStatusChanged event, AuthenticationState state) {
+    debugPrint(event.status.toString());
     switch (event.status) {
       case AuthenticationStatus.unauthenticated:
         return const AuthenticationState.unauthenticated();
       case AuthenticationStatus.authenticated:
-        return AuthenticationState.authenticated();
+        return const AuthenticationState.authenticated();
       default:
-        return AuthenticationState.unknown();
+        return const AuthenticationState.unknown();
     }
   }
 

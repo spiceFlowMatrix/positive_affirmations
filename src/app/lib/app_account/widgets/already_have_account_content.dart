@@ -1,7 +1,9 @@
+import 'package:app/app_account/blocs/authentication/authentication_bloc.dart';
 import 'package:app/consts.dart';
 import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/positive_affirmations_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 
 class AlreadyHaveAccountPanel extends StatelessWidget {
   const AlreadyHaveAccountPanel({Key? key}) : super(key: key);
@@ -41,16 +43,17 @@ class AlreadyHaveAccountLabel extends StatelessWidget {
 
 class AlreadyHaveAccountSignInButton extends StatelessWidget {
   const AlreadyHaveAccountSignInButton({Key? key}) : super(key: key);
-  final _snackBar = const SnackBar(
-    content: Text(PositiveAffirmationsConsts.underConstructionSnackbarText),
-  );
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
       key: PositiveAffirmationsKeys.alreadyHaveAccountSignInButton,
       onPressed: () {
-        ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+        context
+            .read<AuthenticationBloc>()
+            .add(const AuthenticationStatusChanged(
+              status: AuthenticationStatus.unauthenticated,
+            ));
       },
       child: const Text(
         PositiveAffirmationsConsts.alreadyHaveAccountSignInButtonText,

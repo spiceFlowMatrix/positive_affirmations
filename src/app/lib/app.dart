@@ -1,5 +1,6 @@
 import 'package:app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:app/app_account/blocs/authentication/authentication_bloc.dart';
+import 'package:app/app_account/widgets/sign_in_screen.dart';
 import 'package:app/app_account/widgets/verification_flow.dart';
 import 'package:app/app_account/widgets/widgets.dart';
 import 'package:app/positive_affirmations_routes.dart';
@@ -33,7 +34,9 @@ class App extends StatelessWidget {
             BlocProvider<ProfileBloc>(
                 create: (_) =>
                     HydratedProfileBloc(userRepository: userRepository)),
-          BlocProvider<AuthenticationBloc>(create: (_) => AuthenticationBloc(userRepository: userRepository)),
+          BlocProvider<AuthenticationBloc>(
+              create: (_) =>
+                  AuthenticationBloc(userRepository: userRepository)),
           BlocProvider<ApptabBloc>(create: (_) => ApptabBloc()),
         ],
         child: const AppView(),
@@ -63,8 +66,9 @@ class _AppViewState extends State<AppView> {
           theme: PositiveAffirmationsTheme.theme,
           builder: (context, child) {
             return BlocListener<AuthenticationBloc, AuthenticationState>(
-              listenWhen: (previous, current) => previous != current,
+              // listenWhen: (previous, current) => previous != current,
               listener: (context, state) {
+                debugPrint('listen');
                 switch (state.status) {
                   case AuthenticationStatus.unknown:
                     _navigator.pushNamedAndRemoveUntil(
@@ -80,7 +84,7 @@ class _AppViewState extends State<AppView> {
                     break;
                   case AuthenticationStatus.unauthenticated:
                     _navigator.pushNamedAndRemoveUntil(
-                      SignUpFlow.routeName,
+                      SignInScreen.routeName,
                       (route) => false,
                     );
                     break;
