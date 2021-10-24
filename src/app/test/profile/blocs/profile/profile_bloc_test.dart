@@ -3,6 +3,8 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:repository/repository.dart';
 
+import '../../../mocks/user_repository_mock.dart';
+
 void main() {
   const validName = 'mockName';
   // const invalidName = 'mock-name.invalid';
@@ -10,6 +12,7 @@ void main() {
   // const invalidNickName = 'mock-invalid.nickname';
 
   late ProfileBloc profileBloc;
+  late UserRepository userRepository;
 
   const mockUser = PositiveAffirmationsRepositoryConsts.seedUser;
   const mockUserWithPicture =
@@ -17,7 +20,8 @@ void main() {
 
   group('[ProfileBloc]', () {
     setUp(() {
-      profileBloc = ProfileBloc();
+      userRepository = MockUserRepository();
+      profileBloc = ProfileBloc(userRepository: userRepository);
     });
 
     group('[UserCreated]', () {

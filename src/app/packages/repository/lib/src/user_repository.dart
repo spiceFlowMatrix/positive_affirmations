@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:repository/src/cache_client.dart';
+import 'package:repository/src/exceptions/sign_up_with_email_password_failure.dart';
 import 'package:repository/src/models/models.dart';
 
 class UserRepository {
@@ -70,15 +71,10 @@ class UserRepository {
 
       return newUser;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        debugPrint('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        debugPrint('The account already exists for that email.');
-      }
-      rethrow;
+      throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
     } catch (_) {
       debugPrint(_.toString());
-      rethrow;
+      throw const SignUpWithEmailAndPasswordFailure();
     }
   }
 }
