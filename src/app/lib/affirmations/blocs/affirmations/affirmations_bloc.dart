@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/models/machine_date_time.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:formz/formz.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:repository/repository.dart';
@@ -30,20 +31,24 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
   final UserRepository userRepository;
   final AffirmationsRepository affirmationsRepository;
 
-  StreamSubscription? _affirmationsSubscription;
+  // StreamSubscription? _affirmationsSubscription;
 
   @override
   Future<void> close() {
+    // _affirmationsSubscription?.cancel();
     return super.close();
   }
 
-  void _loadAffirmations(
-      AffirmationsLoaded event, Emitter<AffirmationsState> emit) {
-    _affirmationsSubscription?.cancel();
-    _affirmationsSubscription =
-        affirmationsRepository.getAffirmations().listen((affirmations) {
-      add(AffirmationsUpdated(affirmations: affirmations));
-    });
+  Future<void> _loadAffirmations(
+      AffirmationsLoaded event, Emitter<AffirmationsState> emit) async {
+    final affirmations = await affirmationsRepository.getAffirmations();
+    debugPrint(affirmations.toString());
+    emit(state.copyWith(affirmations: affirmations));
+    // _affirmationsSubscription?.cancel();
+    // _affirmationsSubscription =
+    //     affirmationsRepository.getAffirmations().listen((affirmations) {
+    //   add(AffirmationsUpdated(affirmations: affirmations));
+    // });
   }
 
   void _updateAffirmations(

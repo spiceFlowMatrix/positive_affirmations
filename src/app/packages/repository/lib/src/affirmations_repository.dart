@@ -13,15 +13,20 @@ class AffirmationsRepository {
     await affirmationsCollection.add(affirmation);
   }
 
-  Stream<List<Affirmation>> getAffirmations({
+  Future<List<Affirmation>> getAffirmations({
     int? skip,
     int? take,
     String? searchQuery,
-  }) {
-    return affirmationsCollection.snapshots().map((snapshot) {
-      return snapshot.docs.map((e) {
-        return Affirmation.fromSnapshot(e);
-      }).toList();
-    });
+  }) async {
+    return await affirmationsCollection
+        .orderBy(Affirmation.fieldCreatedOn)
+        .startAt([skip ?? 0])
+        .limit(take ?? 10)
+        .get()
+        .then((value) {
+          return value.docs.map((snapshot) {
+            return Affirmation.fromSnapshot(snapshot);
+          }).toList();
+        });
   }
 }
