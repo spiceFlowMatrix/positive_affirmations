@@ -32,34 +32,43 @@ class _Form extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Align(
-        alignment: Alignment.center,
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            _EmailField(),
-            const Padding(padding: EdgeInsets.only(top: 10)),
-            _PasswordField(),
-            const Padding(padding: EdgeInsets.only(top: 10)),
-            const _SubmitButton(),
-            const Divider(
-              height: 30,
-              thickness: 1.5,
+    return BlocBuilder<SignInCubit, SignInState>(
+      builder: (context, state) {
+        return Form(
+          key: _formKey,
+          child: Align(
+            alignment: Alignment.center,
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                _EmailField(),
+                const Padding(padding: EdgeInsets.only(top: 10)),
+                _PasswordField(),
+                const Padding(padding: EdgeInsets.only(top: 10)),
+                if (state.status == FormzStatus.submissionFailure)
+                  Text(
+                    state.error,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                const _SubmitButton(),
+                const Divider(
+                  height: 30,
+                  thickness: 1.5,
+                ),
+                Text(
+                  'No account?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black.withOpacity(0.82),
+                  ),
+                ),
+                const Padding(padding: EdgeInsets.only(top: 10)),
+                const _SignUpButton(),
+              ],
             ),
-            Text(
-              'No account?',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.black.withOpacity(0.82),
-              ),
-            ),
-            const Padding(padding: EdgeInsets.only(top: 10)),
-            const _SignUpButton(),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
