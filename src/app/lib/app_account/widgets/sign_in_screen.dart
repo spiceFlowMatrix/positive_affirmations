@@ -1,8 +1,12 @@
 import 'package:app/app_account/blocs/authentication/authentication_bloc.dart';
 import 'package:app/app_account/blocs/sign_in/sign_in_cubit.dart';
+import 'package:app/consts.dart';
+import 'package:app/models/email_field.dart';
+import 'package:app/models/password_field.dart';
 import 'package:app/positive_affirmations_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:repository/repository.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -16,15 +20,156 @@ class SignInScreen extends StatelessWidget {
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 35),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              _SignUpButton(),
-            ],
-          ),
+          child: _Form(),
         ),
       ),
+    );
+  }
+}
+
+class _Form extends StatelessWidget {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Align(
+        alignment: Alignment.center,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            _EmailField(),
+            const Padding(padding: EdgeInsets.only(top: 10)),
+            _PasswordField(),
+            const Padding(padding: EdgeInsets.only(top: 10)),
+            const _SubmitButton(),
+            const Divider(
+              height: 30,
+              thickness: 1.5,
+            ),
+            Text(
+              'No account?',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black.withOpacity(0.82),
+              ),
+            ),
+            const Padding(padding: EdgeInsets.only(top: 10)),
+            const _SignUpButton(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _EmailField extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _EmailFieldState();
+}
+
+class _EmailFieldState extends State<_EmailField> {
+  TextEditingController _controller = TextEditingController();
+
+  String _generateErrorText(EmailFieldValidationError error) {
+    switch (error) {
+      case EmailFieldValidationError.empty:
+        return PositiveAffirmationsConsts.invalidEmailErrorText;
+      case EmailFieldValidationError.invalid_email:
+        return PositiveAffirmationsConsts.invalidEmailErrorText;
+    }
+  }
+
+  @override
+  void initState() {
+    _controller = TextEditingController(
+        text: context.read<SignInCubit>().state.email.value);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignInCubit, SignInState>(
+      builder: (context, state) {
+        return TextField(
+          onChanged: (email) => context.read<SignInCubit>().emailUpdated(email),
+          controller: _controller,
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            labelText: 'Email',
+            helperText: state.email.invalid
+                ? _generateErrorText(state.email.error!)
+                : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _PasswordField extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _PasswordFieldState();
+}
+
+class _PasswordFieldState extends State<_PasswordField> {
+  TextEditingController _controller = TextEditingController();
+
+  String _generateErrorText(PasswordFieldValidationError error) {
+    switch (error) {
+      case PasswordFieldValidationError.empty:
+        return PositiveAffirmationsConsts.invalidEmailErrorText;
+      case PasswordFieldValidationError.invalid_password:
+        return PositiveAffirmationsConsts.invalidEmailErrorText;
+    }
+  }
+
+  @override
+  void initState() {
+    _controller = TextEditingController(
+        text: context.read<SignInCubit>().state.password.value);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignInCubit, SignInState>(
+      builder: (context, state) {
+        return TextField(
+          onChanged: (password) =>
+              context.read<SignInCubit>().passwordUpdated(password),
+          keyboardType: TextInputType.visiblePassword,
+          controller: _controller,
+          obscureText: true,
+          decoration: InputDecoration(
+            labelText: 'Password',
+            errorText: state.password.invalid
+                ? _generateErrorText(state.password.error!)
+                : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _SubmitButton extends StatelessWidget {
+  const _SubmitButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignInCubit, SignInState>(
+      builder: (context, state) {
+        return ElevatedButton(
+          onPressed: state.status.isValidated
+              ? () {
+                  context.read<SignInCubit>().logInWithCredentials();
+                }
+              : null,
+          child: const Text('Sign in'),
+        );
+      },
     );
   }
 }
