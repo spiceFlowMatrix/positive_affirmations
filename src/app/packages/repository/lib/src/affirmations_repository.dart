@@ -30,7 +30,7 @@ class AffirmationsRepository {
         });
   }
 
-  Future<void> createReaffirmation({
+  Future<Affirmation> createReaffirmation({
     required String affirmationId,
     required Reaffirmation reaffirmation,
   }) async {
@@ -39,5 +39,16 @@ class AffirmationsRepository {
         .collection('reaffirmations')
         .doc(reaffirmation.id)
         .set(reaffirmation.fieldValues);
+
+    return affirmationsCollection.doc(affirmationId).get().then((value) async {
+      final fetchedAffirmation = Affirmation.fromSnapshot(value).copyWith(
+        totalReaffirmations:
+            Affirmation.fromSnapshot(value).totalReaffirmations + 1,
+      );
+      await affirmationsCollection.doc(affirmationId).update(
+            fetchedAffirmation.fieldValues,
+          );
+      return fetchedAffirmation;
+    });
   }
 }

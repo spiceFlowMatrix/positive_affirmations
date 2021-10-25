@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/models/machine_date_time.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:repository/repository.dart';
@@ -99,14 +100,8 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
     emit(state.copyWith(affirmations: [...updatedAffirmations]));
   }
 
-  void _mapReaffirmationCreatedToState(
-      ReaffirmationCreated event, Emitter<AffirmationsState> emit) {
-    final updatedAffirmations = state.affirmations.map((affirmation) {
-      return affirmation.id == event.affirmationId
-          ? affirmation.copyWith(
-              totalReaffirmations: affirmation.totalReaffirmations + 1)
-          : affirmation;
-    });
+  Future<void> _mapReaffirmationCreatedToState(
+      ReaffirmationCreated event, Emitter<AffirmationsState> emit) async {
     final newReaffirmation = Reaffirmation(
       id: const Uuid().v4(),
       affirmationId: event.affirmationId,
@@ -116,9 +111,21 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
       stamp: event.stamp,
     );
 
+    final updatedAffirmation = await affirmationsRepository.createReaffirmation(
+      affirmationId: event.affirmationId,
+      reaffirmation: newReaffirmation,
+    );
+
     emit(state.copyWith(
-      affirmations: [...updatedAffirmations],
-      reaffirmations: [...state.reaffirmations, newReaffirmation],
+      affirmations: [
+        ...state.affirmations.map((e) {
+          if (e.id == updatedAffirmation.id) {
+            return updatedAffirmation;
+          } else {
+            return e;
+          }
+        }).toList(),
+      ],
     ));
   }
 }
@@ -141,20 +148,9 @@ class HydratedAffirmationsBloc extends AffirmationsBloc with HydratedMixin {
         return Affirmation.fromJson(affirmationJson);
       }),
     ];
-    List<Reaffirmation> reaffirmations = [];
-    if (json[AffirmationsState.fieldReaffirmations] != null) {
-      reaffirmations = [
-        ...(json[AffirmationsState.fieldReaffirmations] as List<dynamic>)
-            .map((reaffirmation) {
-          final reaffirmationJson = reaffirmation as Map<String, dynamic>;
-          return Reaffirmation.fromJson(reaffirmationJson);
-        })
-      ];
-    }
 
     return AffirmationsState(
       affirmations: affirmations,
-      reaffirmations: reaffirmations,
     );
   }
 
@@ -162,9 +158,6 @@ class HydratedAffirmationsBloc extends AffirmationsBloc with HydratedMixin {
   Map<String, dynamic>? toJson(AffirmationsState state) => {
         AffirmationsState.fieldAffirmations: [
           ...state.affirmations.map((e) => e.fieldValues),
-        ],
-        AffirmationsState.fieldReaffirmations: [
-          ...state.reaffirmations.map((e) => e.fieldValues),
         ],
       };
 }
