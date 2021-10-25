@@ -44,11 +44,6 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
     final affirmations = await affirmationsRepository.getAffirmations();
     debugPrint(affirmations.toString());
     emit(state.copyWith(affirmations: affirmations));
-    // _affirmationsSubscription?.cancel();
-    // _affirmationsSubscription =
-    //     affirmationsRepository.getAffirmations().listen((affirmations) {
-    //   add(AffirmationsUpdated(affirmations: affirmations));
-    // });
   }
 
   void _updateAffirmations(
@@ -66,13 +61,6 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
       createdOn: time?.now ?? DateTime.now(),
     );
     await affirmationsRepository.saveAffirmation(newAffirmation);
-
-    // final newAffirmations = [
-    //   ...state.affirmations,
-    //   newAffirmation,
-    // ];
-    //
-    // emit(state.copyWith(affirmations: newAffirmations));
   }
 
   void _mapAffirmationLikedToState(
@@ -120,7 +108,7 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
           : affirmation;
     });
     final newReaffirmation = Reaffirmation(
-      id: state.reaffirmations.length + 1,
+      id: const Uuid().v4(),
       affirmationId: event.affirmationId,
       createdOn: time?.now ?? DateTime.now(),
       value: event.value,

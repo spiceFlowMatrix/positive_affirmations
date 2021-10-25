@@ -10,7 +10,7 @@ class AffirmationsRepository {
       );
 
   Future<void> saveAffirmation(Affirmation affirmation) async {
-    await affirmationsCollection.add(affirmation);
+    await affirmationsCollection.doc(affirmation.id).set(affirmation);
   }
 
   Future<List<Affirmation>> getAffirmations({
@@ -28,5 +28,16 @@ class AffirmationsRepository {
             return Affirmation.fromSnapshot(snapshot);
           }).toList();
         });
+  }
+
+  Future<void> createReaffirmation({
+    required String affirmationId,
+    required Reaffirmation reaffirmation,
+  }) async {
+    affirmationsCollection
+        .doc(affirmationId)
+        .collection('reaffirmations')
+        .doc(reaffirmation.id)
+        .set(reaffirmation.fieldValues);
   }
 }

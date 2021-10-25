@@ -19,7 +19,7 @@ class Reaffirmation extends Equatable {
     required this.stamp,
   });
 
-  final int id;
+  final String id;
   final String affirmationId;
   final DateTime createdOn;
   final ReaffirmationValue value;
@@ -33,7 +33,7 @@ class Reaffirmation extends Equatable {
   static const String fieldStamp = 'stamp';
 
   static final empty = Reaffirmation(
-    id: 0,
+    id: '-',
     affirmationId: '-',
     createdOn: DateTime(0),
     value: ReaffirmationValue.empty,
@@ -43,12 +43,12 @@ class Reaffirmation extends Equatable {
 
   Map<String, dynamic> get fieldValues =>
       {
-        fieldId: this.id,
-        fieldAffirmationId: this.affirmationId,
-        fieldCreatedOn: this.createdOn.toIso8601String(),
-        fieldValue: this.value.index,
-        fieldFont: this.font.index,
-        fieldStamp: this.stamp.index,
+        fieldId: id,
+        fieldAffirmationId: affirmationId,
+        fieldCreatedOn: createdOn.toIso8601String(),
+        fieldValue: value.index,
+        fieldFont: font.index,
+        fieldStamp: stamp.index,
       };
 
   static Reaffirmation fromJson(Map<String, dynamic> json) {
@@ -70,14 +70,14 @@ class Reaffirmation extends Equatable {
   }
 
   Reaffirmation copyWith({
-    int? id,
+    String? id,
     String? affirmationId,
     DateTime? createdOn,
     ReaffirmationValue? value,
     ReaffirmationFont? font,
     ReaffirmationStamp? stamp,
   }) {
-    return new Reaffirmation(
+    return Reaffirmation(
       id: id ?? this.id,
       affirmationId: affirmationId ?? this.affirmationId,
       createdOn: createdOn ?? this.createdOn,
