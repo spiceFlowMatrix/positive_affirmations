@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formz/formz.dart';
 import 'package:app/consts.dart';
 import 'package:app/models/models.dart';
@@ -47,9 +48,15 @@ class ProfileEditForm extends StatelessWidget {
       child: Scaffold(
         key: PositiveAffirmationsKeys.profileEditScreen,
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             'Edit Profile',
             key: PositiveAffirmationsKeys.profileEditScreenTitle,
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const FaIcon(FontAwesomeIcons.arrowLeft),
           ),
         ),
         body: BlocBuilder<ProfileBloc, ProfileState>(
