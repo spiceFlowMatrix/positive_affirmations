@@ -21,6 +21,18 @@ class AffirmationsRepository {
         );
   }
 
+  CollectionReference<Reaffirmation> reaffirmationCollection(
+      String affirmationId) {
+    return affirmationsCollection
+        .doc(affirmationId)
+        .collection('reaffirmations')
+        .withConverter(
+          fromFirestore: (snapshot, _) =>
+              Reaffirmation.fromJson(snapshot.data()!),
+          toFirestore: (reaffirmation, _) => reaffirmation.fieldValues,
+        );
+  }
+
   Future<void> saveAffirmation(Affirmation affirmation) async {
     await affirmationsCollection.doc(affirmation.id).set(affirmation);
   }
@@ -50,16 +62,6 @@ class AffirmationsRepository {
     required String affirmationId,
     required String userId,
   }) async {
-    // final existingLikes = await likesCollection(affirmationId)
-    //     .where(
-    //       AffirmationLike.fieldByUserId,
-    //       isEqualTo: userId,
-    //     )
-    //     .get()
-    //     .then((value) {
-    //   return value.docs.map((e) => e.data()).toList();
-    // });
-
     Affirmation? affirmation = await affirmationsCollection
         .doc(affirmationId)
         .get()
@@ -153,6 +155,11 @@ class AffirmationsRepository {
   }
 
   Future<void> deleteAffirmation(String affirmationId) async {
+    reaffirmationCollection(affirmationId).snapshots().forEach((element) {
+      for (DocumentSnapshot ds in element.docs) {
+        ds.reference.delete();
+      }
+    });
     await affirmationsCollection.doc(affirmationId).delete();
   }
 }
