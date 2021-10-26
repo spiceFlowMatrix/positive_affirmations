@@ -142,6 +142,20 @@ class UserRepository {
           nickName: nickName ?? currentUser.nickName,
         ));
   }
+
+  /// Signs out the current user which will emit
+  /// [User.empty] from the [user] Stream.
+  ///
+  /// Throws a [LogOutFailure] if an exception occurs.
+  Future<void> logOut() async {
+    try {
+      await Future.wait([
+        _firebaseAuth.signOut(),
+      ]);
+    } catch (_) {
+      throw LogOutFailure();
+    }
+  }
 }
 
 extension on User {
