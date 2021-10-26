@@ -3,7 +3,7 @@ import 'package:repository/repository.dart';
 import 'package:uuid/uuid.dart';
 
 class AffirmationsRepository {
-  final affirmationsCollection = FirebaseFirestore.instance
+  final _affirmationsCollection = FirebaseFirestore.instance
       .collection('affirmations')
       .withConverter(
         fromFirestore: (snapshot, _) => Affirmation.fromJson(snapshot.data()!),
@@ -11,7 +11,7 @@ class AffirmationsRepository {
       );
 
   CollectionReference<AffirmationLike> likesCollection(String affirmationId) {
-    return affirmationsCollection
+    return _affirmationsCollection
         .doc(affirmationId)
         .collection('likes')
         .withConverter(
@@ -23,7 +23,7 @@ class AffirmationsRepository {
 
   CollectionReference<Reaffirmation> reaffirmationCollection(
       String affirmationId) {
-    return affirmationsCollection
+    return _affirmationsCollection
         .doc(affirmationId)
         .collection('reaffirmations')
         .withConverter(
@@ -34,7 +34,7 @@ class AffirmationsRepository {
   }
 
   Future<void> saveAffirmation(Affirmation affirmation) async {
-    await affirmationsCollection.doc(affirmation.id).set(affirmation);
+    await _affirmationsCollection.doc(affirmation.id).set(affirmation);
   }
 
   Future<List<Affirmation>> getAffirmations({
@@ -43,7 +43,7 @@ class AffirmationsRepository {
     String? searchQuery,
     String? userId,
   }) async {
-    var query = affirmationsCollection
+    var query = _affirmationsCollection
         .orderBy(Affirmation.fieldCreatedOn)
         .startAt([skip ?? 0]).limit(take ?? 10);
     if (userId != null) {
@@ -62,7 +62,7 @@ class AffirmationsRepository {
     required String affirmationId,
     required String userId,
   }) async {
-    Affirmation? affirmation = await affirmationsCollection
+    Affirmation? affirmation = await _affirmationsCollection
         .doc(affirmationId)
         .get()
         .then((snap) => snap.data());
@@ -92,7 +92,7 @@ class AffirmationsRepository {
       );
     }
 
-    await affirmationsCollection.doc(affirmationId).set(affirmation);
+    await _affirmationsCollection.doc(affirmationId).set(affirmation);
 
     return affirmation;
   }
@@ -101,18 +101,18 @@ class AffirmationsRepository {
     required String affirmationId,
     required Reaffirmation reaffirmation,
   }) async {
-    affirmationsCollection
+    _affirmationsCollection
         .doc(affirmationId)
         .collection('reaffirmations')
         .doc(reaffirmation.id)
         .set(reaffirmation.fieldValues);
 
-    return affirmationsCollection.doc(affirmationId).get().then((value) async {
+    return _affirmationsCollection.doc(affirmationId).get().then((value) async {
       final fetchedAffirmation = Affirmation.fromSnapshot(value).copyWith(
         totalReaffirmations:
             Affirmation.fromSnapshot(value).totalReaffirmations + 1,
       );
-      await affirmationsCollection.doc(affirmationId).update(
+      await _affirmationsCollection.doc(affirmationId).update(
             fetchedAffirmation.fieldValues,
           );
       return fetchedAffirmation;
@@ -124,7 +124,7 @@ class AffirmationsRepository {
     String? title,
     String? subtitle,
   }) async {
-    Affirmation? toUpdateAffirmation = await affirmationsCollection
+    Affirmation? toUpdateAffirmation = await _affirmationsCollection
         .doc(affirmationId)
         .get()
         .then((snap) => snap.data());
@@ -136,20 +136,20 @@ class AffirmationsRepository {
       subtitle: subtitle ?? toUpdateAffirmation.subtitle,
     );
 
-    await affirmationsCollection.doc(affirmationId).set(toUpdateAffirmation);
+    await _affirmationsCollection.doc(affirmationId).set(toUpdateAffirmation);
 
     return toUpdateAffirmation;
   }
 
   Future<Affirmation> toggleActivated(String affirmationId) async {
-    Affirmation toUpdate = await affirmationsCollection
+    Affirmation toUpdate = await _affirmationsCollection
         .doc(affirmationId)
         .get()
         .then((snap) => Affirmation.fromSnapshot(snap));
 
     toUpdate = toUpdate.copyWith(active: !toUpdate.active);
 
-    await affirmationsCollection.doc(affirmationId).set(toUpdate);
+    await _affirmationsCollection.doc(affirmationId).set(toUpdate);
 
     return toUpdate;
   }
@@ -160,6 +160,6 @@ class AffirmationsRepository {
         ds.reference.delete();
       }
     });
-    await affirmationsCollection.doc(affirmationId).delete();
+    await _affirmationsCollection.doc(affirmationId).delete();
   }
 }

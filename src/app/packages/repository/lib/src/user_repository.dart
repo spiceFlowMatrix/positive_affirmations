@@ -15,6 +15,11 @@ class UserRepository {
 
   final CacheClient _cache;
   final FirebaseAuth _firebaseAuth;
+  final _usersCollection =
+      FirebaseFirestore.instance.collection('users').withConverter(
+            fromFirestore: (snapshot, _) => AppUser.fromJson(snapshot.data()!),
+            toFirestore: (affirmation, _) => affirmation.fieldValues,
+          );
 
   @visibleForTesting
   static const userCacheKey = '__user_cache_key__';
@@ -51,6 +56,8 @@ class UserRepository {
         return value;
       });
 
+      await userCredential.user?.updateDisplayName(name);
+
       AppUser newUser = AppUser(
         id: userCredential.user?.uid ?? AppUser.empty.id,
         name: userCredential.user?.displayName ?? AppUser.empty.name,
@@ -59,11 +66,9 @@ class UserRepository {
         emailVerified: userCredential.user?.emailVerified ?? false,
         accountCreated: true,
       );
-
-      CollectionReference users =
-          FirebaseFirestore.instance.collection('users');
-      await users
-          .add(newUser.fieldValues)
+      await _usersCollection
+          .doc(newUser.id)
+          .set(newUser)
           .then((value) =>
               debugPrint('User added successfully: ${newUser.toString()}'))
           .catchError((error) => debugPrintStack());
