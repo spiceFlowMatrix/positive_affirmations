@@ -33,6 +33,12 @@ class UserRepository {
   ///
   /// Emits [AppUser.empty] if the user is not authenticated.
   Stream<AppUser> get user {
+    // if (_firebaseAuth.currentUser == null) return Stream.value(AppUser.empty);
+    //
+    // return _usersCollection
+    //     .doc(_firebaseAuth.currentUser!.uid)
+    //     .snapshots()
+    //     .map((event) => event.data() == null ? AppUser.empty : event.data()!);
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
       final user = firebaseUser == null ? AppUser.empty : firebaseUser.toUser;
       _cache.write(key: userCacheKey, value: user);
@@ -117,6 +123,25 @@ class UserRepository {
       );
       await currentFirebaseUser.sendEmailVerification(actionCodeSettings);
     }
+  }
+
+  Future<void> editUser(
+    String userId, {
+    String? name,
+    String? nickName,
+  }) async {
+    final User? currentFirebaseUser = _firebaseAuth.currentUser;
+
+    if (currentFirebaseUser == null) return;
+
+    if (name != null) {
+      await currentFirebaseUser.updateDisplayName(name);
+    }
+
+    await _usersCollection.doc(userId).set(currentUser.copyWith(
+          name: name ?? currentUser.name,
+          nickName: nickName ?? currentUser.nickName,
+        ));
   }
 }
 
