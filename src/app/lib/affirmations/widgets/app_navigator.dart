@@ -1,4 +1,3 @@
-import 'package:app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/positive_affirmations_theme.dart';
@@ -41,7 +40,6 @@ class _AppNavigatorState extends State<AppNavigator>
   Tab _mapNavigationBarItem(AppTab tab, AppTab currentTab) {
     switch (tab) {
       case AppTab.affirmations:
-        context.read<AffirmationsBloc>().add(const AffirmationsLoaded());
         return Tab(
           key: PositiveAffirmationsKeys.homeTab,
           icon: FaIcon(

@@ -1,4 +1,3 @@
-import 'package:app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/positive_affirmations_theme.dart';
 import 'package:app/profile/blocs/profile/profile_bloc.dart';
@@ -32,7 +31,6 @@ class _ProfileNavigatorState extends State<ProfileNavigator>
       builder: (context, state) {
         switch (tab) {
           case ProfileTab.affirmations:
-            context.read<AffirmationsBloc>().add(const AffirmationsLoaded());
             return Tab(
               key: PositiveAffirmationsKeys.profileAffirmationsSubtab(
                   state.user.id),

@@ -77,12 +77,13 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
     emit(state.copyWith(affirmations: [...updatedAffirmations]));
   }
 
-  void _mapAffirmationActivationToggledToState(
-      AffirmationActivationToggled event, Emitter<AffirmationsState> emit) {
+  Future<void> _mapAffirmationActivationToggledToState(
+      AffirmationActivationToggled event,
+      Emitter<AffirmationsState> emit) async {
+    final updatedAffirmation =
+        await affirmationsRepository.toggleActivated(event.id);
     final updatedAffirmations = state.affirmations.map((affirmation) {
-      return affirmation.id == event.id
-          ? affirmation.copyWith(active: !affirmation.active)
-          : affirmation;
+      return affirmation.id == event.id ? updatedAffirmation : affirmation;
     }).toList();
 
     emit(state.copyWith(affirmations: [...updatedAffirmations]));

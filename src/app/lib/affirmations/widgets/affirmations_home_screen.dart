@@ -21,9 +21,10 @@ class AffirmationsHomeScreen extends StatelessWidget {
 
   final AffirmationsBloc? affirmationsBloc;
 
-  Widget _mapBody(AppTab tab) {
+  Widget _mapBody(BuildContext context, AppTab tab) {
     switch (tab) {
       case AppTab.affirmations:
+        context.read<AffirmationsBloc>().add(const AffirmationsLoaded());
         return AffirmationsList(
           key: PositiveAffirmationsKeys.affirmationsList,
         );
@@ -77,7 +78,7 @@ class AffirmationsHomeScreen extends StatelessWidget {
               )
             ],
           ),
-          body: _mapBody(state),
+          body: _mapBody(context, state),
           bottomNavigationBar: AppNavigator(
             activeTab: state,
             onTabSelected: (tab) =>

@@ -25,6 +25,8 @@ class AffirmationFormScreenArguments {
 class AffirmationFormScreen extends StatelessWidget {
   static const String routeName = '/affirmationFormScreen';
 
+  const AffirmationFormScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // Extract the arguments from the current ModalRoute
@@ -40,7 +42,7 @@ class AffirmationFormScreen extends StatelessWidget {
               value: args.affirmationFormBloc!)
         else
           BlocProvider<AffirmationFormBloc>(
-              create: (_) => new AffirmationFormBloc(
+              create: (_) => AffirmationFormBloc(
                     affirmationsBloc: args.affirmationsBloc,
                     toUpdateAffirmation: args.toUpdateAffirmation,
                   ))
@@ -52,14 +54,14 @@ class AffirmationFormScreen extends StatelessWidget {
               ? PositiveAffirmationsKeys.editAffirmationFormAppbarTitle
               : PositiveAffirmationsKeys.newAffirmationFormAppbarTitle,
           title: args.toUpdateAffirmation != null
-              ? Text('Edit Affirmation')
-              : Text('New Affirmation'),
+              ? const Text('Edit Affirmation')
+              : const Text('New Affirmation'),
           leading: IconButton(
             key: PositiveAffirmationsKeys.affirmationFormBackButton,
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: FaIcon(FontAwesomeIcons.arrowLeft),
+            icon: const FaIcon(FontAwesomeIcons.arrowLeft),
           ),
         ),
         body: _AffirmationForm(args.toUpdateAffirmation),
@@ -78,7 +80,7 @@ class _AffirmationForm extends StatelessWidget {
   final FocusNode _titleFocusNode = FocusNode();
 
   Widget _buildTitleLabel() {
-    return Text(
+    return const Text(
       'Tell me something awesome about you',
       key: PositiveAffirmationsKeys.affirmationFormTitleFieldLabel,
       style: TextStyle(
@@ -88,7 +90,7 @@ class _AffirmationForm extends StatelessWidget {
   }
 
   Widget _buildSubtitleLabel() {
-    return Text(
+    return const Text(
       'I\'d love it if you told me more about that',
       key: PositiveAffirmationsKeys.affirmationFormSubtitleFieldLabel,
       style: TextStyle(
@@ -102,7 +104,7 @@ class _AffirmationForm extends StatelessWidget {
     _titleFocusNode.requestFocus();
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 35),
+      padding: const EdgeInsets.symmetric(horizontal: 35),
       child: Form(
         key: _affirmationFormKey,
         child: Align(
@@ -124,7 +126,10 @@ class _AffirmationForm extends StatelessWidget {
               _SaveButton(),
               if (toUpdateAffirmation != null) ...[
                 const Padding(padding: EdgeInsets.only(top: 30)),
-                _ActivateDeactivateButton(toUpdateAffirmation!.id),
+                _ActivateDeactivateButton(
+                  toUpdateAffirmation!.id,
+                  toUpdateAffirmation!.active,
+                ),
                 const Padding(padding: EdgeInsets.only(top: 30)),
                 _DeleteButton(toUpdateAffirmation!.id),
               ]
@@ -137,7 +142,7 @@ class _AffirmationForm extends StatelessWidget {
 }
 
 class _TitleField extends StatefulWidget {
-  _TitleField({required this.focusNode, this.initialText});
+  const _TitleField({required this.focusNode, this.initialText});
 
   final String? initialText;
   final FocusNode focusNode;
@@ -195,7 +200,7 @@ class __TitleFieldState extends State<_TitleField> {
 }
 
 class _SubtitleField extends StatefulWidget {
-  _SubtitleField(this.initialText);
+  const _SubtitleField(this.initialText);
 
   final String? initialText;
 
@@ -269,7 +274,7 @@ class _SaveButton extends StatelessWidget {
                       .add(AffirmationSubmitted());
                   Navigator.of(context).pop();
                 },
-          child: Text('SAVE'),
+          child: const Text('SAVE'),
         );
       },
     );
@@ -277,21 +282,29 @@ class _SaveButton extends StatelessWidget {
 }
 
 class _ActivateDeactivateButton extends StatelessWidget {
-  _ActivateDeactivateButton(this.id);
+  const _ActivateDeactivateButton(
+    this.id,
+    this.active, {
+    Key? key,
+  }) : super(key: key);
 
   final String id;
+  final bool active;
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
       key: PositiveAffirmationsKeys.affirmationFormDeactivateDeactivateButton(
           id),
-      onPressed: null,
+      onPressed: () {
+        context.read<AffirmationsBloc>().add(AffirmationActivationToggled(id));
+        Navigator.pop(context);
+      },
       child: Text(
-        'DEACTIVATE',
-        style: TextStyle(
-          color: Colors.grey,
-        ),
+        active ? 'DEACTIVATE' : 'ACTIVATE',
+        // style: const TextStyle(
+        //   color: Colors.grey,
+        // ),
       ),
     );
   }
