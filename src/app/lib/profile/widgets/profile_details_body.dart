@@ -43,7 +43,7 @@ class ProfileDetailsTabBody extends StatelessWidget {
                 return Center(
                   key: PositiveAffirmationsKeys.profileLettersSubtabBody(
                       state.user.id),
-                  child: Text('Letters'),
+                  child: const Text('Letters'),
                 );
               default:
                 return _AffirmationsTabBody(
@@ -63,7 +63,7 @@ class ProfileDetailsTabBody extends StatelessWidget {
     final content = Column(
       children: [
         _DetailsContent(),
-        ProfileNavigator(),
+        const ProfileNavigator(),
         Expanded(child: _mapBody()),
       ],
     );
@@ -90,7 +90,7 @@ class ProfileDetailsTabBody extends StatelessWidget {
 
 class _DetailsContent extends StatelessWidget {
   static const Padding _contentPadding =
-      const Padding(padding: EdgeInsets.only(top: 10));
+      Padding(padding: EdgeInsets.only(top: 10));
 
   Widget _buildCountsRow(BuildContext context, AppUser user) {
     final affirmationsCount = BlocBuilder<AffirmationsBloc, AffirmationsState>(
@@ -148,7 +148,7 @@ class _DetailsContent extends StatelessWidget {
             Text(
               state.user.name,
               key: PositiveAffirmationsKeys.profileName(state.user.id),
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -171,12 +171,11 @@ class _CountDisplay extends StatelessWidget {
   const _CountDisplay({
     required this.label,
     required this.value,
-    required this.key,
+    required Key key,
   }) : super(key: key);
 
   final String label;
   final int value;
-  final Key key;
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +185,7 @@ class _CountDisplay extends StatelessWidget {
         Text('$value'),
         Text(
           label,
-          style: TextStyle(fontWeight: FontWeight.w500),
+          style: const TextStyle(fontWeight: FontWeight.w500),
         ),
       ],
     );
@@ -220,7 +219,7 @@ class _ProfileImage extends StatelessWidget {
               child: Text(
                 user.nameInitials().toUpperCase(),
                 key: PositiveAffirmationsKeys.profilePictureEmptyLabel(user.id),
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -230,11 +229,11 @@ class _ProfileImage extends StatelessWidget {
             CircleAvatar(
               key: PositiveAffirmationsKeys.profilePictureImage(user.id),
               backgroundImage: MemoryImage(
-                Base64Decoder().convert(user.pictureB64Enc),
+                const Base64Decoder().convert(user.pictureB64Enc),
               ),
               radius: 36,
             ),
-          Positioned(
+          const Positioned(
             bottom: 0,
             right: 0,
             child: FaIcon(
@@ -250,12 +249,10 @@ class _ProfileImage extends StatelessWidget {
 }
 
 class _AffirmationsTabBody extends StatelessWidget {
-  _AffirmationsTabBody({
-    required this.key,
+  const _AffirmationsTabBody({
+    required Key key,
     required this.user,
   }) : super(key: key);
-
-  final Key key;
   final AppUser user;
 
   @override
@@ -283,7 +280,7 @@ class _AffirmationsTabBody extends StatelessWidget {
                     toRenderAffirmations[index].title,
                     key: PositiveAffirmationsKeys.profileAffirmationItemTitle(
                         toRenderAffirmations[index].id),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -306,7 +303,7 @@ class _AffirmationsTabBody extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                Divider(
+                const Divider(
                   height: 0,
                   thickness: 1.5,
                 ),
