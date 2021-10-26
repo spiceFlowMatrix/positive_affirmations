@@ -29,17 +29,19 @@ class AffirmationsRepository {
     int? skip,
     int? take,
     String? searchQuery,
+    String? userId,
   }) async {
-    return await affirmationsCollection
+    var query = affirmationsCollection
         .orderBy(Affirmation.fieldCreatedOn)
-        .startAt([skip ?? 0])
-        .limit(take ?? 10)
-        .get()
-        .then((value) {
-          return value.docs.map((snapshot) {
-            return Affirmation.fromSnapshot(snapshot);
-          }).toList();
-        });
+        .startAt([skip ?? 0]).limit(take ?? 10);
+    if (userId != null) {
+      query = query.where(Affirmation.fieldCreatedById, isEqualTo: userId);
+    }
+    return await query.get().then((value) {
+      return value.docs.map((snapshot) {
+        return Affirmation.fromSnapshot(snapshot);
+      }).toList();
+    });
   }
 
   Future<Affirmation> toggleLiked({
