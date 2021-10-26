@@ -13,7 +13,7 @@ class LikesSpan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      '${affirmation.likes} likes',
+      '${affirmation.likeCount} likes',
       key: spanKey,
     );
   }

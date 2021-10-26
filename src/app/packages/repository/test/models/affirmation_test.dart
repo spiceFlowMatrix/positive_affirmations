@@ -3,13 +3,13 @@ import 'package:repository/repository.dart';
 
 void main() {
   Affirmation mockValidAffirmation = Affirmation(
-    id: 0,
+    id: '0',
     title: 'testTitle',
     subtitle: 'testSubtitle',
     createdById: PositiveAffirmationsRepositoryConsts.seedUser.id,
     createdOn: DateTime.now(),
     totalReaffirmations: 12,
-    likes: 8,
+    likeCount: 8,
     active: true,
   );
 
@@ -20,7 +20,7 @@ void main() {
     Affirmation.fieldCreatedById: mockValidAffirmation.createdById,
     Affirmation.fieldCreatedOn:
         mockValidAffirmation.createdOn.toIso8601String(),
-    Affirmation.fieldLikes: mockValidAffirmation.likes,
+    Affirmation.fieldLikeCount: mockValidAffirmation.likeCount,
     Affirmation.fieldTotalReaffirmations:
         mockValidAffirmation.totalReaffirmations,
     Affirmation.fieldActive: mockValidAffirmation.active,
@@ -61,8 +61,8 @@ void main() {
         );
         expect(
           Affirmation.fromJson(
-              {Affirmation.fieldLikes: mockValidAffirmation.likes}),
-          equals(Affirmation.empty.copyWith(likes: mockValidAffirmation.likes)),
+              {Affirmation.fieldLikeCount: mockValidAffirmation.likeCount}),
+          equals(Affirmation.empty.copyWith(likeCount: mockValidAffirmation.likeCount)),
         );
         expect(
           Affirmation.fromJson({

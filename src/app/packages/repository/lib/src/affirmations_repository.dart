@@ -41,7 +41,7 @@ class AffirmationsRepository {
     }
     return await query.get().then((value) {
       return value.docs.map((snapshot) {
-        return Affirmation.fromSnapshot(snapshot);
+        return snapshot.data();
       }).toList();
     });
   }
@@ -63,7 +63,7 @@ class AffirmationsRepository {
     Affirmation affirmation = await affirmationsCollection
         .doc(affirmationId)
         .get()
-        .then((snap) => Affirmation.fromSnapshot(snap));
+        .then((snap) => snap.data()!);
 
     // Create new like if none exist by the given user, increment likes count for the given affirmation, return updated affirmation with liked set to true
     // Else delete all likes by the given user, decrement likes count for given affirmation, return updated affirmation with liked set to false
@@ -74,7 +74,7 @@ class AffirmationsRepository {
             byUserId: userId,
           ));
       affirmation = affirmation.copyWith(
-        likes: affirmation.likes + 1,
+        likeCount: affirmation.likeCount + 1,
         liked: true,
       );
     } else {
@@ -82,7 +82,7 @@ class AffirmationsRepository {
         likesCollection(affirmationId).doc(like.id).delete();
       }
       affirmation = affirmation.copyWith(
-        likes: affirmation.likes - 1,
+        likeCount: affirmation.likeCount - 1,
         liked: false,
       );
     }

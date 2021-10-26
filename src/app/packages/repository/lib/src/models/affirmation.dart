@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:repository/src/models/models.dart';
 
 class Affirmation extends Equatable {
   const Affirmation({
@@ -8,9 +9,10 @@ class Affirmation extends Equatable {
     this.subtitle = '',
     required this.createdOn,
     required this.createdById,
-    this.likes = 0,
+    this.likeCount = 0,
     this.totalReaffirmations = 0,
     this.active = true,
+    this.likes = const [],
     this.liked = false,
   });
 
@@ -19,8 +21,9 @@ class Affirmation extends Equatable {
   final String subtitle;
   final String createdById;
   final DateTime createdOn;
-  final int likes;
+  final int likeCount;
   final int totalReaffirmations;
+  final List<AffirmationLike> likes;
   final bool liked;
   final bool active;
 
@@ -31,6 +34,7 @@ class Affirmation extends Equatable {
         subtitle,
         createdOn,
         createdById,
+        likeCount,
         likes,
         totalReaffirmations,
         active,
@@ -49,9 +53,10 @@ class Affirmation extends Equatable {
   static const String fieldSubtitle = 'subtitle';
   static const String fieldCreatedById = 'createdById';
   static const String fieldCreatedOn = 'createdOn';
-  static const String fieldLikes = 'likes';
+  static const String fieldLikeCount = 'likeCount';
   static const String fieldTotalReaffirmations = 'totalReaffirmations';
   static const String fieldActive = 'active';
+  static const String fieldLikes = 'likes';
   static const String fieldLiked = 'liked';
 
   Map<String, dynamic> get fieldValues => {
@@ -60,9 +65,10 @@ class Affirmation extends Equatable {
         fieldSubtitle: subtitle,
         fieldCreatedById: createdById,
         fieldCreatedOn: createdOn.toIso8601String(),
-        fieldLikes: likes,
+        fieldLikeCount: likeCount,
         fieldTotalReaffirmations: totalReaffirmations,
         fieldActive: active,
+        fieldLikes: likes,
         // fieldLiked: liked,
       };
 
@@ -74,7 +80,12 @@ class Affirmation extends Equatable {
       createdById: json[Affirmation.fieldCreatedById] ?? empty.createdById,
       createdOn: DateTime.tryParse('${json[Affirmation.fieldCreatedOn]}') ??
           empty.createdOn,
-      likes: json[Affirmation.fieldLikes] ?? empty.likes,
+      likeCount: json[Affirmation.fieldLikeCount] ?? empty.likeCount,
+      likes: json[Affirmation.fieldLikes] != null
+          ? (json[Affirmation.fieldLikes] as List<dynamic>)
+              .map((e) => AffirmationLike.fromJson(e))
+              .toList()
+          : empty.likes,
       totalReaffirmations: json[Affirmation.fieldTotalReaffirmations] ??
           empty.totalReaffirmations,
       active: json[Affirmation.fieldActive] ?? empty.active,
@@ -89,9 +100,10 @@ class Affirmation extends Equatable {
       subtitle: snap.get(fieldSubtitle),
       createdById: snap.get(fieldCreatedById),
       createdOn: DateTime.parse(snap.get(fieldCreatedOn)),
-      likes: snap.get(fieldLikes),
+      likeCount: snap.get(fieldLikeCount),
       totalReaffirmations: snap.get(fieldTotalReaffirmations),
       active: snap.get(fieldActive),
+      likes: (snap.data() as Affirmation).likes,
       // liked: snap.get(fieldLiked),
     );
   }
@@ -102,10 +114,11 @@ class Affirmation extends Equatable {
     String? subtitle,
     String? createdById,
     DateTime? createdOn,
-    int? likes,
+    int? likeCount,
     int? totalReaffirmations,
     bool? active,
     bool? liked,
+    List<AffirmationLike>? likes,
   }) {
     return Affirmation(
       id: id ?? this.id,
@@ -113,10 +126,11 @@ class Affirmation extends Equatable {
       subtitle: subtitle ?? this.subtitle,
       createdById: createdById ?? this.createdById,
       createdOn: createdOn ?? this.createdOn,
-      likes: likes ?? this.likes,
+      likeCount: likeCount ?? this.likeCount,
       totalReaffirmations: totalReaffirmations ?? this.totalReaffirmations,
       active: active ?? this.active,
       liked: liked ?? this.liked,
+      likes: likes ?? this.likes,
     );
   }
 }
