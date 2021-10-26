@@ -74,6 +74,8 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
       userId: userRepository.currentUser.id,
     );
 
+    if (updatedAffirmation == null) return;
+
     final updatedAffirmations = state.affirmations.map((affirmation) {
       return affirmation.id == event.id ? updatedAffirmation : affirmation;
     }).toList();
@@ -95,12 +97,13 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
 
   Future<void> _mapAffirmationUpdatedToState(
       AffirmationUpdated event, Emitter<AffirmationsState> emit) async {
-    Affirmation updatedAffirmation =
+    Affirmation? updatedAffirmation =
         await affirmationsRepository.editAffirmation(
       event.id,
       title: event.title,
       subtitle: event.subtitle,
     );
+    if (updatedAffirmation == null) return;
     final updatedAffirmations = state.affirmations.map((affirmation) {
       return affirmation.id == event.id ? updatedAffirmation : affirmation;
     }).toList();

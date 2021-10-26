@@ -46,44 +46,47 @@ class AffirmationsRepository {
     });
   }
 
-  Future<Affirmation> toggleLiked({
+  Future<Affirmation?> toggleLiked({
     required String affirmationId,
     required String userId,
   }) async {
-    final existingLikes = await likesCollection(affirmationId)
-        .where(
-          AffirmationLike.fieldByUserId,
-          isEqualTo: userId,
-        )
-        .get()
-        .then((value) {
-      return value.docs.map((e) => e.data()).toList();
-    });
+    // final existingLikes = await likesCollection(affirmationId)
+    //     .where(
+    //       AffirmationLike.fieldByUserId,
+    //       isEqualTo: userId,
+    //     )
+    //     .get()
+    //     .then((value) {
+    //   return value.docs.map((e) => e.data()).toList();
+    // });
 
-    Affirmation affirmation = await affirmationsCollection
+    Affirmation? affirmation = await affirmationsCollection
         .doc(affirmationId)
         .get()
-        .then((snap) => snap.data()!);
+        .then((snap) => snap.data());
+
+    if (affirmation == null) return null;
 
     // Create new like if none exist by the given user, increment likes count for the given affirmation, return updated affirmation with liked set to true
     // Else delete all likes by the given user, decrement likes count for given affirmation, return updated affirmation with liked set to false
-    if (existingLikes.isEmpty) {
-      final newLikeId = const Uuid().v4();
-      likesCollection(affirmationId).doc(newLikeId).set(AffirmationLike(
-            id: newLikeId,
-            byUserId: userId,
-          ));
+    if (affirmation.likes.isEmpty ||
+        !affirmation.likes.any((element) => element.byUserId == userId)) {
+      final newLike = AffirmationLike(
+        id: const Uuid().v4(),
+        byUserId: userId,
+      );
       affirmation = affirmation.copyWith(
         likeCount: affirmation.likeCount + 1,
+        likes: [...affirmation.likes, newLike],
         liked: true,
       );
     } else {
-      for (var like in existingLikes) {
-        likesCollection(affirmationId).doc(like.id).delete();
-      }
+      List<AffirmationLike> likes = [...affirmation.likes];
+      likes.removeWhere((element) => element.byUserId == userId);
       affirmation = affirmation.copyWith(
         likeCount: affirmation.likeCount - 1,
         liked: false,
+        likes: [...likes],
       );
     }
 
@@ -114,15 +117,17 @@ class AffirmationsRepository {
     });
   }
 
-  Future<Affirmation> editAffirmation(
+  Future<Affirmation?> editAffirmation(
     String affirmationId, {
     String? title,
     String? subtitle,
   }) async {
-    Affirmation toUpdateAffirmation = await affirmationsCollection
+    Affirmation? toUpdateAffirmation = await affirmationsCollection
         .doc(affirmationId)
         .get()
-        .then((snap) => Affirmation.fromSnapshot(snap));
+        .then((snap) => snap.data());
+
+    if (toUpdateAffirmation == null) return null;
 
     toUpdateAffirmation = toUpdateAffirmation.copyWith(
       title: title ?? toUpdateAffirmation.title,

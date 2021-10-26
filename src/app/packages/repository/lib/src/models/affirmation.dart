@@ -68,7 +68,7 @@ class Affirmation extends Equatable {
         fieldLikeCount: likeCount,
         fieldTotalReaffirmations: totalReaffirmations,
         fieldActive: active,
-        fieldLikes: likes,
+        fieldLikes: likes.map((e) => e.fieldValues).toList(),
         // fieldLiked: liked,
       };
 
