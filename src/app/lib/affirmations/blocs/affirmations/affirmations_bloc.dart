@@ -61,6 +61,10 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
       createdOn: time?.now ?? DateTime.now(),
     );
     await affirmationsRepository.saveAffirmation(newAffirmation);
+    emit(state.copyWith(affirmations: [
+      ...state.affirmations,
+      newAffirmation,
+    ]));
   }
 
   Future<void> _mapAffirmationLikedToState(
