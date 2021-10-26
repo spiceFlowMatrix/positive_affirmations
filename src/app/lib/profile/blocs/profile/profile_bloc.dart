@@ -17,6 +17,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<ProfileEdited>(_mapProfileEditedToState);
     on<UserUpdated>(_mapUserUpdatedToState);
     on<PictureUpdated>(_mapPictureUpdatedToState);
+    on<LoggedOut>(_mapLoggedOutToState);
     _appUserSubscription = _userRepository.user.listen((user) {
       add(UserUpdated(user: user));
     });
@@ -60,6 +61,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     );
 
     emit(state.copyWith(user: updatedUser));
+  }
+
+  Future<void> _mapLoggedOutToState(
+      LoggedOut event, Emitter<ProfileState> emit) async {
+    await _userRepository.logOut();
   }
 }
 

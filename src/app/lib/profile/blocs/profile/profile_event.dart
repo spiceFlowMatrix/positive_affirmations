@@ -43,3 +43,8 @@ class PictureUpdated extends ProfileEvent {
   @override
   List<Object?> get props => [pictureB64Enc];
 }
+
+class LoggedOut extends ProfileEvent {
+  @override
+  List<Object> get props => [];
+}
