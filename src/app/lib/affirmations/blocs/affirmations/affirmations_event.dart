@@ -5,10 +5,12 @@ abstract class AffirmationsEvent extends Equatable {
 }
 
 class AffirmationsLoaded extends AffirmationsEvent {
-  const AffirmationsLoaded();
+  const AffirmationsLoaded({this.forUser = false});
+
+  final bool forUser;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [forUser];
 }
 
 class AffirmationsUpdated extends AffirmationsEvent {

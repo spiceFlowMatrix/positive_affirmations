@@ -40,7 +40,9 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
 
   Future<void> _loadAffirmations(
       AffirmationsLoaded event, Emitter<AffirmationsState> emit) async {
-    final affirmations = await affirmationsRepository.getAffirmations();
+    final affirmations = await affirmationsRepository.getAffirmations(
+      userId: event.forUser ? userRepository.currentUser.id : null,
+    );
     emit(state.copyWith(affirmations: affirmations));
   }
 

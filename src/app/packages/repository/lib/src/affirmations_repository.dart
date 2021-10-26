@@ -36,6 +36,8 @@ class AffirmationsRepository {
         .startAt([skip ?? 0]).limit(take ?? 10);
     if (userId != null) {
       query = query.where(Affirmation.fieldCreatedById, isEqualTo: userId);
+    } else {
+      query = query.where(Affirmation.fieldActive, isEqualTo: true);
     }
     return await query.get().then((value) {
       return value.docs.map((snapshot) {
