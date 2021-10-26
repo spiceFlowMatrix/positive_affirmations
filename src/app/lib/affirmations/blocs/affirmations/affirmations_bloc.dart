@@ -150,7 +150,7 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
   Future<void> _deleteAffirmation(
       AffirmationDeleted event, Emitter<AffirmationsState> emit) async {
     await affirmationsRepository.deleteAffirmation(event.id);
-    List<Affirmation> updatedAffirmations = [...state.affirmations];
+    final updatedAffirmations = [...state.affirmations];
     updatedAffirmations.removeWhere((element) => element.id == event.id);
     emit(state.copyWith(
       affirmations: updatedAffirmations,

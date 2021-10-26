@@ -4,6 +4,7 @@ import 'package:app/affirmations/models/subtitle_field.dart';
 import 'package:app/affirmations/models/title_field.dart';
 import 'package:app/consts.dart';
 import 'package:app/positive_affirmations_keys.dart';
+import 'package:app/positive_affirmations_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -300,11 +301,11 @@ class _ActivateDeactivateButton extends StatelessWidget {
         context.read<AffirmationsBloc>().add(AffirmationActivationToggled(id));
         Navigator.pop(context);
       },
+      style: OutlinedButton.styleFrom(
+        primary: active ? Colors.red : PositiveAffirmationsTheme.highlightColor,
+      ),
       child: Text(
         active ? 'DEACTIVATE' : 'ACTIVATE',
-        // style: const TextStyle(
-        //   color: Colors.grey,
-        // ),
       ),
     );
   }
@@ -323,6 +324,7 @@ class _DeleteButton extends StatelessWidget {
         context.read<AffirmationsBloc>().add(AffirmationDeleted(id: id));
         Navigator.pop(context);
       },
+      style: OutlinedButton.styleFrom(primary: Colors.red),
       child: const Text(
         'DELETE',
       ),
