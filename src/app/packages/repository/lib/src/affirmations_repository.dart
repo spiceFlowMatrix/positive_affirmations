@@ -133,4 +133,17 @@ class AffirmationsRepository {
 
     return toUpdateAffirmation;
   }
+
+  Future<Affirmation> toggleActivated(String affirmationId) async {
+    Affirmation toUpdate = await affirmationsCollection
+        .doc(affirmationId)
+        .get()
+        .then((snap) => Affirmation.fromSnapshot(snap));
+
+    toUpdate = toUpdate.copyWith(active: !toUpdate.active);
+
+    await affirmationsCollection.doc(affirmationId).set(toUpdate);
+
+    return toUpdate;
+  }
 }
