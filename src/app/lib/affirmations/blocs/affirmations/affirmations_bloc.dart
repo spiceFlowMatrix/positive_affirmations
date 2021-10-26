@@ -24,6 +24,7 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
     on<ReaffirmationCreated>(_mapReaffirmationCreatedToState);
     on<AffirmationsLoaded>(_loadAffirmations);
     on<AffirmationsUpdated>(_updateAffirmations);
+    on<AffirmationDeleted>(_deleteAffirmation);
   }
 
   final MachineDateTime? time;
@@ -143,6 +144,16 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
           }
         }).toList(),
       ],
+    ));
+  }
+
+  Future<void> _deleteAffirmation(
+      AffirmationDeleted event, Emitter<AffirmationsState> emit) async {
+    await affirmationsRepository.deleteAffirmation(event.id);
+    List<Affirmation> updatedAffirmations = [...state.affirmations];
+    updatedAffirmations.removeWhere((element) => element.id == event.id);
+    emit(state.copyWith(
+      affirmations: updatedAffirmations,
     ));
   }
 }

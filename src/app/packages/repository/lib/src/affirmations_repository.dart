@@ -151,4 +151,8 @@ class AffirmationsRepository {
 
     return toUpdate;
   }
+
+  Future<void> deleteAffirmation(String affirmationId) async {
+    await affirmationsCollection.doc(affirmationId).delete();
+  }
 }

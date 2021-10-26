@@ -77,3 +77,12 @@ class ReaffirmationCreated extends AffirmationsEvent {
   @override
   List<Object> get props => [affirmationId, value, font, stamp];
 }
+
+class AffirmationDeleted extends AffirmationsEvent {
+  const AffirmationDeleted({required this.id});
+
+  final String id;
+
+  @override
+  List<Object?> get props => [id];
+}

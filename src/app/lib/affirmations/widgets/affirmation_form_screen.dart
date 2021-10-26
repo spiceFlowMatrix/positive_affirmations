@@ -319,12 +319,12 @@ class _DeleteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       key: PositiveAffirmationsKeys.affirmationFormDeleteButton(id),
-      onPressed: null,
+      onPressed: () {
+        context.read<AffirmationsBloc>().add(AffirmationDeleted(id: id));
+        Navigator.pop(context);
+      },
       child: const Text(
         'DELETE',
-        style: TextStyle(
-          color: Colors.grey,
-        ),
       ),
     );
   }
