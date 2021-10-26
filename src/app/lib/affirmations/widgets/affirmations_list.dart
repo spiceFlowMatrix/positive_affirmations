@@ -1,13 +1,14 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:app/affirmations/widgets/likes_span.dart';
 import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/positive_affirmations_theme.dart';
 import 'package:app/reaffirmation/widgets/reaffirmation_form_screen.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:formz/formz.dart';
 import 'package:repository/repository.dart';
 
 class AffirmationsList extends StatelessWidget {
@@ -26,6 +27,11 @@ class _List extends StatelessWidget {
       builder: (context, state) {
         if (state.affirmations.isEmpty) {
           return _NoAffirmationsWarning();
+        }
+        if (state.loadingStatus == FormzStatus.submissionInProgress) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
         return ListView.builder(
           itemCount: state.affirmations.length,

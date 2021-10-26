@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:formz/formz.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:repository/repository.dart';
 
@@ -99,7 +100,7 @@ class _DetailsContent extends StatelessWidget {
         value: state.affirmations
             .where((element) => element.createdById == user.id)
             .length,
-        key: PositiveAffirmationsKeys.profileAffirmationsCount('${user.id}'),
+        key: PositiveAffirmationsKeys.profileAffirmationsCount(user.id),
       );
     });
     final lettersCount = BlocBuilder<AffirmationsBloc, AffirmationsState>(
@@ -109,7 +110,7 @@ class _DetailsContent extends StatelessWidget {
         value: state.affirmations
             .where((element) => element.createdById == user.id)
             .length,
-        key: PositiveAffirmationsKeys.profileLettersCount('${user.id}'),
+        key: PositiveAffirmationsKeys.profileLettersCount(user.id),
       );
     });
     final reaffirmationsCount =
@@ -120,7 +121,7 @@ class _DetailsContent extends StatelessWidget {
         value: state.affirmations
             .where((element) => element.createdById == user.id)
             .length,
-        key: PositiveAffirmationsKeys.profileReaffirmationsCount('${user.id}'),
+        key: PositiveAffirmationsKeys.profileReaffirmationsCount(user.id),
       );
     });
 
@@ -261,6 +262,11 @@ class _AffirmationsTabBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AffirmationsBloc, AffirmationsState>(
       builder: (context, state) {
+        if (state.loadingStatus == FormzStatus.submissionInProgress) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         final toRenderAffirmations = state.affirmations
             .where((element) => element.createdById == user.id)
             .toList();
@@ -272,11 +278,11 @@ class _AffirmationsTabBody extends StatelessWidget {
               children: [
                 ListTile(
                   key: PositiveAffirmationsKeys.profileAffirmationItem(
-                      '${toRenderAffirmations[index].id}'),
+                      toRenderAffirmations[index].id),
                   title: Text(
                     toRenderAffirmations[index].title,
                     key: PositiveAffirmationsKeys.profileAffirmationItemTitle(
-                        '${toRenderAffirmations[index].id}'),
+                        toRenderAffirmations[index].id),
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                     ),
@@ -295,7 +301,7 @@ class _AffirmationsTabBody extends StatelessWidget {
                     FontAwesomeIcons.chevronRight,
                     key:
                         PositiveAffirmationsKeys.profileAffirmationItemTrailing(
-                            '${toRenderAffirmations[index].id}'),
+                            toRenderAffirmations[index].id),
                     size: 15,
                     color: Colors.black,
                   ),
