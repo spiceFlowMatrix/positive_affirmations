@@ -56,7 +56,7 @@ class AffirmationsRepository {
       return value.docs.map((e) => e.data()).toList();
     });
 
-    final affirmation = await affirmationsCollection
+    Affirmation affirmation = await affirmationsCollection
         .doc(affirmationId)
         .get()
         .then((snap) => Affirmation.fromSnapshot(snap));
@@ -69,7 +69,7 @@ class AffirmationsRepository {
             id: newLikeId,
             byUserId: userId,
           ));
-      affirmation.copyWith(
+      affirmation = affirmation.copyWith(
         likes: affirmation.likes + 1,
         liked: true,
       );
@@ -77,7 +77,7 @@ class AffirmationsRepository {
       for (var like in existingLikes) {
         likesCollection(affirmationId).doc(like.id).delete();
       }
-      affirmation.copyWith(
+      affirmation = affirmation.copyWith(
         likes: affirmation.likes - 1,
         liked: false,
       );

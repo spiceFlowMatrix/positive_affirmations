@@ -64,12 +64,15 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
     await affirmationsRepository.saveAffirmation(newAffirmation);
   }
 
-  void _mapAffirmationLikedToState(
-      AffirmationLiked event, Emitter<AffirmationsState> emit) {
+  Future<void> _mapAffirmationLikedToState(
+      AffirmationLiked event, Emitter<AffirmationsState> emit) async {
+    final updatedAffirmation = await affirmationsRepository.toggleLiked(
+      affirmationId: event.id,
+      userId: userRepository.currentUser.id,
+    );
+
     final updatedAffirmations = state.affirmations.map((affirmation) {
-      return affirmation.id == event.id
-          ? affirmation.copyWith(liked: !affirmation.liked)
-          : affirmation;
+      return affirmation.id == event.id ? updatedAffirmation : affirmation;
     }).toList();
 
     emit(state.copyWith(affirmations: [...updatedAffirmations]));
