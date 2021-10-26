@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:repository/repository.dart';
 
 part 'authentication_event.dart';
-
 part 'authentication_state.dart';
 
 class AuthenticationBloc
@@ -47,7 +45,6 @@ class AuthenticationBloc
 
   AuthenticationState _mapAuthenticationStatusChangedToState(
       AuthenticationStatusChanged event, AuthenticationState state) {
-    debugPrint(event.status.toString());
     switch (event.status) {
       case AuthenticationStatus.unauthenticated:
         return const AuthenticationState.unauthenticated();

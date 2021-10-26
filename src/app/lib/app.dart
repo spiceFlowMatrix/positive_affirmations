@@ -72,7 +72,6 @@ class _AppViewState extends State<AppView> {
             return BlocListener<AuthenticationBloc, AuthenticationState>(
               // listenWhen: (previous, current) => previous != current,
               listener: (context, state) {
-                debugPrint('listen');
                 switch (state.status) {
                   case AuthenticationStatus.unknown:
                     _navigator.pushNamedAndRemoveUntil(
