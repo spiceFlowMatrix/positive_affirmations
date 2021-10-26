@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:repository/src/cache_client.dart';
 import 'package:repository/src/exceptions/exceptions.dart';
@@ -141,6 +142,21 @@ class UserRepository {
           name: name ?? currentUser.name,
           nickName: nickName ?? currentUser.nickName,
         ));
+  }
+
+  Future<void> updateProfilePicture(String base64Picture) async {
+    String dataUrl = 'data:image/jpeg;base64,$base64Picture';
+    try {
+      final url = await FirebaseStorage.instance
+          .ref('users/${currentUser.id}/picture.jpg')
+          .putString(dataUrl, format: PutStringFormat.dataUrl)
+          .then((p0) => p0.ref.getDownloadURL());
+      if (_firebaseAuth.currentUser != null) {
+        await _firebaseAuth.currentUser!.updatePhotoURL(url);
+      }
+    } on FirebaseException catch (e) {
+      // e.g, e.code == 'canceled'
+    }
   }
 
   /// Signs out the current user which will emit

@@ -37,7 +37,7 @@ class App extends StatelessWidget {
           else
             BlocProvider<ProfileBloc>(
                 create: (_) =>
-                    HydratedProfileBloc(userRepository: userRepository)),
+                    ProfileBloc(userRepository: userRepository)),
           BlocProvider<AuthenticationBloc>(
               create: (_) =>
                   AuthenticationBloc(userRepository: userRepository)),
