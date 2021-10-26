@@ -13,6 +13,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc({required UserRepository userRepository})
       : _userRepository = userRepository,
         super(const ProfileState()) {
+    on<UserCreated>(_mapUserCreatedToSate);
+    on<ProfileEdited>(_mapProfileEditedToState);
+    on<UserUpdated>(_mapUserUpdatedToState);
+    on<PictureUpdated>(_mapPictureUpdatedToState);
     _appUserSubscription = _userRepository.user.listen((user) {
       add(UserUpdated(user: user));
     });
@@ -22,51 +26,36 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   late StreamSubscription<AppUser> _appUserSubscription;
 
   @override
-  Stream<ProfileState> mapEventToState(
-    ProfileEvent event,
-  ) async* {
-    if (event is UserCreated) {
-      yield _mapUserCreatedToSate(event, state);
-    } else if (event is ProfileEdited) {
-      yield _mapProfileEditedToState(event, state);
-    } else if (event is UserUpdated) {
-      yield _mapUserUpdatedToState(event, state);
-    } else if (event is PictureUpdated) {
-      yield _mapPictureUpdatedToState(event, state);
-    }
-  }
-
-  @override
   Future<void> close() {
     _appUserSubscription.cancel();
     return super.close();
   }
 
-  ProfileState _mapUserCreatedToSate(UserCreated event, ProfileState state) {
-    return state.copyWith(user: event.user);
+  void _mapUserCreatedToSate(UserCreated event, Emitter<ProfileState> emit) {
+    emit(state.copyWith(user: event.user));
   }
 
-  ProfileState _mapUserUpdatedToState(UserUpdated event, ProfileState state) {
-    return state.copyWith(user: event.user);
+  void _mapUserUpdatedToState(UserUpdated event, Emitter<ProfileState> emit) {
+    emit(state.copyWith(user: event.user));
   }
 
-  ProfileState _mapProfileEditedToState(
-      ProfileEdited event, ProfileState state) {
+  void _mapProfileEditedToState(
+      ProfileEdited event, Emitter<ProfileState> emit) {
     final updatedUser = state.user.copyWith(
       name: event.name.trim(),
       nickName: event.nickName.trim(),
     );
 
-    return state.copyWith(user: updatedUser);
+    emit(state.copyWith(user: updatedUser));
   }
 
-  ProfileState _mapPictureUpdatedToState(
-      PictureUpdated event, ProfileState state) {
+  void _mapPictureUpdatedToState(
+      PictureUpdated event, Emitter<ProfileState> emit) {
     final updatedUser = state.user.copyWith(
       pictureB64Enc: event.pictureB64Enc,
     );
 
-    return state.copyWith(user: updatedUser);
+    emit(state.copyWith(user: updatedUser));
   }
 }
 
