@@ -25,13 +25,13 @@ class _List extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AffirmationsBloc, AffirmationsState>(
       builder: (context, state) {
-        if (state.affirmations.isEmpty) {
-          return _NoAffirmationsWarning();
-        }
         if (state.loadingStatus == FormzStatus.submissionInProgress) {
           return const Center(
             child: CircularProgressIndicator(),
           );
+        } else if (state.loadingStatus != FormzStatus.submissionInProgress &&
+            state.affirmations.isEmpty) {
+          return _NoAffirmationsWarning();
         }
         return ListView.builder(
           itemCount: state.affirmations.length,
