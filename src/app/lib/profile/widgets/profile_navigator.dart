@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/positive_affirmations_theme.dart';
 import 'package:app/profile/blocs/profile/profile_bloc.dart';
 import 'package:app/profile/blocs/profile_tab/profile_tab_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileNavigator extends StatefulWidget {
-  ProfileNavigator({
+  const ProfileNavigator({
     Key? key,
   }) : super(key: key);
 
@@ -22,7 +23,7 @@ class _ProfileNavigatorState extends State<ProfileNavigator>
 
   @override
   void initState() {
-    _tabController = new TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -31,9 +32,10 @@ class _ProfileNavigatorState extends State<ProfileNavigator>
       builder: (context, state) {
         switch (tab) {
           case ProfileTab.affirmations:
+            context.read<AffirmationsBloc>().add(const AffirmationsLoaded());
             return Tab(
               key: PositiveAffirmationsKeys.profileAffirmationsSubtab(
-                  '${state.user.id}'),
+                  state.user.id),
               child: Text(
                 'Affirmations',
                 style: TextStyle(
@@ -46,8 +48,7 @@ class _ProfileNavigatorState extends State<ProfileNavigator>
             );
           case ProfileTab.letters:
             return Tab(
-              key: PositiveAffirmationsKeys.profileLettersSubtab(
-                  '${state.user.id}'),
+              key: PositiveAffirmationsKeys.profileLettersSubtab(state.user.id),
               child: Text(
                 'Letters',
                 style: TextStyle(
@@ -59,7 +60,7 @@ class _ProfileNavigatorState extends State<ProfileNavigator>
               ),
             );
           default:
-            return Tab(
+            return const Tab(
               icon: Text(
                 'Affirmations',
                 style: TextStyle(
@@ -88,7 +89,7 @@ class _ProfileNavigatorState extends State<ProfileNavigator>
             controller: _tabController,
             onTap: (index) {
               BlocProvider.of<ProfileTabBloc>(context)
-                  .add(new TabUpdated(ProfileTab.values[index]));
+                  .add(TabUpdated(ProfileTab.values[index]));
               // onTabSelected(ProfileTab.values[index]);
             },
             isScrollable: false,

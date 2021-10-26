@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:app/affirmations/blocs/affirmations/affirmations_bloc.dart';
 import 'package:app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/positive_affirmations_theme.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AppNavigator extends StatefulWidget {
   final AppTab activeTab;
@@ -40,6 +41,7 @@ class _AppNavigatorState extends State<AppNavigator>
   Tab _mapNavigationBarItem(AppTab tab, AppTab currentTab) {
     switch (tab) {
       case AppTab.affirmations:
+        context.read<AffirmationsBloc>().add(const AffirmationsLoaded());
         return Tab(
           key: PositiveAffirmationsKeys.homeTab,
           icon: FaIcon(
@@ -86,7 +88,7 @@ class _AppNavigatorState extends State<AppNavigator>
           ),
         );
       default:
-        return Tab(
+        return const Tab(
           icon: Text(
             'Affirmations',
             style: TextStyle(
