@@ -41,16 +41,28 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
 
   Future<void> _loadAffirmations(
       AffirmationsLoaded event, Emitter<AffirmationsState> emit) async {
-    List<Affirmation> affirmations =
-        await affirmationsRepository.getAffirmations(
-      userId: event.forUser ? userRepository.currentUser.id : null,
-    );
-    affirmations = affirmations
-        .map((e) => e.copyWith(
-            liked: e.likes.any((element) =>
-                element.byUserId == userRepository.currentUser.id)))
-        .toList();
-    emit(state.copyWith(affirmations: affirmations));
+    emit(state.copyWith(loadingStatus: FormzStatus.submissionInProgress));
+    try {
+      List<Affirmation> affirmations =
+          await affirmationsRepository.getAffirmations(
+        userId: event.forUser ? userRepository.currentUser.id : null,
+      );
+      affirmations = affirmations
+          .map((e) => e.copyWith(
+              liked: e.likes.any((element) =>
+                  element.byUserId == userRepository.currentUser.id)))
+          .toList();
+      emit(state.copyWith(
+        loadingStatus: FormzStatus.submissionSuccess,
+        loadingError: '',
+        affirmations: affirmations,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        loadingStatus: FormzStatus.submissionFailure,
+        loadingError: e.toString(),
+      ));
+    }
   }
 
   void _updateAffirmations(
