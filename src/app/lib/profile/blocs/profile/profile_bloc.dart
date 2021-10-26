@@ -39,8 +39,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(state.copyWith(user: event.user));
   }
 
-  void _mapProfileEditedToState(
-      ProfileEdited event, Emitter<ProfileState> emit) {
+  Future<void> _mapProfileEditedToState(
+      ProfileEdited event, Emitter<ProfileState> emit) async {
+    await _userRepository.editUser(
+      name: event.name.trim(),
+      nickName: event.nickName.trim(),
+    );
     final updatedUser = state.user.copyWith(
       name: event.name.trim(),
       nickName: event.nickName.trim(),

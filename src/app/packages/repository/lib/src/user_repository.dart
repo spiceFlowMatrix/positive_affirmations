@@ -125,8 +125,7 @@ class UserRepository {
     }
   }
 
-  Future<void> editUser(
-    String userId, {
+  Future<void> editUser({
     String? name,
     String? nickName,
   }) async {
@@ -138,7 +137,7 @@ class UserRepository {
       await currentFirebaseUser.updateDisplayName(name);
     }
 
-    await _usersCollection.doc(userId).set(currentUser.copyWith(
+    await _usersCollection.doc(currentUser.id).set(currentUser.copyWith(
           name: name ?? currentUser.name,
           nickName: nickName ?? currentUser.nickName,
         ));
