@@ -111,4 +111,24 @@ class AffirmationsRepository {
       return fetchedAffirmation;
     });
   }
+
+  Future<Affirmation> editAffirmation(
+    String affirmationId, {
+    String? title,
+    String? subtitle,
+  }) async {
+    Affirmation toUpdateAffirmation = await affirmationsCollection
+        .doc(affirmationId)
+        .get()
+        .then((snap) => Affirmation.fromSnapshot(snap));
+
+    toUpdateAffirmation = toUpdateAffirmation.copyWith(
+      title: title ?? toUpdateAffirmation.title,
+      subtitle: subtitle ?? toUpdateAffirmation.subtitle,
+    );
+
+    await affirmationsCollection.doc(affirmationId).set(toUpdateAffirmation);
+
+    return toUpdateAffirmation;
+  }
 }

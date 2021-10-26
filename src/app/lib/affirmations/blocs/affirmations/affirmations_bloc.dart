@@ -86,15 +86,16 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
     emit(state.copyWith(affirmations: [...updatedAffirmations]));
   }
 
-  void _mapAffirmationUpdatedToState(
-      AffirmationUpdated event, Emitter<AffirmationsState> emit) {
+  Future<void> _mapAffirmationUpdatedToState(
+      AffirmationUpdated event, Emitter<AffirmationsState> emit) async {
+    Affirmation updatedAffirmation =
+        await affirmationsRepository.editAffirmation(
+      event.id,
+      title: event.title,
+      subtitle: event.subtitle,
+    );
     final updatedAffirmations = state.affirmations.map((affirmation) {
-      return affirmation.id == event.id
-          ? affirmation.copyWith(
-              title: event.title,
-              subtitle: event.subtitle,
-            )
-          : affirmation;
+      return affirmation.id == event.id ? updatedAffirmation : affirmation;
     }).toList();
 
     emit(state.copyWith(affirmations: [...updatedAffirmations]));
