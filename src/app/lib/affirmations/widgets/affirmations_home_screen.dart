@@ -5,7 +5,7 @@ import 'package:app/affirmations/widgets/affirmations_list.dart';
 import 'package:app/affirmations/widgets/app_navigator.dart';
 import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/profile/widgets/profile_details_body.dart';
-import 'package:app/profile/widgets/profile_edit_form.dart';
+import 'package:app/profile/widgets/profile_options_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -53,7 +53,7 @@ class AffirmationsHomeScreen extends StatelessWidget {
               IconButton(
                 icon: FaIcon(state == AppTab.affirmations
                     ? FontAwesomeIcons.plusSquare
-                    : FontAwesomeIcons.edit),
+                    : FontAwesomeIcons.cog),
                 key: state == AppTab.affirmations
                     ? PositiveAffirmationsKeys.affirmationsAppBarAddButton
                     : PositiveAffirmationsKeys.profileAppbarEditButton,
@@ -69,8 +69,7 @@ class AffirmationsHomeScreen extends StatelessWidget {
                       break;
                     case AppTab.profile:
                       Navigator.of(context).pushNamed(
-                        ProfileEditForm.routeName,
-                        arguments: const ProfileEditFormArgs(),
+                        ProfileOptionsScreen.routeName,
                       );
                       break;
                   }

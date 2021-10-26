@@ -5,6 +5,7 @@ import 'package:app/app_account/widgets/sign_in_screen.dart';
 import 'package:app/app_account/widgets/verification_flow.dart';
 import 'package:app/app_account/widgets/widgets.dart';
 import 'package:app/profile/widgets/profile_edit_form.dart';
+import 'package:app/profile/widgets/profile_options_screen.dart';
 import 'package:app/reaffirmation/widgets/reaffirmation_form_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,7 @@ class PositiveAffirmationsRoutes {
       SignUpFlow.routeName: (context) => const SignUpFlow(),
       VerificationFlow.routeName: (context) => const VerificationFlow(),
       SignInScreen.routeName: (context) => const SignInScreen(),
+      ProfileOptionsScreen.routeName: (context) => const ProfileOptionsScreen(),
     };
   }
 }
