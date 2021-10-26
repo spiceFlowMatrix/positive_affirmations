@@ -56,11 +56,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Future<void> _mapPictureUpdatedToState(
       PictureUpdated event, Emitter<ProfileState> emit) async {
-    await _userRepository.updateProfilePicture(event.pictureB64Enc);
-    final updatedUser = state.user.copyWith(
-      pictureB64Enc: event.pictureB64Enc,
-    );
-
+    final updatedUser =
+        await _userRepository.updateProfilePicture(event.pictureB64Enc);
     emit(state.copyWith(user: updatedUser));
   }
 

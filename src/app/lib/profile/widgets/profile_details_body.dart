@@ -226,11 +226,16 @@ class _ProfileImage extends StatelessWidget {
               radius: 36,
             )
           else
+            // CircleAvatar(
+            //   key: PositiveAffirmationsKeys.profilePictureImage(user.id),
+            //   backgroundImage: MemoryImage(
+            //     const Base64Decoder().convert(user.pictureB64Enc),
+            //   ),
+            //   radius: 36,
+            // ),
             CircleAvatar(
               key: PositiveAffirmationsKeys.profilePictureImage(user.id),
-              backgroundImage: MemoryImage(
-                const Base64Decoder().convert(user.pictureB64Enc),
-              ),
+              backgroundImage: NetworkImage(user.pictureB64Enc),
               radius: 36,
             ),
           const Positioned(

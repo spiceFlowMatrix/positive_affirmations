@@ -144,18 +144,18 @@ class UserRepository {
         ));
   }
 
-  Future<void> updateProfilePicture(String base64Picture) async {
+  Future<AppUser> updateProfilePicture(String base64Picture) async {
     String dataUrl = 'data:image/jpeg;base64,$base64Picture';
     try {
       final url = await FirebaseStorage.instance
           .ref('users/${currentUser.id}/picture.jpg')
           .putString(dataUrl, format: PutStringFormat.dataUrl)
           .then((p0) => p0.ref.getDownloadURL());
-      if (_firebaseAuth.currentUser != null) {
-        await _firebaseAuth.currentUser!.updatePhotoURL(url);
-      }
+      await _firebaseAuth.currentUser!.updatePhotoURL(url);
+      return _firebaseAuth.currentUser!.toUser;
     } on FirebaseException catch (e) {
       // e.g, e.code == 'canceled'
+      rethrow;
     }
   }
 
@@ -181,6 +181,7 @@ extension on User {
       email: email ?? '',
       name: displayName ?? '',
       pictureB64Enc: photoURL ?? '',
+      emailVerified: emailVerified,
     );
   }
 }
