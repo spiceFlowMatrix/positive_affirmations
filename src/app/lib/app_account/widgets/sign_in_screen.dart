@@ -20,7 +20,21 @@ class SignInScreen extends StatelessWidget {
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 35),
-          child: _Form(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _Logo(),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              const Text(
+                'Positive Affirmations',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 23,
+                ),
+              ),
+              _Form(),
+            ],
+          ),
         ),
       ),
     );
@@ -36,39 +50,54 @@ class _Form extends StatelessWidget {
       builder: (context, state) {
         return Form(
           key: _formKey,
-          child: Align(
-            alignment: Alignment.center,
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                _EmailField(),
-                const Padding(padding: EdgeInsets.only(top: 10)),
-                _PasswordField(),
-                const Padding(padding: EdgeInsets.only(top: 10)),
-                if (state.status == FormzStatus.submissionFailure)
-                  Text(
-                    state.error,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                const _SubmitButton(),
-                const Divider(
-                  height: 30,
-                  thickness: 1.5,
-                ),
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              _EmailField(),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              _PasswordField(),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              if (state.status == FormzStatus.submissionFailure)
                 Text(
-                  'No account?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.82),
-                  ),
+                  state.error,
+                  style: const TextStyle(color: Colors.red),
                 ),
-                const Padding(padding: EdgeInsets.only(top: 10)),
-                const _SignUpButton(),
-              ],
-            ),
+              const _SubmitButton(),
+              const Divider(
+                height: 30,
+                thickness: 1.5,
+              ),
+              Text(
+                'No account?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.82),
+                ),
+              ),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+              const _SignUpButton(),
+            ],
           ),
         );
       },
+    );
+  }
+}
+
+class _Logo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100,
+      height: 100,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey, width: 2),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: const FittedBox(
+        fit: BoxFit.fill,
+        child: Image(image: AssetImage('assets/images/pa_logo.png')),
+      ),
     );
   }
 }
