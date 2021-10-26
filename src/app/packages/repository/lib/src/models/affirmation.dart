@@ -63,7 +63,7 @@ class Affirmation extends Equatable {
         fieldLikes: likes,
         fieldTotalReaffirmations: totalReaffirmations,
         fieldActive: active,
-        fieldLiked: liked,
+        // fieldLiked: liked,
       };
 
   static Affirmation fromJson(Map<String, dynamic> json) {
@@ -78,7 +78,7 @@ class Affirmation extends Equatable {
       totalReaffirmations: json[Affirmation.fieldTotalReaffirmations] ??
           empty.totalReaffirmations,
       active: json[Affirmation.fieldActive] ?? empty.active,
-      liked: json[Affirmation.fieldLiked] ?? empty.liked,
+      // liked: json[Affirmation.fieldLiked] ?? empty.liked,
     );
   }
 
@@ -92,7 +92,7 @@ class Affirmation extends Equatable {
       likes: snap.get(fieldLikes),
       totalReaffirmations: snap.get(fieldTotalReaffirmations),
       active: snap.get(fieldActive),
-      liked: snap.get(fieldLiked),
+      // liked: snap.get(fieldLiked),
     );
   }
 
