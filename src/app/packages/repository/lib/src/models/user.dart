@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum LetterCreationSchedule { daily, monthly, never }
+enum LetterCreationSchedule { daily, weekly, monthly, never }
 
 class AppUser extends Equatable {
   const AppUser({
@@ -10,6 +10,11 @@ class AppUser extends Equatable {
     this.email = '',
     this.pictureUrl = '',
     this.emailVerified = false,
+    this.letterSchedule = LetterCreationSchedule.never,
+    this.lettersLastGeneratedOn,
+    this.letterCount = 0,
+    this.reaffirmationCount = 0,
+    this.affirmationCount = 0,
   });
 
   final String id;
@@ -18,6 +23,11 @@ class AppUser extends Equatable {
   final String pictureUrl;
   final String email;
   final bool emailVerified;
+  final LetterCreationSchedule letterSchedule;
+  final DateTime? lettersLastGeneratedOn;
+  final int letterCount;
+  final int reaffirmationCount;
+  final int affirmationCount;
 
   // Reference for working solution https://stackoverflow.com/a/61289387
   String nameInitials() {
@@ -53,17 +63,28 @@ class AppUser extends Equatable {
     String? id,
     String? name,
     String? nickName,
-    String? pictureB64Enc,
+    String? pictureUrl,
     String? email,
     bool? emailVerified,
+    LetterCreationSchedule? letterSchedule,
+    DateTime? lettersLastGeneratedOn,
+    int? letterCount,
+    int? reaffirmationCount,
+    int? affirmationCount,
   }) {
     return AppUser(
       id: id ?? this.id,
       name: name ?? this.name,
       nickName: nickName ?? this.nickName,
-      pictureUrl: pictureB64Enc ?? this.pictureUrl,
+      pictureUrl: pictureUrl ?? this.pictureUrl,
       email: email ?? this.email,
       emailVerified: emailVerified ?? this.emailVerified,
+      letterSchedule: letterSchedule ?? this.letterSchedule,
+      lettersLastGeneratedOn:
+          lettersLastGeneratedOn ?? this.lettersLastGeneratedOn,
+      letterCount: letterCount ?? this.letterCount,
+      reaffirmationCount: reaffirmationCount ?? this.reaffirmationCount,
+      affirmationCount: affirmationCount ?? this.affirmationCount,
     );
   }
 
@@ -75,6 +96,11 @@ class AppUser extends Equatable {
         email,
         pictureUrl,
         emailVerified,
+        letterSchedule,
+        lettersLastGeneratedOn,
+        letterCount,
+        reaffirmationCount,
+        affirmationCount,
       ];
 
   static const empty = AppUser(
@@ -90,6 +116,11 @@ class AppUser extends Equatable {
   static const String fieldEmail = 'email';
   static const String fieldPictureUrl = 'pictureUrl';
   static const String fieldEmailVerified = 'emailVerified';
+  static const String fieldLetterSchedule = 'letterSchedule';
+  static const String fieldLettersLastGeneratedOn = 'lettersLastGeneratedOn';
+  static const String fieldLettersCount = 'lettersCount';
+  static const String fieldReaffirmationCount = 'reaffirmationCount';
+  static const String fieldAffirmationCount = 'affirmationCount';
 
   Map<String, dynamic> get fieldValues => {
         fieldId: id,
@@ -98,6 +129,11 @@ class AppUser extends Equatable {
         fieldEmail: email,
         fieldPictureUrl: pictureUrl,
         fieldEmailVerified: emailVerified,
+        fieldLetterSchedule: letterSchedule.index,
+        fieldLettersLastGeneratedOn: lettersLastGeneratedOn,
+        fieldLettersCount: letterCount,
+        fieldReaffirmationCount: reaffirmationCount,
+        fieldAffirmationCount: affirmationCount,
       };
 
   static AppUser fromJson(Map<String, dynamic> json) {
@@ -108,6 +144,15 @@ class AppUser extends Equatable {
       email: json[AppUser.fieldEmail] ?? '',
       pictureUrl: json[AppUser.fieldPictureUrl] ?? '',
       emailVerified: json[AppUser.fieldEmailVerified] ?? false,
+      letterSchedule: json[AppUser.fieldLetterSchedule]
+          ? LetterCreationSchedule.values[json[AppUser.fieldLetterSchedule]]
+          : LetterCreationSchedule.never,
+      lettersLastGeneratedOn: json[AppUser.fieldLettersLastGeneratedOn]
+          ? DateTime.parse(json[AppUser.fieldLettersLastGeneratedOn])
+          : null,
+      letterCount: json[AppUser.fieldLettersCount],
+      reaffirmationCount: json[AppUser.fieldReaffirmationCount],
+      affirmationCount: json[AppUser.fieldAffirmationCount],
     );
   }
 }

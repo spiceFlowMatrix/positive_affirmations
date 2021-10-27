@@ -71,7 +71,6 @@ class UserRepository {
         email: userCredential.user?.email ?? AppUser.empty.email,
         nickName: nickName != null ? nickName.trim() : '',
         emailVerified: userCredential.user?.emailVerified ?? false,
-        accountCreated: true,
       );
       await _usersCollection
           .doc(newUser.id)
