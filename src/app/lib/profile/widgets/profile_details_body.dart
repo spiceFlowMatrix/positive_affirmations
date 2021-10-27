@@ -226,17 +226,18 @@ class _ProfileImage extends StatelessWidget {
               radius: 36,
             )
           else
-            // CircleAvatar(
-            //   key: PositiveAffirmationsKeys.profilePictureImage(user.id),
-            //   backgroundImage: MemoryImage(
-            //     const Base64Decoder().convert(user.pictureB64Enc),
-            //   ),
-            //   radius: 36,
-            // ),
-            CircleAvatar(
-              key: PositiveAffirmationsKeys.profilePictureImage(user.id),
-              backgroundImage: NetworkImage(user.pictureB64Enc),
-              radius: 36,
+            BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) {
+                return CircleAvatar(
+                  key: PositiveAffirmationsKeys.profilePictureImage(user.id),
+                  backgroundImage: NetworkImage(user.pictureB64Enc),
+                  child: state.pictureUpdateStatus ==
+                          FormzStatus.submissionInProgress
+                      ? const CircularProgressIndicator()
+                      : null,
+                  radius: 36,
+                );
+              },
             ),
           const Positioned(
             bottom: 0,
