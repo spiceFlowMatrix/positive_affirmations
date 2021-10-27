@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:formz/formz.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:repository/repository.dart';
 
@@ -42,16 +43,27 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Future<void> _mapProfileEditedToState(
       ProfileEdited event, Emitter<ProfileState> emit) async {
-    await _userRepository.editUser(
-      name: event.name.trim(),
-      nickName: event.nickName.trim(),
-    );
-    final updatedUser = state.user.copyWith(
-      name: event.name.trim(),
-      nickName: event.nickName.trim(),
-    );
-
-    emit(state.copyWith(user: updatedUser));
+    emit(state.copyWith(pictureUpdateStatus: FormzStatus.submissionInProgress));
+    try {
+      await _userRepository.editUser(
+        name: event.name.trim(),
+        nickName: event.nickName.trim(),
+      );
+      final updatedUser = state.user.copyWith(
+        name: event.name.trim(),
+        nickName: event.nickName.trim(),
+      );
+      emit(state.copyWith(
+        pictureUpdateStatus: FormzStatus.submissionSuccess,
+        pictureUpdateError: '',
+        user: updatedUser,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        pictureUpdateStatus: FormzStatus.submissionFailure,
+        pictureUpdateError: e.toString(),
+      ));
+    }
   }
 
   Future<void> _mapPictureUpdatedToState(
