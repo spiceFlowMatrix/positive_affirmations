@@ -65,6 +65,8 @@ class UserRepository {
 
       await userCredential.user?.updateDisplayName(name);
 
+      await userCredential.user?.sendEmailVerification();
+
       AppUser newUser = AppUser(
         id: userCredential.user?.uid ?? AppUser.empty.id,
         name: userCredential.user?.displayName ?? AppUser.empty.name,
