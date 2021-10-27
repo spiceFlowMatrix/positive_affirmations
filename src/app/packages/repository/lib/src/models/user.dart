@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+enum LetterCreationSchedule { daily, monthly, never }
+
 class AppUser extends Equatable {
   const AppUser({
     required this.id,
@@ -7,7 +9,6 @@ class AppUser extends Equatable {
     this.nickName = '',
     this.email = '',
     this.pictureUrl = '',
-    this.accountCreated = false,
     this.emailVerified = false,
   });
 
@@ -16,7 +17,6 @@ class AppUser extends Equatable {
   final String nickName;
   final String pictureUrl;
   final String email;
-  final bool accountCreated;
   final bool emailVerified;
 
   // Reference for working solution https://stackoverflow.com/a/61289387
@@ -55,7 +55,6 @@ class AppUser extends Equatable {
     String? nickName,
     String? pictureB64Enc,
     String? email,
-    bool? accountCreated,
     bool? emailVerified,
   }) {
     return AppUser(
@@ -64,7 +63,6 @@ class AppUser extends Equatable {
       nickName: nickName ?? this.nickName,
       pictureUrl: pictureB64Enc ?? this.pictureUrl,
       email: email ?? this.email,
-      accountCreated: accountCreated ?? this.accountCreated,
       emailVerified: emailVerified ?? this.emailVerified,
     );
   }
@@ -76,7 +74,6 @@ class AppUser extends Equatable {
         nickName,
         email,
         pictureUrl,
-        accountCreated,
         emailVerified,
       ];
 
@@ -92,7 +89,6 @@ class AppUser extends Equatable {
   static const String fieldNickName = 'nickName';
   static const String fieldEmail = 'email';
   static const String fieldPictureUrl = 'pictureUrl';
-  static const String fieldAccountCreated = 'accountCreated';
   static const String fieldEmailVerified = 'emailVerified';
 
   Map<String, dynamic> get fieldValues => {
@@ -101,7 +97,6 @@ class AppUser extends Equatable {
         fieldNickName: nickName,
         fieldEmail: email,
         fieldPictureUrl: pictureUrl,
-        fieldAccountCreated: accountCreated,
         fieldEmailVerified: emailVerified,
       };
 
@@ -112,7 +107,6 @@ class AppUser extends Equatable {
       nickName: json[AppUser.fieldNickName] ?? '',
       email: json[AppUser.fieldEmail] ?? '',
       pictureUrl: json[AppUser.fieldPictureUrl] ?? '',
-      accountCreated: json[AppUser.fieldAccountCreated] ?? false,
       emailVerified: json[AppUser.fieldEmailVerified] ?? false,
     );
   }
