@@ -212,8 +212,8 @@ class _ProfileImage extends StatelessWidget {
       },
       child: Stack(
         children: [
-          if (user.pictureB64Enc.isEmpty ||
-              user.pictureB64Enc == AppUser.empty.pictureB64Enc)
+          if (user.pictureUrl.isEmpty ||
+              user.pictureUrl == AppUser.empty.pictureUrl)
             CircleAvatar(
               key: PositiveAffirmationsKeys.profilePicture(user.id),
               child: Text(
@@ -230,7 +230,7 @@ class _ProfileImage extends StatelessWidget {
               builder: (context, state) {
                 return CircleAvatar(
                   key: PositiveAffirmationsKeys.profilePictureImage(user.id),
-                  backgroundImage: NetworkImage(user.pictureB64Enc),
+                  backgroundImage: NetworkImage(user.pictureUrl),
                   child: state.pictureUpdateStatus ==
                           FormzStatus.submissionInProgress
                       ? const CircularProgressIndicator()

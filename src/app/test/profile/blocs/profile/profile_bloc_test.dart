@@ -96,13 +96,13 @@ void main() {
         build: () => profileBloc,
         act: (bloc) {
           bloc.add(PictureUpdated(
-            pictureB64Enc: mockUserWithPicture.pictureB64Enc,
+            pictureB64Enc: mockUserWithPicture.pictureUrl,
           ));
         },
         expect: () => <ProfileState>[
           ProfileState(
             user: AppUser.empty.copyWith(
-              pictureB64Enc: mockUserWithPicture.pictureB64Enc,
+              pictureB64Enc: mockUserWithPicture.pictureUrl,
             ),
           ),
         ],

@@ -6,7 +6,7 @@ class AppUser extends Equatable {
     required this.name,
     this.nickName = '',
     this.email = '',
-    this.pictureB64Enc = '',
+    this.pictureUrl = '',
     this.accountCreated = false,
     this.emailVerified = false,
   });
@@ -14,7 +14,7 @@ class AppUser extends Equatable {
   final String id;
   final String name;
   final String nickName;
-  final String pictureB64Enc;
+  final String pictureUrl;
   final String email;
   final bool accountCreated;
   final bool emailVerified;
@@ -62,7 +62,7 @@ class AppUser extends Equatable {
       id: id ?? this.id,
       name: name ?? this.name,
       nickName: nickName ?? this.nickName,
-      pictureB64Enc: pictureB64Enc ?? this.pictureB64Enc,
+      pictureUrl: pictureB64Enc ?? this.pictureUrl,
       email: email ?? this.email,
       accountCreated: accountCreated ?? this.accountCreated,
       emailVerified: emailVerified ?? this.emailVerified,
@@ -75,7 +75,7 @@ class AppUser extends Equatable {
         name,
         nickName,
         email,
-        pictureB64Enc,
+        pictureUrl,
         accountCreated,
         emailVerified,
       ];
@@ -85,13 +85,13 @@ class AppUser extends Equatable {
     name: 'name',
     nickName: 'nickName',
     email: '-',
-    pictureB64Enc: '-',
+    pictureUrl: '-',
   );
   static const String fieldId = 'id';
   static const String fieldName = 'name';
   static const String fieldNickName = 'nickName';
   static const String fieldEmail = 'email';
-  static const String fieldPictureB64Enc = 'pictureB64Enc';
+  static const String fieldPictureUrl = 'pictureUrl';
   static const String fieldAccountCreated = 'accountCreated';
   static const String fieldEmailVerified = 'emailVerified';
 
@@ -100,7 +100,7 @@ class AppUser extends Equatable {
         fieldName: name,
         fieldNickName: nickName,
         fieldEmail: email,
-        fieldPictureB64Enc: pictureB64Enc,
+        fieldPictureUrl: pictureUrl,
         fieldAccountCreated: accountCreated,
         fieldEmailVerified: emailVerified,
       };
@@ -111,7 +111,7 @@ class AppUser extends Equatable {
       name: json[AppUser.fieldName],
       nickName: json[AppUser.fieldNickName] ?? '',
       email: json[AppUser.fieldEmail] ?? '',
-      pictureB64Enc: json[AppUser.fieldPictureB64Enc] ?? '',
+      pictureUrl: json[AppUser.fieldPictureUrl] ?? '',
       accountCreated: json[AppUser.fieldAccountCreated] ?? false,
       emailVerified: json[AppUser.fieldEmailVerified] ?? false,
     );

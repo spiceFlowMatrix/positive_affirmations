@@ -180,7 +180,7 @@ extension on User {
       id: uid,
       email: email ?? '',
       name: displayName ?? '',
-      pictureB64Enc: photoURL ?? '',
+      pictureUrl: photoURL ?? '',
       emailVerified: emailVerified,
     );
   }
