@@ -36,12 +36,41 @@ class _OptionsButton extends StatelessWidget {
     }
   }
 
+  List<ListTile> _generateScheduleOptions() {
+    return LetterCreationSchedule.values.map((value) {
+      return ListTile(
+        title: Text(_generateTitleText(value)),
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         return ListTile(
-          onTap: () {},
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return ListView(
+                  shrinkWrap: true,
+                  children: [
+                    const ListTile(
+                      title: Text(
+                        'Select a schedule',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    const Divider(height: 0, thickness: 1.5),
+                    ..._generateScheduleOptions(),
+                  ],
+                );
+              },
+            );
+          },
           title: Text(
             _generateTitleText(state.user.letterSchedule),
             style: const TextStyle(
