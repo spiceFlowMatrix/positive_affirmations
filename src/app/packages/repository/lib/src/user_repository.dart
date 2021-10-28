@@ -34,12 +34,8 @@ class UserRepository {
   ///
   /// Emits [AppUser.empty] if the user is not authenticated.
   Stream<AppUser> get user {
-    return _firebaseAuth.authStateChanges().asyncMap((firebaseUser) async {
-      AppUser user = firebaseUser == null ? AppUser.empty : firebaseUser.toUser;
-      user = await _usersCollection
-          .doc(user.id)
-          .get()
-          .then((value) => value.data() ?? AppUser.empty);
+    return _firebaseAuth.authStateChanges().map((firebaseUser) {
+      final user = firebaseUser == null ? AppUser.empty : firebaseUser.toUser;
       _cache.write(key: userCacheKey, value: user);
       return user;
     });
