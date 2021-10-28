@@ -144,10 +144,10 @@ class AppUser extends Equatable {
       email: json[AppUser.fieldEmail] ?? '',
       pictureUrl: json[AppUser.fieldPictureUrl] ?? '',
       emailVerified: json[AppUser.fieldEmailVerified] ?? false,
-      letterSchedule: json[AppUser.fieldLetterSchedule]
+      letterSchedule: json[AppUser.fieldLetterSchedule] != null
           ? LetterCreationSchedule.values[json[AppUser.fieldLetterSchedule]]
           : LetterCreationSchedule.never,
-      lettersLastGeneratedOn: json[AppUser.fieldLettersLastGeneratedOn]
+      lettersLastGeneratedOn: json[AppUser.fieldLettersLastGeneratedOn] != null
           ? DateTime.parse(json[AppUser.fieldLettersLastGeneratedOn])
           : null,
       letterCount: json[AppUser.fieldLettersCount],
