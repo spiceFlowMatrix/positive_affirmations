@@ -32,12 +32,8 @@ class App extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          if (profileBloc != null)
-            BlocProvider<ProfileBloc>(create: (_) => profileBloc!)
-          else
-            BlocProvider<ProfileBloc>(
-                create: (_) =>
-                    ProfileBloc(userRepository: userRepository)),
+          BlocProvider<ProfileBloc>(
+              create: (_) => ProfileBloc(userRepository: userRepository)),
           BlocProvider<AuthenticationBloc>(
               create: (_) =>
                   AuthenticationBloc(userRepository: userRepository)),

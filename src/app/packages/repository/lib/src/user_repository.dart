@@ -18,28 +18,7 @@ class UserRepository {
     FirebaseAuth? firebaseAuth,
   })  : _cache = cache ?? CacheClient(),
         _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance {
-    // _firebaseAuth.authStateChanges().asyncMap((firebaseUser) async {
-    //   final user = firebaseUser == null ? AppUser.empty : firebaseUser.toUser;
-    //   try {
-    //     if (user != AppUser.empty) {
-    //       final storedUser = await _usersCollection
-    //           .doc(user.id)
-    //           .get()
-    //           .then((value) => value.data()!);
-    //       _cache.write(key: userCacheKey, value: storedUser);
-    //       _userController.add(storedUser);
-    //       return storedUser;
-    //     } else {
-    //       _cache.write(key: userCacheKey, value: user);
-    //       _userController.add(user);
-    //       return user;
-    //     }
-    //   } catch (_) {
-    //     _cache.write(key: userCacheKey, value: user);
-    //     _userController.add(user);
-    //     return user;
-    //   }
-    // });
+    _streamUser();
   }
 
   final CacheClient _cache;
@@ -58,6 +37,7 @@ class UserRepository {
 
   final _statusController = StreamController<AuthenticationStatus>();
   final _userController = StreamController<AppUser>();
+  late StreamSubscription<AppUser> _userStreamSub;
 
   AppUser get currentUser {
     return _cache.read<AppUser>(key: userCacheKey) ?? AppUser.empty;
@@ -72,20 +52,19 @@ class UserRepository {
 
   void _streamUser() {
     if (_firebaseAuth.currentUser != null) {
-      _usersCollection
+      _userStreamSub = _usersCollection
           .doc(_firebaseAuth.currentUser!.uid)
           .snapshots()
-          .map((event) {
-        if (event.data() != null) {
-          _cache.write(key: userCacheKey, value: event.data()!);
-          _userController.add(event.data()!);
+          .map((event) => event.data()!)
+          .listen((event) {
+        _cache.write(key: userCacheKey, value: event);
+        _userController.add(event);
 
-          _cache.write(
-            key: statusCacheKey,
-            value: AuthenticationStatus.authenticated,
-          );
-          _statusController.add(AuthenticationStatus.authenticated);
-        }
+        _cache.write(
+          key: statusCacheKey,
+          value: AuthenticationStatus.authenticated,
+        );
+        _statusController.add(AuthenticationStatus.authenticated);
       });
     }
   }
@@ -95,26 +74,10 @@ class UserRepository {
   ///
   /// Emits [AppUser.empty] if the user is not authenticated.
   Stream<AppUser> get user async* {
-    if (_firebaseAuth.currentUser != null) {
-      try {
-        final existingUser = await _usersCollection
-            .doc(_firebaseAuth.currentUser!.uid)
-            .get()
-            .then((value) => value.data()!);
-        _cache.write(key: userCacheKey, value: existingUser);
-        _streamUser();
-        yield existingUser;
-      } catch (_) {
-        yield currentUser;
-      }
-    }
     yield* _userController.stream;
   }
 
   Stream<AuthenticationStatus> get status async* {
-    if (_firebaseAuth.currentUser != null) {
-      yield AuthenticationStatus.authenticated;
-    }
     yield* _statusController.stream;
   }
 
@@ -134,7 +97,6 @@ class UserRepository {
         email: email.trim(),
         password: password,
       );
-
       AppUser newUser = AppUser(
         id: userCredential.user?.uid ?? AppUser.empty.id,
         name: name,
@@ -143,17 +105,8 @@ class UserRepository {
         emailVerified: userCredential.user?.emailVerified ?? false,
       );
       await _usersCollection.doc(newUser.id).set(newUser);
-
       await userCredential.user?.updateDisplayName(name);
       await userCredential.user?.sendEmailVerification();
-
-      _cache.write(key: userCacheKey, value: newUser);
-      _userController.add(newUser);
-
-      _cache.write(
-          key: statusCacheKey, value: AuthenticationStatus.authenticated.index);
-      _statusController.add(AuthenticationStatus.authenticated);
-
       _streamUser();
       return newUser;
     } on FirebaseAuthException catch (e) {
@@ -176,17 +129,6 @@ class UserRepository {
         email: email,
         password: password,
       );
-      final storeUser = await _usersCollection
-          .doc(_firebaseAuth.currentUser!.uid)
-          .get()
-          .then((value) => value.data()!);
-
-      _cache.write(key: userCacheKey, value: storeUser);
-      _userController.add(storeUser);
-
-      _cache.write(
-          key: statusCacheKey, value: AuthenticationStatus.authenticated.index);
-      _statusController.add(AuthenticationStatus.authenticated);
       _streamUser();
     } on FirebaseAuthException catch (e) {
       throw LogInWithEmailAndPasswordFailure.fromCode(e.code);
@@ -232,8 +174,6 @@ class UserRepository {
           name: name ?? currentUser.name,
           nickName: nickName ?? currentUser.nickName,
         ));
-    _cache.write(key: userCacheKey, value: updatedUser);
-    _userController.add(updatedUser);
   }
 
   Future<AppUser> updateProfilePicture(String base64Picture) async {
@@ -248,8 +188,6 @@ class UserRepository {
       await _usersCollection
           .doc(_firebaseAuth.currentUser!.uid)
           .set(updatedUser);
-      _cache.write(key: userCacheKey, value: updatedUser);
-      _userController.add(updatedUser);
       return _firebaseAuth.currentUser!.toUser;
     } on FirebaseException catch (_) {
       // e.g, e.code == 'canceled'
@@ -263,6 +201,7 @@ class UserRepository {
   /// Throws a [LogOutFailure] if an exception occurs.
   Future<void> logOut() async {
     try {
+      await _userStreamSub.cancel();
       await Future.wait([
         _firebaseAuth.signOut().then((value) {
           _cache.write(

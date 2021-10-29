@@ -92,45 +92,35 @@ class _DetailsContent extends StatelessWidget {
   static const Padding _contentPadding =
       Padding(padding: EdgeInsets.only(top: 10));
 
-  Widget _buildCountsRow(BuildContext context, AppUser user) {
-    final affirmationsCount = BlocBuilder<AffirmationsBloc, AffirmationsState>(
-        builder: (context, state) {
-      return _CountDisplay(
-        label: 'Affirmations',
-        value: state.affirmations
-            .where((element) => element.createdById == user.id)
-            .length,
-        key: PositiveAffirmationsKeys.profileAffirmationsCount(user.id),
-      );
-    });
-    final lettersCount = BlocBuilder<AffirmationsBloc, AffirmationsState>(
-        builder: (context, state) {
-      return _CountDisplay(
-        label: 'Letters',
-        value: state.affirmations
-            .where((element) => element.createdById == user.id)
-            .length,
-        key: PositiveAffirmationsKeys.profileLettersCount(user.id),
-      );
-    });
-    final reaffirmationsCount =
-        BlocBuilder<AffirmationsBloc, AffirmationsState>(
-            builder: (context, state) {
-      return _CountDisplay(
-        label: 'Reaffirmations',
-        value: state.affirmations
-            .where((element) => element.createdById == user.id)
-            .length,
-        key: PositiveAffirmationsKeys.profileReaffirmationsCount(user.id),
-      );
-    });
+  Widget _buildCountsRow(
+    BuildContext context,
+    AppUser user, {
+    required int affirmationsCount,
+    required int reaffirmationsCount,
+    required int lettersCount,
+  }) {
+    final affirmationsCountDisplay = _CountDisplay(
+      label: 'Affirmations',
+      value: affirmationsCount,
+      key: PositiveAffirmationsKeys.profileAffirmationsCount(user.id),
+    );
+    final lettersCountDisplay = _CountDisplay(
+      label: 'Letters',
+      value: lettersCount,
+      key: PositiveAffirmationsKeys.profileLettersCount(user.id),
+    );
+    final reaffirmationsCountDisplay = _CountDisplay(
+      label: 'Reaffirmations',
+      value: reaffirmationsCount,
+      key: PositiveAffirmationsKeys.profileReaffirmationsCount(user.id),
+    );
 
     return Wrap(
       spacing: 30,
       children: [
-        affirmationsCount,
-        lettersCount,
-        reaffirmationsCount,
+        affirmationsCountDisplay,
+        lettersCountDisplay,
+        reaffirmationsCountDisplay,
       ],
     );
   }
@@ -158,7 +148,13 @@ class _DetailsContent extends StatelessWidget {
               key: PositiveAffirmationsKeys.profileNickName(state.user.id),
             ),
             _contentPadding,
-            _buildCountsRow(context, state.user),
+            _buildCountsRow(
+              context,
+              state.user,
+              affirmationsCount: state.user.affirmationCount,
+              lettersCount: state.user.letterCount,
+              reaffirmationsCount: state.user.reaffirmationCount,
+            ),
             _contentPadding,
           ],
         );

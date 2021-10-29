@@ -9,7 +9,7 @@ part 'authentication_event.dart';
 part 'authentication_state.dart';
 
 class AuthenticationBloc
-    extends HydratedBloc<AuthenticationEvent, AuthenticationState> {
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc({required UserRepository userRepository})
       : _userRepository = userRepository,
         super(const AuthenticationState.unauthenticated()) {
@@ -52,23 +52,23 @@ class AuthenticationBloc
     }
   }
 
-  @override
-  AuthenticationState? fromJson(Map<String, dynamic> json) {
-    final AuthenticationStatus status = AuthenticationStatus
-        .values[json[AuthenticationState.fieldStatus] as int];
-
-    switch (status) {
-      case AuthenticationStatus.unauthenticated:
-        return const AuthenticationState.unauthenticated();
-      case AuthenticationStatus.authenticated:
-        return const AuthenticationState.authenticated();
-      default:
-        return const AuthenticationState.unknown();
-    }
-  }
-
-  @override
-  Map<String, dynamic>? toJson(AuthenticationState state) => {
-        AuthenticationState.fieldStatus: state.status.index,
-      };
+  // @override
+  // AuthenticationState? fromJson(Map<String, dynamic> json) {
+  //   final AuthenticationStatus status = AuthenticationStatus
+  //       .values[json[AuthenticationState.fieldStatus] as int];
+  //
+  //   switch (status) {
+  //     case AuthenticationStatus.unauthenticated:
+  //       return const AuthenticationState.unauthenticated();
+  //     case AuthenticationStatus.authenticated:
+  //       return const AuthenticationState.authenticated();
+  //     default:
+  //       return const AuthenticationState.unknown();
+  //   }
+  // }
+  //
+  // @override
+  // Map<String, dynamic>? toJson(AuthenticationState state) => {
+  //       AuthenticationState.fieldStatus: state.status.index,
+  //     };
 }
