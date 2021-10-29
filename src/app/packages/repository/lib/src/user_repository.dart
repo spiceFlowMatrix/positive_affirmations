@@ -40,6 +40,24 @@ class UserRepository {
     //     return user;
     //   }
     // });
+
+    if (_firebaseAuth.currentUser != null) {
+      _usersCollection
+          .doc(_firebaseAuth.currentUser!.uid)
+          .snapshots()
+          .map((event) {
+        if (event.data() != null) {
+          _cache.write(key: userCacheKey, value: event.data()!);
+          _userController.add(event.data()!);
+
+          _cache.write(
+            key: statusCacheKey,
+            value: AuthenticationStatus.authenticated,
+          );
+          _statusController.add(AuthenticationStatus.authenticated);
+        }
+      });
+    }
   }
 
   final CacheClient _cache;
