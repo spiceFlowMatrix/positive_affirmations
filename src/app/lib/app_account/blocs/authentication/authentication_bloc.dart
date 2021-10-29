@@ -14,6 +14,7 @@ class AuthenticationBloc
       : _userRepository = userRepository,
         super(const AuthenticationState.unauthenticated()) {
     _authStatusSub = _userRepository.status.listen((status) {
+      print('auth status updated: ${status.toString()}');
       add(AuthenticationStatusChanged(status: status));
     });
   }

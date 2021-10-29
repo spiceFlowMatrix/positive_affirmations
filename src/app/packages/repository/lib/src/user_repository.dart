@@ -40,24 +40,6 @@ class UserRepository {
     //     return user;
     //   }
     // });
-
-    if (_firebaseAuth.currentUser != null) {
-      _usersCollection
-          .doc(_firebaseAuth.currentUser!.uid)
-          .snapshots()
-          .map((event) {
-        if (event.data() != null) {
-          _cache.write(key: userCacheKey, value: event.data()!);
-          _userController.add(event.data()!);
-
-          _cache.write(
-            key: statusCacheKey,
-            value: AuthenticationStatus.authenticated,
-          );
-          _statusController.add(AuthenticationStatus.authenticated);
-        }
-      });
-    }
   }
 
   final CacheClient _cache;
@@ -88,6 +70,26 @@ class UserRepository {
         : AuthenticationStatus.unknown;
   }
 
+  void _streamUser() {
+    if (_firebaseAuth.currentUser != null) {
+      _usersCollection
+          .doc(_firebaseAuth.currentUser!.uid)
+          .snapshots()
+          .map((event) {
+        if (event.data() != null) {
+          _cache.write(key: userCacheKey, value: event.data()!);
+          _userController.add(event.data()!);
+
+          _cache.write(
+            key: statusCacheKey,
+            value: AuthenticationStatus.authenticated,
+          );
+          _statusController.add(AuthenticationStatus.authenticated);
+        }
+      });
+    }
+  }
+
   /// Stream of [AppUser] which will emit the current user when
   /// the authentication state changes.
   ///
@@ -100,6 +102,7 @@ class UserRepository {
             .get()
             .then((value) => value.data()!);
         _cache.write(key: userCacheKey, value: existingUser);
+        _streamUser();
         yield existingUser;
       } catch (_) {
         yield currentUser;
@@ -150,6 +153,8 @@ class UserRepository {
       _cache.write(
           key: statusCacheKey, value: AuthenticationStatus.authenticated.index);
       _statusController.add(AuthenticationStatus.authenticated);
+
+      _streamUser();
       return newUser;
     } on FirebaseAuthException catch (e) {
       throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
@@ -182,6 +187,7 @@ class UserRepository {
       _cache.write(
           key: statusCacheKey, value: AuthenticationStatus.authenticated.index);
       _statusController.add(AuthenticationStatus.authenticated);
+      _streamUser();
     } on FirebaseAuthException catch (e) {
       throw LogInWithEmailAndPasswordFailure.fromCode(e.code);
     } catch (_) {
