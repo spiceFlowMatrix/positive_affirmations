@@ -153,6 +153,14 @@ class UserRepository {
         email: email,
         password: password,
       );
+      final storeUser = await _usersCollection
+          .doc(_firebaseAuth.currentUser!.uid)
+          .get()
+          .then((value) => value.data()!);
+
+      _cache.write(key: userCacheKey, value: storeUser);
+      _userController.add(storeUser);
+
       _cache.write(
           key: statusCacheKey, value: AuthenticationStatus.authenticated.index);
       _statusController.add(AuthenticationStatus.authenticated);
