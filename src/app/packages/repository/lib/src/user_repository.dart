@@ -75,12 +75,25 @@ class UserRepository {
   ///
   /// Emits [AppUser.empty] if the user is not authenticated.
   Stream<AppUser> get user async* {
-    yield currentUser;
+    if (_firebaseAuth.currentUser != null) {
+      try {
+        final existingUser = await _usersCollection
+            .doc(_firebaseAuth.currentUser!.uid)
+            .get()
+            .then((value) => value.data()!);
+        _cache.write(key: userCacheKey, value: existingUser);
+        yield existingUser;
+      } catch (_) {
+        yield currentUser;
+      }
+    }
     yield* _userController.stream;
   }
 
   Stream<AuthenticationStatus> get status async* {
-    yield currentStatus;
+    if (_firebaseAuth.currentUser != null) {
+      yield AuthenticationStatus.authenticated;
+    }
     yield* _statusController.stream;
   }
 
@@ -206,7 +219,7 @@ class UserRepository {
       _cache.write(key: userCacheKey, value: updatedUser);
       _userController.add(updatedUser);
       return _firebaseAuth.currentUser!.toUser;
-    } on FirebaseException catch (e) {
+    } on FirebaseException catch (_) {
       // e.g, e.code == 'canceled'
       rethrow;
     }
@@ -220,11 +233,14 @@ class UserRepository {
     try {
       await Future.wait([
         _firebaseAuth.signOut().then((value) {
-          _statusController.add(AuthenticationStatus.unauthenticated);
           _cache.write(
             key: statusCacheKey,
             value: AuthenticationStatus.unauthenticated.index,
           );
+          _statusController.add(AuthenticationStatus.unauthenticated);
+
+          _cache.write(key: userCacheKey, value: AppUser.empty);
+          _userController.add(AppUser.empty);
         }),
       ]);
     } catch (_) {

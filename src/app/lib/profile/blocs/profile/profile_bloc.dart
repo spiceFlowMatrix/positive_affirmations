@@ -20,7 +20,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<PictureUpdated>(_mapPictureUpdatedToState);
     on<LoggedOut>(_mapLoggedOutToState);
     _appUserSubscription = _userRepository.user.listen((user) {
-      print('user updated: ${user.toString()}');
       add(UserUpdated(user: user));
     });
   }
