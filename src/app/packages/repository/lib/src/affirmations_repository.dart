@@ -119,20 +119,23 @@ class AffirmationsRepository {
     required String affirmationId,
     required Reaffirmation reaffirmation,
   }) async {
-    _affirmationsCollection
-        .doc(affirmationId)
-        .collection('reaffirmations')
+    reaffirmationCollection(affirmationId)
         .doc(reaffirmation.id)
-        .set(reaffirmation.fieldValues);
+        .set(reaffirmation);
 
     return _affirmationsCollection.doc(affirmationId).get().then((value) async {
-      final fetchedAffirmation = Affirmation.fromSnapshot(value).copyWith(
-        totalReaffirmations:
-            Affirmation.fromSnapshot(value).totalReaffirmations + 1,
-      );
-      await _affirmationsCollection.doc(affirmationId).update(
-            fetchedAffirmation.fieldValues,
+      final fetchedAffirmation = value.data()!.copyWith(
+            totalReaffirmations:
+                Affirmation.fromSnapshot(value).totalReaffirmations + 1,
           );
+      await _affirmationsCollection.doc(affirmationId).set(fetchedAffirmation);
+      final affirmationUser = await _usersCollection
+          .doc(fetchedAffirmation.createdById)
+          .get()
+          .then((value) => value.data()!);
+      await _usersCollection
+          .doc(affirmationUser.id)
+          .set(affirmationUser.copyWith(reaffirmationCount: affirmationUser.reaffirmationCount + 1));
       return fetchedAffirmation;
     });
   }
