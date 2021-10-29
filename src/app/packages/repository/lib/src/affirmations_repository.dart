@@ -15,6 +15,11 @@ class AffirmationsRepository {
         fromFirestore: (snapshot, _) => Affirmation.fromJson(snapshot.data()!),
         toFirestore: (affirmation, _) => affirmation.fieldValues,
       );
+  final _usersCollection =
+      FirebaseFirestore.instance.collection('users').withConverter(
+            fromFirestore: (snapshot, _) => AppUser.fromJson(snapshot.data()!),
+            toFirestore: (affirmation, _) => affirmation.fieldValues,
+          );
 
   CollectionReference<AffirmationLike> likesCollection(String affirmationId) {
     return _affirmationsCollection
@@ -41,8 +46,13 @@ class AffirmationsRepository {
 
   Future<void> saveAffirmation(Affirmation affirmation) async {
     await _affirmationsCollection.doc(affirmation.id).set(affirmation);
-    print('currentUser: ${userRepository.currentUser.toString()}');
-    // final user = await _users
+    final user = await _usersCollection
+        .doc(userRepository.currentUser.id)
+        .get()
+        .then((value) => value.data()!);
+    await _usersCollection
+        .doc(userRepository.currentUser.id)
+        .set(user.copyWith(affirmationCount: user.affirmationCount + 1));
   }
 
   Future<List<Affirmation>> getAffirmations({
