@@ -22,8 +22,10 @@ void main() async {
   HydratedBloc.storage =
       await HydratedStorage.build(storageDirectory: documentsDirectory);
 
+  final userRepo = UserRepository();
+
   runApp(App(
-    userRepository: UserRepository(),
-    affirmationsRepository: AffirmationsRepository(),
+    userRepository: userRepo,
+    affirmationsRepository: AffirmationsRepository(userRepository: userRepo),
   ));
 }

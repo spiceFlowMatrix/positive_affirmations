@@ -3,6 +3,12 @@ import 'package:repository/repository.dart';
 import 'package:uuid/uuid.dart';
 
 class AffirmationsRepository {
+  AffirmationsRepository({
+    required this.userRepository,
+  });
+
+  final UserRepository userRepository;
+
   final _affirmationsCollection = FirebaseFirestore.instance
       .collection('affirmations')
       .withConverter(
@@ -35,6 +41,8 @@ class AffirmationsRepository {
 
   Future<void> saveAffirmation(Affirmation affirmation) async {
     await _affirmationsCollection.doc(affirmation.id).set(affirmation);
+    print('currentUser: ${userRepository.currentUser.toString()}');
+    // final user = await _users
   }
 
   Future<List<Affirmation>> getAffirmations({
