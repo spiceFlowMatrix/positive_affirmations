@@ -5,6 +5,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:repository/repository.dart';
 
 part 'authentication_event.dart';
+
 part 'authentication_state.dart';
 
 class AuthenticationBloc
@@ -12,23 +13,18 @@ class AuthenticationBloc
   AuthenticationBloc({required UserRepository userRepository})
       : _userRepository = userRepository,
         super(const AuthenticationState.unauthenticated()) {
-    _appUserSubscription = _userRepository.user.listen((user) {
-      if (user != AppUser.empty) {
-        add(const AuthenticationStatusChanged(
-            status: AuthenticationStatus.authenticated));
-      } else {
-        add(const AuthenticationStatusChanged(
-            status: AuthenticationStatus.unknown));
-      }
+    _authStatusSub = _userRepository.status.listen((status) {
+      add(AuthenticationStatusChanged(status: status));
     });
   }
 
   final UserRepository _userRepository;
-  late StreamSubscription<AppUser> _appUserSubscription;
+  late StreamSubscription<AuthenticationStatus> _authStatusSub;
 
   @override
   Future<void> close() {
-    _appUserSubscription.cancel();
+    _authStatusSub.cancel();
+    _userRepository.disposeStatus();
     return super.close();
   }
 
@@ -64,9 +60,9 @@ class AuthenticationBloc
       case AuthenticationStatus.unauthenticated:
         return const AuthenticationState.unauthenticated();
       case AuthenticationStatus.authenticated:
-        return AuthenticationState.authenticated();
+        return const AuthenticationState.authenticated();
       default:
-        return AuthenticationState.unknown();
+        return const AuthenticationState.unknown();
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:app/positive_affirmations_keys.dart';
 import 'package:app/positive_affirmations_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import 'package:repository/repository.dart';
 
 class AlreadyHaveAccountPanel extends StatelessWidget {
   const AlreadyHaveAccountPanel({Key? key}) : super(key: key);
