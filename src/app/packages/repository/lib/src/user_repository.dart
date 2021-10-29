@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:repository/src/cache_client.dart';
 import 'package:repository/src/exceptions/exceptions.dart';
 import 'package:repository/src/exceptions/sign_up_with_email_password_failure.dart';
@@ -178,11 +179,16 @@ class UserRepository {
     if (name != null) {
       await currentFirebaseUser.updateDisplayName(name);
     }
-
+    final updatedUser = currentUser.copyWith(
+      name: name ?? currentUser.name,
+      nickName: nickName ?? currentUser.nickName,
+    );
     await _usersCollection.doc(currentUser.id).set(currentUser.copyWith(
           name: name ?? currentUser.name,
           nickName: nickName ?? currentUser.nickName,
         ));
+    _cache.write(key: userCacheKey, value: updatedUser);
+    _userController.add(updatedUser);
   }
 
   Future<AppUser> updateProfilePicture(String base64Picture) async {
@@ -193,6 +199,12 @@ class UserRepository {
           .putString(dataUrl, format: PutStringFormat.dataUrl)
           .then((p0) => p0.ref.getDownloadURL());
       await _firebaseAuth.currentUser!.updatePhotoURL(url);
+      final updatedUser = currentUser.copyWith(pictureUrl: url);
+      await _usersCollection
+          .doc(_firebaseAuth.currentUser!.uid)
+          .set(updatedUser);
+      _cache.write(key: userCacheKey, value: updatedUser);
+      _userController.add(updatedUser);
       return _firebaseAuth.currentUser!.toUser;
     } on FirebaseException catch (e) {
       // e.g, e.code == 'canceled'
