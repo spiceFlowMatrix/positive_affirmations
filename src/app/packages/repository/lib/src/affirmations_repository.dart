@@ -71,7 +71,12 @@ class AffirmationsRepository {
     }
     return await query.get().then((value) {
       return value.docs.map((snapshot) {
-        return snapshot.data();
+        if (snapshot.data().likes.any(
+            (element) => element.byUserId == userRepository.currentUser.id)) {
+          return snapshot.data().copyWith(liked: true);
+        } else {
+          return snapshot.data();
+        }
       }).toList();
     });
   }
@@ -124,18 +129,22 @@ class AffirmationsRepository {
         .set(reaffirmation);
 
     return _affirmationsCollection.doc(affirmationId).get().then((value) async {
-      final fetchedAffirmation = value.data()!.copyWith(
+      Affirmation fetchedAffirmation = value.data()!.copyWith(
             totalReaffirmations:
                 Affirmation.fromSnapshot(value).totalReaffirmations + 1,
           );
+      if (fetchedAffirmation.likes.any(
+          (element) => element.byUserId == userRepository.currentUser.id)) {
+        fetchedAffirmation = fetchedAffirmation.copyWith(liked: true);
+      }
       await _affirmationsCollection.doc(affirmationId).set(fetchedAffirmation);
       final affirmationUser = await _usersCollection
           .doc(fetchedAffirmation.createdById)
           .get()
           .then((value) => value.data()!);
-      await _usersCollection
-          .doc(affirmationUser.id)
-          .set(affirmationUser.copyWith(reaffirmationCount: affirmationUser.reaffirmationCount + 1));
+      await _usersCollection.doc(affirmationUser.id).set(
+          affirmationUser.copyWith(
+              reaffirmationCount: affirmationUser.reaffirmationCount + 1));
       return fetchedAffirmation;
     });
   }
@@ -155,6 +164,8 @@ class AffirmationsRepository {
     toUpdateAffirmation = toUpdateAffirmation.copyWith(
       title: title ?? toUpdateAffirmation.title,
       subtitle: subtitle ?? toUpdateAffirmation.subtitle,
+      liked: toUpdateAffirmation.likes
+          .any((element) => element.byUserId == userRepository.currentUser.id),
     );
 
     await _affirmationsCollection.doc(affirmationId).set(toUpdateAffirmation);

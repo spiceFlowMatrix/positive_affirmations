@@ -47,11 +47,11 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
           await affirmationsRepository.getAffirmations(
         userId: event.forUser ? userRepository.currentUser.id : null,
       );
-      affirmations = affirmations
-          .map((e) => e.copyWith(
-              liked: e.likes.any((element) =>
-                  element.byUserId == userRepository.currentUser.id)))
-          .toList();
+      // affirmations = affirmations
+      //     .map((e) => e.copyWith(
+      //         liked: e.likes.any((element) =>
+      //             element.byUserId == userRepository.currentUser.id)))
+      //     .toList();
       emit(state.copyWith(
         loadingStatus: FormzStatus.submissionSuccess,
         loadingError: '',
@@ -150,7 +150,7 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
       affirmations: [
         ...state.affirmations.map((e) {
           if (e.id == updatedAffirmation.id) {
-            return updatedAffirmation.copyWith(liked: e.liked);
+            return updatedAffirmation;
           } else {
             return e;
           }
