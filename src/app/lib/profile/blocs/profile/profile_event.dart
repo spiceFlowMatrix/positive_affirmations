@@ -46,9 +46,19 @@ class PictureUpdated extends ProfileEvent {
 
 class LetterCreationScheduleUpdated extends ProfileEvent {
   const LetterCreationScheduleUpdated({required this.schedule});
+
   final LetterCreationSchedule schedule;
+
   @override
   List<Object> get props => [schedule];
+}
+
+class VerificationChecked extends ProfileEvent {
+  const VerificationChecked();
+
+  @override
+  List<Object> get props => [];
+
 }
 
 class LoggedOut extends ProfileEvent {

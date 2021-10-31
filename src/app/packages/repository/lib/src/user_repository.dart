@@ -155,6 +155,21 @@ class UserRepository {
     }
   }
 
+  Future<void> checkIfVerified() async {
+    try {
+      await _firebaseAuth.currentUser!.reload();
+      final user = _firebaseAuth.currentUser!;
+      if (user.emailVerified != currentUser.emailVerified &&
+          user.emailVerified == true) {
+        await _usersCollection
+            .doc(currentUser.id)
+            .set(currentUser.copyWith(emailVerified: true));
+      }
+    } catch (_) {
+      rethrow;
+    }
+  }
+
   Future<void> editUser({
     String? name,
     String? nickName,
