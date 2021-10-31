@@ -150,7 +150,7 @@ class AffirmationsBloc extends Bloc<AffirmationsEvent, AffirmationsState> {
       affirmations: [
         ...state.affirmations.map((e) {
           if (e.id == updatedAffirmation.id) {
-            return updatedAffirmation;
+            return updatedAffirmation.copyWith(liked: e.liked);
           } else {
             return e;
           }
