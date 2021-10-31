@@ -79,10 +79,6 @@ export const makeid = (length: number): string => {
   return result;
 };
 
-// Get all affirmations by given user
-// Get all reaffirmations for all the fetched affirmations
-// Create a new letter
-
 export const generateLetters = async (userId: string):
     Promise<LetterAffirmation[]> => {
   const affirmations = await firestore.collection("affirmations")
