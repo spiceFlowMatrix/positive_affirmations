@@ -36,10 +36,16 @@ class _OptionsButton extends StatelessWidget {
     }
   }
 
-  List<ListTile> _generateScheduleOptions() {
+  List<ListTile> _generateScheduleOptions(BuildContext context) {
     return LetterCreationSchedule.values.map((value) {
       return ListTile(
         title: Text(_generateTitleText(value)),
+        onTap: () {
+          context
+              .read<ProfileBloc>()
+              .add(LetterCreationScheduleUpdated(schedule: value));
+          Navigator.of(context).pop();
+        },
       );
     }).toList();
   }
@@ -65,7 +71,7 @@ class _OptionsButton extends StatelessWidget {
                       ),
                     ),
                     const Divider(height: 0, thickness: 1.5),
-                    ..._generateScheduleOptions(),
+                    ..._generateScheduleOptions(context),
                   ],
                 );
               },
