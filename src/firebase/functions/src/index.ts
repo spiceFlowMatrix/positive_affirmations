@@ -36,7 +36,7 @@ export interface LetterAffirmation {
 
 export interface Letter {
     id: string;
-    createdOn: Date;
+    createdOn: Date | string;
     totalAffirmations: number;
     affirmations: LetterAffirmation[];
 }
@@ -54,7 +54,7 @@ export const helloWorld = functions.https
         generateLetters(applicableUsers[i].id);
         const newLetter = <Letter>{
           id: makeid(32),
-          createdOn: new Date(Date.now()),
+          createdOn: moment(moment.now()).utc().toISOString(),
           totalAffirmations: letterAffirmations.length,
           affirmations: letterAffirmations,
         };
