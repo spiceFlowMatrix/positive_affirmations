@@ -195,6 +195,12 @@ class UserRepository {
     }
   }
 
+  Future<void> updateLetterSchedule(LetterCreationSchedule schedule) async {
+    await _usersCollection
+        .doc(currentUser.id)
+        .set(currentUser.copyWith(letterSchedule: schedule));
+  }
+
   /// Signs out the current user which will emit
   /// [User.empty] from the [user] Stream.
   ///
