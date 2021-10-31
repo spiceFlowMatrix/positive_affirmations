@@ -66,7 +66,7 @@ export const helloWorld = functions.https
             .set({
               ...applicableUsers[i],
               lettersCount: applicableUsers[i].lettersCount + 1,
-              lettersLastGeneratedOn: moment(moment.now()).utc(),
+              lettersLastGeneratedOn: moment(moment.now()).utc().toISOString(),
             });
       }
       resp.send("Success");
@@ -76,7 +76,7 @@ export const getLetterApplicableUsers = (users: any[]) => {
   let applicableUsers: any[] = [];
   users.forEach((user: {
         id: any;
-        lettersLastGeneratedOn: moment.Moment;
+        lettersLastGeneratedOn: string;
         letterSchedule: LetterCreationSchedule;
     }) => {
     if (!user.lettersLastGeneratedOn) {
@@ -87,9 +87,6 @@ export const getLetterApplicableUsers = (users: any[]) => {
     const now = moment(moment.now());
     const lastGeneratedMoment = moment(user.lettersLastGeneratedOn);
     const diffSeconds = now.diff(lastGeneratedMoment, "seconds");
-    console.log(`user: ${user.id}`);
-    console.log(`lastGeneratedOn: ${lastGeneratedMoment}`);
-    console.log(`diffDuration: ${diffSeconds}`);
     switch (schedule) {
       case LetterCreationSchedule.daily:
         if (Math.round(moment.duration(diffSeconds).asDays()) >= 1) {
