@@ -45,11 +45,10 @@ export const helloWorld = functions.https
     .onRequest(async (req, resp) => {
       const users = await firestore.collection("users").get();
       for (let i = 0; i < users.docs.length; i++) {
-        console.log(JSON.stringify(users.docs[i].data()));
         const letterAffirmations = await
         generateLetters(users.docs[i].data().id);
         const newLetter = <Letter>{
-          id: makeid(15),
+          id: makeid(32),
           createdOn: new Date(Date.now()),
           totalAffirmations: letterAffirmations.length,
           affirmations: letterAffirmations,
@@ -57,6 +56,12 @@ export const helloWorld = functions.https
         await firestore.collection("users")
             .doc(users.docs[i].data().id).collection("letters")
             .doc(newLetter.id).set(newLetter);
+        await firestore.collection("users")
+            .doc(users.docs[i].data().id)
+            .set({
+              ...users.docs[i].data().id,
+              lettersCount: users.docs[i].data().lettersCount + 1,
+            });
       }
       resp.send("Success");
     });
