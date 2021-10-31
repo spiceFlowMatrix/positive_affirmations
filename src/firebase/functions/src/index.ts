@@ -59,7 +59,7 @@ export const helloWorld = functions.https
         await firestore.collection("users")
             .doc(users.docs[i].data().id)
             .set({
-              ...users.docs[i].data().id,
+              ...users.docs[i].data(),
               lettersCount: users.docs[i].data().lettersCount + 1,
             });
       }
