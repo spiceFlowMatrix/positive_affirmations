@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+import * as moment from "moment/moment";
 
 admin.initializeApp(functions.config().firebase);
 const firestore = admin.firestore();
@@ -14,6 +15,8 @@ export enum ReaffirmationFont {
     gemunuLibre,
     montserrat
 }
+
+export enum LetterCreationSchedule { daily, weekly, monthly, never }
 
 export interface LetterAffirmationReaffirmation {
     id: string;
@@ -44,9 +47,11 @@ export interface Letter {
 export const helloWorld = functions.https
     .onRequest(async (req, resp) => {
       const users = await firestore.collection("users").get();
-      for (let i = 0; i < users.docs.length; i++) {
+      const applicableUsers = getLetterApplicableUsers(users.docs
+          .map((value) => value.data()));
+      for (let i = 0; i < applicableUsers.length; i++) {
         const letterAffirmations = await
-        generateLetters(users.docs[i].data().id);
+        generateLetters(applicableUsers[i].id);
         const newLetter = <Letter>{
           id: makeid(32),
           createdOn: new Date(Date.now()),
@@ -54,18 +59,60 @@ export const helloWorld = functions.https
           affirmations: letterAffirmations,
         };
         await firestore.collection("users")
-            .doc(users.docs[i].data().id).collection("letters")
+            .doc(applicableUsers[i].id).collection("letters")
             .doc(newLetter.id).set(newLetter);
         await firestore.collection("users")
-            .doc(users.docs[i].data().id)
+            .doc(applicableUsers[i].id)
             .set({
-              ...users.docs[i].data(),
-              lettersCount: users.docs[i].data().lettersCount + 1,
-              lettersLastGeneratedOn: new Date(Date.now()),
+              ...applicableUsers[i],
+              lettersCount: applicableUsers[i].lettersCount + 1,
+              lettersLastGeneratedOn: moment(moment.now()).utc(),
             });
       }
       resp.send("Success");
     });
+
+export const getLetterApplicableUsers = (users: any[]) => {
+  let applicableUsers: any[] = [];
+  users.forEach((user: {
+        id: any;
+        lettersLastGeneratedOn: moment.Moment;
+        letterSchedule: LetterCreationSchedule;
+    }) => {
+    if (!user.lettersLastGeneratedOn) {
+      applicableUsers = [...applicableUsers, user];
+      return;
+    }
+    const schedule = user.letterSchedule;
+    const now = moment(moment.now());
+    const lastGeneratedMoment = moment(user.lettersLastGeneratedOn);
+    const diffSeconds = now.diff(lastGeneratedMoment, "seconds");
+    console.log(`user: ${user.id}`);
+    console.log(`lastGeneratedOn: ${lastGeneratedMoment}`);
+    console.log(`diffDuration: ${diffSeconds}`);
+    switch (schedule) {
+      case LetterCreationSchedule.daily:
+        if (Math.round(moment.duration(diffSeconds).asDays()) >= 1) {
+          applicableUsers = [...applicableUsers, user];
+        }
+        break;
+      case LetterCreationSchedule.weekly:
+        if (Math.round(moment.duration(diffSeconds).asWeeks()) >= 1) {
+          applicableUsers = [...applicableUsers, user];
+        }
+        break;
+      case LetterCreationSchedule.monthly:
+        if (Math.round(moment.duration(diffSeconds).asMonths()) >= 1) {
+          applicableUsers = [...applicableUsers, user];
+        }
+        break;
+      case LetterCreationSchedule.never:
+        break;
+    }
+  });
+
+  return applicableUsers;
+};
 
 export const makeid = (length: number): string => {
   let result = "";
