@@ -61,6 +61,7 @@ export const helloWorld = functions.https
             .set({
               ...users.docs[i].data(),
               lettersCount: users.docs[i].data().lettersCount + 1,
+              lettersLastGeneratedOn: new Date(Date.now()),
             });
       }
       resp.send("Success");
