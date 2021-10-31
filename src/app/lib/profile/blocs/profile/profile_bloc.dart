@@ -18,6 +18,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<ProfileEdited>(_mapProfileEditedToState);
     on<UserUpdated>(_mapUserUpdatedToState);
     on<PictureUpdated>(_mapPictureUpdatedToState);
+    on<LetterCreationScheduleUpdated>(_mapLetterScheduleUpdatedToState);
     on<LoggedOut>(_mapLoggedOutToState);
     _appUserSubscription = _userRepository.user.listen((user) {
       add(UserUpdated(user: user));
@@ -70,6 +71,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Future<void> _mapPictureUpdatedToState(
       PictureUpdated event, Emitter<ProfileState> emit) async {
     await _userRepository.updateProfilePicture(event.pictureB64Enc);
+  }
+
+  Future<void> _mapLetterScheduleUpdatedToState(
+      LetterCreationScheduleUpdated event, Emitter<ProfileState> emit) async {
+    await _userRepository.updateLetterSchedule(event.schedule);
   }
 
   Future<void> _mapLoggedOutToState(

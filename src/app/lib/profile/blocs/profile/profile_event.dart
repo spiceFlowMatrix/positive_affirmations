@@ -44,6 +44,13 @@ class PictureUpdated extends ProfileEvent {
   List<Object?> get props => [pictureB64Enc];
 }
 
+class LetterCreationScheduleUpdated extends ProfileEvent {
+  const LetterCreationScheduleUpdated({required this.schedule});
+  final LetterCreationSchedule schedule;
+  @override
+  List<Object> get props => [schedule];
+}
+
 class LoggedOut extends ProfileEvent {
   @override
   List<Object> get props => [];
