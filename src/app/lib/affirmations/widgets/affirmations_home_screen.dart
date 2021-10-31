@@ -3,7 +3,9 @@ import 'package:app/affirmations/blocs/apptab/apptab_bloc.dart';
 import 'package:app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:app/affirmations/widgets/affirmations_list.dart';
 import 'package:app/affirmations/widgets/app_navigator.dart';
+import 'package:app/app_account/widgets/unverified_account_screen.dart';
 import 'package:app/positive_affirmations_keys.dart';
+import 'package:app/profile/blocs/profile/profile_bloc.dart';
 import 'package:app/profile/widgets/profile_details_body.dart';
 import 'package:app/profile/widgets/profile_options_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,25 @@ class AffirmationsHomeScreen extends StatelessWidget {
   }) : super(key: key);
 
   static const routeName = '/homeScreen';
+
+  final AffirmationsBloc? affirmationsBloc;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        if (state.user.emailVerified) {
+          return _Screen(affirmationsBloc: affirmationsBloc);
+        } else {
+          return const UnverifiedAccountScreen();
+        }
+      },
+    );
+  }
+}
+
+class _Screen extends StatelessWidget {
+  const _Screen({required this.affirmationsBloc});
 
   final AffirmationsBloc? affirmationsBloc;
 
