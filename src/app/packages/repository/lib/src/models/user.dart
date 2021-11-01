@@ -130,7 +130,9 @@ class AppUser extends Equatable {
         fieldPictureUrl: pictureUrl,
         fieldEmailVerified: emailVerified,
         fieldLetterSchedule: letterSchedule.index,
-        fieldLettersLastGeneratedOn: lettersLastGeneratedOn,
+        fieldLettersLastGeneratedOn: lettersLastGeneratedOn != null
+            ? lettersLastGeneratedOn!.toIso8601String()
+            : null,
         fieldLettersCount: letterCount,
         fieldReaffirmationCount: reaffirmationCount,
         fieldAffirmationCount: affirmationCount,

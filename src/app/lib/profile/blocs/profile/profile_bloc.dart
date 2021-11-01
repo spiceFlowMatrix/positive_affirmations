@@ -87,6 +87,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Future<void> _mapLettersLoadedToState(
       LettersLoaded event, Emitter<ProfileState> emit) async {
+    print('lettersLoaded');
     emit(state.copyWith(
       lettersLoadStatus: FormzStatus.submissionInProgress,
     ));

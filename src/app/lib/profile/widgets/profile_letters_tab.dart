@@ -2,6 +2,7 @@ import 'package:app/profile/blocs/profile/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:formz/formz.dart';
 import 'package:repository/repository.dart';
 
 class ProfileLettersTab extends StatelessWidget {
@@ -115,18 +116,24 @@ class _List extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
-        return ListView.builder(
-          itemCount: state.letters.length + 1,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return _listHeader;
-            } else {
-              return _ListItem(
-                letter: state.letters[index - 1],
-              );
-            }
-          },
-        );
+        if (state.lettersLoadStatus == FormzStatus.submissionInProgress) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          return ListView.builder(
+            itemCount: state.letters.length + 1,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return _listHeader;
+              } else {
+                return _ListItem(
+                  letter: state.letters[index - 1],
+                );
+              }
+            },
+          );
+        }
       },
     );
   }

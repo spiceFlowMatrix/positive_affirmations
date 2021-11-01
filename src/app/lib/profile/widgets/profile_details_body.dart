@@ -29,6 +29,7 @@ class ProfileDetailsTabBody extends StatelessWidget {
     return BlocBuilder<ProfileTabBloc, ProfileTab>(
       builder: (context, tab) {
         return BlocBuilder<ProfileBloc, ProfileState>(
+          buildWhen: (previous, current) => previous.user != current.user,
           builder: (context, state) {
             switch (tab) {
               case ProfileTab.affirmations:
