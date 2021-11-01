@@ -246,6 +246,12 @@ class UserRepository {
       throw LogOutFailure();
     }
   }
+
+  Future<List<Letter>> getLetters() async {
+    return await _lettersCollection(currentUser.id)
+        .get()
+        .then((value) => value.docs.map((e) => e.data()).toList());
+  }
 }
 
 extension on User {
