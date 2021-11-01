@@ -38,39 +38,10 @@ export interface Letter {
     id: string;
     createdOn: Date | string;
     totalAffirmations: number;
+    opened: boolean;
+    openedOn?: Date | string | null;
     affirmations: LetterAffirmation[];
 }
-
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-export const helloWorld = functions.https
-    .onRequest(async (req, resp) => {
-      const users = await firestore.collection("users").get();
-      const applicableUsers = getLetterApplicableUsers(users.docs
-          .map((value) => value.data()));
-      for (let i = 0; i < applicableUsers.length; i++) {
-        const letterAffirmations = await
-        generateLetters(applicableUsers[i].id);
-        const newLetter = <Letter>{
-          id: makeid(32),
-          createdOn: moment(moment.now()).utc().toISOString(),
-          totalAffirmations: letterAffirmations.length,
-          affirmations: letterAffirmations,
-        };
-        await firestore.collection("users")
-            .doc(applicableUsers[i].id).collection("letters")
-            .doc(newLetter.id).set(newLetter);
-        await firestore.collection("users")
-            .doc(applicableUsers[i].id)
-            .set({
-              ...applicableUsers[i],
-              lettersCount: applicableUsers[i].lettersCount + 1,
-              lettersLastGeneratedOn: moment(moment.now()).utc().toISOString(),
-            });
-      }
-      resp.send("Success");
-    });
 
 export const getLetterApplicableUsers = (users: any[]) => {
   let applicableUsers: any[] = [];
@@ -164,13 +135,32 @@ export const generateLetters = async (userId: string):
 //   emailVerified: boolean;
 // }
 //
-// export const checkLetters = functions.pubsub.schedule("every 2 minutes")
-//     .onRun(async (context) => {
-//       const users = await firestore
-//           .collection("users")
-//           .get();
-//       users.docs.map((doc) => doc.data()).forEach((data) => {
-//         console.log(JSON.stringify(data));
-//       });
-//       return null;
-//     });
+export const checkLetters = functions.pubsub.schedule("every 24 hours")
+    .onRun(async (context) => {
+      const users = await firestore.collection("users").get();
+      const applicableUsers = getLetterApplicableUsers(users.docs
+          .map((value) => value.data()));
+      for (let i = 0; i < applicableUsers.length; i++) {
+        const letterAffirmations = await
+        generateLetters(applicableUsers[i].id);
+        const newLetter = <Letter>{
+          id: makeid(32),
+          createdOn: moment(moment.now()).utc().toISOString(),
+          totalAffirmations: letterAffirmations.length,
+          affirmations: letterAffirmations,
+          opened: false,
+          openedOn: null,
+        };
+        await firestore.collection("users")
+            .doc(applicableUsers[i].id).collection("letters")
+            .doc(newLetter.id).set(newLetter);
+        await firestore.collection("users")
+            .doc(applicableUsers[i].id)
+            .set({
+              ...applicableUsers[i],
+              lettersCount: applicableUsers[i].lettersCount + 1,
+              lettersLastGeneratedOn: moment(moment.now()).utc().toISOString(),
+            });
+      }
+      return null;
+    });
