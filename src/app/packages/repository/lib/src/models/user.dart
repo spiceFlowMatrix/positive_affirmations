@@ -39,7 +39,7 @@ class AppUser extends Equatable {
       numWords = names.length;
     }
     for (var i = 0; i < numWords; i++) {
-      initials += '${names[i][0]}';
+      initials += names[i][0];
     }
     return initials;
   }
@@ -54,7 +54,7 @@ class AppUser extends Equatable {
       numWords = names.length;
     }
     for (var i = 0; i < numWords; i++) {
-      initials += '${names[i][0]}';
+      initials += names[i][0];
     }
     return initials;
   }
