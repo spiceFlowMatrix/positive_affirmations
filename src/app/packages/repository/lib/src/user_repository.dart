@@ -29,6 +29,13 @@ class UserRepository {
             toFirestore: (affirmation, _) => affirmation.fieldValues,
           );
 
+  CollectionReference<Letter> _lettersCollection(String userId) {
+    return _usersCollection.doc(userId).collection('letters').withConverter(
+          fromFirestore: (snapshot, _) => Letter.fromJson(snapshot.data()!),
+          toFirestore: (letter, _) => letter.fieldValues,
+        );
+  }
+
   @visibleForTesting
   static const userCacheKey = '__user_cache_key__';
 
