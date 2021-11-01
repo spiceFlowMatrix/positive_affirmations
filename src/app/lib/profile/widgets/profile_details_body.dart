@@ -41,11 +41,15 @@ class ProfileDetailsTabBody extends StatelessWidget {
                   user: state.user,
                 );
               case ProfileTab.letters:
+                context.read<ProfileBloc>().add(const LettersLoaded());
                 return ProfileLettersTab(
                   key: PositiveAffirmationsKeys.profileLettersSubtabBody(
                       state.user.id),
                 );
               default:
+                context
+                    .read<AffirmationsBloc>()
+                    .add(const AffirmationsLoaded(forUser: true));
                 return ProfileAffirmationsTab(
                   key: PositiveAffirmationsKeys.profileAffirmationsSubtabBody(
                       state.user.id),

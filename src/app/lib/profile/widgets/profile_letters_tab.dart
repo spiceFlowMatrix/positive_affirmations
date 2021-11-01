@@ -101,20 +101,96 @@ class _OptionsButton extends StatelessWidget {
 }
 
 class _List extends StatelessWidget {
+  final Widget _listHeader = const ListTile(
+    title: Text(
+      'Letters',
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        color: Colors.grey,
+      ),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: const [
-        ListTile(
-          title: Text(
-            'Letters',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.grey,
-            ),
-          ),
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        return ListView.builder(
+          itemCount: state.letters.length + 1,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return _listHeader;
+            } else {
+              return _ListItem(
+                letter: state.letters[index - 1],
+              );
+            }
+          },
+        );
+      },
+    );
+  }
+}
+
+class _ListItem extends StatelessWidget {
+  const _ListItem({required this.letter});
+
+  final Letter letter;
+
+  String _stringifyMonth(int month) {
+    switch (month) {
+      case 1:
+        return 'January';
+      case 2:
+        return 'February';
+      case 3:
+        return 'March';
+      case 4:
+        return 'April';
+      case 5:
+        return 'May';
+      case 6:
+        return 'June';
+      case 7:
+        return 'July';
+      case 8:
+        return 'August';
+      case 9:
+        return 'September';
+      case 10:
+        return 'October';
+      case 11:
+        return 'November';
+      case 12:
+        return 'December';
+      default:
+        return 'N/A';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: FaIcon(
+        letter.opened
+            ? FontAwesomeIcons.envelopeOpen
+            : FontAwesomeIcons.envelope,
+        color: letter.opened ? Colors.grey : Colors.black,
+      ),
+      onTap: letter.opened ? null : () {},
+      title: Text(
+        '${letter.createdOn.day} ${_stringifyMonth(letter.createdOn.month)}, ${letter.createdOn.year}',
+        style: const TextStyle(
+          fontWeight: FontWeight.w500,
         ),
-      ],
+      ),
+      trailing: letter.opened
+          ? null
+          : const FaIcon(
+              FontAwesomeIcons.chevronRight,
+              color: Colors.black,
+              size: 18,
+            ),
     );
   }
 }
