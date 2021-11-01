@@ -13,11 +13,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-  if (!kReleaseMode) {
-    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-    FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-    await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
-  }
+  // if (!kReleaseMode) {
+  //   FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+  //   FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  //   await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
+  // }
   final documentsDirectory = await getApplicationDocumentsDirectory();
   HydratedBloc.storage =
       await HydratedStorage.build(storageDirectory: documentsDirectory);

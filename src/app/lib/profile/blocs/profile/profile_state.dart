@@ -7,6 +7,9 @@ class ProfileState extends Equatable {
     this.editError = '',
     this.pictureUpdateStatus = FormzStatus.pure,
     this.pictureUpdateError = '',
+    this.letters = const [],
+    this.lettersLoadStatus = FormzStatus.pure,
+    this.lettersLoadError = '',
   });
 
   final AppUser user;
@@ -14,6 +17,9 @@ class ProfileState extends Equatable {
   final String editError;
   final FormzStatus pictureUpdateStatus;
   final String pictureUpdateError;
+  final List<Letter> letters;
+  final FormzStatus lettersLoadStatus;
+  final String lettersLoadError;
 
   static const String fieldUser = 'user';
 
@@ -23,6 +29,9 @@ class ProfileState extends Equatable {
     String? editError,
     FormzStatus? pictureUpdateStatus,
     String? pictureUpdateError,
+    List<Letter>? letters,
+    FormzStatus? lettersLoadStatus,
+    String? lettersLoadError,
   }) {
     return ProfileState(
       user: user ?? this.user,
@@ -30,6 +39,9 @@ class ProfileState extends Equatable {
       editError: editError ?? this.editError,
       pictureUpdateStatus: pictureUpdateStatus ?? this.pictureUpdateStatus,
       pictureUpdateError: pictureUpdateError ?? this.pictureUpdateError,
+      letters: letters ?? this.letters,
+      lettersLoadStatus: lettersLoadStatus ?? this.lettersLoadStatus,
+      lettersLoadError: lettersLoadError ?? this.lettersLoadError,
     );
   }
 
@@ -40,5 +52,8 @@ class ProfileState extends Equatable {
         editError,
         pictureUpdateStatus,
         pictureUpdateError,
+        letters,
+        lettersLoadStatus,
+        lettersLoadError,
       ];
 }

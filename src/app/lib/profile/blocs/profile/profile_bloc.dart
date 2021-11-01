@@ -19,6 +19,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<UserUpdated>(_mapUserUpdatedToState);
     on<PictureUpdated>(_mapPictureUpdatedToState);
     on<LetterCreationScheduleUpdated>(_mapLetterScheduleUpdatedToState);
+    on<LettersLoaded>(_mapLettersLoadedToState);
     on<LoggedOut>(_mapLoggedOutToState);
     on<VerificationChecked>(_mapVerificationCheckedToState);
     _appUserSubscription = _userRepository.user.listen((user) {
@@ -82,6 +83,27 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Future<void> _mapVerificationCheckedToState(
       VerificationChecked event, Emitter<ProfileState> emit) async {
     await _userRepository.checkIfVerified();
+  }
+
+  Future<void> _mapLettersLoadedToState(
+      LettersLoaded event, Emitter<ProfileState> emit) async {
+    emit(state.copyWith(
+      lettersLoadStatus: FormzStatus.submissionInProgress,
+    ));
+    try {
+      final fetchedLetters = await _userRepository.getLetters();
+
+      emit(state.copyWith(
+        lettersLoadStatus: FormzStatus.submissionSuccess,
+        lettersLoadError: '',
+        letters: fetchedLetters,
+      ));
+    } catch (_) {
+      emit(state.copyWith(
+        lettersLoadStatus: FormzStatus.submissionFailure,
+        lettersLoadError: _.toString(),
+      ));
+    }
   }
 
   Future<void> _mapLoggedOutToState(

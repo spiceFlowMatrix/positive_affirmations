@@ -58,7 +58,13 @@ class VerificationChecked extends ProfileEvent {
 
   @override
   List<Object> get props => [];
+}
 
+class LettersLoaded extends ProfileEvent {
+  const LettersLoaded();
+
+  @override
+  List<Object> get props => [];
 }
 
 class LoggedOut extends ProfileEvent {
