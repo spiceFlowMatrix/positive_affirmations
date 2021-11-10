@@ -1,1 +1,9 @@
-Add ability to reaffirm an existing affirmation
+Reworked Account setup and login.
+
+Sync app data to cloud.
+
+Add letters feature.
+
+Add reaffirmations feature.
+
+Users can now share and reaffirm each other's affirmations.

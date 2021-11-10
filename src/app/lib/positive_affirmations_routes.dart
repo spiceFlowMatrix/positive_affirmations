@@ -1,6 +1,7 @@
 import 'package:app/affirmations/widgets/affirmation_detail_screen.dart';
 import 'package:app/affirmations/widgets/affirmation_form_screen.dart';
 import 'package:app/affirmations/widgets/affirmations_home_screen.dart';
+import 'package:app/app_account/widgets/auth_landing.dart';
 import 'package:app/app_account/widgets/sign_in_screen.dart';
 import 'package:app/app_account/widgets/verification_flow.dart';
 import 'package:app/app_account/widgets/widgets.dart';
@@ -15,7 +16,7 @@ class PositiveAffirmationsRoutes {
     return {
       AffirmationsHomeScreen.routeName: (context) =>
           const AffirmationsHomeScreen(),
-      AffirmationFormScreen.routeName: (context) => AffirmationFormScreen(),
+      AffirmationFormScreen.routeName: (context) => const AffirmationFormScreen(),
       AffirmationDetailScreen.routeName: (context) => AffirmationDetailScreen(),
       ProfileEditForm.routeName: (context) => ProfileEditForm(),
       ReaffirmationFormScreen.routeName: (context) => ReaffirmationFormScreen(),
@@ -23,6 +24,7 @@ class PositiveAffirmationsRoutes {
       VerificationFlow.routeName: (context) => const VerificationFlow(),
       SignInScreen.routeName: (context) => const SignInScreen(),
       ProfileOptionsScreen.routeName: (context) => const ProfileOptionsScreen(),
+      AuthLanding.routeName: (context) => const AuthLanding(),
     };
   }
 }
