@@ -18,8 +18,8 @@ void main() {
   const String validTitle = 'valid title';
   const String validSubtitle = 'valid sub title';
 
-  final String updatedTitle = 'updatedTitle';
-  final String updatedSubtitle = 'updatedSubtitle';
+  const String updatedTitle = 'updatedTitle';
+  const String updatedSubtitle = 'updatedSubtitle';
 
   setUp(() {
     seedAffirmations = [
@@ -41,8 +41,8 @@ void main() {
         build: () => affirmationsBloc,
         act: (bloc) {
           bloc
-            ..add(new AffirmationCreated(validTitle, validSubtitle))
-            ..add(new AffirmationCreated('$validTitle 2', '$validSubtitle 2'));
+            ..add(const AffirmationCreated(validTitle, validSubtitle))
+            ..add(const AffirmationCreated('$validTitle 2', '$validSubtitle 2'));
         },
         expect: () {
           return <AffirmationsState>[
@@ -86,7 +86,7 @@ void main() {
         build: () => affirmationsBloc,
         seed: () => AffirmationsState(affirmations: seedAffirmations),
         act: (bloc) {
-          bloc..add(AffirmationLiked(seedAffirmations[1].id));
+          bloc.add(AffirmationLiked(seedAffirmations[1].id));
         },
         expect: () {
           final updatedAffirmations = seedAffirmations.map((e) {
@@ -107,7 +107,7 @@ void main() {
         build: () => affirmationsBloc,
         seed: () => AffirmationsState(affirmations: seedAffirmations),
         act: (bloc) {
-          bloc..add(AffirmationActivationToggled(seedAffirmations[1].id));
+          bloc.add(AffirmationActivationToggled(seedAffirmations[1].id));
         },
         expect: () {
           final updatedAffirmations = seedAffirmations.map((e) {
@@ -129,7 +129,7 @@ void main() {
         seed: () => AffirmationsState(affirmations: seedAffirmations),
         act: (bloc) {
           bloc
-            ..add(AffirmationUpdated(
+            .add(AffirmationUpdated(
               seedAffirmations[1].id,
               updatedTitle,
               updatedSubtitle,
@@ -157,7 +157,7 @@ void main() {
         seed: () => AffirmationsState(affirmations: seedAffirmations),
         act: (bloc) {
           bloc
-            ..add(AffirmationUpdated(
+            .add(AffirmationUpdated(
               seedAffirmations[1].id,
               seedAffirmations[1].title,
               seedAffirmations[1].subtitle,
@@ -174,7 +174,7 @@ void main() {
         seed: () => AffirmationsState(affirmations: seedAffirmations),
         act: (bloc) {
           bloc
-            ..add(ReaffirmationCreated(
+            .add(ReaffirmationCreated(
               affirmationId: seedAffirmations[1].id,
               value: ReaffirmationValue.loveIt,
               font: ReaffirmationFont.montserrat,
