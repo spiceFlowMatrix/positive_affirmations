@@ -52,6 +52,11 @@ class AppTheme {
         primary: Colors.black,
       ),
     ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: Colors.black,
+      selectionHandleColor: secondaryColor,
+      selectionColor: secondaryColor.withOpacity(0.3),
+    ),
     inputDecorationTheme: InputDecorationTheme(
       labelStyle: TextStyle(
         color: Colors.black.withOpacity(0.5),
