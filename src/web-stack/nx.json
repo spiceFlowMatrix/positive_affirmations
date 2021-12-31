@@ -1,4 +1,8 @@
 {
+  "npmScope": "web-stack",
+  "affected": {
+    "defaultBase": "master"
+  },
   "implicitDependencies": {
     "package.json": {
       "dependencies": "*",
@@ -6,31 +10,25 @@
     },
     ".eslintrc.json": "*"
   },
-  "affected": {
-    "defaultBase": "master"
-  },
-  "npmScope": "web-stack",
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "parallel": 1
       }
     }
   },
-  "projects": {
-    "positive-affirmations": {
-      "tags": []
-    },
-    "positive-affirmations-e2e": {
-      "tags": [],
-      "implicitDependencies": ["positive-affirmations"]
-    },
-    "api": {
-      "tags": []
-    },
-    "api-interfaces": {
-      "tags": []
-    }
-  }
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/nest"
+  },
+  "defaultProject": "api"
 }
