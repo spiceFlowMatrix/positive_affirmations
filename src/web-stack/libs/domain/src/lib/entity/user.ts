@@ -8,21 +8,23 @@ import {AffirmationLikeEntity} from "./affirmation-like";
 @Entity('users')
 export class UserEntity extends BaseEntity implements IUser {
   @PrimaryGeneratedColumn()
-  id: number;
+  dbId: number;
   @PrimaryGeneratedColumn('uuid')
-  uiId: string;
+  dbUid: string;
 
   @Column('text')
-  name: string;
-
+  displayName: string | null;
   @Column('text')
-  nickName: string;
+  phoneNumber: string | null;
+  @Column('text')
+  photoURL: string | null;
+  @Column('text')
+  providerId: string;
+  @Column('text')
+  uid: string;
 
   @Column('text')
   email: string;
-
-  @Column('boolean', {nullable: false})
-  emailVerified: boolean;
 
   @Column({
     type: 'enum',
