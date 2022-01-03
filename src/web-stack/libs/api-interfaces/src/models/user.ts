@@ -1,8 +1,9 @@
 import {ILetter} from "./letter";
 import {IReaffirmation} from "./reaffirmation";
 import {IAffirmation} from "./affirmation";
+import {IAffirmationLike} from "./affirmation-like";
 
-enum LetterCreationSchedule { daily, weekly, monthly, never }
+export enum LetterCreationSchedule { daily, weekly, monthly, never }
 
 export interface IUser {
   id: number;
@@ -15,5 +16,6 @@ export interface IUser {
   lettersLastGeneratedOn: Date;
   letters: ILetter[];
   reaffirmations: IReaffirmation[];
-  affirmation: IAffirmation[];
+  affirmations: IAffirmation[];
+  affirmationLikes: IAffirmationLike[];
 }
