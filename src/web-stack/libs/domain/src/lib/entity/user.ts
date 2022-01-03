@@ -9,7 +9,7 @@ import {AffirmationLikeEntity} from "./affirmation-like";
 export class UserEntity extends BaseEntity implements IUser {
   @PrimaryGeneratedColumn()
   id: number;
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   uiId: string;
 
   @Column('text')

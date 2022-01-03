@@ -8,10 +8,10 @@ import {ReaffirmationEntity} from "./reaffirmation";
 export class AffirmationEntity extends BaseEntity implements IAffirmation {
   @PrimaryGeneratedColumn()
   id: number;
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   uiId: string;
 
-  @Column({type: 'text', length: 80})
+  @Column({type: 'varchar', length: 80})
   title: string;
 
   @Column('text')

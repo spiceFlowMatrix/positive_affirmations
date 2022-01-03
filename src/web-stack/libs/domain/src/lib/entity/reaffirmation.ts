@@ -8,7 +8,7 @@ import {LetterEntity} from "./letter";
 export class ReaffirmationEntity extends BaseEntity implements IReaffirmation {
   @PrimaryGeneratedColumn()
   id: number;
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   uiId: string;
 
   @Column({

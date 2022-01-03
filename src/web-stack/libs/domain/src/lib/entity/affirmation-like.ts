@@ -3,11 +3,11 @@ import {BaseEntity, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn}
 import {UserEntity} from "./user";
 import {AffirmationEntity} from "./affirmation";
 
-@Entity('affirmationLikes')
+@Entity('affirmation_likes')
 export class AffirmationLikeEntity extends BaseEntity implements IAffirmationLike {
   @PrimaryGeneratedColumn()
   id: number;
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   uiId: string;
 
   @ManyToOne(() => AffirmationEntity, affirmation => affirmation.likes)

@@ -7,7 +7,7 @@ import {ReaffirmationEntity} from "./reaffirmation";
 export class LetterEntity extends BaseEntity implements ILetter {
   @PrimaryGeneratedColumn()
   id: number;
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   uiId: string;
 
   @Column('boolean', {nullable: false})
