@@ -125,6 +125,20 @@
             "outputPath": "dist/apps/dev-auth",
             "main": "apps/dev-auth/src/main.ts",
             "tsConfig": "apps/dev-auth/tsconfig.app.json",
+            "tsPlugins": [
+              {
+                "name": "@nestjs/swagger/plugin",
+                "options": {
+                  "dtoFileNameSuffix": [
+                    ".dto.ts",
+                    ".entity.ts",
+                    ".command.ts",
+                    ".exception.ts"
+                  ],
+                  "classValidatorShim": true
+                }
+              }
+            ],
             "assets": ["apps/dev-auth/src/assets"]
           },
           "configurations": {
