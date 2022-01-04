@@ -1,10 +1,6 @@
 import {Controller, Get, Query} from '@nestjs/common';
 import {AuthService} from "./auth.service";
-
-export class EmailPasswordDto {
-  email: string;
-  password: string;
-}
+import {EmailPasswordDto} from "./models/email-password.dto";
 
 @Controller('auth')
 export class AppController {

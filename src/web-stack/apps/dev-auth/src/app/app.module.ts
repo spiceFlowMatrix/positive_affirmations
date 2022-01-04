@@ -1,7 +1,6 @@
 import {Module} from '@nestjs/common';
 
 import {AppController} from './app.controller';
-import {AppService} from './app.service';
 import {AuthService} from "./auth.service";
 import {environment} from "../environments/environment";
 
@@ -9,7 +8,6 @@ import {environment} from "../environments/environment";
   imports: [],
   controllers: [AppController],
   providers: [
-    AppService,
     {
       provide: AuthService,
       useValue: new AuthService(environment.firebaseConfig)
