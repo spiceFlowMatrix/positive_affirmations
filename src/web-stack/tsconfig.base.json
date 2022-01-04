@@ -18,7 +18,8 @@
       "@web-stack/api-interfaces": ["libs/api-interfaces/src/index.ts"],
       "@web-stack/application": ["libs/application/src/index.ts"],
       "@web-stack/domain": ["libs/domain/src/index.ts"],
-      "@web-stack/infrastructure": ["libs/infrastructure/src/index.ts"]
+      "@web-stack/infrastructure": ["libs/infrastructure/src/index.ts"],
+      "@web-stack/services": ["libs/services/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
