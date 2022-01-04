@@ -14,8 +14,8 @@ export class AffirmationEntity extends BaseEntity implements IAffirmation {
   @Column({type: 'varchar', length: 80})
   title: string;
 
-  @Column('text')
-  subtitle: string;
+  @Column('text', {nullable: true})
+  subtitle?: string;
 
   @Column('boolean', {default: true})
   active: boolean;

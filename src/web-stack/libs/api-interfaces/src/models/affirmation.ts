@@ -6,7 +6,7 @@ export interface IAffirmation {
   id: number;
   uiId: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   createdBy: IUser;
   createdOn: Date;
   active: boolean;

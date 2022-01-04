@@ -10,7 +10,7 @@ export class UserEntity extends BaseEntity implements IUser {
   @PrimaryGeneratedColumn()
   dbId: number;
   @PrimaryGeneratedColumn('uuid')
-  dbUid: string;
+  dbUiId: string;
 
   @Column('text')
   displayName: string | null;

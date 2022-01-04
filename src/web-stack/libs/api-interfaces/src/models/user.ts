@@ -9,7 +9,7 @@ export enum LetterCreationSchedule { daily, weekly, monthly, never }
 
 export interface IUser extends UserInfo {
   dbId: number;
-  dbUid: string;
+  dbUiId: string;
   letterSchedule: LetterCreationSchedule;
   lettersLastGeneratedOn: Date;
   letters: ILetter[];
