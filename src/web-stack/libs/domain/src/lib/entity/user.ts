@@ -52,10 +52,12 @@ export class UserEntity extends BaseEntity implements IUser {
   constructor(args: {
     id?: number;
     uiId?: string;
-    name?: string;
-    nickName?: string;
+    displayName?: string;
+    phoneNumber?: string;
+    photoURL?: string;
+    providerId?: string;
+    uid?: string;
     email?: string;
-    emailVerified?: boolean;
     letterSchedule?: LetterCreationSchedule;
     lettersLastGeneratedOn?: Date;
     reaffirmations?: ReaffirmationEntity[];
