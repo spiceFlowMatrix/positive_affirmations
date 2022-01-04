@@ -1,13 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
+import {Controller, Get, Query} from '@nestjs/common';
+import {AuthService} from "./auth.service";
 
-import { AppService } from './app.service';
+export class EmailPasswordDto {
+  email: string;
+  password: string;
+}
 
-@Controller()
+@Controller('auth')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly authService: AuthService) {
+  }
 
-  @Get()
-  getData() {
-    return this.appService.getData();
+  @Get('emailPasswordSignIn')
+  getData(@Query() dto: EmailPasswordDto) {
+    return this.authService.signInWithEmailPassword(dto.email, dto.password);
   }
 }
