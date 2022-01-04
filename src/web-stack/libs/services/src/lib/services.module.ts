@@ -1,8 +1,13 @@
-import { Module } from '@nestjs/common';
+import {CacheModule, Module} from '@nestjs/common';
+import {FirebaseAuthStrategy} from "./firebase-auth.strategy";
 
 @Module({
+  imports: [
+    CacheModule.register()
+  ],
   controllers: [],
-  providers: [],
-  exports: [],
+  providers: [FirebaseAuthStrategy],
+  exports: [FirebaseAuthStrategy],
 })
-export class ServicesModule {}
+export class ServicesModule {
+}
