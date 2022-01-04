@@ -2,7 +2,7 @@ export * from './lib/domain.module';
 
 // export DTO MODELS
 export * from './lib/dto/model';
-export * from './lib/dto/command';
+export * from './lib/dto';
 
 // export ENTITIES
 export * from './lib/entity/affirmation';
