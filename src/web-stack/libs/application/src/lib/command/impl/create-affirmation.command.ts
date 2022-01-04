@@ -9,6 +9,7 @@ export class CreateAffirmationCommand {
   constructor(args: {
     title: string;
     subtitle?: string;
+    authUser: User;
   }) {
     Object.assign(this, args);
   }
