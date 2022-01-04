@@ -1,10 +1,13 @@
-import {ApiTags} from "@nestjs/swagger";
-import {Body, Controller, Param, ParseIntPipe, Post, Put} from "@nestjs/common";
+import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
+import {Body, Controller, Param, ParseIntPipe, Post, Put, UseGuards} from "@nestjs/common";
 import {AffirmationsApiFacade} from "../service/affirmations-api.facade";
 import {AffirmationDto, AffirmationObjectResponseDto, CreateAffirmationCommandDto} from "@web-stack/domain";
+import {FirebaseAuthGuard} from "@web-stack/services";
 
 @ApiTags('affirmations')
 @Controller('affirmations')
+@ApiBearerAuth()
+@UseGuards(FirebaseAuthGuard)
 export class AffirmationsApiController {
   constructor(private facade: AffirmationsApiFacade) {
   }

@@ -2,10 +2,14 @@ import {Module} from '@nestjs/common';
 import {InfrastructureModule} from "@web-stack/infrastructure";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {SnakeNamingStrategy} from "typeorm-naming-strategies";
+import {ConfigModule} from "@nestjs/config";
 
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     InfrastructureModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
