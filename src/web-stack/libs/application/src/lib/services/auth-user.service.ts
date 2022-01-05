@@ -40,6 +40,9 @@ export class AuthUserService {
       const newUserEntity = new UserEntity({
         displayName: authUser.displayName,
         email: authUser.email,
+        phoneNumber: authUser.phoneNumber,
+        photoURL: authUser.photoURL,
+        providerId: authUser.providerId,
         uid: authUser.uid
       });
 

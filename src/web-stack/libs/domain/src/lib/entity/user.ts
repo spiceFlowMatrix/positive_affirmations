@@ -12,19 +12,19 @@ export class UserEntity extends BaseEntity implements IUser {
   @PrimaryGeneratedColumn('uuid')
   dbUiId: string;
 
-  @Column('text')
+  @Column('text', {nullable: true})
   displayName: string | null;
-  @Column('text')
+  @Column('text', {nullable: true})
   phoneNumber: string | null;
-  @Column('text')
+  @Column('text', {nullable: true})
   photoURL: string | null;
-  @Column('text')
+  @Column('text', {nullable: true})
   providerId: string;
   @Column('text')
   uid: string;
 
-  @Column('text')
-  email: string;
+  @Column('text', {nullable: true})
+  email: string | null;
 
   @Column({
     type: 'enum',

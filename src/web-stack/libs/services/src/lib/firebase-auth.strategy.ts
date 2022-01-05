@@ -25,7 +25,8 @@ export class FirebaseAuthStrategy extends PassportStrategy(Strategy, 'firebase-a
     const firebase_params = JSON.parse(config);
 
     this.defaultApp = firebase.initializeApp({
-      credential: firebase.credential.cert(firebase_params)
+      credential: firebase.credential.cert(firebase_params),
+      databaseURL: 'https://positive-affirmations-313800-default-rtdb.europe-west1.firebasedatabase.app',
     });
   }
 
