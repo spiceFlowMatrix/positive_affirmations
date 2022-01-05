@@ -26,7 +26,9 @@ export class ToggleAffirmationLikeHandler implements ICommandHandler<ToggleAffir
     const {id, byUser} = command;
     const by = await this.authUserService.user(byUser);
     const affirmation = await this.affirmationRepo
-      .findOneOrFail(id)
+      .findOneOrFail({
+        where: {id}
+      })
       .catch(() => {
         throw new ObjectNotFoundException(
           AffirmationEntity.name,
@@ -37,7 +39,7 @@ export class ToggleAffirmationLikeHandler implements ICommandHandler<ToggleAffir
       });
 
     const like = await this.affirmationLikeRepo
-      .findOne({where: {byUser: by, affirmation: new AffirmationEntity({id})}});
+      .findOne({where: {byUser: by, affirmation}});
 
     if (like) {
       await like.remove();

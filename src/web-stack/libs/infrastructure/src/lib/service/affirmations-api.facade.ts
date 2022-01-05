@@ -3,14 +3,20 @@ import {
   AffirmationDto,
   AffirmationObjectResponseDto,
   CreateAffirmationCommandDto,
-  ToggleAffirmationLikeCommandDto
+  GetAffirmationListQueryDto,
+  GetAffirmationListQueryResponseDto,
 } from "@web-stack/domain";
-import {CreateAffirmationCommand} from "@web-stack/application";
-import {
-  ToggleAffirmationLikeCommand
-} from "../../../../application/src/lib/command/impl/toggle-affirmation-like.command";
+import {CreateAffirmationCommand, GetAffirmationListQuery, ToggleAffirmationLikeCommand} from "@web-stack/application";
 
 export class AffirmationsApiFacade extends BaseApiFacade {
+  async getAffirmationList(dto: GetAffirmationListQueryDto): Promise<GetAffirmationListQueryResponseDto> {
+    return await this.queryBus.execute(new GetAffirmationListQuery({
+      skip: dto.skip,
+      take: dto.take,
+      authUser: this.request.user,
+    }));
+  }
+
   async createAffirmation(dto: CreateAffirmationCommandDto): Promise<AffirmationDto> {
     return await this.commandBus.execute(new CreateAffirmationCommand({
       ...dto,
