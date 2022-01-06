@@ -98,6 +98,8 @@ UserDto _$UserDtoFromJson(Map<String, dynamic> json) => UserDto(
       uid: json['uid'] as String?,
       displayName: json['displayName'] as String?,
       email: json['email'] as String?,
+      emailVerified: json['emailVerified'] as bool?,
+      nickName: json['nickName'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       photoURL: json['photoURL'] as String?,
       providerId: json['providerId'] as String?,
@@ -131,6 +133,8 @@ Map<String, dynamic> _$UserDtoToJson(UserDto instance) => <String, dynamic>{
       'uid': instance.uid,
       'displayName': instance.displayName,
       'email': instance.email,
+      'emailVerified': instance.emailVerified,
+      'nickName': instance.nickName,
       'phoneNumber': instance.phoneNumber,
       'photoURL': instance.photoURL,
       'providerId': instance.providerId,
@@ -230,4 +234,20 @@ Map<String, dynamic> _$CreateAffirmationCommandDtoToJson(
     <String, dynamic>{
       'title': instance.title,
       'subtitle': instance.subtitle,
+    };
+
+SignUpCommandDto _$SignUpCommandDtoFromJson(Map<String, dynamic> json) =>
+    SignUpCommandDto(
+      email: json['email'] as String?,
+      password: json['password'] as String?,
+      displayName: json['displayName'] as String?,
+      nickName: json['nickName'] as String?,
+    );
+
+Map<String, dynamic> _$SignUpCommandDtoToJson(SignUpCommandDto instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+      'password': instance.password,
+      'displayName': instance.displayName,
+      'nickName': instance.nickName,
     };

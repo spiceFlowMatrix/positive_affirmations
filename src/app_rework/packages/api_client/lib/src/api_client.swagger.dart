@@ -80,6 +80,17 @@ abstract class ApiClient extends ChopperService {
   Future<chopper.Response<AffirmationObjectResponseDto>>
       _AffirmationsApiController_toggleAffirmationLike(
           {@Path('id') required num? id});
+
+  ///
+  Future<chopper.Response> UsersApiController_signUpUser(
+      {required SignUpCommandDto? body}) {
+    return _UsersApiController_signUpUser(body: body);
+  }
+
+  ///
+  @Post(path: '/api/v1/users')
+  Future<chopper.Response> _UsersApiController_signUpUser(
+      {@Body() required SignUpCommandDto? body});
 }
 
 typedef $JsonFactory<T> = T Function(Map<String, dynamic> json);

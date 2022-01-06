@@ -114,6 +114,30 @@
           }
         ]
       }
+    },
+    "/api/v1/users": {
+      "post": {
+        "operationId": "UsersApiController_signUpUser",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpCommandDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      }
     }
   },
   "info": {
@@ -282,6 +306,12 @@
             "type": "string",
             "nullable": true
           },
+          "emailVerified": {
+            "type": "boolean"
+          },
+          "nickName": {
+            "type": "string"
+          },
           "phoneNumber": {
             "type": "string",
             "nullable": true
@@ -337,6 +367,7 @@
           "uid",
           "displayName",
           "email",
+          "emailVerified",
           "phoneNumber",
           "photoURL",
           "providerId",
@@ -442,6 +473,28 @@
         },
         "required": [
           "title"
+        ]
+      },
+      "SignUpCommandDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "nickName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "displayName"
         ]
       }
     }

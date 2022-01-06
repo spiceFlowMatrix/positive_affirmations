@@ -274,6 +274,8 @@ class UserDto {
     this.uid,
     this.displayName,
     this.email,
+    this.emailVerified,
+    this.nickName,
     this.phoneNumber,
     this.photoURL,
     this.providerId,
@@ -298,6 +300,10 @@ class UserDto {
   final String? displayName;
   @JsonKey(name: 'email')
   final String? email;
+  @JsonKey(name: 'emailVerified')
+  final bool? emailVerified;
+  @JsonKey(name: 'nickName')
+  final String? nickName;
   @JsonKey(name: 'phoneNumber')
   final String? phoneNumber;
   @JsonKey(name: 'photoURL')
@@ -338,6 +344,12 @@ class UserDto {
                     .equals(other.displayName, displayName)) &&
             (identical(other.email, email) ||
                 const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.emailVerified, emailVerified) ||
+                const DeepCollectionEquality()
+                    .equals(other.emailVerified, emailVerified)) &&
+            (identical(other.nickName, nickName) ||
+                const DeepCollectionEquality()
+                    .equals(other.nickName, nickName)) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 const DeepCollectionEquality()
                     .equals(other.phoneNumber, phoneNumber)) &&
@@ -374,6 +386,8 @@ class UserDto {
       const DeepCollectionEquality().hash(uid) ^
       const DeepCollectionEquality().hash(displayName) ^
       const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(emailVerified) ^
+      const DeepCollectionEquality().hash(nickName) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
       const DeepCollectionEquality().hash(photoURL) ^
       const DeepCollectionEquality().hash(providerId) ^
@@ -393,6 +407,8 @@ extension $UserDtoExtension on UserDto {
       String? uid,
       String? displayName,
       String? email,
+      bool? emailVerified,
+      String? nickName,
       String? phoneNumber,
       String? photoURL,
       String? providerId,
@@ -408,6 +424,8 @@ extension $UserDtoExtension on UserDto {
         uid: uid ?? this.uid,
         displayName: displayName ?? this.displayName,
         email: email ?? this.email,
+        emailVerified: emailVerified ?? this.emailVerified,
+        nickName: nickName ?? this.nickName,
         phoneNumber: phoneNumber ?? this.phoneNumber,
         photoURL: photoURL ?? this.photoURL,
         providerId: providerId ?? this.providerId,
@@ -660,6 +678,70 @@ extension $CreateAffirmationCommandDtoExtension on CreateAffirmationCommandDto {
   CreateAffirmationCommandDto copyWith({String? title, String? subtitle}) {
     return CreateAffirmationCommandDto(
         title: title ?? this.title, subtitle: subtitle ?? this.subtitle);
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SignUpCommandDto {
+  SignUpCommandDto({
+    this.email,
+    this.password,
+    this.displayName,
+    this.nickName,
+  });
+
+  factory SignUpCommandDto.fromJson(Map<String, dynamic> json) =>
+      _$SignUpCommandDtoFromJson(json);
+
+  @JsonKey(name: 'email')
+  final String? email;
+  @JsonKey(name: 'password')
+  final String? password;
+  @JsonKey(name: 'displayName')
+  final String? displayName;
+  @JsonKey(name: 'nickName')
+  final String? nickName;
+  static const fromJsonFactory = _$SignUpCommandDtoFromJson;
+  static const toJsonFactory = _$SignUpCommandDtoToJson;
+  Map<String, dynamic> toJson() => _$SignUpCommandDtoToJson(this);
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is SignUpCommandDto &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.password, password) ||
+                const DeepCollectionEquality()
+                    .equals(other.password, password)) &&
+            (identical(other.displayName, displayName) ||
+                const DeepCollectionEquality()
+                    .equals(other.displayName, displayName)) &&
+            (identical(other.nickName, nickName) ||
+                const DeepCollectionEquality()
+                    .equals(other.nickName, nickName)));
+  }
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(password) ^
+      const DeepCollectionEquality().hash(displayName) ^
+      const DeepCollectionEquality().hash(nickName) ^
+      runtimeType.hashCode;
+}
+
+extension $SignUpCommandDtoExtension on SignUpCommandDto {
+  SignUpCommandDto copyWith(
+      {String? email,
+      String? password,
+      String? displayName,
+      String? nickName}) {
+    return SignUpCommandDto(
+        email: email ?? this.email,
+        password: password ?? this.password,
+        displayName: displayName ?? this.displayName,
+        nickName: nickName ?? this.nickName);
   }
 }
 

@@ -44,4 +44,13 @@ class _$ApiClient extends ApiClient {
     return client.send<AffirmationObjectResponseDto,
         AffirmationObjectResponseDto>($request);
   }
+
+  @override
+  Future<Response<dynamic>> _UsersApiController_signUpUser(
+      {required SignUpCommandDto? body}) {
+    final $url = '/api/v1/users';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
 }
