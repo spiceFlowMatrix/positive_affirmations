@@ -10,6 +10,8 @@ export class UserDto implements IUser {
   uid: string;
   displayName: string | null;
   email: string | null;
+  emailVerified: boolean;
+  nickName?: string;
   phoneNumber: string | null;
   photoURL: string | null;
   providerId: string;
@@ -26,6 +28,8 @@ export class UserDto implements IUser {
     uid: string;
     displayName: string | null;
     email: string | null;
+    emailVerified: boolean;
+    nickName?: string;
     phoneNumber: string | null;
     photoURL: string | null;
     providerId: string;

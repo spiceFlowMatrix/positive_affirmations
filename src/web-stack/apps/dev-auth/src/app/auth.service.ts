@@ -1,6 +1,6 @@
 import {Injectable} from "@nestjs/common";
 import {FirebaseApp, initializeApp} from "firebase/app";
-import {Auth, connectAuthEmulator, getAuth, signInWithEmailAndPassword, initializeAuth, UserCredential} from "firebase/auth";
+import {Auth, connectAuthEmulator, getAuth, signInWithEmailAndPassword, UserCredential} from "firebase/auth";
 
 export interface IFirebaseConfig {
   apiKey: string,

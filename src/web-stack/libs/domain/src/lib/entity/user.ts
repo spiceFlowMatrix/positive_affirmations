@@ -25,6 +25,10 @@ export class UserEntity extends BaseEntity implements IUser {
 
   @Column('text', {nullable: true})
   email: string | null;
+  @Column('boolean', {nullable: false, default: false})
+  emailVerified: boolean;
+  @Column('text', {nullable: false})
+  nickName?: string;
 
   @Column({
     type: 'enum',
@@ -58,6 +62,8 @@ export class UserEntity extends BaseEntity implements IUser {
     providerId?: string;
     uid?: string;
     email?: string;
+    emailVerified?: boolean,
+    nickName?: string,
     letterSchedule?: LetterCreationSchedule;
     lettersLastGeneratedOn?: Date;
     reaffirmations?: ReaffirmationEntity[];

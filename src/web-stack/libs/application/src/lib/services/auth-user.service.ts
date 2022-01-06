@@ -35,11 +35,11 @@ export class AuthUserService {
         where: {uid: authUser.uid}
       });
 
-
     if (!userEntity) {
       const newUserEntity = new UserEntity({
         displayName: authUser.displayName,
         email: authUser.email,
+        emailVerified: authUser.emailVerified,
         phoneNumber: authUser.phoneNumber,
         photoURL: authUser.photoURL,
         providerId: authUser.providerId,
