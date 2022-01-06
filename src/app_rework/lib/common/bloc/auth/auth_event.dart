@@ -9,9 +9,9 @@ abstract class AuthEvent extends Equatable {
 
 class AppLogoutRequested extends AuthEvent {}
 
-class AppUserChanged extends AuthEvent {
+class AuthUserChanged extends AuthEvent {
   @visibleForTesting
-  const AppUserChanged(this.user);
+  const AuthUserChanged(this.user);
 
   final User? user;
 

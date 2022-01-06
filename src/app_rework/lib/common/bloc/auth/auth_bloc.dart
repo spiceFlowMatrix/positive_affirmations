@@ -18,12 +18,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               ? AuthState.authenticated(authenticationRepository.currentUser!)
               : const AuthState.unauthenticated(),
         ) {
-    on<AppUserChanged>(_onUserChanged);
+    on<AuthUserChanged>(_onUserChanged);
     on<AppLogoutRequested>(_onLogoutRequested);
     _userSubscription = _authenticationRepository.user.listen(
       (user) {
         if (user != null) {
-          add(AppUserChanged(user));
+          add(AuthUserChanged(user));
         }
       },
     );
@@ -32,7 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthenticationRepository _authenticationRepository;
   late final StreamSubscription<User?> _userSubscription;
 
-  void _onUserChanged(AppUserChanged event, Emitter<AuthState> emit) {
+  void _onUserChanged(AuthUserChanged event, Emitter<AuthState> emit) {
     emit(event.user != null
         ? AuthState.authenticated(event.user!)
         : const AuthState.unauthenticated());
