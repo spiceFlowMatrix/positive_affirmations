@@ -6,9 +6,14 @@ import {CommandHandlers} from "./command";
 import {EventHandlers} from "./event";
 import {Sagas} from "./saga";
 import {AuthUserService} from "./services/auth-user.service";
+import {ServicesModule} from "@web-stack/services";
 
 @Module({
-  imports: [CqrsModule, DomainModule],
+  imports: [
+    CqrsModule,
+    DomainModule,
+    ServicesModule,
+  ],
   controllers: [],
   providers: [
     AuthUserService,

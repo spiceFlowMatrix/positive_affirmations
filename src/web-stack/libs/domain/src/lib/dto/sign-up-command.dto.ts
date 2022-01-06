@@ -1,6 +1,6 @@
 import {IsDefined, IsEmail, IsOptional, IsString, Length} from "class-validator";
 
-export class SignUpCommandDto{
+export class SignUpCommandDto {
   @IsDefined()
   @IsEmail()
   email: string;
@@ -8,6 +8,9 @@ export class SignUpCommandDto{
   @IsString()
   @Length(3, 30)
   password: string;
+  @IsDefined()
+  @IsString()
+  displayName: string;
   @IsString()
   @IsOptional()
   nickName?: string;

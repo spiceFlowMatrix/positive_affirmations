@@ -5,6 +5,8 @@ import {AffirmationsApiFacade} from "./service/affirmations-api.facade";
 import {AffirmationsApiController} from "./controllers/affirmations-api.controller";
 import {ServicesModule} from "@web-stack/services";
 import {LoggerMiddleware} from "./service/logger.middleware";
+import {UsersApiFacade} from "./service/users-api.facade";
+import {UsersApiController} from "./controllers/users-api.controller";
 
 @Module({
   imports: [
@@ -12,9 +14,18 @@ import {LoggerMiddleware} from "./service/logger.middleware";
     ApplicationModule,
     ServicesModule,
   ],
-  controllers: [AffirmationsApiController],
-  providers: [AffirmationsApiFacade],
-  exports: [AffirmationsApiFacade],
+  controllers: [
+    AffirmationsApiController,
+    UsersApiController,
+  ],
+  providers: [
+    AffirmationsApiFacade,
+    UsersApiFacade
+  ],
+  exports: [
+    AffirmationsApiFacade,
+    UsersApiFacade
+  ],
 })
 export class InfrastructureModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
