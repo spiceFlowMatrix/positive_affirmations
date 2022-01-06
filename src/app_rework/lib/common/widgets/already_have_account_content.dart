@@ -52,7 +52,7 @@ class AlreadyHaveAccountSignInButton extends StatelessWidget {
       ),
       style: OutlinedButton.styleFrom(
         primary: AppTheme.secondaryColor,
-        side: BorderSide(color: AppTheme.secondaryColor),
+        side: const BorderSide(color: AppTheme.secondaryColor),
       ),
     );
   }
