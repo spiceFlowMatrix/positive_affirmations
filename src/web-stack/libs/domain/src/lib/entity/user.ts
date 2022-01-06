@@ -27,7 +27,7 @@ export class UserEntity extends BaseEntity implements IUser {
   email: string | null;
   @Column('boolean', {nullable: false, default: false})
   emailVerified: boolean;
-  @Column('text', {nullable: false})
+  @Column('text', {nullable: true})
   nickName?: string;
 
   @Column({
