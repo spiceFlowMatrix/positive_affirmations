@@ -54,7 +54,6 @@ export class FirebaseAuthStrategy extends PassportStrategy(Strategy, 'firebase-a
     const exp = moment(+firebaseUser['exp'] * 1000);
     const now = moment.now();
     const ttl = exp.diff(now, 'seconds');
-    console.log(`TTL: ${ttl}`);
 
     await this.cacheManager.set(token, firebaseUser, {ttl});
 

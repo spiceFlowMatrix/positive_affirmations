@@ -8,10 +8,14 @@ import {NestFactory} from '@nestjs/core';
 
 import {AppModule} from './app/app.module';
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
+import {HttpErrorInterceptor, LoggerInterceptor} from "@web-stack/services";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   app.useGlobalPipes(new ValidationPipe({transform: true}));
+  app.useGlobalInterceptors(new HttpErrorInterceptor(), new LoggerInterceptor());
+
   const globalPrefix = 'api/v1';
   app.setGlobalPrefix(globalPrefix);
 
