@@ -1,6 +1,6 @@
 import {Injectable} from "@nestjs/common";
 import {FirebaseApp, initializeApp} from "firebase/app";
-import {Auth, getAuth, signInWithEmailAndPassword, UserCredential} from "firebase/auth";
+import {Auth, connectAuthEmulator, getAuth, signInWithEmailAndPassword, initializeAuth, UserCredential} from "firebase/auth";
 
 export interface IFirebaseConfig {
   apiKey: string,
@@ -18,9 +18,12 @@ export class AuthService {
   private readonly app: FirebaseApp;
   private readonly auth: Auth;
 
-  constructor(firebaseConfig: IFirebaseConfig) {
+  constructor(firebaseConfig: IFirebaseConfig, useAuthEmulator?: string) {
     this.app = initializeApp(firebaseConfig);
     this.auth = getAuth(this.app);
+    if (useAuthEmulator) {
+      connectAuthEmulator(this.auth, useAuthEmulator, {disableWarnings: true});
+    }
   }
 
   async signInWithEmailPassword(email: string, password: string): Promise<UserCredential> {
