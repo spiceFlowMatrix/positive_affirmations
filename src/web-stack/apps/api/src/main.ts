@@ -5,13 +5,27 @@
 
 import {Logger, ValidationPipe} from '@nestjs/common';
 import {NestFactory} from '@nestjs/core';
-
+import {ConfigService} from '@nestjs/config';
 import {AppModule} from './app/app.module';
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import {HttpErrorInterceptor, LoggerInterceptor} from "@web-stack/services";
+import * as admin from "firebase-admin";
+import {ServiceAccount} from "firebase-admin";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Initialize firebase admin app
+  const configService: ConfigService = app.get(ConfigService);
+  const adminConfig = configService.get<string>('FIREBASE_CONFIG');
+  if (!adminConfig) {
+    throw new Error('FIREBASE_CONFIG not available. Please ensure the variable is supplied in the `.env` file.');
+  }
+  const firebase_params = JSON.parse(adminConfig);
+  admin.initializeApp({
+    credential: admin.credential.cert(firebase_params),
+    databaseURL: 'https://positive-affirmations-313800-default-rtdb.europe-west1.firebasedatabase.app',
+  });
 
   app.useGlobalPipes(new ValidationPipe({transform: true}));
   app.useGlobalInterceptors(new HttpErrorInterceptor(), new LoggerInterceptor());

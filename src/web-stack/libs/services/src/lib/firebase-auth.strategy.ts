@@ -1,9 +1,8 @@
 import {CACHE_MANAGER, Inject, Injectable, UnauthorizedException} from '@nestjs/common';
 import {ExtractJwt, Strategy} from 'passport-firebase-jwt';
-import {ConfigService} from "@nestjs/config";
 import {Cache} from 'cache-manager';
-import * as firebase from 'firebase-admin';
 import {PassportStrategy} from "@nestjs/passport";
+import * as admin from 'firebase-admin';
 import moment = require("moment");
 
 
@@ -12,29 +11,19 @@ export class FirebaseAuthStrategy extends PassportStrategy(Strategy, 'firebase-a
   private defaultApp: any;
 
   constructor(
-    private configService: ConfigService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
     });
-    const config = this.configService.get<string>('FIREBASE_CONFIG');
-    if (!config) {
-      throw new Error('FIREBASE_CONFIG not available. Please ensure the variable is supplied in the `.env` file.');
-    }
-    const firebase_params = JSON.parse(config);
-
-    this.defaultApp = firebase.initializeApp({
-      credential: firebase.credential.cert(firebase_params),
-      databaseURL: 'https://positive-affirmations-313800-default-rtdb.europe-west1.firebasedatabase.app',
-    });
+    this.defaultApp = admin.apps[0];
   }
 
   async validate(token: string) {
     const cachedFirebaseUser = await this.cacheManager.get(token);
     if (cachedFirebaseUser) return cachedFirebaseUser;
 
-    const firebaseUser: any = await this.defaultApp
+    const firebaseUser: any = await admin
       .auth()
       .verifyIdToken(token, true)
       .catch((err) => {

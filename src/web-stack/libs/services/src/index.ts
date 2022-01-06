@@ -4,3 +4,4 @@ export * from './lib/firebase-auth.guard';
 export * from './lib/typeorm-column-transformers';
 export * from './lib/http-error.interceptor';
 export * from './lib/logger.interceptor';
+export * from './lib/firebase-admin.service';
