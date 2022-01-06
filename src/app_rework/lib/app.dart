@@ -1,5 +1,25 @@
+import 'package:api_client/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:positive_affirmations/theme.dart';
+import 'package:repository/repository.dart';
+
+class App extends StatelessWidget {
+  const App({
+    Key? key,
+    required AuthenticationRepository authenticationRepository,
+    required ApiClient apiClient,
+  })  : _authenticationRepository = authenticationRepository,
+        _apiClient = apiClient,
+        super(key: key);
+
+  final AuthenticationRepository _authenticationRepository;
+  final ApiClient _apiClient;
+
+  @override
+  Widget build(BuildContext context) {
+    return const MyApp();
+  }
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

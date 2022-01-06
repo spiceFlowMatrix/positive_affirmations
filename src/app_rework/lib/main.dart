@@ -10,13 +10,17 @@ import 'package:positive_affirmations/app.dart';
 import 'package:positive_affirmations/bloc_observer.dart';
 import 'package:repository/repository.dart';
 
+import 'firebase_options.dart';
+
 Future<void> main() async {
   BlocOverrides.runZoned(
     () {},
     blocObserver: AppBlocObserver(),
   );
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   if (!kReleaseMode) {
     FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
     await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
@@ -46,5 +50,9 @@ Future<void> main() async {
       ],
     ),
   );
-  runApp(const MyApp());
+
+  runApp(App(
+    authenticationRepository: authenticationRepository,
+    apiClient: apiClient,
+  ));
 }
