@@ -1,0 +1,449 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/affirmations": {
+      "get": {
+        "operationId": "AffirmationsApiController_getAffirmationList",
+        "parameters": [
+          {
+            "name": "skip",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "default": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "take",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "default": 10,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAffirmationListQueryResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "affirmations"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "AffirmationsApiController_createAffirmation",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAffirmationCommandDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AffirmationDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "affirmations"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/affirmations/{id}": {
+      "put": {
+        "operationId": "AffirmationsApiController_toggleAffirmationLike",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AffirmationObjectResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "affirmations"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Positive Affirmations",
+    "description": "Positive Affirmations REST API",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "AffirmationLikeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "uiId": {
+            "type": "string"
+          },
+          "byUser": {
+            "$ref": "#/components/schemas/UserDto"
+          },
+          "createdOn": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "uiId",
+          "byUser",
+          "createdOn"
+        ]
+      },
+      "ReaffirmationDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "uiId": {
+            "type": "string"
+          },
+          "font": {
+            "type": "string",
+            "enum": [
+              "none",
+              "birthstone",
+              "gemunuLibre",
+              "montserrat"
+            ]
+          },
+          "stamp": {
+            "type": "string",
+            "enum": [
+              "empty",
+              "takeOff",
+              "medal",
+              "thumbsUp"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "enum": [
+              "empty",
+              "braveOn",
+              "loveIt",
+              "goodWork"
+            ]
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/UserDto"
+          },
+          "createdOn": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "forAffirmation": {
+            "$ref": "#/components/schemas/AffirmationDto"
+          },
+          "inLetters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LetterDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "uiId",
+          "font",
+          "stamp",
+          "value",
+          "createdBy",
+          "createdOn",
+          "forAffirmation",
+          "inLetters"
+        ]
+      },
+      "LetterDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "uiId": {
+            "type": "string"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/UserDto"
+          },
+          "createdOn": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "opened": {
+            "type": "boolean"
+          },
+          "openedOn": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "reaffirmations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReaffirmationDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "uiId",
+          "createdBy",
+          "createdOn",
+          "opened",
+          "openedOn",
+          "reaffirmations"
+        ]
+      },
+      "UserDto": {
+        "type": "object",
+        "properties": {
+          "dbId": {
+            "type": "number"
+          },
+          "dbUiId": {
+            "type": "string"
+          },
+          "uid": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "photoURL": {
+            "type": "string",
+            "nullable": true
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "affirmationLikes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AffirmationLikeDto"
+            }
+          },
+          "affirmations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AffirmationDto"
+            }
+          },
+          "letterSchedule": {
+            "type": "string",
+            "enum": [
+              "daily",
+              "weekly",
+              "monthly",
+              "never"
+            ]
+          },
+          "letters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LetterDto"
+            }
+          },
+          "lettersLastGeneratedOn": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "reaffirmations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReaffirmationDto"
+            }
+          }
+        },
+        "required": [
+          "dbId",
+          "dbUiId",
+          "uid",
+          "displayName",
+          "email",
+          "phoneNumber",
+          "photoURL",
+          "providerId",
+          "affirmationLikes",
+          "affirmations",
+          "letterSchedule",
+          "letters",
+          "lettersLastGeneratedOn",
+          "reaffirmations"
+        ]
+      },
+      "AffirmationDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "uiId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/UserDto"
+          },
+          "createdOn": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "likes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AffirmationLikeDto"
+            }
+          },
+          "reaffirmations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReaffirmationDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "uiId",
+          "title",
+          "active",
+          "createdBy",
+          "createdOn",
+          "likes",
+          "reaffirmations"
+        ]
+      },
+      "AffirmationObjectResponseDto": {
+        "type": "object",
+        "properties": {
+          "affirmationData": {
+            "$ref": "#/components/schemas/AffirmationDto"
+          },
+          "liked": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "affirmationData",
+          "liked"
+        ]
+      },
+      "GetAffirmationListQueryResponseDto": {
+        "type": "object",
+        "properties": {
+          "totalResults": {
+            "type": "number"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AffirmationObjectResponseDto"
+            }
+          }
+        },
+        "required": [
+          "totalResults",
+          "results"
+        ]
+      },
+      "CreateAffirmationCommandDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title"
+        ]
+      }
+    }
+  }
+}

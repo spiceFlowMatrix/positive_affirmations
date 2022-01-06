@@ -1,39 +1,60 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# swagger_dart_code_generator
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+> Copied from official docs [here](https://github.com/epam-cross-platform-lab/swagger-dart-code-generator/blob/master/example/README.md)
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
+Please check
+real [example](https://github.com/epam-cross-platform-lab/swagger-dart-code-generator/tree/master/example)
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## Getting Started
 
-## Features
+### Step1
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+Put your .swagger or .json files to any folder. Example below.
 
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
-```dart
-const like = 'sample';
+```
+PROJECT_ROOT/swaggers/cars_api_service.json
+PROJECT_ROOT/swaggers/movies_api_service.swagger
 ```
 
-## Additional information
+### Step 2
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+Add input folder and output folder to **build.yaml**. Also set sources field.
+
+```
+targets:
+  $default:
+    sources:     
+      - swaggers/**
+      - lib/**
+    builders:
+      chopper_generator:
+        options:
+          header: "//Generated code"
+      swagger_dart_code_generator:
+        options:
+          input_folder: "lib/"
+          output_folder: "lib/swagger_generated_code/"
+```
+
+### Step 4
+
+Set optional build parameters if it's needed.
+
+```
+separate_models: true
+ignore_headers: true
+exclude_paths:
+  - "/items/{id}"
+```
+
+### Step 5
+
+Run build command
+
+```
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
+### Final step
+
+Enjoy generated code!

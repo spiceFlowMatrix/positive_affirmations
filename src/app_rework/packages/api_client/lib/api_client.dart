@@ -1,7 +1,6 @@
 library api_client;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/client_index.dart';
+export 'src/client_mapping.dart';
+export 'src/api_client.enums.swagger.dart';
+export 'src/api_client.models.swagger.dart';
