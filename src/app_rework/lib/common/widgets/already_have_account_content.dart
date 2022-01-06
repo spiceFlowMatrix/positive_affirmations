@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:positive_affirmations/common/common_keys.dart';
 import 'package:positive_affirmations/consts.dart';
-import 'package:provider/src/provider.dart';
-import 'package:repository/repository.dart';
+import 'package:positive_affirmations/theme.dart';
 
 class AlreadyHaveAccountPanel extends StatelessWidget {
   const AlreadyHaveAccountPanel({Key? key}) : super(key: key);
@@ -47,19 +46,13 @@ class AlreadyHaveAccountSignInButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       key: CommonWidgetKeys.alreadyHaveAccountSignInButton,
-      onPressed: () {
-        context
-            .read<AuthenticationBloc>()
-            .add(const AuthenticationStatusChanged(
-              status: AuthenticationStatus.unauthenticated,
-            ));
-      },
+      onPressed: null,
       child: const Text(
         PositiveAffirmationsConsts.alreadyHaveAccountSignInButtonText,
       ),
       style: OutlinedButton.styleFrom(
-        primary: PositiveAffirmationsTheme.highlightColor,
-        side: BorderSide(color: PositiveAffirmationsTheme.highlightColor),
+        primary: AppTheme.secondaryColor,
+        side: BorderSide(color: AppTheme.secondaryColor),
       ),
     );
   }
