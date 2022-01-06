@@ -1,15 +1,15 @@
 part of 'auth_bloc.dart';
 
-abstract class AppEvent extends Equatable {
-  const AppEvent();
+abstract class AuthEvent extends Equatable {
+  const AuthEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-class AppLogoutRequested extends AppEvent {}
+class AppLogoutRequested extends AuthEvent {}
 
-class AppUserChanged extends AppEvent {
+class AppUserChanged extends AuthEvent {
   @visibleForTesting
   const AppUserChanged(this.user);
 

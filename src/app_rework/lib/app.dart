@@ -1,5 +1,7 @@
 import 'package:api_client/api_client.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:positive_affirmations/common/bloc/auth/auth_bloc.dart';
 import 'package:positive_affirmations/theme.dart';
 import 'package:repository/repository.dart';
 
@@ -17,7 +19,26 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MyApp();
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<AuthenticationRepository>.value(
+          value: _authenticationRepository,
+        ),
+        RepositoryProvider<ApiClient>.value(
+          value: _apiClient,
+        ),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthBloc>(
+            create: (_) => AuthBloc(
+              authenticationRepository: _authenticationRepository,
+            ),
+          ),
+        ],
+        child: const MyApp(),
+      ),
+    );
   }
 }
 
