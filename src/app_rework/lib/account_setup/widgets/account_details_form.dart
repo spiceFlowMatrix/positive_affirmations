@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:positive_affirmations/account_setup/bloc/sign_up/sign_up_cubit.dart';
 import 'package:positive_affirmations/account_setup/models/models.dart';
+import 'package:positive_affirmations/common/widgets/already_have_account_content.dart';
 import 'package:positive_affirmations/consts.dart';
 
 class AccountDetailsForm extends StatelessWidget {
@@ -44,10 +46,10 @@ class _Form extends StatelessWidget {
                   //     state.submissionError,
                   //     style: const TextStyle(color: Colors.red),
                   //   ),
-                  // const _SubmitButton(),
-                  // const Padding(padding: EdgeInsets.only(top: 10)),
-                  // const _BackButton(),
-                  // const AlreadyHaveAccountPanel(),
+                  _SubmitButton(),
+                  Padding(padding: EdgeInsets.only(top: 10)),
+                  _BackButton(),
+                  AlreadyHaveAccountPanel(),
                 ],
               ),
             ),
@@ -170,6 +172,39 @@ class _ConfirmPasswordField extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _SubmitButton extends StatelessWidget {
+  const _SubmitButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      builder: (context, state) {
+        return ElevatedButton(
+          onPressed: state.emailStatus.isValidated &&
+                  state.emailStatus != FormzStatus.pure &&
+                  state.passwordStatus.isValidated &&
+                  state.confirmPasswordStatus.isValidated
+              ? () {}
+              : null,
+          child: const Text('Done'),
+        );
+      },
+    );
+  }
+}
+
+class _BackButton extends StatelessWidget {
+  const _BackButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: () => context.read<SignUpCubit>().backAccountDetails(),
+      child: const Text('BACK'),
     );
   }
 }
