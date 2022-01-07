@@ -1,7 +1,10 @@
 import 'package:api_client/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:positive_affirmations/account_setup/widgets/auth_landing.dart';
 import 'package:positive_affirmations/common/bloc/auth/auth_bloc.dart';
+import 'package:positive_affirmations/common/widgets/home_scaffold.dart';
+import 'package:positive_affirmations/named_routes.dart';
 import 'package:positive_affirmations/theme.dart';
 import 'package:repository/repository.dart';
 
@@ -36,71 +39,65 @@ class App extends StatelessWidget {
             ),
           ),
         ],
-        child: const MyApp(),
+        child: const AppView(),
       ),
     );
   }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+// Note: This must be a stateful widget in order to avoid resetting navigation on hot reloads
+class AppView extends StatefulWidget {
+  const AppView({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _AppViewState();
+}
+
+class _AppViewState extends State<AppView> {
+  final _navigatorKey = GlobalKey<NavigatorState>();
+
+  NavigatorState get _navigator => _navigatorKey.currentState!;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: AppTheme.theme,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'Name'),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        return MaterialApp(
+          theme: AppTheme.theme,
+          navigatorKey: _navigatorKey,
+          builder: (context, child) {
+            return BlocListener<AuthBloc, AuthState>(
+              listener: (context, state) {
+                switch (state.status) {
+                  case AuthStatus.authenticated:
+                    if (_navigator.widget.initialRoute !=
+                        HomeScaffold.routeName) {
+                      _navigator.pushNamedAndRemoveUntil(
+                        HomeScaffold.routeName,
+                        (route) => false,
+                      );
+                    }
+                    break;
+                  case AuthStatus.unauthenticated:
+                    if (_navigator.widget.initialRoute !=
+                        AuthLanding.routeName) {
+                      _navigator.pushNamedAndRemoveUntil(
+                        AuthLanding.routeName,
+                        (route) => false,
+                      );
+                    }
+                    break;
+                }
+              },
+              child: child,
+            );
+          },
+          initialRoute: state.status == AuthStatus.unauthenticated
+              ? AuthLanding.routeName
+              : HomeScaffold.routeName,
+          routes: namedRoutes(context),
+        );
+      },
     );
   }
 }
