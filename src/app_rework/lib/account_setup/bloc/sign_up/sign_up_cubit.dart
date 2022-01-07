@@ -8,7 +8,7 @@ part 'sign_up_state.dart';
 class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit() : super(const SignUpState());
 
-  void mapNameUpdatedToState(String newName) {
+  void updateName(String newName) {
     final name = NameField.dirty(newName);
 
     emit(state.copyWith(
@@ -17,7 +17,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     ));
   }
 
-  void mapNameSubmittedToState() {
+  void submitName() {
     if (state.name.invalid) return;
 
     return emit(state.copyWith(
@@ -26,7 +26,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     ));
   }
 
-  void mapNickNameUpdatedToState(String newNickname) {
+  void updateNickName(String newNickname) {
     if (state.name.pure ||
         state.name.invalid ||
         !state.nameStatus.isSubmissionSuccess) return;
@@ -39,7 +39,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     ));
   }
 
-  void mapNickNameSubmittedToState() {
+  void submitNickName() {
     if (state.nickName.invalid) return;
 
     return emit(state.copyWith(
@@ -48,13 +48,13 @@ class SignUpCubit extends Cubit<SignUpState> {
     ));
   }
 
-  void mapNickNameBackedToState() {
+  void backNickName() {
     emit(state.copyWith(
       nameStatus: FormzStatus.pure,
     ));
   }
 
-  void mapEmailUpdatedToState(String newEmail) {
+  void updateEmail(String newEmail) {
     final email = EmailField.dirty(newEmail);
 
     emit(state.copyWith(
@@ -63,7 +63,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     ));
   }
 
-  void mapPasswordUpdatedToState(String newPassword) {
+  void updatePassword(String newPassword) {
     final password = PasswordField.dirty(newPassword);
 
     emit(state.copyWith(
@@ -73,7 +73,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     ));
   }
 
-  void mapConfirmPasswordUpdatedToState(String newPassword) {
+  void updateConfirmPassword(String newPassword) {
     final confirmPassword = PasswordField.dirty(newPassword);
 
     emit(state.copyWith(
@@ -84,7 +84,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     ));
   }
 
-  void mapAccountDetailsBackedToState() {
+  void backAccountDetails() {
     emit(state.copyWith(
       nickNameStatus: FormzStatus.pure,
     ));
