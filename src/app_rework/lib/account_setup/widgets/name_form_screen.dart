@@ -89,7 +89,7 @@ class _NameField extends StatelessWidget {
       builder: (context, state) {
         return TextFormField(
           initialValue: cubit.state.name.value,
-          onChanged: (name) => context.read<SignUpCubit>().updateName(name),
+          onChanged: (name) => cubit.updateName(name),
           decoration: InputDecoration(
             labelText: 'Name',
             errorText: state.name.invalid

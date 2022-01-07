@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:positive_affirmations/account_setup/bloc/sign_up/sign_up_cubit.dart';
+import 'package:positive_affirmations/account_setup/models/models.dart';
+import 'package:positive_affirmations/consts.dart';
 
 class AccountDetailsForm extends StatelessWidget {
   const AccountDetailsForm({Key? key}) : super(key: key);
@@ -31,8 +33,8 @@ class _Form extends StatelessWidget {
                 children: const [
                   _Label(),
                   Padding(padding: EdgeInsets.only(top: 10)),
-                  // _EmailField(),
-                  // const Padding(padding: EdgeInsets.only(top: 10)),
+                  _EmailField(),
+                  Padding(padding: EdgeInsets.only(top: 10)),
                   // _PasswordField(),
                   // const Padding(padding: EdgeInsets.only(top: 10)),
                   // _ConfirmPasswordField(),
@@ -76,6 +78,40 @@ class _Label extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _EmailField extends StatelessWidget {
+  const _EmailField({Key? key}) : super(key: key);
+
+  String _generateErrorText(EmailFieldValidationError error) {
+    switch (error) {
+      case EmailFieldValidationError.empty:
+        return PositiveAffirmationsConsts.invalidEmailErrorText;
+      case EmailFieldValidationError.invalid_email:
+        return PositiveAffirmationsConsts.invalidEmailErrorText;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<SignUpCubit>();
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) => previous.email != current.email,
+      builder: (context, state) {
+        return TextFormField(
+          initialValue: cubit.state.email.value,
+          onChanged: (email) => cubit.updateEmail(email),
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            labelText: 'Email',
+            helperText: state.email.invalid
+                ? _generateErrorText(state.email.error!)
+                : null,
+          ),
+        );
+      },
     );
   }
 }

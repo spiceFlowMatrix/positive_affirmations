@@ -107,8 +107,7 @@ class _NickNameField extends StatelessWidget {
       builder: (context, state) {
         return TextFormField(
           initialValue: cubit.state.nickName.value,
-          onChanged: (nickName) =>
-              context.read<SignUpCubit>().updateNickName(nickName),
+          onChanged: (nickName) => cubit.updateNickName(nickName),
           decoration: InputDecoration(
             labelText: 'Nickname',
             errorText: state.nickName.invalid
