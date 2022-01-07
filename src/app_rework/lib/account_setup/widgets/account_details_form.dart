@@ -35,10 +35,10 @@ class _Form extends StatelessWidget {
                   Padding(padding: EdgeInsets.only(top: 10)),
                   _EmailField(),
                   Padding(padding: EdgeInsets.only(top: 10)),
-                  // _PasswordField(),
-                  // const Padding(padding: EdgeInsets.only(top: 10)),
-                  // _ConfirmPasswordField(),
-                  // const Padding(padding: EdgeInsets.only(top: 10)),
+                  _PasswordField(),
+                  Padding(padding: EdgeInsets.only(top: 10)),
+                  _ConfirmPasswordField(),
+                  Padding(padding: EdgeInsets.only(top: 10)),
                   // if (state.submissionStatus == FormzStatus.submissionFailure)
                   //   Text(
                   //     state.submissionError,
@@ -109,6 +109,64 @@ class _EmailField extends StatelessWidget {
             helperText: state.email.invalid
                 ? _generateErrorText(state.email.error!)
                 : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _PasswordField extends StatelessWidget {
+  const _PasswordField({Key? key}) : super(key: key);
+
+  String _generateErrorText(PasswordFieldValidationError error) {
+    switch (error) {
+      case PasswordFieldValidationError.empty:
+        return PositiveAffirmationsConsts.invalidEmailErrorText;
+      case PasswordFieldValidationError.invalid_password:
+        return PositiveAffirmationsConsts.invalidEmailErrorText;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<SignUpCubit>();
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      builder: (context, state) {
+        return TextFormField(
+          initialValue: cubit.state.password.value,
+          onChanged: (password) => cubit.updatePassword(password),
+          keyboardType: TextInputType.visiblePassword,
+          obscureText: true,
+          decoration: InputDecoration(
+            labelText: 'Password',
+            errorText: state.password.invalid
+                ? _generateErrorText(state.password.error!)
+                : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _ConfirmPasswordField extends StatelessWidget {
+  const _ConfirmPasswordField({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<SignUpCubit>();
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      builder: (context, state) {
+        return TextFormField(
+          initialValue: cubit.state.confirmPassword.value,
+          onChanged: (password) => cubit.updateConfirmPassword(password),
+          keyboardType: TextInputType.visiblePassword,
+          obscureText: true,
+          decoration: InputDecoration(
+            labelText: 'Confirm password',
+            errorText:
+                state.confirmPassword.invalid ? 'Passwords do not match' : null,
           ),
         );
       },
