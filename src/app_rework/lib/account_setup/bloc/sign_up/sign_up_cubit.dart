@@ -1,12 +1,22 @@
+import 'package:api_client/api_client.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:positive_affirmations/account_setup/models/models.dart';
+import 'package:repository/repository.dart';
 
 part 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit() : super(const SignUpState());
+  SignUpCubit({
+    required ApiClient apiClient,
+    required AuthenticationRepository authenticationRepository,
+  })  : _apiClient = apiClient,
+        _authenticationRepository = authenticationRepository,
+        super(const SignUpState());
+
+  final ApiClient _apiClient;
+  final AuthenticationRepository _authenticationRepository;
 
   void updateName(String newName) {
     final name = NameField.dirty(newName);
@@ -88,5 +98,31 @@ class SignUpCubit extends Cubit<SignUpState> {
     emit(state.copyWith(
       nickNameStatus: FormzStatus.pure,
     ));
+  }
+
+  Future<void> submitUser() async {
+    emit(state.copyWith(
+      submissionStatus: FormzStatus.submissionInProgress,
+    ));
+
+    try {
+      await _apiClient.UsersApiController_signUpUser(
+        body: SignUpCommandDto(
+          email: state.email.value,
+          password: state.confirmPassword.value,
+          displayName: state.name.value,
+          nickName: state.nickName.value,
+        ),
+      );
+      await _authenticationRepository.firstLogInWithEmailAndPassword(
+        email: state.email.value,
+        password: state.confirmPassword.value,
+      );
+    } catch (_) {
+      emit(state.copyWith(
+        submissionStatus: FormzStatus.submissionFailure,
+        submissionError: _.toString(),
+      ));
+    }
   }
 }

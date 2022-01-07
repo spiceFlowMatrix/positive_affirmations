@@ -1,3 +1,4 @@
+import 'package:api_client/api_client.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:positive_affirmations/account_setup/bloc/sign_up/sign_up_cubit.d
 import 'package:positive_affirmations/account_setup/widgets/account_details_form.dart';
 import 'package:positive_affirmations/account_setup/widgets/name_form_screen.dart';
 import 'package:positive_affirmations/account_setup/widgets/nick_name_form_screen.dart';
+import 'package:repository/repository.dart';
 
 class SignUpFlow extends StatelessWidget {
   const SignUpFlow({Key? key}) : super(key: key);
@@ -14,7 +16,11 @@ class SignUpFlow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SignUpCubit>(
-      create: (_) => SignUpCubit(),
+      create: (_) => SignUpCubit(
+        apiClient: RepositoryProvider.of<ApiClient>(context),
+        authenticationRepository:
+            RepositoryProvider.of<AuthenticationRepository>(context),
+      ),
       child: _Flow(),
     );
   }

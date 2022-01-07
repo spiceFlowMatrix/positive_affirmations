@@ -98,6 +98,31 @@ class AuthenticationRepository {
   /// Signs in with the provided [email] and [password].
   ///
   /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs.
+  Future<void> firstLogInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _firebaseAuth
+          .signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      )
+          .then((value) async {
+        if (value.user != null) {
+          await value.user!.sendEmailVerification();
+        }
+      });
+    } on FirebaseAuthException catch (e) {
+      throw LogInWithEmailAndPasswordFailure.fromCode(e.code);
+    } catch (_) {
+      throw const LogInWithEmailAndPasswordFailure();
+    }
+  }
+
+  /// Signs in with the provided [email] and [password].
+  ///
+  /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs.
   Future<void> logInWithEmailAndPassword({
     required String email,
     required String password,

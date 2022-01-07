@@ -12,6 +12,8 @@ class SignUpState extends Equatable {
     this.emailStatus = FormzStatus.pure,
     this.passwordStatus = FormzStatus.pure,
     this.confirmPasswordStatus = FormzStatus.pure,
+    this.submissionStatus = FormzStatus.pure,
+    this.submissionError = '',
   });
 
   final NameField name;
@@ -24,6 +26,8 @@ class SignUpState extends Equatable {
   final FormzStatus emailStatus;
   final FormzStatus passwordStatus;
   final FormzStatus confirmPasswordStatus;
+  final FormzStatus submissionStatus;
+  final String submissionError;
 
   SignUpState copyWith({
     NameField? name,
@@ -36,6 +40,8 @@ class SignUpState extends Equatable {
     FormzStatus? emailStatus,
     FormzStatus? passwordStatus,
     FormzStatus? confirmPasswordStatus,
+    FormzStatus? submissionStatus,
+    String? submissionError,
   }) {
     return SignUpState(
       name: name ?? this.name,
@@ -48,21 +54,25 @@ class SignUpState extends Equatable {
       emailStatus: emailStatus ?? this.emailStatus,
       passwordStatus: passwordStatus ?? this.passwordStatus,
       confirmPasswordStatus:
-      confirmPasswordStatus ?? this.confirmPasswordStatus,
+          confirmPasswordStatus ?? this.confirmPasswordStatus,
+      submissionStatus: submissionStatus ?? this.submissionStatus,
+      submissionError: submissionError ?? this.submissionError,
     );
   }
 
   /// NOTE: props MUST be defined as a non-nullable object list to avoid breaking tests
   @override
   List<Object> get props => [
-    name,
-    nickName,
-    email,
-    password,
-    confirmPassword,
-    nameStatus,
-    nickNameStatus,
-    emailStatus,
-    passwordStatus,
-  ];
+        name,
+        nickName,
+        email,
+        password,
+        confirmPassword,
+        nameStatus,
+        nickNameStatus,
+        emailStatus,
+        passwordStatus,
+        submissionStatus,
+        submissionError,
+      ];
 }

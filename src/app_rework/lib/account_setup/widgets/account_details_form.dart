@@ -188,7 +188,7 @@ class _SubmitButton extends StatelessWidget {
                   state.emailStatus != FormzStatus.pure &&
                   state.passwordStatus.isValidated &&
                   state.confirmPasswordStatus.isValidated
-              ? () {}
+              ? () => context.read<SignUpCubit>().submitUser()
               : null,
           child: const Text('Done'),
         );
