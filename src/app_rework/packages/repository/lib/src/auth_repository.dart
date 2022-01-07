@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:repository/src/cache_client.dart';
 import 'package:repository/src/exceptions/exceptions.dart';
+import 'package:repository/src/models/auth_user.dart';
 
 /// {@template authentication_repository}
 /// Repository which manages user authentication.
@@ -35,18 +36,18 @@ class AuthenticationRepository {
 
   /// Stream of [User] which will emit the current user when
   /// the authentication state changes.
-  Stream<firebase_auth.User?> get user {
+  Stream<AuthUser> get user {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
-      if (firebaseUser != null) {
-        _cache.write(key: userCacheKey, value: firebaseUser);
-      }
-      return firebaseUser;
+      final user = firebaseUser == null ? AuthUser.empty : firebaseUser.toUser;
+      _cache.write(key: userCacheKey, value: user);
+      return user;
     });
   }
 
   /// Returns the current cached user.
-  firebase_auth.User? get currentUser {
-    return _cache.read<firebase_auth.User>(key: userCacheKey);
+  /// Defaults to [User.empty] if there is no cached user.
+  AuthUser get currentUser {
+    return _cache.read<AuthUser>(key: userCacheKey) ?? AuthUser.empty;
   }
 
   /// Creates a new user with the provided [email] and [password].
@@ -126,5 +127,16 @@ class AuthenticationRepository {
     } catch (_) {
       throw LogOutFailure();
     }
+  }
+}
+
+extension on firebase_auth.User {
+  AuthUser get toUser {
+    return AuthUser(
+      id: uid,
+      email: email,
+      name: displayName,
+      photo: photoURL,
+    );
   }
 }
