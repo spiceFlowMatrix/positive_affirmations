@@ -1,8 +1,10 @@
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:positive_affirmations/account_setup/bloc/sign_up/sign_up_cubit.dart';
 import 'package:positive_affirmations/account_setup/widgets/name_form_screen.dart';
+import 'package:positive_affirmations/account_setup/widgets/nick_name_form_screen.dart';
 
 class SignUpFlow extends StatelessWidget {
   const SignUpFlow({Key? key}) : super(key: key);
@@ -25,8 +27,8 @@ class _Flow extends StatelessWidget {
       onGeneratePages: (state, pages) {
         return [
           const MaterialPage(child: NameFormScreen()),
-          // if (state.nameStatus == FormzStatus.submissionSuccess)
-          //   const MaterialPage(child: NickNameFormScreen()),
+          if (state.nameStatus == FormzStatus.submissionSuccess)
+            const MaterialPage(child: NickNameFormScreen()),
           // if (state.nameStatus == FormzStatus.submissionSuccess &&
           //     state.nickNameStatus == FormzStatus.submissionSuccess)
           //   const MaterialPage(child: AccountDetailsForm())
