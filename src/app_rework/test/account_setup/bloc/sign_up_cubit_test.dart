@@ -1,5 +1,6 @@
 import 'package:api_client/api_client.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:chopper/chopper.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
@@ -280,7 +281,7 @@ void main() {
                   password: mockCreatableState.confirmPassword.value,
                   nickName: mockCreatableState.nickName.value,
                 ),
-              )).thenAnswer((invocation) => void);
+              )).thenAnswer((invocation) => Future.value<Response<UserDto>>());
           return signUpCubit;
         },
         seed: () => mockCreatableState,

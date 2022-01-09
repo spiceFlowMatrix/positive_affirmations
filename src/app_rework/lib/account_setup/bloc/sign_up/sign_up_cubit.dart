@@ -114,7 +114,18 @@ class SignUpCubit extends Cubit<SignUpState> {
           displayName: state.name.value,
           nickName: state.nickName.value,
         ),
-      );
+      ).then((result) {
+        return AppUser(
+          dbId: result.body!.dbId!.toInt(),
+          dbUiId: result.body!.dbUiId!,
+          uid: result.body!.uid!,
+          emailVerified: result.body!.emailVerified!,
+          email: result.body!.email!,
+          nickName: result.body!.nickName!,
+          displayName: result.body!.displayName!,
+
+        );
+      });
       await _authenticationRepository.firstLogInWithEmailAndPassword(
         email: state.email.value,
         password: state.confirmPassword.value,
