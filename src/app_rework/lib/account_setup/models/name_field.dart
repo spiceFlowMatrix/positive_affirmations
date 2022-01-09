@@ -10,7 +10,8 @@ class NameField extends FormzInput<String, NameFieldValidationError> {
   @override
   NameFieldValidationError? validator(String value) {
     if (value.isEmpty) return NameFieldValidationError.empty;
-    if (value.contains(new RegExp(r'[^\s\w]')))
+    if (value.contains(RegExp(r'[^\s\w]'))) {
       return NameFieldValidationError.invalid;
+    }
   }
 }
