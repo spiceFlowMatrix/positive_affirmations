@@ -46,11 +46,11 @@ class _$ApiClient extends ApiClient {
   }
 
   @override
-  Future<Response<dynamic>> _UsersApiController_signUpUser(
+  Future<Response<UserDto>> _UsersApiController_signUpUser(
       {required SignUpCommandDto? body}) {
     final $url = '/api/v1/users';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
-    return client.send<dynamic, dynamic>($request);
+    return client.send<UserDto, UserDto>($request);
   }
 }

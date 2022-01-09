@@ -131,7 +131,14 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -336,13 +343,13 @@
             }
           },
           "letterSchedule": {
-            "type": "string",
             "enum": [
               "daily",
               "weekly",
               "monthly",
               "never"
-            ]
+            ],
+            "type": "string"
           },
           "letters": {
             "type": "array",

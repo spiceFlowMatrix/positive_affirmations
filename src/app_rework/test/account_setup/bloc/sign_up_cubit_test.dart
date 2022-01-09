@@ -25,6 +25,12 @@ void main() {
     nameStatus: FormzStatus.submissionSuccess,
     nickName: NickNameField.dirty(validNickName),
     nickNameStatus: FormzStatus.submissionSuccess,
+    email: EmailField.dirty('test@email.com'),
+    password: PasswordField.dirty('test@passwordA1'),
+    confirmPassword: PasswordField.dirty('test@passwordA1'),
+    passwordStatus: FormzStatus.valid,
+    emailStatus: FormzStatus.valid,
+    confirmPasswordStatus: FormzStatus.valid,
   );
 
   final AppUser mockCreatedUser = AppUser(
@@ -265,15 +271,16 @@ void main() {
     group('[UserSubmitted]', () {
       blocTest<SignUpCubit, SignUpState>(
         'valid submission workflow takes place upon valid user submission',
+        // build: () => signUpCubit,
         build: () {
           when(() => apiClient.UsersApiController_signUpUser(
                 body: SignUpCommandDto(
                   displayName: mockCreatableState.name.value,
                   email: mockCreatableState.email.value,
-                  password: mockCreatableState.password.value,
+                  password: mockCreatableState.confirmPassword.value,
                   nickName: mockCreatableState.nickName.value,
                 ),
-              ));
+              )).thenAnswer((invocation) => void);
           return signUpCubit;
         },
         seed: () => mockCreatableState,
@@ -285,7 +292,7 @@ void main() {
                 body: SignUpCommandDto(
                   displayName: mockCreatableState.name.value,
                   email: mockCreatableState.email.value,
-                  password: mockCreatableState.password.value,
+                  password: mockCreatableState.confirmPassword.value,
                   nickName: mockCreatableState.nickName.value,
                 ),
               )).called(1);

@@ -82,14 +82,16 @@ abstract class ApiClient extends ChopperService {
           {@Path('id') required num? id});
 
   ///
-  Future<chopper.Response> UsersApiController_signUpUser(
+  Future<chopper.Response<UserDto>> UsersApiController_signUpUser(
       {required SignUpCommandDto? body}) {
+    generatedMapping.putIfAbsent(UserDto, () => UserDto.fromJsonFactory);
+
     return _UsersApiController_signUpUser(body: body);
   }
 
   ///
   @Post(path: '/api/v1/users')
-  Future<chopper.Response> _UsersApiController_signUpUser(
+  Future<chopper.Response<UserDto>> _UsersApiController_signUpUser(
       {@Body() required SignUpCommandDto? body});
 }
 
