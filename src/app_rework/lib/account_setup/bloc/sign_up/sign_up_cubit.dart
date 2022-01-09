@@ -51,6 +51,7 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   void submitNickName() {
     if (state.nickName.invalid) return;
+    if (!state.nameStatus.isSubmissionSuccess) return;
 
     return emit(state.copyWith(
       nickName: NickNameField.dirty(state.nickName.value.trim()),
