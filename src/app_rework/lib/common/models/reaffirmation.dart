@@ -21,7 +21,7 @@ class Reaffirmation extends Equatable {
   final ReaffirmationStamp stamp;
   final ReaffirmationValue value;
   final AppUser createdBy;
-  final DateTime? createdOn;
+  final DateTime? _createdOn;
   final Affirmation forAffirmation;
   final List<Letter> inLetters;
 
