@@ -11,6 +11,9 @@ describe('SignUpHandler', () => {
   // let firebaseAdminService: FirebaseAdminService;
 
   beforeEach(async () => {
+
+    // Reference for WIP CQRS testing:
+    // https://github.com/nestjs/nest/issues/274
     const moduleRef = await Test.createTestingModule({
       imports: [CqrsModule],
       providers: [
