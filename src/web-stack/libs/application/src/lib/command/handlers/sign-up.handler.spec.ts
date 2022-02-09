@@ -4,11 +4,12 @@ import {CqrsModule} from "@nestjs/cqrs";
 import {UserEntity} from "@web-stack/domain";
 import {getRepositoryToken} from "@nestjs/typeorm";
 import {FirebaseAdminService} from "@web-stack/services";
+import {Repository} from "typeorm";
 
 describe('SignUpHandler', () => {
   let signUpHandler: SignUpHandler;
-  // let userRepository: Repository<UserEntity>;
-  // let firebaseAdminService: FirebaseAdminService;
+  let userRepository: Repository<UserEntity>;
+  let firebaseAdminService: FirebaseAdminService;
 
   beforeEach(async () => {
 
@@ -32,9 +33,13 @@ describe('SignUpHandler', () => {
     }).compile();
 
     signUpHandler = moduleRef.get<SignUpHandler>(SignUpHandler);
+    userRepository = moduleRef.get<Repository<UserEntity>>(getRepositoryToken(UserEntity));
+    firebaseAdminService = moduleRef.get<FirebaseAdminService>(FirebaseAdminService);
   });
 
   it('is defined', () => {
     expect(signUpHandler).toBeDefined();
+    expect(userRepository).toBeDefined();
+    expect(firebaseAdminService).toBeDefined();
   });
 });
