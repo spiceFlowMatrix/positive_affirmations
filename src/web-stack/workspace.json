@@ -7,10 +7,8 @@
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "@nrwl/node:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "executor": "@nrwl/node:webpack",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
@@ -29,9 +27,7 @@
                 }
               }
             ],
-            "assets": [
-              "apps/api/src/assets"
-            ]
+            "assets": ["apps/api/src/assets"]
           },
           "configurations": {
             "production": {
@@ -48,7 +44,7 @@
           }
         },
         "serve": {
-          "executor": "@nrwl/node:execute",
+          "executor": "@nrwl/node:node",
           "options": {
             "buildTarget": "api:build"
           }
@@ -56,19 +52,13 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/api/**/*.ts"
-            ]
+            "lintFilePatterns": ["apps/api/**/*.ts"]
           },
-          "outputs": [
-            "{options.outputFile}"
-          ]
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/api"
-          ],
+          "outputs": ["coverage/apps/api"],
           "options": {
             "jestConfig": "apps/api/jest.config.js",
             "passWithNoTests": true
@@ -84,20 +74,14 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "libs/api-interfaces/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/api-interfaces/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/api-interfaces"
-          ],
+          "outputs": ["coverage/libs/api-interfaces"],
           "options": {
             "jestConfig": "libs/api-interfaces/jest.config.js",
             "passWithNoTests": true
@@ -113,20 +97,14 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "libs/application/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/application/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/application"
-          ],
+          "outputs": ["coverage/libs/application"],
           "options": {
             "jestConfig": "libs/application/jest.config.js",
             "passWithNoTests": true
@@ -141,10 +119,8 @@
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "@nrwl/node:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "executor": "@nrwl/node:webpack",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/dev-auth",
             "main": "apps/dev-auth/src/main.ts",
@@ -163,9 +139,7 @@
                 }
               }
             ],
-            "assets": [
-              "apps/dev-auth/src/assets"
-            ]
+            "assets": ["apps/dev-auth/src/assets"]
           },
           "configurations": {
             "production": {
@@ -182,27 +156,21 @@
           }
         },
         "serve": {
-          "executor": "@nrwl/node:execute",
+          "executor": "@nrwl/node:node",
           "options": {
             "buildTarget": "dev-auth:build"
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "apps/dev-auth/**/*.ts"
-            ]
+            "lintFilePatterns": ["apps/dev-auth/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/dev-auth"
-          ],
+          "outputs": ["coverage/apps/dev-auth"],
           "options": {
             "jestConfig": "apps/dev-auth/jest.config.js",
             "passWithNoTests": true
@@ -218,20 +186,14 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "libs/domain/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/domain/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/domain"
-          ],
+          "outputs": ["coverage/libs/domain"],
           "options": {
             "jestConfig": "libs/domain/jest.config.js",
             "passWithNoTests": true
@@ -247,20 +209,14 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "libs/infrastructure/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/infrastructure/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/infrastructure"
-          ],
+          "outputs": ["coverage/libs/infrastructure"],
           "options": {
             "jestConfig": "libs/infrastructure/jest.config.js",
             "passWithNoTests": true
@@ -276,20 +232,14 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "libs/services/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/services/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/services"
-          ],
+          "outputs": ["coverage/libs/services"],
           "options": {
             "jestConfig": "libs/services/jest.config.js",
             "passWithNoTests": true
