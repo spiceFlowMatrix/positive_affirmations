@@ -1,58 +1,66 @@
-import 'package:api_client/api_client.dart';
-import 'package:chopper/chopper.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:positive_affirmations/app.dart';
-import 'package:positive_affirmations/bloc_observer.dart';
-import 'package:repository/repository.dart';
 
-import 'firebase_options.dart';
+void main() {
+  runApp(const MyApp());
+}
 
-Future<void> main() async {
-  BlocOverrides.runZoned(
-    () {},
-    blocObserver: AppBlocObserver(),
-  );
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  if (!kReleaseMode) {
-    FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-    await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
   }
-  final authenticationRepository = AuthenticationRepository();
-  await authenticationRepository.user.first;
-  final apiClient = ApiClient.create(
-    ChopperClient(
-      baseUrl: 'http://10.0.2.2:3333',
-      converter: $JsonSerializableConverter(),
-      interceptors: [
-        (Request request) async {
-          if (FirebaseAuth.instance.currentUser != null) {
-            final token = await FirebaseAuth.instance.currentUser!.getIdToken();
-            final updatedHeaders = Map<String, String>.from(request.headers);
-            if (updatedHeaders.containsKey('Authorization')) {
-              updatedHeaders.update(
-                  'Authorization', (value) => 'Bearer $token');
-            } else {
-              updatedHeaders.addAll({'Authorization': 'Bearer $token'});
-            }
-            return request.copyWith(headers: updatedHeaders);
-          } else {
-            return request;
-          }
-        },
-      ],
-    ),
-  );
+}
 
-  runApp(App(
-    authenticationRepository: authenticationRepository,
-    apiClient: apiClient,
-  ));
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
 }

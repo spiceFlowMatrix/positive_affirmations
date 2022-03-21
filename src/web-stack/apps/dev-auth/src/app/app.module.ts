@@ -10,7 +10,7 @@ import {environment} from "../environments/environment";
   providers: [
     {
       provide: AuthService,
-      useValue: new AuthService(environment.firebaseConfig, 'http://127.0.0.1:9099')
+      useValue: new AuthService(environment.firebaseConfig)
     }
   ],
 })

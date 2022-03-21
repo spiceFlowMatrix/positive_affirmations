@@ -14,8 +14,6 @@ class AppTheme {
       primary: primaryColor,
       secondary: secondaryColor,
       error: errorColor,
-      primaryVariant: primaryColorDark,
-      secondaryVariant: secondaryColorDark,
       onPrimary: Colors.black,
       onSecondary: Colors.white,
       background: primaryColorDark,
