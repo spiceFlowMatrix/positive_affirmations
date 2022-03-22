@@ -1,19 +1,29 @@
+import 'package:api_client/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repository/repository.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key, required this.authenticationRepository})
-      : super(key: key);
+  const App({
+    Key? key,
+    required AuthenticationRepository authenticationRepository,
+    required ApiClient apiClient,
+  })  : _authenticationRepository = authenticationRepository,
+        _apiClient = apiClient,
+        super(key: key);
 
-  final AuthenticationRepository authenticationRepository;
+  final AuthenticationRepository _authenticationRepository;
+  final ApiClient _apiClient;
 
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<AuthenticationRepository>.value(
-          value: authenticationRepository,
+          value: _authenticationRepository,
+        ),
+        RepositoryProvider<ApiClient>.value(
+          value: _apiClient,
         ),
       ],
       child: MaterialApp(
