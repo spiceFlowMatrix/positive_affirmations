@@ -7,6 +7,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  equatable: ^2.0.3
   firebase_auth: ^3.3.11
   firebase_core: ^1.13.1
   flutter:
