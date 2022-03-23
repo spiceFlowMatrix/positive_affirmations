@@ -1,10 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:positive_affirmations/models/form_fields/email_field.dart';
-import 'package:positive_affirmations/models/form_fields/nullable_person_name_field.dart';
-import 'package:positive_affirmations/models/form_fields/password_field.dart';
-import 'package:positive_affirmations/models/form_fields/person_name_field.dart';
+import 'package:positive_affirmations/common/models/form_fields/form_fields.dart';
 
 part 'sign_up_form_state.dart';
 
