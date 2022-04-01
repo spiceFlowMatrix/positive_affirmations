@@ -29,6 +29,7 @@ class _Form extends StatelessWidget {
         child: Column(
           children: const [
             _NameField(),
+            _NickNameField(),
           ],
         ),
       ),
@@ -36,23 +37,114 @@ class _Form extends StatelessWidget {
   }
 }
 
-class _NameField extends StatelessWidget {
+class _NameField extends StatefulWidget {
   const _NameField({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _NameFieldState();
+}
+
+class _NameFieldState extends State<_NameField> {
+  late FocusNode _focusNode;
+  bool _canShowError = false;
+
+  @override
+  void initState() {
+    _focusNode = FocusNode();
+    _focusNode.addListener(_focusListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_focusListener);
+    super.dispose();
+  }
+
+  void _focusListener() {
+    setState(() {
+      _canShowError = !_focusNode.hasFocus;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<SignUpFormCubit>();
-    return CommonFormPadding(
-      child: TextFormField(
-        initialValue: cubit.state.name.value,
-        onChanged: (value) => cubit.updateName(value),
-        decoration: const InputDecoration(
-          isDense: true,
-          fillColor: Colors.white,
-          filled: true,
-          labelText: 'Name',
-        ),
-      ),
+    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
+      buildWhen: (previous, current) => previous.name != current.name,
+      builder: (context, state) {
+        return CommonFormPadding(
+          child: TextFormField(
+            focusNode: _focusNode,
+            initialValue: cubit.state.name.value,
+            onChanged: (value) => cubit.updateName(value),
+            decoration: InputDecoration(
+              isDense: true,
+              fillColor: Colors.white,
+              filled: true,
+              labelText: 'Name *',
+              errorText:
+                  _canShowError ? state.name.buildErrorText(context) : null,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _NickNameField extends StatefulWidget {
+  const _NickNameField({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _NickNameFieldState();
+}
+
+class _NickNameFieldState extends State<_NickNameField> {
+  late FocusNode _focusNode;
+  bool _canShowError = false;
+
+  @override
+  void initState() {
+    _focusNode = FocusNode();
+    _focusNode.addListener(_focusListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_focusListener);
+    super.dispose();
+  }
+
+  void _focusListener() {
+    setState(() {
+      _canShowError = !_focusNode.hasFocus;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<SignUpFormCubit>();
+    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
+      buildWhen: (previous, current) => previous.nickName != current.nickName,
+      builder: (context, state) {
+        return CommonFormPadding(
+          child: TextFormField(
+            focusNode: _focusNode,
+            initialValue: cubit.state.name.value,
+            onChanged: (value) => cubit.updateNickname(value),
+            decoration: InputDecoration(
+              isDense: true,
+              fillColor: Colors.white,
+              filled: true,
+              labelText: 'Nick name',
+              errorText:
+                  _canShowError ? state.nickName.buildErrorText(context) : null,
+            ),
+          ),
+        );
+      },
     );
   }
 }
