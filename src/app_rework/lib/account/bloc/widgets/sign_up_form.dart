@@ -30,6 +30,7 @@ class _Form extends StatelessWidget {
           children: const [
             _NameField(),
             _NickNameField(),
+            _EmailField(),
           ],
         ),
       ),
@@ -141,6 +142,62 @@ class _NickNameFieldState extends State<_NickNameField> {
               labelText: 'Nick name',
               errorText:
                   _canShowError ? state.nickName.buildErrorText(context) : null,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _EmailField extends StatefulWidget {
+  const _EmailField({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _EmailFieldState();
+}
+
+class _EmailFieldState extends State<_EmailField> {
+  late FocusNode _focusNode;
+  bool _canShowError = false;
+
+  @override
+  void initState() {
+    _focusNode = FocusNode();
+    _focusNode.addListener(_focusListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_focusListener);
+    super.dispose();
+  }
+
+  void _focusListener() {
+    setState(() {
+      _canShowError = !_focusNode.hasFocus;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<SignUpFormCubit>();
+    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
+      buildWhen: (previous, current) => previous.email != current.email,
+      builder: (context, state) {
+        return CommonFormPadding(
+          child: TextFormField(
+            focusNode: _focusNode,
+            initialValue: cubit.state.email.value,
+            onChanged: (value) => cubit.updateEmail(value),
+            decoration: InputDecoration(
+              isDense: true,
+              filled: true,
+              fillColor: Colors.white,
+              labelText: 'Email *',
+              errorText:
+                  _canShowError ? state.email.buildErrorText(context) : null,
             ),
           ),
         );
