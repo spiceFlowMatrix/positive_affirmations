@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:positive_affirmations/account/bloc/sign_up_form/sign_up_form_cubit.dart';
 import 'package:positive_affirmations/common/widgets/common_form_padding.dart';
 
@@ -27,10 +28,14 @@ class _Form extends StatelessWidget {
     return Center(
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: const [
             _NameField(),
             _NickNameField(),
             _EmailField(),
+            _PasswordField(),
+            _ConfirmPasswordField(),
+            _SubmitButton(),
           ],
         ),
       ),
@@ -200,6 +205,123 @@ class _EmailFieldState extends State<_EmailField> {
                   _canShowError ? state.email.buildErrorText(context) : null,
             ),
           ),
+        );
+      },
+    );
+  }
+}
+
+class _PasswordField extends StatelessWidget {
+  const _PasswordField({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<SignUpFormCubit>();
+
+    return CommonFormPadding(
+      verticalPadding: 12,
+      child: TextFormField(
+        initialValue: cubit.state.password.value,
+        textInputAction: TextInputAction.next,
+        onChanged: (value) => cubit.updatePassword(value),
+        obscureText: true,
+        decoration: const InputDecoration(
+          labelText: 'Password *',
+          fillColor: Colors.white,
+          filled: true,
+          isDense: true,
+        ),
+      ),
+    );
+  }
+}
+
+class _ConfirmPasswordField extends StatefulWidget {
+  const _ConfirmPasswordField({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _ConfirmPasswordFieldState();
+}
+
+class _ConfirmPasswordFieldState extends State<_ConfirmPasswordField> {
+  late FocusNode _focusNode;
+  bool _canShowError = false;
+
+  @override
+  void initState() {
+    _focusNode = FocusNode();
+    _focusNode.addListener(_focusListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_focusListener);
+    super.dispose();
+  }
+
+  void _focusListener() {
+    setState(() {
+      _canShowError = !_focusNode.hasFocus;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<SignUpFormCubit>();
+
+    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
+      buildWhen: (previous, current) =>
+          previous.confirmPassword != current.confirmPassword ||
+          previous.password != current.password,
+      builder: (context, state) {
+        return CommonFormPadding(
+          verticalPadding: 12,
+          child: TextFormField(
+            focusNode: _focusNode,
+            initialValue: cubit.state.confirmPassword.value,
+            textInputAction: TextInputAction.done,
+            onChanged: (value) => cubit.updateConfirmPassword(value),
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Confirm password *',
+              isDense: true,
+              fillColor: Colors.white,
+              filled: true,
+              errorText: _canShowError && state.showPasswordsNotMatchingError
+                  ? 'Passwords don\'t match.'
+                  : null,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _SubmitButton extends StatelessWidget {
+  const _SubmitButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
+      // buildWhen: (previous, current) => previous.status != current.status,
+      builder: (context, state) {
+        return CommonFormPadding(
+          verticalPadding: 12,
+          child: state.status.isSubmissionInProgress
+              ? const FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: CircularProgressIndicator(),
+                )
+              : ElevatedButton(
+                  onPressed: state.status.isValidated && state.passwordConfirmed
+                      ? () {}
+                      : null,
+                  child: const Text(
+                    'SIGN UP',
+                  ),
+                ),
         );
       },
     );
