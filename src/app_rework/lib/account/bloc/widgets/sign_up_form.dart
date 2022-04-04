@@ -1,8 +1,10 @@
+import 'package:api_client/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:positive_affirmations/account/bloc/sign_up_form/sign_up_form_cubit.dart';
 import 'package:positive_affirmations/common/widgets/common_form_padding.dart';
+import 'package:repository/repository.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({Key? key}) : super(key: key);
@@ -12,7 +14,10 @@ class SignUpForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SignUpFormCubit>(
-      create: (_) => SignUpFormCubit(),
+      create: (_) => SignUpFormCubit(
+        apiClient: RepositoryProvider.of<ApiClient>(context),
+        authRepo: RepositoryProvider.of<AuthenticationRepository>(context),
+      ),
       child: const Scaffold(
         body: _Form(),
       ),
@@ -316,7 +321,7 @@ class _SubmitButton extends StatelessWidget {
                 )
               : ElevatedButton(
                   onPressed: state.status.isValidated && state.passwordConfirmed
-                      ? () {}
+                      ? () => context.read<SignUpFormCubit>().submit()
                       : null,
                   child: const Text(
                     'SIGN UP',
