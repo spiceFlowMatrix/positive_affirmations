@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:positive_affirmations/account/bloc/sign_up_form/sign_up_form_cubit.dart';
 import 'package:positive_affirmations/common/widgets/common_form_padding.dart';
+import 'package:positive_affirmations/theme.dart';
 import 'package:repository/repository.dart';
 
 class SignUpForm extends StatelessWidget {
@@ -41,6 +42,7 @@ class _Form extends StatelessWidget {
             _PasswordField(),
             _ConfirmPasswordField(),
             _SubmitButton(),
+            _AlreadyHaveAccountPanel(),
           ],
         ),
       ),
@@ -329,6 +331,53 @@ class _SubmitButton extends StatelessWidget {
                 ),
         );
       },
+    );
+  }
+}
+
+class _AlreadyHaveAccountPanel extends StatelessWidget {
+  const _AlreadyHaveAccountPanel({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CommonFormPadding(
+      verticalPadding: 0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: const [
+          Divider(
+            height: 30,
+            thickness: 1.5,
+          ),
+          Text(
+            'Already have an account?',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          Padding(padding: EdgeInsets.only(top: 10)),
+          _AlreadyHaveAccountSignInButton(),
+        ],
+      ),
+    );
+  }
+}
+
+class _AlreadyHaveAccountSignInButton extends StatelessWidget {
+  const _AlreadyHaveAccountSignInButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: () {},
+      child: const Text(
+        'SIGN IN',
+      ),
+      style: OutlinedButton.styleFrom(
+        primary: AppTheme.secondaryColor,
+        side: const BorderSide(color: AppTheme.secondaryColor),
+      ),
     );
   }
 }
