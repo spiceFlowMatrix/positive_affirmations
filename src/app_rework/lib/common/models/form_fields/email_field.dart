@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:formz/formz.dart';
 
-enum EmailFieldValidationError { invalid }
+enum EmailFieldValidationError { empty, invalid }
 
 class EmailField extends FormzInput<String, EmailFieldValidationError> {
   const EmailField.pure() : super.pure('');
@@ -14,6 +14,7 @@ class EmailField extends FormzInput<String, EmailFieldValidationError> {
 
   @override
   EmailFieldValidationError? validator(String? value) {
+    if (value != null && value.isEmpty) return EmailFieldValidationError.empty;
     return _emailRegExp.hasMatch(value ?? '')
         ? null
         : EmailFieldValidationError.invalid;
