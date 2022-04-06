@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:positive_affirmations/account/bloc/sign_up_form/sign_up_form_cubit.dart';
+import 'package:positive_affirmations/account/bloc/widgets/sign_in_form.dart';
 import 'package:positive_affirmations/common/widgets/common_form_padding.dart';
 import 'package:positive_affirmations/theme.dart';
 import 'package:repository/repository.dart';
@@ -370,7 +371,12 @@ class _AlreadyHaveAccountSignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushReplacementNamed(
+          context,
+          SignInForm.routeName,
+        );
+      },
       child: const Text(
         'SIGN IN',
       ),
