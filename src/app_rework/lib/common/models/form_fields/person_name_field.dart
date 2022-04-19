@@ -9,12 +9,17 @@ class PersonNameField
 
   const PersonNameField.dirty([String value = '']) : super.dirty(value);
 
+  // Used following regex tool to find the regex that worked:
+  // https://regex101.com/
+  static final _invalidRegexFormat =
+      RegExp(r'(?:[-!$%^&*#@()_+|~=''\'`{}[]:";<>?,./\\])|(\\d)');
+
   @override
   PersonNameFieldValidationError? validator(String? value) {
     if (value == null || value.isEmpty) {
       return PersonNameFieldValidationError.empty;
     }
-    if (value.contains(RegExp(r'[^\s\w]'))) {
+    if (_invalidRegexFormat.hasMatch(value)) {
       return PersonNameFieldValidationError.invalid;
     }
     return null;
