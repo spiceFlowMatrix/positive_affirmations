@@ -5,6 +5,7 @@ import 'package:formz/formz.dart';
 import 'package:positive_affirmations/account/bloc/sign_up_form/sign_up_form_cubit.dart';
 import 'package:positive_affirmations/account/bloc/widgets/sign_in_form.dart';
 import 'package:positive_affirmations/common/widgets/common_form_padding.dart';
+import 'package:positive_affirmations/common/widgets/form_fields/common_email_form_field.dart';
 import 'package:positive_affirmations/theme.dart';
 import 'package:repository/repository.dart';
 
@@ -199,20 +200,11 @@ class _EmailFieldState extends State<_EmailField> {
     return BlocBuilder<SignUpFormCubit, SignUpFormState>(
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
-        return CommonFormPadding(
-          child: TextFormField(
-            focusNode: _focusNode,
-            initialValue: cubit.state.email.value,
-            onChanged: (value) => cubit.updateEmail(value),
-            decoration: InputDecoration(
-              isDense: true,
-              filled: true,
-              fillColor: Colors.white,
-              labelText: 'Email *',
-              errorText:
-                  _canShowError ? state.email.buildErrorText(context) : null,
-            ),
-          ),
+        return CommonEmailFormField(
+          focusNode: _focusNode,
+          email: state.email,
+          onChanged: (value) => cubit.updateEmail(value),
+          canShowError: _canShowError,
         );
       },
     );
