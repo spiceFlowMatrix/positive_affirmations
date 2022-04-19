@@ -11,6 +11,8 @@ class PersonNameField
 
   // Used following regex tool to find the regex that worked:
   // https://regex101.com/
+  // The resulting regex was adapted from:
+  // https://stackoverflow.com/questions/8359566/regex-to-match-symbols
   static final _invalidRegexFormat =
       RegExp(r'(?:[-!$%^&*#@()_+|~=''\'`{}[]:";<>?,./\\])|(\\d)');
 
