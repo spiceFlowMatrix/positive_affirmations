@@ -1,6 +1,6 @@
 import 'package:formz/formz.dart';
 
-enum PasswordFieldValidationError { invalid }
+enum PasswordFieldValidationError { empty, invalid }
 
 class PasswordField extends FormzInput<String, PasswordFieldValidationError> {
   const PasswordField.pure() : super.pure('');
@@ -12,6 +12,9 @@ class PasswordField extends FormzInput<String, PasswordFieldValidationError> {
 
   @override
   PasswordFieldValidationError? validator(String? value) {
+    if (value != null && value.isEmpty) {
+      return PasswordFieldValidationError.empty;
+    }
     return _passwordFieldRegExp.hasMatch(value ?? '')
         ? null
         : PasswordFieldValidationError.invalid;
