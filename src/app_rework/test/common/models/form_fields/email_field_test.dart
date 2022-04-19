@@ -20,24 +20,24 @@ void main() {
     });
 
     group('[Validators]', () {
-      test('returns empty when email is empty', () {
+      test('error is `empty` given value is an empty string', () {
         expect(
           const EmailField.dirty('').error,
           EmailFieldValidationError.empty,
         );
       });
 
-      test('is valid when valid email is provided', () {
-        expect(
-          const EmailField.dirty(validEmailString).error,
-          isNull,
-        );
-      });
-
-      test('returns invalid when supplied string does not match an email', () {
+      test('error is `invalid` given the value is not an email', () {
         expect(
           const EmailField.dirty(invalidEmailString).error,
           EmailFieldValidationError.invalid,
+        );
+      });
+
+      test('error is null given value is a valid email', () {
+        expect(
+          const EmailField.dirty(validEmailString).error,
+          isNull,
         );
       });
     });
