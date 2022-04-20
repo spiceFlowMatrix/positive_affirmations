@@ -6,6 +6,7 @@ import 'package:positive_affirmations/account/bloc/sign_up_form/sign_up_form_cub
 import 'package:positive_affirmations/account/bloc/widgets/sign_in_form.dart';
 import 'package:positive_affirmations/common/widgets/common_form_padding.dart';
 import 'package:positive_affirmations/common/widgets/form_fields/common_email_form_field.dart';
+import 'package:positive_affirmations/common/widgets/form_fields/common_person_name_field.dart';
 import 'package:positive_affirmations/theme.dart';
 import 'package:repository/repository.dart';
 
@@ -88,20 +89,11 @@ class _NameFieldState extends State<_NameField> {
     return BlocBuilder<SignUpFormCubit, SignUpFormState>(
       buildWhen: (previous, current) => previous.name != current.name,
       builder: (context, state) {
-        return CommonFormPadding(
-          child: TextFormField(
-            focusNode: _focusNode,
-            initialValue: cubit.state.name.value,
-            onChanged: (value) => cubit.updateName(value),
-            decoration: InputDecoration(
-              isDense: true,
-              fillColor: Colors.white,
-              filled: true,
-              labelText: 'Name *',
-              errorText:
-                  _canShowError ? state.name.buildErrorText(context) : null,
-            ),
-          ),
+        return CommonPersonNameField(
+          focusNode: _focusNode,
+          name: state.name,
+          onChanged: (value) => cubit.updateName(value),
+          canShowError: _canShowError,
         );
       },
     );
