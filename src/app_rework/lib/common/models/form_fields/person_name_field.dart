@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:formz/formz.dart';
 
 enum PersonNameFieldValidationError { empty, invalid }
@@ -13,8 +12,10 @@ class PersonNameField
   // https://regex101.com/
   // The resulting regex was adapted from:
   // https://stackoverflow.com/questions/8359566/regex-to-match-symbols
+  // Solution for escaping quotes in dart regex objects found here:
+  // https://stackoverflow.com/questions/67685251/escape-quote-in-dart-regex
   static final _invalidRegexFormat =
-      RegExp(r'(?:[-!$%^&*#@()_+|~=''\'`{}[]:";<>?,./\\])|(\\d)');
+      RegExp(r'''(?:[-!$@%^&*()_+|~=`{}\[\]:"';<>?,.\/])|(\d)''');
 
   @override
   PersonNameFieldValidationError? validator(String? value) {
@@ -23,20 +24,6 @@ class PersonNameField
     }
     if (_invalidRegexFormat.hasMatch(value)) {
       return PersonNameFieldValidationError.invalid;
-    }
-    return null;
-  }
-
-  String? buildErrorText(BuildContext context) {
-    if (error != null && !pure && value.isNotEmpty) {
-      switch (error) {
-        case PersonNameFieldValidationError.invalid:
-          return 'Name cannot contain any of the following characters: * . ( ) / \\ [ ] { } \$ = - & ^ % # @ ! ~ \' "';
-        case PersonNameFieldValidationError.empty:
-          return 'Name is required.';
-        default:
-          return null;
-      }
     }
     return null;
   }

@@ -3,7 +3,7 @@ import 'package:positive_affirmations/common/models/form_fields/person_name_fiel
 
 void main() {
   const validNameString = 'Valid Name';
-  const invalidSpecialNameString = '1.2@3#.\$5%6^7&8*9()\\/';
+  const invalidSpecialNameString = '.@#.\$%^&*()\\/';
   const invalidNumericNameString = 'Valid1 Name2';
 
   group('[PersonNameField]', () {
