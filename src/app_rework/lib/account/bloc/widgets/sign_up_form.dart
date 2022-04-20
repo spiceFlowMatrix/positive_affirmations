@@ -61,28 +61,6 @@ class _NameField extends StatefulWidget {
 }
 
 class _NameFieldState extends State<_NameField> {
-  late FocusNode _focusNode;
-  bool _canShowError = false;
-
-  @override
-  void initState() {
-    _focusNode = FocusNode();
-    _focusNode.addListener(_focusListener);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _focusNode.removeListener(_focusListener);
-    super.dispose();
-  }
-
-  void _focusListener() {
-    setState(() {
-      _canShowError = !_focusNode.hasFocus;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<SignUpFormCubit>();
@@ -90,10 +68,8 @@ class _NameFieldState extends State<_NameField> {
       buildWhen: (previous, current) => previous.name != current.name,
       builder: (context, state) {
         return CommonPersonNameField(
-          focusNode: _focusNode,
           name: state.name,
           onChanged: (value) => cubit.updateName(value),
-          canShowError: _canShowError,
         );
       },
     );

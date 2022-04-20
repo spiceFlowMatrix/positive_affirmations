@@ -2,25 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:positive_affirmations/common/models/form_fields/person_name_field.dart';
 import 'package:positive_affirmations/common/widgets/common_form_padding.dart';
 
-class CommonPersonNameField extends StatelessWidget {
+class CommonPersonNameField extends StatefulWidget {
   const CommonPersonNameField({
     Key? key,
     required this.name,
-    this.canShowError = false,
-    this.focusNode,
     this.onChanged,
   }) : super(key: key);
   final PersonNameField name;
-  final bool canShowError;
-  final FocusNode? focusNode;
   final Function(String)? onChanged;
 
+  @override
+  State<StatefulWidget> createState() => _CommonPersonNameFieldState();
+}
+
+class _CommonPersonNameFieldState extends State<CommonPersonNameField> {
+  late FocusNode _focusNode;
+  bool _canShowError = false;
+
+  @override
+  void initState() {
+    _focusNode = FocusNode();
+    _focusNode.addListener(_focusListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_focusListener);
+    super.dispose();
+  }
+
+  void _focusListener() {
+    setState(() {
+      _canShowError = !_focusNode.hasFocus;
+    });
+  }
+
   String? get _errorText {
-    if (name.error != null &&
-        !name.pure &&
-        name.value.isNotEmpty &&
-        canShowError) {
-      switch (name.error) {
+    if (widget.name.error != null &&
+        !widget.name.pure &&
+        widget.name.value.isNotEmpty &&
+        _canShowError) {
+      switch (widget.name.error) {
         case PersonNameFieldValidationError.invalid:
           return 'Name cannot contain any of the following characters: * . ( ) / \\ [ ] { } \$ = - & ^ % # @ ! ~ \' "';
         case PersonNameFieldValidationError.empty:
@@ -36,9 +59,9 @@ class CommonPersonNameField extends StatelessWidget {
   Widget build(BuildContext context) {
     return CommonFormPadding(
       child: TextFormField(
-        focusNode: focusNode,
-        initialValue: name.value,
-        onChanged: onChanged,
+        focusNode: _focusNode,
+        initialValue: widget.name.value,
+        onChanged: widget.onChanged,
         decoration: InputDecoration(
           isDense: true,
           filled: true,
