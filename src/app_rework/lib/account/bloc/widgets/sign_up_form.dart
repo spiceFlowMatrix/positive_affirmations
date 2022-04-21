@@ -6,6 +6,7 @@ import 'package:positive_affirmations/account/bloc/sign_up_form/sign_up_form_cub
 import 'package:positive_affirmations/account/bloc/widgets/sign_in_form.dart';
 import 'package:positive_affirmations/common/widgets/common_form_padding.dart';
 import 'package:positive_affirmations/common/widgets/form_fields/common_email_form_field.dart';
+import 'package:positive_affirmations/common/widgets/form_fields/common_nullable_person_name_field.dart';
 import 'package:positive_affirmations/common/widgets/form_fields/common_person_name_field.dart';
 import 'package:positive_affirmations/theme.dart';
 import 'package:repository/repository.dart';
@@ -76,35 +77,8 @@ class _NameFieldState extends State<_NameField> {
   }
 }
 
-class _NickNameField extends StatefulWidget {
+class _NickNameField extends StatelessWidget {
   const _NickNameField({Key? key}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _NickNameFieldState();
-}
-
-class _NickNameFieldState extends State<_NickNameField> {
-  late FocusNode _focusNode;
-  bool _canShowError = false;
-
-  @override
-  void initState() {
-    _focusNode = FocusNode();
-    _focusNode.addListener(_focusListener);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _focusNode.removeListener(_focusListener);
-    super.dispose();
-  }
-
-  void _focusListener() {
-    setState(() {
-      _canShowError = !_focusNode.hasFocus;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,20 +86,9 @@ class _NickNameFieldState extends State<_NickNameField> {
     return BlocBuilder<SignUpFormCubit, SignUpFormState>(
       buildWhen: (previous, current) => previous.nickName != current.nickName,
       builder: (context, state) {
-        return CommonFormPadding(
-          child: TextFormField(
-            focusNode: _focusNode,
-            initialValue: cubit.state.name.value,
-            onChanged: (value) => cubit.updateNickname(value),
-            decoration: InputDecoration(
-              isDense: true,
-              fillColor: Colors.white,
-              filled: true,
-              labelText: 'Nick name',
-              errorText:
-                  _canShowError ? state.nickName.buildErrorText(context) : null,
-            ),
-          ),
+        return CommonNullablePersonNameField(
+          name: state.nickName,
+          onChanged: (value) => cubit.updateNickname(value),
         );
       },
     );
