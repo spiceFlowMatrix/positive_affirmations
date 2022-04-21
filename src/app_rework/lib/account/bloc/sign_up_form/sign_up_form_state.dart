@@ -21,15 +21,6 @@ class SignUpFormState extends Equatable {
 
   bool get passwordConfirmed => password.value == confirmPassword.value;
 
-  bool get showPasswordsNotMatchingError {
-    if (!confirmPassword.pure &&
-        confirmPassword.value.isNotEmpty &&
-        password.value != confirmPassword.value) {
-      return true;
-    }
-    return false;
-  }
-
   SignUpFormState copyWith({
     PersonNameField? name,
     NullablePersonNameField? nickName,

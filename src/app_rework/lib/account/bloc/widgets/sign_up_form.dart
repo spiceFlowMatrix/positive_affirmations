@@ -7,6 +7,7 @@ import 'package:positive_affirmations/account/bloc/widgets/sign_in_form.dart';
 import 'package:positive_affirmations/common/widgets/common_form_padding.dart';
 import 'package:positive_affirmations/common/widgets/form_fields/common_email_form_field.dart';
 import 'package:positive_affirmations/common/widgets/form_fields/common_nullable_person_name_field.dart';
+import 'package:positive_affirmations/common/widgets/form_fields/common_password_field.dart';
 import 'package:positive_affirmations/common/widgets/form_fields/common_person_name_field.dart';
 import 'package:positive_affirmations/theme.dart';
 import 'package:repository/repository.dart';
@@ -120,53 +121,20 @@ class _PasswordField extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<SignUpFormCubit>();
 
-    return CommonFormPadding(
-      verticalPadding: 12,
-      child: TextFormField(
-        initialValue: cubit.state.password.value,
-        textInputAction: TextInputAction.next,
-        onChanged: (value) => cubit.updatePassword(value),
-        obscureText: true,
-        decoration: const InputDecoration(
-          labelText: 'Password *',
-          fillColor: Colors.white,
-          filled: true,
-          isDense: true,
-        ),
-      ),
+    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
+      buildWhen: (previous, current) => previous.password != current.password,
+      builder: (context, state) {
+        return CommonPasswordField(
+          password: state.password,
+          onChanged: (value) => cubit.updatePassword(value),
+        );
+      },
     );
   }
 }
 
-class _ConfirmPasswordField extends StatefulWidget {
+class _ConfirmPasswordField extends StatelessWidget {
   const _ConfirmPasswordField({Key? key}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _ConfirmPasswordFieldState();
-}
-
-class _ConfirmPasswordFieldState extends State<_ConfirmPasswordField> {
-  late FocusNode _focusNode;
-  bool _canShowError = false;
-
-  @override
-  void initState() {
-    _focusNode = FocusNode();
-    _focusNode.addListener(_focusListener);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _focusNode.removeListener(_focusListener);
-    super.dispose();
-  }
-
-  void _focusListener() {
-    setState(() {
-      _canShowError = !_focusNode.hasFocus;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -177,24 +145,10 @@ class _ConfirmPasswordFieldState extends State<_ConfirmPasswordField> {
           previous.confirmPassword != current.confirmPassword ||
           previous.password != current.password,
       builder: (context, state) {
-        return CommonFormPadding(
-          verticalPadding: 12,
-          child: TextFormField(
-            focusNode: _focusNode,
-            initialValue: cubit.state.confirmPassword.value,
-            textInputAction: TextInputAction.done,
-            onChanged: (value) => cubit.updateConfirmPassword(value),
-            obscureText: true,
-            decoration: InputDecoration(
-              labelText: 'Confirm password *',
-              isDense: true,
-              fillColor: Colors.white,
-              filled: true,
-              errorText: _canShowError && state.showPasswordsNotMatchingError
-                  ? 'Passwords don\'t match.'
-                  : null,
-            ),
-          ),
+        return CommonPasswordField(
+          password: state.confirmPassword,
+          confirmingPassword: state.password,
+          onChanged: (value) => cubit.updateConfirmPassword(value),
         );
       },
     );
