@@ -95,35 +95,8 @@ class _NickNameField extends StatelessWidget {
   }
 }
 
-class _EmailField extends StatefulWidget {
+class _EmailField extends StatelessWidget {
   const _EmailField({Key? key}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _EmailFieldState();
-}
-
-class _EmailFieldState extends State<_EmailField> {
-  late FocusNode _focusNode;
-  bool _canShowError = false;
-
-  @override
-  void initState() {
-    _focusNode = FocusNode();
-    _focusNode.addListener(_focusListener);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _focusNode.removeListener(_focusListener);
-    super.dispose();
-  }
-
-  void _focusListener() {
-    setState(() {
-      _canShowError = !_focusNode.hasFocus;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,10 +105,8 @@ class _EmailFieldState extends State<_EmailField> {
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return CommonEmailFormField(
-          focusNode: _focusNode,
           email: state.email,
           onChanged: (value) => cubit.updateEmail(value),
-          canShowError: _canShowError,
         );
       },
     );

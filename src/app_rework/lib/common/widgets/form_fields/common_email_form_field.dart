@@ -2,30 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:positive_affirmations/common/models/form_fields/email_field.dart';
 import 'package:positive_affirmations/common/widgets/common_form_padding.dart';
 
-class CommonEmailFormField extends StatelessWidget {
+class CommonEmailFormField extends StatefulWidget {
   const CommonEmailFormField({
     Key? key,
     required this.email,
-    this.canShowError = false,
-    this.focusNode,
     this.onChanged,
   }) : super(key: key);
 
   final EmailField email;
-
-  /* Allow higher level widget control over when an error, if one currently exists
-    can be shown.
-  * */
-  final bool canShowError;
-  final FocusNode? focusNode;
   final Function(String)? onChanged;
 
+  @override
+  State<StatefulWidget> createState() => _CommonEmailFormFieldState();
+}
+
+class _CommonEmailFormFieldState extends State<CommonEmailFormField> {
+  late FocusNode _focusNode;
+  bool _canShowError = false;
+
+  @override
+  void initState() {
+    _focusNode = FocusNode();
+    _focusNode.addListener(_focusListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_focusListener);
+    super.dispose();
+  }
+
+  void _focusListener() {
+    setState(() {
+      _canShowError = !_focusNode.hasFocus;
+    });
+  }
+
   String? get _errorText {
-    if (email.error != null &&
-        !email.pure &&
-        email.value.isNotEmpty &&
-        canShowError) {
-      switch (email.error) {
+    if (widget.email.error != null &&
+        !widget.email.pure &&
+        widget.email.value.isNotEmpty &&
+        _canShowError) {
+      switch (widget.email.error) {
         case EmailFieldValidationError.invalid:
           return 'Invalid email.';
         default:
@@ -39,9 +58,9 @@ class CommonEmailFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return CommonFormPadding(
       child: TextFormField(
-        focusNode: focusNode,
-        initialValue: email.value,
-        onChanged: onChanged,
+        focusNode: _focusNode,
+        initialValue: widget.email.value,
+        onChanged: widget.onChanged,
         decoration: InputDecoration(
           isDense: true,
           filled: true,
