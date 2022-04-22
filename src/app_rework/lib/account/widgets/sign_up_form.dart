@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:positive_affirmations/account/bloc/sign_up_form/sign_up_form_cubit.dart';
-import 'package:positive_affirmations/account/bloc/widgets/sign_in_form.dart';
+import 'package:positive_affirmations/account/widgets/sign_in_form.dart';
 import 'package:positive_affirmations/common/widgets/common_form_padding.dart';
 import 'package:positive_affirmations/common/widgets/form_fields/common_email_form_field.dart';
 import 'package:positive_affirmations/common/widgets/form_fields/common_nullable_person_name_field.dart';
