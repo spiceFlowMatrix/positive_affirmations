@@ -50,5 +50,6 @@ class SignUpFormState extends Equatable {
         confirmPassword,
         status,
         error,
+        passwordConfirmed,
       ];
 }
