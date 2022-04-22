@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:positive_affirmations/common/common_keys.dart';
 import 'package:positive_affirmations/common/models/form_fields/email_field.dart';
 import 'package:positive_affirmations/common/widgets/common_form_padding.dart';
 
 class CommonEmailFormField extends StatefulWidget {
   const CommonEmailFormField({
-    Key? key,
+    Key? key = CommonKeys.commonEmailFormField,
     required this.email,
     this.onChanged,
   }) : super(key: key);
