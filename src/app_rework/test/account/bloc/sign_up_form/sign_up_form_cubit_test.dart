@@ -1,5 +1,7 @@
 import 'package:api_client/api_client.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:chopper/chopper.dart';
+import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
@@ -8,6 +10,8 @@ import 'package:positive_affirmations/common/models/form_fields/form_fields.dart
 import 'package:repository/repository.dart';
 
 class MockApiClient extends Mock implements ApiClient {}
+
+class MockApiUserResponse extends Mock implements Response<UserDto> {}
 
 class MockAuthRepo extends Mock implements AuthenticationRepository {}
 
@@ -18,6 +22,14 @@ void main() {
   const invalidEmailString = 'test.com';
   const validPasswordString = '1234567As';
   const invalidShortPasswordString = '1234As';
+
+  final mockValidSignUpCommand = SignUpCommandDto(
+    displayName: validNameString,
+    nickName: validNameString,
+    email: validEmailString,
+    password: validPasswordString,
+  );
+
   late ApiClient apiClient;
   late AuthenticationRepository authRepo;
   late SignUpFormCubit cubit;
@@ -319,6 +331,121 @@ void main() {
             status: FormzStatus.invalid,
           ),
         ],
+      );
+    });
+
+    group('[Submit]', () {
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'doesn\'t do anything if form is pure',
+        build: () => cubit,
+        act: (cubit) => cubit.submit(),
+        expect: () => <SignUpFormState>[],
+      );
+
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'does not do anything if form is invalid',
+        build: () => cubit,
+        seed: () => const SignUpFormState(
+          name: PersonNameField.dirty(invalidNumericNameString),
+          status: FormzStatus.invalid,
+        ),
+        act: (cubit) => cubit.submit(),
+        expect: () => <SignUpFormState>[],
+      );
+
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'does not do anything if submission is in progress',
+        build: () => cubit,
+        seed: () => const SignUpFormState(
+          name: PersonNameField.dirty(validNameString),
+          nickName: NullablePersonNameField.dirty(validNameString),
+          email: EmailField.dirty(validEmailString),
+          password: PasswordField.dirty(validPasswordString),
+          confirmPassword: PasswordField.dirty(validPasswordString),
+          status: FormzStatus.submissionInProgress,
+        ),
+        act: (cubit) => cubit.submit(),
+        expect: () => <SignUpFormState>[],
+      );
+
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'does not do anything if passwords do not match',
+        build: () => cubit,
+        seed: () => SignUpFormState(
+          name: const PersonNameField.dirty(validNameString),
+          nickName: const NullablePersonNameField.dirty(validNameString),
+          email: const EmailField.dirty(validEmailString),
+          password: const PasswordField.dirty(validPasswordString),
+          confirmPassword: PasswordField.dirty(
+            validPasswordString + Faker().lorem.word(),
+          ),
+          status: FormzStatus.invalid,
+        ),
+        act: (cubit) => cubit.submit(),
+        expect: () => <SignUpFormState>[],
+      );
+
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'given valid form, makes appropriate service calls',
+        build: () {
+          final mockResponse = MockApiUserResponse();
+          final mockDto = UserDto(
+            displayName: validNameString,
+            nickName: validNameString,
+            email: validEmailString,
+          );
+          when(() => mockResponse.body).thenReturn(mockDto);
+          when(() => mockResponse.isSuccessful).thenReturn(true);
+          when(
+            () => apiClient.UsersApiController_signUpUser(
+                body: mockValidSignUpCommand),
+          ).thenAnswer(
+            (_) => Future.value(mockResponse),
+          );
+          when(
+            () => authRepo.logInWithEmailAndPassword(
+                email: validEmailString, password: validPasswordString),
+          ).thenAnswer((invocation) => Future.value());
+          return cubit;
+        },
+        seed: () => const SignUpFormState(
+          name: PersonNameField.dirty(validNameString),
+          nickName: NullablePersonNameField.dirty(validNameString),
+          email: EmailField.dirty(validEmailString),
+          password: PasswordField.dirty(validPasswordString),
+          confirmPassword: PasswordField.dirty(validPasswordString),
+          status: FormzStatus.valid,
+        ),
+        act: (cubit) => cubit.submit(),
+        expect: () => <SignUpFormState>[
+          const SignUpFormState(
+            name: PersonNameField.dirty(validNameString),
+            nickName: NullablePersonNameField.dirty(validNameString),
+            email: EmailField.dirty(validEmailString),
+            password: PasswordField.dirty(validPasswordString),
+            confirmPassword: PasswordField.dirty(validPasswordString),
+            status: FormzStatus.submissionInProgress,
+          ),
+          const SignUpFormState(
+            name: PersonNameField.dirty(validNameString),
+            nickName: NullablePersonNameField.dirty(validNameString),
+            email: EmailField.dirty(validEmailString),
+            password: PasswordField.dirty(validPasswordString),
+            confirmPassword: PasswordField.dirty(validPasswordString),
+            status: FormzStatus.submissionSuccess,
+            error: '',
+          ),
+        ],
+        verify: (_) {
+          verify(() => apiClient.UsersApiController_signUpUser(
+              body: mockValidSignUpCommand)).called(1);
+          verify(
+            () => authRepo.logInWithEmailAndPassword(
+              email: validEmailString,
+              password: validPasswordString,
+            ),
+          ).called(1);
+        },
       );
     });
   });
