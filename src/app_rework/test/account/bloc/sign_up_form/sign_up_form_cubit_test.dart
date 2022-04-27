@@ -16,6 +16,7 @@ void main() {
   // const invalidSpecialNameString = '.@#.\$%^&*()\\/';
   const invalidNumericNameString = 'Valid1 Name2';
   const validEmailString = 'test@email.com';
+  const invalidEmailString = 'test.com';
   const validPasswordString = '1234567As';
   late ApiClient apiClient;
   late AuthenticationRepository authRepo;
@@ -149,6 +150,62 @@ void main() {
             confirmPassword: PasswordField.dirty(validPasswordString),
             status: FormzStatus.invalid,
           )
+        ],
+      );
+    });
+
+    group('[UpdateEmail]', () {
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'emits state with updated email',
+        build: () => cubit,
+        act: (cubit) => cubit.updateEmail(validEmailString),
+        expect: () => <SignUpFormState>[
+          const SignUpFormState(
+            email: EmailField.dirty(validEmailString),
+            status: FormzStatus.invalid,
+          ),
+        ],
+      );
+
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'given all other fields are valid & valid value is supplied, emits [valid] state',
+        build: () => cubit,
+        seed: () => const SignUpFormState(
+          name: PersonNameField.dirty(validNameString),
+          password: PasswordField.dirty(validPasswordString),
+          confirmPassword: PasswordField.dirty(validPasswordString),
+          status: FormzStatus.invalid,
+        ),
+        act: (cubit) => cubit.updateEmail(validEmailString),
+        expect: () => <SignUpFormState>[
+          const SignUpFormState(
+            name: PersonNameField.dirty(validNameString),
+            email: EmailField.dirty(validEmailString),
+            password: PasswordField.dirty(validPasswordString),
+            confirmPassword: PasswordField.dirty(validPasswordString),
+            status: FormzStatus.valid,
+          ),
+        ],
+      );
+
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'given all other fields are valid & invalid value is supplied, emits [invalid] state',
+        build: () => cubit,
+        seed: () => const SignUpFormState(
+          name: PersonNameField.dirty(validNameString),
+          password: PasswordField.dirty(validPasswordString),
+          confirmPassword: PasswordField.dirty(validPasswordString),
+          status: FormzStatus.invalid,
+        ),
+        act: (cubit) => cubit.updateEmail(invalidEmailString),
+        expect: () => <SignUpFormState>[
+          const SignUpFormState(
+            name: PersonNameField.dirty(validNameString),
+            email: EmailField.dirty(invalidEmailString),
+            password: PasswordField.dirty(validPasswordString),
+            confirmPassword: PasswordField.dirty(validPasswordString),
+            status: FormzStatus.invalid,
+          ),
         ],
       );
     });
