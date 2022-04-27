@@ -13,11 +13,11 @@ class MockAuthRepo extends Mock implements AuthenticationRepository {}
 
 void main() {
   const validNameString = 'Valid Name';
-  // const invalidSpecialNameString = '.@#.\$%^&*()\\/';
   const invalidNumericNameString = 'Valid1 Name2';
   const validEmailString = 'test@email.com';
   const invalidEmailString = 'test.com';
   const validPasswordString = '1234567As';
+  const invalidShortPasswordString = '1234As';
   late ApiClient apiClient;
   late AuthenticationRepository authRepo;
   late SignUpFormCubit cubit;
@@ -203,6 +203,62 @@ void main() {
             name: PersonNameField.dirty(validNameString),
             email: EmailField.dirty(invalidEmailString),
             password: PasswordField.dirty(validPasswordString),
+            confirmPassword: PasswordField.dirty(validPasswordString),
+            status: FormzStatus.invalid,
+          ),
+        ],
+      );
+    });
+
+    group('[UpdatePassword]', () {
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'emits state with updated password',
+        build: () => cubit,
+        act: (cubit) => cubit.updatePassword(validPasswordString),
+        expect: () => <SignUpFormState>[
+          const SignUpFormState(
+            password: PasswordField.dirty(validPasswordString),
+            status: FormzStatus.invalid,
+          ),
+        ],
+      );
+
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'given all other fields are valid & valid value is supplied, emits [valid] state',
+        build: () => cubit,
+        seed: () => const SignUpFormState(
+          name: PersonNameField.dirty(validNameString),
+          email: EmailField.dirty(validEmailString),
+          confirmPassword: PasswordField.dirty(validPasswordString),
+          status: FormzStatus.invalid,
+        ),
+        act: (cubit) => cubit.updatePassword(validPasswordString),
+        expect: () => <SignUpFormState>[
+          const SignUpFormState(
+            name: PersonNameField.dirty(validNameString),
+            email: EmailField.dirty(validEmailString),
+            password: PasswordField.dirty(validPasswordString),
+            confirmPassword: PasswordField.dirty(validPasswordString),
+            status: FormzStatus.valid,
+          ),
+        ],
+      );
+
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'given all other fields are valid & invalid value is supplied, emits [invalid] state',
+        build: () => cubit,
+        seed: () => const SignUpFormState(
+          name: PersonNameField.dirty(validNameString),
+          email: EmailField.dirty(validEmailString),
+          confirmPassword: PasswordField.dirty(validPasswordString),
+          status: FormzStatus.invalid,
+        ),
+        act: (cubit) => cubit.updatePassword(invalidShortPasswordString),
+        expect: () => <SignUpFormState>[
+          const SignUpFormState(
+            name: PersonNameField.dirty(validNameString),
+            email: EmailField.dirty(validEmailString),
+            password: PasswordField.dirty(invalidShortPasswordString),
             confirmPassword: PasswordField.dirty(validPasswordString),
             status: FormzStatus.invalid,
           ),
