@@ -92,5 +92,65 @@ void main() {
         ],
       );
     });
+
+    group('[UpdateNickName]', () {
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'emits state with updated nickname',
+        build: () => cubit,
+        act: (cubit) => cubit.updateNickname(validNameString),
+        expect: () => <SignUpFormState>[
+          const SignUpFormState(
+            nickName: NullablePersonNameField.dirty(validNameString),
+            status: FormzStatus.invalid,
+          ),
+        ],
+      );
+
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'given all other fields are valid and valid value is supplied, emits [valid] state',
+        build: () => cubit,
+        seed: () => const SignUpFormState(
+          name: PersonNameField.dirty(validNameString),
+          email: EmailField.dirty(validEmailString),
+          password: PasswordField.dirty(validPasswordString),
+          confirmPassword: PasswordField.dirty(validPasswordString),
+          status: FormzStatus.valid,
+        ),
+        act: (cubit) => cubit.updateNickname(validNameString),
+        expect: () => <SignUpFormState>[
+          const SignUpFormState(
+            name: PersonNameField.dirty(validNameString),
+            nickName: NullablePersonNameField.dirty(validNameString),
+            email: EmailField.dirty(validEmailString),
+            password: PasswordField.dirty(validPasswordString),
+            confirmPassword: PasswordField.dirty(validPasswordString),
+            status: FormzStatus.valid,
+          )
+        ],
+      );
+
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'given all other fields are valid and invalid value is supplied, emits [invalid] state',
+        build: () => cubit,
+        seed: () => const SignUpFormState(
+          name: PersonNameField.dirty(validNameString),
+          email: EmailField.dirty(validEmailString),
+          password: PasswordField.dirty(validPasswordString),
+          confirmPassword: PasswordField.dirty(validPasswordString),
+          status: FormzStatus.valid,
+        ),
+        act: (cubit) => cubit.updateNickname(invalidNumericNameString),
+        expect: () => <SignUpFormState>[
+          const SignUpFormState(
+            name: PersonNameField.dirty(validNameString),
+            nickName: NullablePersonNameField.dirty(invalidNumericNameString),
+            email: EmailField.dirty(validEmailString),
+            password: PasswordField.dirty(validPasswordString),
+            confirmPassword: PasswordField.dirty(validPasswordString),
+            status: FormzStatus.invalid,
+          )
+        ],
+      );
+    });
   });
 }
