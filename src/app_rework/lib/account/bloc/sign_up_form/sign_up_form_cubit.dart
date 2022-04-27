@@ -90,6 +90,7 @@ class SignUpFormCubit extends Cubit<SignUpFormState> {
 
   Future<void> submit() async {
     if (!state.status.isValidated) return;
+    if (state.status.isSubmissionInProgress) return;
 
     emit(state.copyWith(
       status: FormzStatus.submissionInProgress,
