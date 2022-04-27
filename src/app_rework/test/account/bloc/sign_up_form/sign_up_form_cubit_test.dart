@@ -265,5 +265,61 @@ void main() {
         ],
       );
     });
+
+    group('[UpdateConfirmPassword]', () {
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'emits state with updated password',
+        build: () => cubit,
+        act: (cubit) => cubit.updateConfirmPassword(validPasswordString),
+        expect: () => <SignUpFormState>[
+          const SignUpFormState(
+            confirmPassword: PasswordField.dirty(validPasswordString),
+            status: FormzStatus.invalid,
+          ),
+        ],
+      );
+
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'given all other fields are valid & valid value is supplied, emits [valid] state',
+        build: () => cubit,
+        seed: () => const SignUpFormState(
+          name: PersonNameField.dirty(validNameString),
+          email: EmailField.dirty(validEmailString),
+          password: PasswordField.dirty(validPasswordString),
+          status: FormzStatus.invalid,
+        ),
+        act: (cubit) => cubit.updateConfirmPassword(validPasswordString),
+        expect: () => <SignUpFormState>[
+          const SignUpFormState(
+            name: PersonNameField.dirty(validNameString),
+            email: EmailField.dirty(validEmailString),
+            password: PasswordField.dirty(validPasswordString),
+            confirmPassword: PasswordField.dirty(validPasswordString),
+            status: FormzStatus.valid,
+          ),
+        ],
+      );
+
+      blocTest<SignUpFormCubit, SignUpFormState>(
+        'given all other fields are valid & invalid value is supplied, emits [invalid] state',
+        build: () => cubit,
+        seed: () => const SignUpFormState(
+          name: PersonNameField.dirty(validNameString),
+          email: EmailField.dirty(validEmailString),
+          password: PasswordField.dirty(validPasswordString),
+          status: FormzStatus.invalid,
+        ),
+        act: (cubit) => cubit.updateConfirmPassword(invalidShortPasswordString),
+        expect: () => <SignUpFormState>[
+          const SignUpFormState(
+            name: PersonNameField.dirty(validNameString),
+            email: EmailField.dirty(validEmailString),
+            password: PasswordField.dirty(validPasswordString),
+            confirmPassword: PasswordField.dirty(invalidShortPasswordString),
+            status: FormzStatus.invalid,
+          ),
+        ],
+      );
+    });
   });
 }
