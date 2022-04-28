@@ -7,10 +7,12 @@ class CommonEmailFormField extends StatefulWidget {
   const CommonEmailFormField({
     Key? key = CommonKeys.commonEmailFormField,
     required this.email,
+    this.focusNode,
     this.onChanged,
   }) : super(key: key);
 
   final EmailField email;
+  final FocusNode? focusNode;
   final Function(String)? onChanged;
 
   @override
@@ -19,12 +21,13 @@ class CommonEmailFormField extends StatefulWidget {
 
 class _CommonEmailFormFieldState extends State<CommonEmailFormField> {
   late FocusNode _focusNode;
-  bool _canShowError = false;
+  late bool _canShowError;
 
   @override
   void initState() {
-    _focusNode = FocusNode();
+    _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(_focusListener);
+    _canShowError = !_focusNode.hasFocus;
     super.initState();
   }
 
