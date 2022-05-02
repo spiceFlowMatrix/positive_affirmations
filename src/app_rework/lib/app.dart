@@ -1,7 +1,7 @@
 import 'package:api_client/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:positive_affirmations/account/widgets/sign_up_form.dart';
+import 'package:positive_affirmations/account/widgets/sign_up_form_screen.dart';
 import 'package:positive_affirmations/common/blocs/app/app_bloc.dart';
 import 'package:positive_affirmations/home/widgets/home_screen.dart';
 import 'package:positive_affirmations/named_routes.dart';
