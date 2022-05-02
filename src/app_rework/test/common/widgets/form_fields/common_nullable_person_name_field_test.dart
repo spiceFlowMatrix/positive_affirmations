@@ -99,7 +99,7 @@ void main() {
           const CommonFormFieldsFixture(
             children: [
               CommonNullablePersonNameField(
-                name: NullablePersonNameField.dirty(),
+                name: NullablePersonNameField.dirty(null),
               ),
             ],
           ),
