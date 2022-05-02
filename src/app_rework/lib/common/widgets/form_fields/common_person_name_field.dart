@@ -8,9 +8,11 @@ class CommonPersonNameField extends StatefulWidget {
     Key? key = CommonKeys.commonPersonNameFormField,
     required this.name,
     this.onChanged,
+    this.focusNode,
   }) : super(key: key);
   final PersonNameField name;
   final Function(String)? onChanged;
+  final FocusNode? focusNode;
 
   @override
   State<StatefulWidget> createState() => _CommonPersonNameFieldState();
@@ -18,12 +20,13 @@ class CommonPersonNameField extends StatefulWidget {
 
 class _CommonPersonNameFieldState extends State<CommonPersonNameField> {
   late FocusNode _focusNode;
-  bool _canShowError = false;
+  late bool _canShowError;
 
   @override
   void initState() {
-    _focusNode = FocusNode();
+    _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(_focusListener);
+    _canShowError = !_focusNode.hasFocus;
     super.initState();
   }
 
@@ -42,15 +45,12 @@ class _CommonPersonNameFieldState extends State<CommonPersonNameField> {
   String? get _errorText {
     if (widget.name.error != null &&
         !widget.name.pure &&
-        widget.name.value.isNotEmpty &&
         _canShowError) {
-      switch (widget.name.error) {
+      switch (widget.name.error!) {
         case PersonNameFieldValidationError.invalid:
           return 'Name cannot contain any of the following characters: * . ( ) / \\ [ ] { } \$ = - & ^ % # @ ! ~ \' "';
         case PersonNameFieldValidationError.empty:
           return 'Name is required.';
-        default:
-          return null;
       }
     }
     return null;
