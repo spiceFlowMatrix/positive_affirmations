@@ -44,15 +44,12 @@ class _CommonEmailFormFieldState extends State<CommonEmailFormField> {
   }
 
   String? get _errorText {
-    if (widget.email.error != null &&
-        !widget.email.pure &&
-        widget.email.value.isNotEmpty &&
-        _canShowError) {
-      switch (widget.email.error) {
+    if (widget.email.error != null && !widget.email.pure && _canShowError) {
+      switch (widget.email.error!) {
         case EmailFieldValidationError.invalid:
           return 'Invalid email.';
-        default:
-          return null;
+        case EmailFieldValidationError.empty:
+          return 'Email is required.';
       }
     }
     return null;

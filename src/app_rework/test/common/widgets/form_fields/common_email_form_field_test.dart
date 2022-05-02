@@ -68,16 +68,53 @@ void main() {
     );
 
     testWidgets(
-      'does not show error if dirty email has empty value',
-      (WidgetTester tester) async {
+      'given `TextField` is unfocused, empty error message appears',
+          (WidgetTester tester) async {
+        final FocusNode focusNode = FocusNode();
         await tester.pumpWidget(
-          const CommonFormFieldsFixture(
+          CommonFormFieldsFixture(
             children: [
-              CommonEmailFormField(email: EmailField.dirty('')),
+              CommonEmailFormField(
+                email: const EmailField.dirty(''),
+                focusNode: focusNode,
+              )
             ],
           ),
         );
 
+        expect(
+          tester
+              .widget<TextField>(find.byType(TextField))
+              .decoration!
+              .errorText,
+          isNotNull,
+        );
+
+        await tester.tap(find.byType(TextFormField));
+        await tester.pumpAndSettle();
+        expect(focusNode.hasFocus, isTrue);
+        expect(
+          tester
+              .widget<TextField>(find.byType(TextField))
+              .decoration!
+              .errorText,
+          isNull,
+        );
+
+        focusNode.unfocus();
+        await tester.pumpAndSettle();
+        expect(focusNode.hasFocus, isFalse);
+        expect(
+          tester
+              .widget<TextField>(find.byType(TextField))
+              .decoration!
+              .errorText,
+          isNotNull,
+        );
+
+        focusNode.requestFocus();
+        await tester.pumpAndSettle();
+        expect(focusNode.hasFocus, isTrue);
         expect(
           tester
               .widget<TextField>(find.byType(TextField))
@@ -89,7 +126,7 @@ void main() {
     );
 
     testWidgets(
-      'error only appears when unfocused',
+      'given `TextField` is unfocused, invalid error message appears',
       (WidgetTester tester) async {
         final FocusNode focusNode = FocusNode();
         await tester.pumpWidget(
