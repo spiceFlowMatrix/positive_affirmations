@@ -8,9 +8,11 @@ class CommonNullablePersonNameField extends StatefulWidget {
     Key? key = CommonKeys.commonNullablePersonNameFormField,
     required this.name,
     this.onChanged,
+    this.focusNode,
   }) : super(key: key);
   final NullablePersonNameField name;
   final Function(String)? onChanged;
+  final FocusNode? focusNode;
 
   @override
   State<StatefulWidget> createState() => _CommonNullablePersonNameFieldState();
@@ -19,12 +21,13 @@ class CommonNullablePersonNameField extends StatefulWidget {
 class _CommonNullablePersonNameFieldState
     extends State<CommonNullablePersonNameField> {
   late FocusNode _focusNode;
-  bool _canShowError = false;
+  late bool _canShowError;
 
   @override
   void initState() {
-    _focusNode = FocusNode();
+    _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(_focusListener);
+    _canShowError = !_focusNode.hasFocus;
     super.initState();
   }
 
