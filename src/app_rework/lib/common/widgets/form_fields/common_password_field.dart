@@ -9,10 +9,12 @@ class CommonPasswordField extends StatefulWidget {
     required this.password,
     this.confirmingPassword,
     this.onChanged,
+    this.focusNode,
   }) : super(key: key);
   final PasswordField password;
   final PasswordField? confirmingPassword;
   final Function(String)? onChanged;
+  final FocusNode? focusNode;
 
   @override
   State<StatefulWidget> createState() => _CommonPasswordFieldState();
@@ -20,12 +22,13 @@ class CommonPasswordField extends StatefulWidget {
 
 class _CommonPasswordFieldState extends State<CommonPasswordField> {
   late FocusNode _focusNode;
-  bool _canShowError = false;
+  late bool _canShowError;
 
   @override
   void initState() {
-    _focusNode = FocusNode();
+    _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(_focusListener);
+    _canShowError = !_focusNode.hasFocus;
     super.initState();
   }
 
@@ -54,7 +57,6 @@ class _CommonPasswordFieldState extends State<CommonPasswordField> {
   String? get _errorText {
     if (widget.password.error != null &&
         !widget.password.pure &&
-        widget.password.value.isNotEmpty &&
         _canShowError) {
       switch (widget.password.error) {
         case PasswordFieldValidationError.empty:
