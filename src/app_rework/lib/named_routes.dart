@@ -6,7 +6,7 @@ import 'package:positive_affirmations/home/widgets/home_screen.dart';
 Map<String, Widget Function(BuildContext context)> namedRoutes(
     BuildContext context) {
   return {
-    SignUpForm.routeName: (context) => const SignUpForm(),
+    SignUpFormScreen.routeName: (context) => const SignUpFormScreen(),
     SignInForm.routeName: (context) => const SignInForm(),
     HomeScreen.routeName: (context) => const HomeScreen(),
   };

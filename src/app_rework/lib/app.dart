@@ -78,9 +78,9 @@ class _AppViewState extends State<_AppView> {
                     break;
                   case AppStatus.unauthenticated:
                     if (_navigator.widget.initialRoute !=
-                        SignUpForm.routeName) {
+                        SignUpFormScreen.routeName) {
                       _navigator.pushNamedAndRemoveUntil(
-                        SignUpForm.routeName,
+                        SignUpFormScreen.routeName,
                         (route) => false,
                       );
                     }
@@ -91,7 +91,7 @@ class _AppViewState extends State<_AppView> {
             );
           },
           initialRoute: state.status == AppStatus.unauthenticated
-              ? SignUpForm.routeName
+              ? SignUpFormScreen.routeName
               : HomeScreen.routeName,
           routes: namedRoutes(context),
         );

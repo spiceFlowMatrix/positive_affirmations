@@ -12,10 +12,10 @@ import 'package:positive_affirmations/common/widgets/form_fields/common_person_n
 import 'package:positive_affirmations/theme.dart';
 import 'package:repository/repository.dart';
 
-class SignUpForm extends StatelessWidget {
-  const SignUpForm({Key? key}) : super(key: key);
+class SignUpFormScreen extends StatelessWidget {
+  const SignUpFormScreen({Key? key}) : super(key: key);
 
-  static const String routeName = '/signUpForm';
+  static const String routeName = '/signUpFormScreen';
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +25,14 @@ class SignUpForm extends StatelessWidget {
         authRepo: RepositoryProvider.of<AuthenticationRepository>(context),
       ),
       child: const Scaffold(
-        body: _Form(),
+        body: SignUpForm(),
       ),
     );
   }
 }
 
-class _Form extends StatelessWidget {
-  const _Form({Key? key}) : super(key: key);
+class SignUpForm extends StatelessWidget {
+  const SignUpForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
