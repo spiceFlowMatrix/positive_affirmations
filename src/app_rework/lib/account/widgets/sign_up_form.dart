@@ -85,6 +85,7 @@ class _EmailField extends StatelessWidget {
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return CommonEmailFormField(
+          key: const Key('__signUpForm_emailInput_textField__'),
           email: state.email,
           onChanged: (value) => cubit.updateEmail(value),
         );

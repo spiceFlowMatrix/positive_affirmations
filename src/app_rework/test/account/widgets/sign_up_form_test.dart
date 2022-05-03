@@ -18,10 +18,36 @@ class MockEmail extends Mock implements EmailField {}
 
 class MockPassword extends Mock implements PasswordField {}
 
-void main() {
-  const emailInputKey = Key('signUpForm_emailInput_textField');
+class SignUpFormFixture extends StatelessWidget {
+  const SignUpFormFixture({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
+  final SignUpFormCubit cubit;
 
-  const testEmail = 'test@gmail.com';
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: BlocProvider.value(
+          value: cubit,
+          child: const SignUpForm(),
+        ),
+      ),
+    );
+  }
+}
+
+void main() {
+  const nameInputKey = Key('__signUpForm_nameInput_textField__');
+  const nickNameInputKey = Key('__signUpForm_nickNameInput_textField__');
+  const emailInputKey = Key('__signUpForm_emailInput_textField__');
+  const passwordInputKey = Key('__signUpForm_passwordInput_textField__');
+  const confirmPasswordInputKey =
+      Key('__signUpForm_confirmPasswordInput_textField__');
+
+  const testValidEmail = 'test@gmail.com';
+  const testValidName = 'Valid Name';
 
   group('[SignUpForm]', () {
     late SignUpFormCubit cubit;
@@ -33,20 +59,37 @@ void main() {
     });
 
     group('[Calls]', () {
-      testWidgets('emailChanged when email changes', (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: BlocProvider.value(
-                value: cubit,
-                child: const SignUpForm(),
-              ),
-            ),
-          ),
-        );
-        await tester.enterText(find.byKey(emailInputKey), testEmail);
-        verify(() => cubit.updateEmail(testEmail)).called(1);
-      });
+      testWidgets(
+        '[emailUpdated] triggers when email changes',
+        (WidgetTester tester) async {
+          await tester.pumpWidget(
+            SignUpFormFixture(cubit: cubit),
+          );
+          final emailInputFinder = find.descendant(
+            of: find.byKey(emailInputKey),
+            matching: find.byType(TextField),
+          );
+          await tester.enterText(emailInputFinder, testValidEmail);
+
+          verify(() => cubit.updateEmail(testValidEmail)).called(1);
+        },
+      );
+
+      testWidgets(
+        '[nameUpdated] triggers when name changes',
+        (WidgetTester tester) async {
+          await tester.pumpWidget(
+            SignUpFormFixture(cubit: cubit),
+          );
+          final nameInputFinder = find.descendant(
+            of: find.byKey(nameInputKey),
+            matching: find.byType(TextField),
+          );
+          await tester.enterText(nameInputFinder, testValidName);
+
+          verify(() => cubit.updateEmail(testValidName)).called(1);
+        },
+      );
     });
 
     group('[Renders]', () {
