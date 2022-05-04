@@ -212,6 +212,7 @@ class _AlreadyHaveAccountSignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
+      key: const Key('__signUpForm_signIn_button__'),
       onPressed: () {
         Navigator.pushReplacementNamed(
           context,

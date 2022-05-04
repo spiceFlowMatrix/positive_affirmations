@@ -5,7 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:positive_affirmations/account/bloc/sign_up_form/sign_up_form_cubit.dart';
+import 'package:positive_affirmations/account/widgets/sign_in_form.dart';
 import 'package:positive_affirmations/account/widgets/sign_up_form.dart';
+import 'package:positive_affirmations/account/widgets/sign_up_form_screen.dart';
 import 'package:positive_affirmations/common/models/form_fields/form_fields.dart';
 import 'package:repository/repository.dart';
 
@@ -29,12 +31,16 @@ class SignUpFormFixture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: BlocProvider.value(
-          value: cubit,
-          child: const SignUpForm(),
-        ),
-      ),
+      initialRoute: SignUpFormScreen.routeName,
+      routes: {
+        SignUpFormScreen.routeName: (context) => Scaffold(
+              body: BlocProvider.value(
+                value: cubit,
+                child: const SignUpForm(),
+              ),
+            ),
+        SignInForm.routeName: (context) => const SignInForm(),
+      },
     );
   }
 }
@@ -47,6 +53,7 @@ void main() {
   const confirmPasswordInputKey =
       Key('__signUpForm_confirmPasswordInput_textField__');
   const submitButtonKey = Key('__signUpForm_submit_button__');
+  const signInButtonKey = Key('__signUpForm_signIn_button__');
 
   const testValidEmail = 'test@gmail.com';
   const testValidName = 'Valid Name';
@@ -210,6 +217,26 @@ void main() {
 
           expect(button, isNotNull);
           expect(button.enabled, isFalse);
+        },
+      );
+    });
+
+    // Navigation tests adapted from:
+    // https://github.com/felangel/bloc/blob/b4c8db938ad71a6b60d4a641ec357905095c3965/examples/flutter_firebase_login/test/sign_up/view/sign_up_form_test.dart#L238
+    group('[Navigates]', () {
+      testWidgets(
+        'navigates to sign in screen when sign in button tapped',
+        (WidgetTester tester) async {
+          await tester.pumpWidget(
+            SignUpFormFixture(cubit: cubit),
+          );
+
+          expect(find.byType(SignUpForm), findsOneWidget);
+          expect(find.byType(SignInForm), findsNothing);
+          await tester.tap(find.byKey(signInButtonKey));
+          await tester.pumpAndSettle();
+          expect(find.byType(SignUpForm), findsNothing);
+          expect(find.byType(SignInForm), findsOneWidget);
         },
       );
     });
