@@ -49,6 +49,7 @@ class _NameFieldState extends State<_NameField> {
       buildWhen: (previous, current) => previous.name != current.name,
       builder: (context, state) {
         return CommonPersonNameField(
+          key: const Key('__signUpForm_nameInput_textField__'),
           name: state.name,
           onChanged: (value) => cubit.updateName(value),
         );
@@ -67,6 +68,7 @@ class _NickNameField extends StatelessWidget {
       buildWhen: (previous, current) => previous.nickName != current.nickName,
       builder: (context, state) {
         return CommonNullablePersonNameField(
+          key: const Key('__signUpForm_nickNameInput_textField__'),
           name: state.nickName,
           onChanged: (value) => cubit.updateNickname(value),
         );
@@ -105,6 +107,7 @@ class _PasswordField extends StatelessWidget {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return CommonPasswordField(
+          key: const Key('__signUpForm_passwordInput_textField__'),
           password: state.password,
           onChanged: (value) => cubit.updatePassword(value),
         );
@@ -126,6 +129,7 @@ class _ConfirmPasswordField extends StatelessWidget {
           previous.password != current.password,
       builder: (context, state) {
         return CommonPasswordField(
+          key: const Key('__signUpForm_confirmPasswordInput_textField__'),
           password: state.confirmPassword,
           confirmingPassword: state.password,
           onChanged: (value) => cubit.updateConfirmPassword(value),
@@ -138,6 +142,25 @@ class _ConfirmPasswordField extends StatelessWidget {
 class _SubmitButton extends StatelessWidget {
   const _SubmitButton({Key? key}) : super(key: key);
 
+  Widget get _loadingIndicator {
+    return const FittedBox(
+      fit: BoxFit.scaleDown,
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  Widget _buildButton(BuildContext context, SignUpFormState state) {
+    return ElevatedButton(
+      key: const Key('__signUpForm_submit_button__'),
+      onPressed: state.status.isValidated && state.passwordConfirmed
+          ? () => context.read<SignUpFormCubit>().submit()
+          : null,
+      child: const Text(
+        'SIGN UP',
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpFormCubit, SignUpFormState>(
@@ -146,18 +169,8 @@ class _SubmitButton extends StatelessWidget {
         return CommonFormPadding(
           verticalPadding: 12,
           child: state.status.isSubmissionInProgress
-              ? const FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: CircularProgressIndicator(),
-                )
-              : ElevatedButton(
-                  onPressed: state.status.isValidated && state.passwordConfirmed
-                      ? () => context.read<SignUpFormCubit>().submit()
-                      : null,
-                  child: const Text(
-                    'SIGN UP',
-                  ),
-                ),
+              ? _loadingIndicator
+              : _buildButton(context, state),
         );
       },
     );
