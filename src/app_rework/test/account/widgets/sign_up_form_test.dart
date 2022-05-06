@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:positive_affirmations/account/bloc/sign_up_form/sign_up_form_cubit.dart';
-import 'package:positive_affirmations/account/widgets/sign_in_form.dart';
+import 'package:positive_affirmations/account/widgets/sign_in_form_screen.dart';
 import 'package:positive_affirmations/account/widgets/sign_up_form.dart';
 import 'package:positive_affirmations/account/widgets/sign_up_form_screen.dart';
 import 'package:positive_affirmations/common/models/form_fields/form_fields.dart';
@@ -39,7 +39,7 @@ class SignUpFormFixture extends StatelessWidget {
                 child: const SignUpForm(),
               ),
             ),
-        SignInForm.routeName: (context) => const SignInForm(),
+        SignInFormScreen.routeName: (context) => const SignInFormScreen(),
       },
     );
   }
@@ -232,11 +232,11 @@ void main() {
           );
 
           expect(find.byType(SignUpForm), findsOneWidget);
-          expect(find.byType(SignInForm), findsNothing);
+          expect(find.byType(SignInFormScreen), findsNothing);
           await tester.tap(find.byKey(signInButtonKey));
           await tester.pumpAndSettle();
           expect(find.byType(SignUpForm), findsNothing);
-          expect(find.byType(SignInForm), findsOneWidget);
+          expect(find.byType(SignInFormScreen), findsOneWidget);
         },
       );
     });
