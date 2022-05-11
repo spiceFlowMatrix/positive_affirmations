@@ -1,9 +1,10 @@
-import {Test} from '@nestjs/testing';
+import {Test, TestingModule} from '@nestjs/testing';
 import {GetAffirmationListHandler} from './get-affirmation-list.handler';
-import {createConnection, getConnection, getRepository, Repository} from 'typeorm';
-import {AffirmationEntity} from '@web-stack/domain';
-import {getRepositoryToken} from '@nestjs/typeorm';
-import {ENTITIES} from '../../../../../domain/src/lib/entity';
+import {AffirmationEntity, UserEntity} from '@web-stack/domain';
+import {TypeOrmModule} from '@nestjs/typeorm';
+import {SnakeNamingStrategy} from 'typeorm-naming-strategies';
+import {AuthUserService} from '../../services/auth-user.service';
+import {of} from 'rxjs';
 
 /* WIP learning testing. References:
 https://stackoverflow.com/questions/55366037/inject-typeorm-repository-into-nestjs-service-for-mock-data-testing
@@ -13,25 +14,36 @@ https://codesandbox.io/s/kmlrj?file=/apps/cqrs-sample/src/say-hello.handler.spec
 
 describe('GetAffirmationListHandler', () => {
   let handler: GetAffirmationListHandler;
-  const testConnectionName = 'testConnection';
+  let moduleRef: TestingModule;
+  let mockAuthUser: UserEntity = undefined;
+  let authUserServiceStub = {
+    user: jest.fn((authUser) => of(mockAuthUser))
+  };
 
   beforeEach(async () => {
-    const connection = await createConnection({
-      type: 'sqlite',
-      database: ':memory:',
-      dropSchema: true,
-      entities: [...ENTITIES],
-      synchronize: true,
-      logging: false,
-      name: testConnectionName
-    });
-
-    const moduleRef = await Test.createTestingModule({
+    moduleRef = await Test.createTestingModule({
+      imports: [
+        TypeOrmModule.forRoot({
+          type: 'postgres',
+          host: '127.0.0.1',
+          port: 5432,
+          username: 'postgres',
+          password: 'mypassword',
+          database: 'postgres',
+          schema: 'testing',
+          autoLoadEntities: true,
+          synchronize: true,
+          useUTC: true,
+          namingStrategy: new SnakeNamingStrategy(),
+          dropSchema: true,
+        }),
+        TypeOrmModule.forFeature([AffirmationEntity])
+      ],
       providers: [
         GetAffirmationListHandler,
         {
-          provide: getRepositoryToken(AffirmationEntity, connection),
-          useFactory: () => getRepository(AffirmationEntity, testConnectionName)
+          provide: AuthUserService,
+          useFactory: () => authUserServiceStub
         }
       ]
     }).compile();
@@ -40,7 +52,7 @@ describe('GetAffirmationListHandler', () => {
   });
 
   afterEach(async () => {
-    await getConnection(testConnectionName).close()
+    await moduleRef.close();
   });
 
   it('should be defined', () => {
