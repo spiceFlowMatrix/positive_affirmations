@@ -1,32 +1,35 @@
-import {IQueryHandler, QueryHandler} from "@nestjs/cqrs";
-import {GetAffirmationListQuery} from "../impl/get-affirmation-list.query";
+import {IQueryHandler, QueryHandler} from '@nestjs/cqrs';
+import {GetAffirmationListQuery} from '../impl/get-affirmation-list.query';
 import {
   AffirmationDto,
   AffirmationEntity,
   AffirmationObjectResponseDto,
   GetAffirmationListQueryResponseDto
-} from "@web-stack/domain";
-import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
-import {AuthUserService} from "../../services/auth-user.service";
+} from '@web-stack/domain';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Repository} from 'typeorm';
+import {AuthUserService} from '../../services/auth-user.service';
 
 @QueryHandler(GetAffirmationListQuery)
 export class GetAffirmationListHandler implements IQueryHandler<GetAffirmationListQuery> {
   constructor(
     @InjectRepository(AffirmationEntity)
     private readonly affirmationRepo: Repository<AffirmationEntity>,
-    private readonly authUserService: AuthUserService,
+    private readonly authUserService: AuthUserService
   ) {
   }
 
   async execute(query: GetAffirmationListQuery): Promise<GetAffirmationListQueryResponseDto> {
     const {skip, take, authUser} = query;
+    if (!skip) {
+      throw new Error('`skip` argument missing');
+    }
     const user = await this.authUserService.user(authUser);
     const [results, total] = await this.affirmationRepo
       .findAndCount({
         relations: ['createdBy'],
         skip,
-        take,
+        take
       });
 
     if (results.length > 0) {
