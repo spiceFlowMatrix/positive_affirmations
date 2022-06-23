@@ -4,6 +4,13 @@ export * from './lib/domain.module';
 export * from './lib/dto/model';
 export * from './lib/dto';
 
+// export REPOSITORIES
+export * from './lib/repositories/affirmation-like.repository';
+export * from './lib/repositories/affirmation.repository';
+export * from './lib/repositories/letter.repository';
+export * from './lib/repositories/reaffirmation.repository';
+export * from './lib/repositories/user.repository';
+
 // export ENTITIES
 export * from './lib/entity/affirmation';
 export * from './lib/entity/affirmation-like';
