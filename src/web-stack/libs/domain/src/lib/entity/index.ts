@@ -1,8 +1,8 @@
-import {AffirmationEntity} from "./affirmation";
-import {AffirmationLikeEntity} from "./affirmation-like";
-import {LetterEntity} from "./letter";
-import {ReaffirmationEntity} from "./reaffirmation";
-import {UserEntity} from "./user";
+import {AffirmationEntity} from "./affirmation.entity";
+import {AffirmationLikeEntity} from "./affirmation-like.entity";
+import {LetterEntity} from "./letter.entity";
+import {ReaffirmationEntity} from "./reaffirmation.entity";
+import {UserEntity} from "./user.entity";
 
 export const ENTITIES = [
   AffirmationEntity,

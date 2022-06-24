@@ -1,7 +1,7 @@
 import {IAffirmationLike} from "@web-stack/api-interfaces";
 import {BaseEntity, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {UserEntity} from "./user";
-import {AffirmationEntity} from "./affirmation";
+import {UserEntity} from "./user.entity";
+import {AffirmationEntity} from "./affirmation.entity";
 
 @Entity('affirmation_likes')
 export class AffirmationLikeEntity extends BaseEntity implements IAffirmationLike {

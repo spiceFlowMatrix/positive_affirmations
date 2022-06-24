@@ -13,7 +13,7 @@ export interface IUser extends UserInfo {
   emailVerified: boolean;
   nickName?: string;
   letterSchedule: LetterCreationSchedule;
-  lettersLastGeneratedOn: Date;
+  lettersLastGeneratedOn?: Date;
   letters: ILetter[];
   reaffirmations: IReaffirmation[];
   affirmations: IAffirmation[];

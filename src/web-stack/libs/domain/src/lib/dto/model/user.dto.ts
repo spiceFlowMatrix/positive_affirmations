@@ -19,7 +19,7 @@ export class UserDto implements IUser {
   affirmations: AffirmationDto[];
   letterSchedule: LetterCreationSchedule;
   letters: LetterDto[];
-  lettersLastGeneratedOn: Date;
+  lettersLastGeneratedOn?: Date;
   reaffirmations: ReaffirmationDto[];
 
   constructor(args: {
@@ -37,7 +37,7 @@ export class UserDto implements IUser {
     affirmations: AffirmationDto[];
     letterSchedule: LetterCreationSchedule;
     letters: LetterDto[];
-    lettersLastGeneratedOn: Date;
+    lettersLastGeneratedOn?: Date;
     reaffirmations: ReaffirmationDto[];
   }) {
     Object.assign(this, args);

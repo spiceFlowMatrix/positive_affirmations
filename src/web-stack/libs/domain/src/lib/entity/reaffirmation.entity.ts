@@ -1,11 +1,23 @@
-import {BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {IReaffirmation, ReaffirmationFont, ReaffirmationStamp, ReaffirmationValue} from "@web-stack/api-interfaces";
-import {UserEntity} from "./user";
-import {AffirmationEntity} from "./affirmation";
-import {LetterEntity} from "./letter";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import {
+  IReaffirmation,
+  ReaffirmationFont,
+  ReaffirmationStamp,
+  ReaffirmationValue,
+} from '@web-stack/api-interfaces';
+import { UserEntity } from './user.entity';
+import { AffirmationEntity } from './affirmation.entity';
+import { LetterEntity } from './letter.entity';
 
 @Entity('reaffirmations')
-export class ReaffirmationEntity extends BaseEntity implements IReaffirmation {
+export class ReaffirmationEntity implements IReaffirmation {
   @PrimaryGeneratedColumn()
   id: number;
   @PrimaryGeneratedColumn('uuid')
@@ -35,16 +47,19 @@ export class ReaffirmationEntity extends BaseEntity implements IReaffirmation {
   })
   value: ReaffirmationValue;
 
-  @ManyToOne(() => UserEntity, user => user.reaffirmations)
+  @ManyToOne(() => UserEntity, (user) => user.reaffirmations)
   createdBy: UserEntity;
 
   @CreateDateColumn()
   createdOn: Date;
 
-  @ManyToOne(() => AffirmationEntity, affirmation => affirmation.reaffirmations)
+  @ManyToOne(
+    () => AffirmationEntity,
+    (affirmation) => affirmation.reaffirmations
+  )
   forAffirmation: AffirmationEntity;
 
-  @OneToMany(() => LetterEntity, letter => letter.reaffirmations)
+  @OneToMany(() => LetterEntity, (letter) => letter.reaffirmations)
   inLetters: LetterEntity[];
 
   constructor(args: {
@@ -58,7 +73,6 @@ export class ReaffirmationEntity extends BaseEntity implements IReaffirmation {
     forAffirmation?: AffirmationEntity;
     inLetters?: LetterEntity[];
   }) {
-    super();
     Object.assign(this, args);
   }
 }

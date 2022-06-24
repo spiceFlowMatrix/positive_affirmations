@@ -1,7 +1,7 @@
 import {ILetter} from "@web-stack/api-interfaces";
 import {BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {UserEntity} from "./user";
-import {ReaffirmationEntity} from "./reaffirmation";
+import {UserEntity} from "./user.entity";
+import {ReaffirmationEntity} from "./reaffirmation.entity";
 
 @Entity('letters')
 export class LetterEntity extends BaseEntity implements ILetter {

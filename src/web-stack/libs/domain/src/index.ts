@@ -12,11 +12,11 @@ export * from './lib/repositories/reaffirmation.repository';
 export * from './lib/repositories/user.repository';
 
 // export ENTITIES
-export * from './lib/entity/affirmation';
-export * from './lib/entity/affirmation-like';
-export * from './lib/entity/letter';
-export * from './lib/entity/reaffirmation';
-export * from './lib/entity/user';
+export * from './lib/entity/affirmation.entity';
+export * from './lib/entity/affirmation-like.entity';
+export * from './lib/entity/letter.entity';
+export * from './lib/entity/reaffirmation.entity';
+export * from './lib/entity/user.entity';
 
 // export EXCEPTIONS
 export * from './lib/exception/persistence-error.exception';

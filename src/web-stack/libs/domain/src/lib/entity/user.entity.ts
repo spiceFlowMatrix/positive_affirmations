@@ -1,33 +1,33 @@
-import {BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {IUser, LetterCreationSchedule} from "@web-stack/api-interfaces";
-import {AffirmationEntity} from "./affirmation";
-import {LetterEntity} from "./letter";
-import {ReaffirmationEntity} from "./reaffirmation";
-import {AffirmationLikeEntity} from "./affirmation-like";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { IUser, LetterCreationSchedule } from '@web-stack/api-interfaces';
+import { AffirmationEntity } from './affirmation.entity';
+import { LetterEntity } from './letter.entity';
+import { ReaffirmationEntity } from './reaffirmation.entity';
+import { AffirmationLikeEntity } from './affirmation-like.entity';
 
 @Entity('users')
-export class UserEntity extends BaseEntity implements IUser {
+export class UserEntity implements IUser {
   @PrimaryGeneratedColumn()
   dbId: number;
   @PrimaryGeneratedColumn('uuid')
   dbUiId: string;
 
-  @Column('text', {nullable: true})
+  @Column('text', { nullable: true })
   displayName: string | null;
-  @Column('text', {nullable: true})
+  @Column('text', { nullable: true })
   phoneNumber: string | null;
-  @Column('text', {nullable: true})
+  @Column('text', { nullable: true })
   photoURL: string | null;
-  @Column('text', {nullable: true})
+  @Column('text', { nullable: true })
   providerId: string;
   @Column('text')
   uid: string;
 
-  @Column('text', {nullable: true})
+  @Column('text', { nullable: true })
   email: string | null;
-  @Column('boolean', {nullable: false, default: false})
+  @Column('boolean', { nullable: false, default: false })
   emailVerified: boolean;
-  @Column('text', {nullable: true})
+  @Column('text', { nullable: true })
   nickName?: string;
 
   @Column({
@@ -38,19 +38,22 @@ export class UserEntity extends BaseEntity implements IUser {
   })
   letterSchedule: LetterCreationSchedule;
 
-  @Column('date', {nullable: true})
-  lettersLastGeneratedOn: Date;
+  @Column('date', { nullable: true })
+  lettersLastGeneratedOn?: Date;
 
-  @OneToMany(() => ReaffirmationEntity, reaffirmation => reaffirmation.createdBy)
+  @OneToMany(
+    () => ReaffirmationEntity,
+    (reaffirmation) => reaffirmation.createdBy
+  )
   reaffirmations: ReaffirmationEntity[];
 
-  @OneToMany(() => LetterEntity, letter => letter.createdBy)
+  @OneToMany(() => LetterEntity, (letter) => letter.createdBy)
   letters: LetterEntity[];
 
-  @OneToMany(() => AffirmationEntity, affirmation => affirmation.createdBy)
+  @OneToMany(() => AffirmationEntity, (affirmation) => affirmation.createdBy)
   affirmations: AffirmationEntity[];
 
-  @OneToMany(() => AffirmationLikeEntity, like => like.byUser)
+  @OneToMany(() => AffirmationLikeEntity, (like) => like.byUser)
   affirmationLikes: AffirmationLikeEntity[];
 
   constructor(args: {
@@ -62,8 +65,8 @@ export class UserEntity extends BaseEntity implements IUser {
     providerId?: string;
     uid?: string;
     email?: string;
-    emailVerified?: boolean,
-    nickName?: string,
+    emailVerified?: boolean;
+    nickName?: string;
     letterSchedule?: LetterCreationSchedule;
     lettersLastGeneratedOn?: Date;
     reaffirmations?: ReaffirmationEntity[];
@@ -71,7 +74,6 @@ export class UserEntity extends BaseEntity implements IUser {
     affirmations?: AffirmationEntity[];
     affirmationLikes?: AffirmationLikeEntity[];
   }) {
-    super();
     Object.assign(this, args);
   }
 }

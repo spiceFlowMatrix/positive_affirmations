@@ -1,8 +1,8 @@
 import {BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {IAffirmation} from "@web-stack/api-interfaces";
-import {UserEntity} from "./user";
-import {AffirmationLikeEntity} from "./affirmation-like";
-import {ReaffirmationEntity} from "./reaffirmation";
+import {UserEntity} from "./user.entity";
+import {AffirmationLikeEntity} from "./affirmation-like.entity";
+import {ReaffirmationEntity} from "./reaffirmation.entity";
 
 @Entity('affirmations')
 export class AffirmationEntity extends BaseEntity implements IAffirmation {
