@@ -21,3 +21,6 @@ export * from './lib/entity/user.entity';
 // export EXCEPTIONS
 export * from './lib/exception/persistence-error.exception';
 export * from './lib/exception/object-not-found.exception';
+
+// export stubs
+export * from './lib/test';

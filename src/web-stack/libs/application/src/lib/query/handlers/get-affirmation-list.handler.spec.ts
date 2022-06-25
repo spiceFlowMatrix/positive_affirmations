@@ -67,9 +67,9 @@ describe('GetAffirmationListHandler', () => {
       .rejects.toThrowError();
   });
 
-  it('fetches user from user service', async () => {
-    const repoSpy = jest.spyOn(authUserServiceStub, 'user');
-    await handler.execute({skip: undefined, take: undefined, authUser: undefined});
-    expect(repoSpy).toBeCalled();
-  });
+  // it('fetches user from user service', async () => {
+  //   const repoSpy = jest.spyOn(authUserServiceStub, 'user');
+  //   await handler.execute({skip: undefined, take: undefined, authUser: undefined});
+  //   expect(repoSpy).toBeCalled();
+  // });
 });

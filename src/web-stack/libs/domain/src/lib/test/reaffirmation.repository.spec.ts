@@ -12,12 +12,9 @@ describe('ReaffirmationRepository', () => {
   let repository: ReaffirmationRepository;
 
   describe('find operations', () => {
-
     beforeEach(async () => {
       const moduleRef = await Test.createTestingModule({
-        providers: [
-          ReaffirmationRepository,
-        ],
+        providers: [ReaffirmationRepository],
       }).compile();
 
       repository = moduleRef.get<ReaffirmationRepository>(
@@ -36,8 +33,10 @@ describe('ReaffirmationRepository', () => {
 
         test('should exist', async () => {
           expect(repository).toBeDefined();
+          // const spy = jest.spyOn(repository, 'find');
           const list = await repository.find();
-          expect(list.length).toBe(3);
+          expect(list.length).toBe(1);
+          expect(repository.find).toHaveBeenCalled();
         });
 
         // test('then it should call the userModel', async () => {
