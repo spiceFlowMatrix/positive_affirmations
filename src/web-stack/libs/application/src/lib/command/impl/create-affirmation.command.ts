@@ -1,15 +1,14 @@
-import firebase from "firebase/compat";
-import User = firebase.User;
+import { IFirebaseUserInfo } from '@web-stack/api-interfaces';
 
 export class CreateAffirmationCommand {
   readonly title: string;
   readonly subtitle?: string;
-  readonly authUser: User
+  readonly authUser: IFirebaseUserInfo;
 
   constructor(args: {
     title: string;
     subtitle?: string;
-    authUser: User;
+    authUser: IFirebaseUserInfo;
   }) {
     Object.assign(this, args);
   }

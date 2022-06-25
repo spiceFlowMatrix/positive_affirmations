@@ -4,6 +4,7 @@ import {Repository} from 'typeorm';
 import {PersistenceErrorException, UserEntity} from "@web-stack/domain";
 import firebase from "firebase/compat";
 import User = firebase.User;
+import { IFirebaseUserInfo } from '@web-stack/api-interfaces';
 
 // export interface IAuthenticatedFirebaseRequest extends Request {
 //   user: User;
@@ -29,7 +30,7 @@ export class AuthUserService {
     private userRepository: Repository<UserEntity>) {
   }
 
-  async user(authUser: User) {
+  async user(authUser: IFirebaseUserInfo) {
     let userEntity = await this.userRepository
       .findOne({
         where: {uid: authUser.uid}

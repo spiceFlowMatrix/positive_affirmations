@@ -1,13 +1,11 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateAffirmationCommand } from '../impl/create-affirmation.command';
-import { InjectRepository } from '@nestjs/typeorm';
 import {
   AffirmationDto,
   AffirmationEntity,
   AffirmationRepository,
   PersistenceErrorException,
 } from '@web-stack/domain';
-import { Repository } from 'typeorm';
 import { AuthUserService } from '../../services/auth-user.service';
 
 @CommandHandler(CreateAffirmationCommand)
@@ -28,13 +26,8 @@ export class CreateAffirmationHandler
       createdBy,
     });
 
-    return await this.affirmationRepository
+    const result = await this.affirmationRepository
       .save(newAffirmation)
-      .then((result) => {
-        return new AffirmationDto({
-          ...result,
-        });
-      })
       .catch((err) => {
         throw new PersistenceErrorException(
           AffirmationEntity.name,
@@ -43,5 +36,9 @@ export class CreateAffirmationHandler
           JSON.stringify(command)
         );
       });
+
+    return new AffirmationDto({
+      ...result,
+    });
   }
 }

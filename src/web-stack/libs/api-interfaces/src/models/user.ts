@@ -7,7 +7,13 @@ import UserInfo = firebase.UserInfo;
 
 export enum LetterCreationSchedule { daily, weekly, monthly, never }
 
-export interface IUser extends UserInfo {
+export interface IUser {
+  uid: string;
+  displayName: string | null;
+  email: string | null;
+  phoneNumber: string | null;
+  photoURL: string | null;
+  providerId: string;
   dbId: number;
   dbUiId: string;
   emailVerified: boolean;
