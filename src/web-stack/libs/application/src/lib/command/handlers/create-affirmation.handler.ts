@@ -4,6 +4,7 @@ import {
   AffirmationDto,
   AffirmationEntity,
   AffirmationRepository,
+  MissingRequiredParamException,
   PersistenceErrorException,
 } from '@web-stack/domain';
 import { AuthUserService } from '../../services/auth-user.service';
@@ -19,6 +20,12 @@ export class CreateAffirmationHandler
 
   async execute(command: CreateAffirmationCommand): Promise<AffirmationDto> {
     const { title, subtitle, authUser } = command;
+    if (!title)
+      throw new MissingRequiredParamException(
+        CreateAffirmationCommand.name,
+        'title',
+        'string'
+      );
     const createdBy = await this.authUserService.user(authUser);
     const newAffirmation = new AffirmationEntity({
       title,

@@ -1,9 +1,7 @@
-import {Injectable} from '@nestjs/common';
-import {InjectRepository} from '@nestjs/typeorm';
-import {Repository} from 'typeorm';
-import {PersistenceErrorException, UserEntity} from "@web-stack/domain";
-import firebase from "firebase/compat";
-import User = firebase.User;
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { PersistenceErrorException, UserEntity } from '@web-stack/domain';
 import { IFirebaseUserInfo } from '@web-stack/api-interfaces';
 
 // export interface IAuthenticatedFirebaseRequest extends Request {
@@ -27,14 +25,13 @@ export class AuthUserService {
     // @Inject(REQUEST)
     // private readonly request: IAuthenticatedFirebaseRequest,
     @InjectRepository(UserEntity)
-    private userRepository: Repository<UserEntity>) {
-  }
+    private userRepository: Repository<UserEntity>
+  ) {}
 
   async user(authUser: IFirebaseUserInfo) {
-    let userEntity = await this.userRepository
-      .findOne({
-        where: {uid: authUser.uid}
-      });
+    let userEntity = await this.userRepository.findOne({
+      where: { uid: authUser.uid },
+    });
 
     if (!userEntity) {
       const newUserEntity = new UserEntity({
@@ -44,21 +41,20 @@ export class AuthUserService {
         phoneNumber: authUser.phoneNumber,
         photoURL: authUser.photoURL,
         providerId: authUser.providerId,
-        uid: authUser.uid
+        uid: authUser.uid,
       });
 
       userEntity = await this.userRepository
         .save(newUserEntity)
-        .catch(err => {
+        .catch((err) => {
           throw new PersistenceErrorException(
             UserEntity.name,
             JSON.stringify(err),
             `${AuthUserService.name}.user(authUser)`,
-            JSON.stringify(authUser),
+            JSON.stringify(authUser)
           );
         });
     }
     return userEntity;
   }
-
 }

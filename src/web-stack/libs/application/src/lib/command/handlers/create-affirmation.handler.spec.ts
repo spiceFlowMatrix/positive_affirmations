@@ -71,6 +71,20 @@ describe('CreateAffirmationHandler', () => {
       });
     });
 
+    it('given `subtitle` parameter, saves value in database', async () => {
+      jest.spyOn(repository, 'save');
+      await handler.execute({
+        title: 'test',
+        subtitle: 'test subtitle',
+        authUser,
+      });
+      expect(repository.save).toHaveBeenCalledWith(<AffirmationEntity>{
+        title: 'test',
+        subtitle: 'test subtitle',
+        createdBy: userStub(),
+      });
+    });
+
     it('returns correct dto on success', async () => {
       const expectedDto: AffirmationDto = {
         ...affirmationStub(),
@@ -80,6 +94,12 @@ describe('CreateAffirmationHandler', () => {
         authUser,
       });
       expect(JSON.stringify(actualDto)).toEqual(JSON.stringify(expectedDto));
+    });
+
+    it('throws error if `title` is missing', async () => {
+      await expect(
+        handler.execute({ title: undefined, authUser })
+      ).rejects.toThrowError();
     });
   });
 });
