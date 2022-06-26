@@ -6,9 +6,11 @@ import {
   AffirmationEntity,
   AffirmationRepository,
   affirmationStub,
+  PersistenceErrorException,
   userStub,
 } from '@web-stack/domain';
 import { AuthUserService } from '../../services/auth-user.service';
+import { CreateAffirmationCommand } from '../impl/create-affirmation.command';
 import { CreateAffirmationHandler } from './create-affirmation.handler';
 
 describe('CreateAffirmationHandler', () => {
@@ -100,6 +102,20 @@ describe('CreateAffirmationHandler', () => {
       await expect(
         handler.execute({ title: undefined, authUser })
       ).rejects.toThrowError();
+    });
+
+    it('given repository throws error, returns `PersistenceErrorException`', async () => {
+      const thrownError = new Error('async error');
+      const command: CreateAffirmationCommand = { title: 'test', authUser };
+      jest.spyOn(repository, 'save').mockRejectedValue(thrownError);
+      await expect(handler.execute(command)).rejects.toThrow(
+        new PersistenceErrorException(
+          AffirmationEntity.name,
+          JSON.stringify(thrownError),
+          CreateAffirmationCommand.name,
+          JSON.stringify(command)
+        )
+      );
     });
   });
 });
