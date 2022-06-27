@@ -5,5 +5,5 @@ export interface IFirebaseUserInfo {
   emailVerified: boolean;
   phoneNumber: string | null;
   photoURL: string | null;
-  providerId: string | null;
+  providerId?: string | null;
 }

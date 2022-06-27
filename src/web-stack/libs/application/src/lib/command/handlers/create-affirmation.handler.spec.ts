@@ -27,7 +27,6 @@ describe('CreateAffirmationHandler', () => {
       save: jest.fn().mockResolvedValue(affirmationStub()),
     };
     const moduleRef = await Test.createTestingModule({
-      imports: [CqrsModule],
       providers: [
         CreateAffirmationHandler,
         {

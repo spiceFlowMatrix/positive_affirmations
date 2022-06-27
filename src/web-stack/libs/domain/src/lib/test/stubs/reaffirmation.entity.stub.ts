@@ -4,7 +4,7 @@ import {
   ReaffirmationStamp,
   ReaffirmationValue,
 } from '@web-stack/api-interfaces';
-import { userStub } from './user.stub';
+import { userStub } from './user.entity.stub';
 
 export const reaffirmationStub = (): ReaffirmationEntity => {
   return {

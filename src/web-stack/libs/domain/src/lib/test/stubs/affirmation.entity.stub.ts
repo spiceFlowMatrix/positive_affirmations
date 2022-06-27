@@ -1,5 +1,5 @@
 import { AffirmationEntity } from '../../entity/affirmation.entity';
-import { userStub } from './user.stub';
+import { userStub } from './user.entity.stub';
 
 export const affirmationStub = (): AffirmationEntity => {
   return {

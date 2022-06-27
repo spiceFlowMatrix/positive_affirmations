@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PersistenceErrorException, UserEntity } from '@web-stack/domain';
-import { IFirebaseUserInfo } from '@web-stack/api-interfaces';
+import {
+  FirebaseUserInfo,
+  PersistenceErrorException,
+  UserEntity,
+} from '@web-stack/domain';
 
 // export interface IAuthenticatedFirebaseRequest extends Request {
 //   user: User;
@@ -28,7 +31,7 @@ export class AuthUserService {
     private userRepository: Repository<UserEntity>
   ) {}
 
-  async user(authUser: IFirebaseUserInfo) {
+  async user(authUser: FirebaseUserInfo) {
     let userEntity = await this.userRepository.findOne({
       where: { uid: authUser.uid },
     });
