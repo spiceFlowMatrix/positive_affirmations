@@ -1,4 +1,3 @@
-import { CqrsModule } from '@nestjs/cqrs';
 import { Test } from '@nestjs/testing';
 import { IFirebaseUserInfo } from '@web-stack/api-interfaces';
 import {
