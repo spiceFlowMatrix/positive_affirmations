@@ -1,6 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { SignUpCommand } from '../impl/sign-up.command';
 import {
+  MissingRequiredParamException,
   PersistenceErrorException,
   UserDto,
   UserEntity,
@@ -17,6 +18,27 @@ export class SignUpHandler implements ICommandHandler<SignUpCommand> {
 
   async execute(command: SignUpCommand): Promise<UserDto> {
     const { email, password, displayName, nickName } = command;
+    if (!email) {
+      throw new MissingRequiredParamException(
+        SignUpCommand.name,
+        'email',
+        'string'
+      );
+    }
+    if (!password) {
+      throw new MissingRequiredParamException(
+        SignUpCommand.name,
+        'password',
+        'string'
+      );
+    }
+    if (!displayName) {
+      throw new MissingRequiredParamException(
+        SignUpCommand.name,
+        'displayName',
+        'string'
+      );
+    }
     const userRecord = await this.firebaseAdminService.signUpWithEmailPassword(
       email,
       password,
@@ -40,7 +62,7 @@ export class SignUpHandler implements ICommandHandler<SignUpCommand> {
       .catch((err) => {
         throw new PersistenceErrorException(
           UserEntity.name,
-          err,
+          JSON.stringify(err),
           SignUpCommand.name,
           JSON.stringify(command)
         );
