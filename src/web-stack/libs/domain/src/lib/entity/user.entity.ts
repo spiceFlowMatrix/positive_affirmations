@@ -57,8 +57,8 @@ export class UserEntity implements IUser {
   affirmationLikes: AffirmationLikeEntity[];
 
   constructor(args: {
-    id?: number;
-    uiId?: string;
+    dbId?: number;
+    dbUiId?: string;
     displayName?: string;
     phoneNumber?: string;
     photoURL?: string;

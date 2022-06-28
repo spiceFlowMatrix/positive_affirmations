@@ -1,33 +1,51 @@
-import {CommandHandler, ICommandHandler} from "@nestjs/cqrs";
-import {InjectRepository} from "@nestjs/typeorm";
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import {
   AffirmationDto,
   AffirmationEntity,
   AffirmationLikeEntity,
+  AffirmationLikeRepository,
   AffirmationObjectResponseDto,
+  AffirmationRepository,
+  FirebaseUserInfo,
+  MissingRequiredParamException,
   ObjectNotFoundException,
-} from "@web-stack/domain";
-import {Repository} from "typeorm";
-import {AuthUserService} from "../../services/auth-user.service";
-import {ToggleAffirmationLikeCommand} from "../impl/toggle-affirmation-like.command";
+} from '@web-stack/domain';
+import { AuthUserService } from '../../services/auth-user.service';
+import { ToggleAffirmationLikeCommand } from '../impl/toggle-affirmation-like.command';
 
 @CommandHandler(ToggleAffirmationLikeCommand)
-export class ToggleAffirmationLikeHandler implements ICommandHandler<ToggleAffirmationLikeCommand> {
+export class ToggleAffirmationLikeHandler
+  implements ICommandHandler<ToggleAffirmationLikeCommand>
+{
   constructor(
-    @InjectRepository(AffirmationEntity)
-    private readonly affirmationRepo: Repository<AffirmationEntity>,
-    @InjectRepository(AffirmationLikeEntity)
-    private readonly affirmationLikeRepo: Repository<AffirmationLikeEntity>,
-    private readonly authUserService: AuthUserService,
-  ) {
-  }
+    private readonly affirmationRepo: AffirmationRepository,
+    private readonly affirmationLikeRepo: AffirmationLikeRepository,
+    private readonly authUserService: AuthUserService
+  ) {}
 
-  async execute(command: ToggleAffirmationLikeCommand): Promise<AffirmationObjectResponseDto> {
-    const {id, byUser} = command;
+  async execute(
+    command: ToggleAffirmationLikeCommand
+  ): Promise<AffirmationObjectResponseDto> {
+    const { id, byUser } = command;
+    if (!id) {
+      throw new MissingRequiredParamException(
+        ToggleAffirmationLikeCommand.name,
+        'id',
+        'number'
+      );
+    }
+    if (!byUser) {
+      throw new MissingRequiredParamException(
+        ToggleAffirmationLikeCommand.name,
+        'byUser',
+        FirebaseUserInfo.name
+      );
+    }
+
     const by = await this.authUserService.user(byUser);
     const affirmation = await this.affirmationRepo
       .findOneOrFail({
-        where: {id}
+        where: { id },
       })
       .catch(() => {
         throw new ObjectNotFoundException(
@@ -35,25 +53,28 @@ export class ToggleAffirmationLikeHandler implements ICommandHandler<ToggleAffir
           id,
           ToggleAffirmationLikeCommand.name,
           JSON.stringify(command)
-        )
+        );
       });
 
-    const like = await this.affirmationLikeRepo
-      .findOne({where: {byUser: by, affirmation}});
+    const like = await this.affirmationLikeRepo.findOne({
+      where: { byUser: by, affirmation },
+    });
 
     if (like) {
-      await like.remove();
+      await this.affirmationLikeRepo.remove(like);
       return new AffirmationObjectResponseDto({
-        affirmationData: new AffirmationDto({...affirmation}),
+        affirmationData: new AffirmationDto({ ...affirmation }),
         liked: false,
       });
     } else {
-      await this.affirmationLikeRepo.save(new AffirmationLikeEntity({
-        affirmation,
-        byUser: by,
-      }));
+      await this.affirmationLikeRepo.save(
+        new AffirmationLikeEntity({
+          affirmation,
+          byUser: by,
+        })
+      );
       return new AffirmationObjectResponseDto({
-        affirmationData: new AffirmationDto({...affirmation}),
+        affirmationData: new AffirmationDto({ ...affirmation }),
         liked: true,
       });
     }

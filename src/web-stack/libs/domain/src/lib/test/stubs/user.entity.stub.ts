@@ -2,7 +2,7 @@ import { LetterCreationSchedule } from '@web-stack/api-interfaces';
 import { UserEntity } from '../../entity/user.entity';
 
 export const userStub = (): UserEntity => {
-  return {
+  return new UserEntity({
     dbId: 123,
     dbUiId: '123',
     displayName: 'test name',
@@ -17,5 +17,5 @@ export const userStub = (): UserEntity => {
     letters: [],
     affirmations: [],
     affirmationLikes: [],
-  };
+  });
 };

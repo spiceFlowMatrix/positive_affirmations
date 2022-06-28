@@ -2,7 +2,7 @@ import { AffirmationEntity } from '../../entity/affirmation.entity';
 import { userStub } from './user.entity.stub';
 
 export const affirmationStub = (): AffirmationEntity => {
-  return {
+  return new AffirmationEntity({
     id: 123,
     uiId: '123',
     title: 'test affirmation',
@@ -11,5 +11,5 @@ export const affirmationStub = (): AffirmationEntity => {
     createdOn: new Date(Date.now().toLocaleString()),
     likes: [],
     reaffirmations: [],
-  };
+  });
 };

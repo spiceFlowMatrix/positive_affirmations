@@ -1,14 +1,10 @@
-import firebase from "firebase/compat";
-import User = firebase.User;
+import { FirebaseUserInfo } from '@web-stack/domain';
 
 export class ToggleAffirmationLikeCommand {
   readonly id: number;
-  readonly byUser: User;
+  readonly byUser: FirebaseUserInfo;
 
-  constructor(args: {
-    id: number;
-    byUser: User;
-  }) {
+  constructor(args: { id: number; byUser: FirebaseUserInfo }) {
     Object.assign(this, args);
   }
 }

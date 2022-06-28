@@ -5,6 +5,7 @@ import {
   AffirmationEntity,
   AffirmationRepository,
   affirmationStub,
+  FirebaseUserInfo,
   PersistenceErrorException,
   userStub,
 } from '@web-stack/domain';
@@ -47,7 +48,7 @@ describe('CreateAffirmationHandler', () => {
   });
 
   describe('execute', () => {
-    const authUser: IFirebaseUserInfo = {
+    const authUser = new FirebaseUserInfo({
       uid: '123',
       emailVerified: false,
       displayName: '',
@@ -55,7 +56,7 @@ describe('CreateAffirmationHandler', () => {
       phoneNumber: null,
       photoURL: null,
       providerId: null,
-    };
+    });
     it('calls authUserService', () => {
       jest.spyOn(userService, 'user');
       handler.execute({ title: 'test', authUser });

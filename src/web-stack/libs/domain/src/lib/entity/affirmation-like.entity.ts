@@ -1,19 +1,24 @@
-import {IAffirmationLike} from "@web-stack/api-interfaces";
-import {BaseEntity, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {UserEntity} from "./user.entity";
-import {AffirmationEntity} from "./affirmation.entity";
+import { IAffirmationLike } from '@web-stack/api-interfaces';
+import {
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { UserEntity } from './user.entity';
+import { AffirmationEntity } from './affirmation.entity';
 
 @Entity('affirmation_likes')
-export class AffirmationLikeEntity extends BaseEntity implements IAffirmationLike {
+export class AffirmationLikeEntity implements IAffirmationLike {
   @PrimaryGeneratedColumn()
   id: number;
   @PrimaryGeneratedColumn('uuid')
   uiId: string;
 
-  @ManyToOne(() => AffirmationEntity, affirmation => affirmation.likes)
+  @ManyToOne(() => AffirmationEntity, (affirmation) => affirmation.likes)
   affirmation: AffirmationEntity;
 
-  @ManyToOne(() => UserEntity, user => user.affirmationLikes)
+  @ManyToOne(() => UserEntity, (user) => user.affirmationLikes)
   byUser: UserEntity;
 
   @CreateDateColumn()
@@ -26,7 +31,6 @@ export class AffirmationLikeEntity extends BaseEntity implements IAffirmationLik
     byUser?: UserEntity;
     createdOn?: Date;
   }) {
-    super();
     Object.assign(this, args);
   }
 }

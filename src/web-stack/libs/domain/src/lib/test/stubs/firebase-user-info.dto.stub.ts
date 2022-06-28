@@ -1,7 +1,7 @@
 import { FirebaseUserInfo } from '@web-stack/domain';
 
 export const firebaseUserInfoStub = (): FirebaseUserInfo => {
-  return {
+  return new FirebaseUserInfo({
     displayName: 'test name',
     phoneNumber: '5454545454',
     photoURL: 'http://photo.url.com',
@@ -9,5 +9,5 @@ export const firebaseUserInfoStub = (): FirebaseUserInfo => {
     uid: 'oauth2/123',
     email: 'test@email.com',
     emailVerified: false,
-  };
+  });
 };

@@ -7,7 +7,7 @@ import {
 import { userStub } from './user.entity.stub';
 
 export const reaffirmationStub = (): ReaffirmationEntity => {
-  return {
+  return new ReaffirmationEntity({
     id: 123,
     uiId: '123',
     font: ReaffirmationFont.none,
@@ -17,5 +17,5 @@ export const reaffirmationStub = (): ReaffirmationEntity => {
     createdOn: new Date(Date.now().toLocaleString()),
     inLetters: [],
     forAffirmation: null,
-  };
+  });
 };
