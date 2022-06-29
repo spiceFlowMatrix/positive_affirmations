@@ -1,75 +1,134 @@
-import {Test, TestingModule} from '@nestjs/testing';
-import {GetAffirmationListHandler} from './get-affirmation-list.handler';
-import {AffirmationEntity, UserEntity} from '@web-stack/domain';
-import {getRepositoryToken, TypeOrmModule} from '@nestjs/typeorm';
-import {SnakeNamingStrategy} from 'typeorm-naming-strategies';
-import {AuthUserService} from '../../services/auth-user.service';
-import {of} from 'rxjs';
-import {getRepository} from 'typeorm';
-
-/* WIP learning testing. References:
-https://stackoverflow.com/questions/55366037/inject-typeorm-repository-into-nestjs-service-for-mock-data-testing
-https://codesandbox.io/s/kmlrj?file=/apps/cqrs-sample/src/say-hello.handler.spec.ts
-
-* */
+import { Test } from '@nestjs/testing';
+import { GetAffirmationListHandler } from './get-affirmation-list.handler';
+import {
+  AffirmationEntity,
+  AffirmationRepository,
+  affirmationStub,
+  FirebaseUserInfo,
+  MissingRequiredParamException,
+  userStub,
+} from '@web-stack/domain';
+import { AuthUserService } from '../../services/auth-user.service';
+import { GetAffirmationListQuery } from '../impl/get-affirmation-list.query';
+import { ResourceLimits } from 'worker_threads';
 
 describe('GetAffirmationListHandler', () => {
+  const _userStub = userStub();
+  const _affirmationStub = affirmationStub();
+
+  let mockAffirmationRepository = {};
+  let affirmationRepository: AffirmationRepository;
+  const mockAuthUserService = {
+    user: jest.fn().mockResolvedValue(_userStub),
+  };
+  let userService: AuthUserService;
   let handler: GetAffirmationListHandler;
-  let moduleRef: TestingModule;
-  let mockAuthUser: UserEntity = undefined;
-  let authUserServiceStub = {
-    user: jest.fn((authUser) => of(mockAuthUser))
+
+  const authUser = new FirebaseUserInfo({
+    uid: '123',
+    emailVerified: false,
+    displayName: 'Test full name',
+    email: 'test@email.com',
+    phoneNumber: null,
+    photoURL: null,
+    providerId: null,
+  });
+
+  const validQuery = new GetAffirmationListQuery({
+    skip: 0,
+    take: 10,
+    authUser,
+  });
+
+  const mockCreateQueryBuilder = {
+    where: jest.fn().mockReturnThis(),
+    setParameter: jest.fn().mockReturnThis(),
+    leftJoinAndSelect: jest.fn().mockReturnThis(),
+    getOne: jest.fn().mockReturnThis(),
+    getMany: jest.fn().mockResolvedValue([_affirmationStub]),
+    andWhere: jest.fn().mockReturnThis(),
+    orderBy: jest.fn().mockReturnThis(),
   };
 
   beforeEach(async () => {
-    moduleRef = await Test.createTestingModule({
-      imports: [
-        TypeOrmModule.forRoot({
-          type: 'postgres',
-          host: '127.0.0.1',
-          port: 5432,
-          username: 'postgres',
-          password: 'mypassword',
-          database: 'postgres',
-          schema: 'testing',
-          autoLoadEntities: true,
-          synchronize: true,
-          useUTC: true,
-          namingStrategy: new SnakeNamingStrategy(),
-          dropSchema: true
-        }),
-        TypeOrmModule.forFeature([AffirmationEntity])
-      ],
+    mockAffirmationRepository = {
+      findOneOrFail: jest.fn().mockResolvedValue(_affirmationStub),
+      findAndCount: jest
+        .fn()
+        .mockResolvedValue(<[AffirmationEntity[], number]>[
+          [_affirmationStub],
+          1,
+        ]),
+      save: jest.fn().mockResolvedValue(_affirmationStub),
+      getLikedAffirmationsIn: jest.fn().mockResolvedValue([_affirmationStub]),
+      createQueryBuilder: jest.fn(() => mockCreateQueryBuilder),
+    };
+    const moduleRef = await Test.createTestingModule({
       providers: [
         GetAffirmationListHandler,
         {
           provide: AuthUserService,
-          useFactory: () => authUserServiceStub
-        }
-      ]
+          useValue: mockAuthUserService,
+        },
+        {
+          provide: AffirmationRepository,
+          useValue: mockAffirmationRepository,
+        },
+      ],
     }).compile();
 
-    handler = moduleRef.get(GetAffirmationListHandler);
+    handler = moduleRef.get<GetAffirmationListHandler>(
+      GetAffirmationListHandler
+    );
+    affirmationRepository = moduleRef.get<AffirmationRepository>(
+      AffirmationRepository
+    );
+    userService = moduleRef.get<AuthUserService>(AuthUserService);
+
+    jest.clearAllMocks();
   });
 
-  afterEach(async () => {
-    await moduleRef.close();
-  });
-
-  it('should be defined', () => {
-    expect(handler).toBeDefined();
-  });
-
-  it('throws error if arguments are missing', async () => {
+  describe('args', () => {
     // Solution for testing errors adapted from following solution:
     // https://stackoverflow.com/a/50656680/5472560
-    await expect(handler.execute({skip: undefined, take: undefined, authUser: undefined}))
-      .rejects.toThrowError();
+    it('throws MissingRequiredParamException if `skip` param is missing', async () => {
+      await expect(
+        handler.execute({ skip: undefined, take: 10, authUser })
+      ).rejects.toThrow(
+        new MissingRequiredParamException(
+          GetAffirmationListQuery.name,
+          'skip',
+          'number'
+        )
+      );
+    });
+    it('throws MissingRequiredParamException if `take` param is missing', async () => {
+      await expect(
+        handler.execute({ skip: 0, take: undefined, authUser })
+      ).rejects.toThrow(
+        new MissingRequiredParamException(
+          GetAffirmationListQuery.name,
+          'take',
+          'number'
+        )
+      );
+    });
+    it('throws MissingRequiredParamException if `authUser` param is missing', async () => {
+      await expect(
+        handler.execute({ skip: 0, take: 10, authUser: undefined })
+      ).rejects.toThrow(
+        new MissingRequiredParamException(
+          GetAffirmationListQuery.name,
+          'authUser',
+          FirebaseUserInfo.name
+        )
+      );
+    });
   });
 
-  // it('fetches user from user service', async () => {
-  //   const repoSpy = jest.spyOn(authUserServiceStub, 'user');
-  //   await handler.execute({skip: undefined, take: undefined, authUser: undefined});
-  //   expect(repoSpy).toBeCalled();
-  // });
+  it('fetches user from user service', async () => {
+    jest.spyOn(userService, 'user');
+    await handler.execute(validQuery);
+    expect(userService.user).toHaveBeenCalledWith(authUser);
+  });
 });

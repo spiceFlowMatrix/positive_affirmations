@@ -1,15 +1,14 @@
-import firebase from "firebase/compat";
-import User = firebase.User;
+import { FirebaseUserInfo } from '@web-stack/domain';
 
 export class GetAffirmationListQuery {
   readonly skip: number;
   readonly take: number;
-  readonly authUser: User;
+  readonly authUser: FirebaseUserInfo;
 
   constructor(args: {
-    skip: number,
-    take: number,
-    authUser: User,
+    skip: number;
+    take: number;
+    authUser: FirebaseUserInfo;
   }) {
     Object.assign(this, args);
   }
