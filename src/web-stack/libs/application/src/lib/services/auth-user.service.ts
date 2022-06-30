@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import {
   FirebaseUserInfo,
+  MissingRequiredParamException,
   PersistenceErrorException,
   UserEntity,
+  UserRepository,
 } from '@web-stack/domain';
 
 // export interface IAuthenticatedFirebaseRequest extends Request {
@@ -24,14 +24,16 @@ import {
   // scope: Scope.REQUEST
 })
 export class AuthUserService {
-  constructor(
-    // @Inject(REQUEST)
-    // private readonly request: IAuthenticatedFirebaseRequest,
-    @InjectRepository(UserEntity)
-    private userRepository: Repository<UserEntity>
-  ) {}
+  constructor(private userRepository: UserRepository) {}
 
   async user(authUser: FirebaseUserInfo) {
+    if (!authUser) {
+      throw new MissingRequiredParamException(
+        `${AuthUserService.name}.user(authUser)`,
+        'authUser',
+        FirebaseUserInfo.name
+      );
+    }
     let userEntity = await this.userRepository.findOne({
       where: { uid: authUser.uid },
     });
