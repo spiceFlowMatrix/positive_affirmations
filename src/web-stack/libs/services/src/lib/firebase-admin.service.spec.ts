@@ -1,14 +1,14 @@
 import { Test } from '@nestjs/testing';
-import * as admin from 'firebase-admin';
+import { CreateRequest } from 'firebase-admin/lib/auth/auth-config';
 import { FirebaseAdminService } from './firebase-admin.service';
 
-jest.mock('firebase-admin', () => {
-  const auth = jest.fn(() => ({
-    createUser: jest.fn().mockReturnThis(),
-  }));
+const mockAuth = {
+  createUser: jest.fn().mockResolvedValue({}),
+};
 
+jest.mock('firebase-admin', () => {
   return {
-    auth,
+    auth: jest.fn(() => mockAuth),
   };
 });
 
@@ -28,23 +28,17 @@ describe('database connector', () => {
   });
 
   it('test', async () => {
+    jest.spyOn(mockAuth, 'createUser');
+    const createRequest: CreateRequest = {
+      displayName: 'Test full name',
+      password: '1234567As',
+      email: 'test@email.com',
+    };
     await service.signUpWithEmailPassword(
-      'test@email.com',
-      '1234567As',
-      'Test full name'
+      createRequest.email,
+      createRequest.password,
+      createRequest.displayName
     );
+    expect(mockAuth.createUser).toHaveBeenCalledWith(createRequest);
   });
-
-  // it('should connect to Firebase when given valid credentials', () => {
-  //   const key =
-  //     'ewogICJkdW1teSI6ICJUaGlzIGlzIGp1c3QgYSBkdW1teSBKU09OIG9iamVjdCIKfQo='; // dummy key
-
-  //   admin.initializeApp({
-  //     credential: admin.credential.cert(key),
-  //   });
-
-  //   expect(admin.initializeApp).toHaveBeenCalledTimes(1);
-  //   // expect(admin.credential.cert).toHaveBeenCalledTimes(1)
-  //   // expect(admin.firestore).toHaveBeenCalledTimes(1)
-  // });
 });
