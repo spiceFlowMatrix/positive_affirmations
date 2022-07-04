@@ -1,8 +1,17 @@
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Test } from '@nestjs/testing';
-import { IAuthenticatedFirebaseRequest } from '../interfaces/authenticated-firebase-request';
 import { AffirmationsApiFacade } from './affirmations-api.facade';
 import { REQUEST } from '@nestjs/core';
+import {
+  CreateAffirmationCommandDto,
+  GetAffirmationListQueryDto,
+  MissingRequiredParamException,
+} from '@web-stack/domain';
+import {
+  CreateAffirmationCommand,
+  GetAffirmationListQuery,
+  ToggleAffirmationLikeCommand,
+} from '@web-stack/application';
 
 describe('AffirmationsApiFacade', () => {
   const _userStub = {
@@ -22,7 +31,7 @@ describe('AffirmationsApiFacade', () => {
     execute: jest.fn().mockResolvedValue({}),
   };
   const mockRequest = {
-    user: jest.fn().mockReturnValue(_userStub),
+    user: _userStub,
   };
   let queryBus: QueryBus;
   let commandBus: CommandBus;
@@ -48,13 +57,74 @@ describe('AffirmationsApiFacade', () => {
     jest.clearAllMocks();
   });
 
-  it('is defined', async () => {
-    expect(facade).toBeDefined();
-    expect(queryBus).toBeDefined();
-    expect(commandBus).toBeDefined();
-    // expect(request).toBeDefined();
-    jest.spyOn(commandBus, 'execute');
-    await facade.toggleAffirmationLiked(12);
-    expect(commandBus.execute).toHaveBeenCalled();
+  describe('getAffirmationList', () => {
+    it('throws error if "dto" is missing', async () => {
+      await expect(facade.getAffirmationList(undefined)).rejects.toThrow(
+        new MissingRequiredParamException(
+          `${AffirmationsApiFacade.name}.getAffirmationList`,
+          'dto',
+          `${GetAffirmationListQueryDto.name}`
+        )
+      );
+    });
+
+    it('correctly executes "GetAffirmationListQuery"', async () => {
+      jest.spyOn(queryBus, 'execute');
+      await facade.getAffirmationList({ skip: 0, take: 10 });
+      expect(queryBus.execute).toHaveBeenCalledWith(
+        new GetAffirmationListQuery({
+          skip: 0,
+          take: 10,
+          authUser: _userStub,
+        })
+      );
+    });
+  });
+
+  describe('createAffirmation', () => {
+    it('throws error if "dto" is missing', async () => {
+      await expect(facade.createAffirmation(undefined)).rejects.toThrow(
+        new MissingRequiredParamException(
+          `${AffirmationsApiFacade.name}.createAffirmation`,
+          'dto',
+          `${CreateAffirmationCommandDto.name}`
+        )
+      );
+    });
+
+    it('correctly executes "CreateAffirmationCommand"', async () => {
+      jest.spyOn(commandBus, 'execute');
+      await facade.createAffirmation({
+        title: 'test title',
+        subtitle: 'test subtitle',
+      });
+      expect(commandBus.execute).toHaveBeenCalledWith(
+        new CreateAffirmationCommand({
+          title: 'test title',
+          subtitle: 'test subtitle',
+          authUser: _userStub,
+        })
+      );
+    });
+  });
+
+  describe('toggleAffirmationLiked', () => {
+    it('throws error if "id" is missing', async () => {
+      await expect(facade.toggleAffirmationLiked(undefined)).rejects.toThrow(
+        new MissingRequiredParamException(
+          `${AffirmationsApiFacade.name}.toggleAffirmationLike`,
+          'id',
+          'number'
+        )
+      );
+    });
+
+    it('correctly executes "ToggleAffirmationLikeCommand"', async () => {
+      jest.spyOn(commandBus, 'execute');
+      await facade.toggleAffirmationLiked(123);
+      expect(commandBus.execute).toHaveBeenCalledWith(
+        new ToggleAffirmationLikeCommand({ id: 123, byUser: _userStub })
+      );
+    });
   });
 });
