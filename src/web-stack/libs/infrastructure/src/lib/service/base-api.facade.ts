@@ -1,10 +1,10 @@
-import {Inject, Injectable, Scope} from '@nestjs/common';
-import {CommandBus, QueryBus} from '@nestjs/cqrs';
-import {REQUEST} from '@nestjs/core';
-import {IAuthenticatedFirebaseRequest} from '../interfaces/authenticated-firebase-request';
+import { Inject, Injectable, Scope } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { REQUEST } from '@nestjs/core';
+import { IAuthenticatedFirebaseRequest } from '../interfaces/authenticated-firebase-request';
 
 @Injectable({
-  scope: Scope.REQUEST
+  scope: Scope.REQUEST,
 })
 export abstract class BaseApiFacade {
   constructor(
@@ -12,6 +12,5 @@ export abstract class BaseApiFacade {
     protected readonly queryBus: QueryBus,
     @Inject(REQUEST)
     protected readonly request: IAuthenticatedFirebaseRequest
-  ) {
-  }
+  ) {}
 }
