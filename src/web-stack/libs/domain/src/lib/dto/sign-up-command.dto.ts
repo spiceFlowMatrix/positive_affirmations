@@ -24,7 +24,12 @@ export class SignUpCommandDto {
   @IsOptional()
   nickName?: string;
 
-  constructor(args: { email: string; password: string; nickName?: string }) {
+  constructor(args: {
+    email: string;
+    password: string;
+    displayName: string;
+    nickName?: string;
+  }) {
     Object.assign(this, args);
   }
 }
